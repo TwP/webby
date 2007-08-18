@@ -1,0 +1,8 @@
+--- 
+title:      New Page
+created_at: <%= Time.now %>
+filter:     erb
+--- 
+<h2><%%= @page.title %></h2>
+
+<p>this page was created on <%%= @page.created_at %></p>
