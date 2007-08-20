@@ -2,6 +2,9 @@
 
 require 'erb'
 
+try_require 'bluecloth'
+try_require 'redcloth'
+
 module Webby
 
 #
@@ -23,6 +26,9 @@ class Renderer
     @content = nil
   end
 
+  # call-seq:
+  #    layout_page
+  #
   def layout_page
     layouts = Resource.layouts
     obj = @page
@@ -57,9 +63,29 @@ class Renderer
     str
   end
 
+  # Render text via ERB using the built in ERB library.
+  #
   def erb_filter( str )
     b = binding
     ERB.new(str, nil, '-').result(b)
+  end
+
+  # Render text via markdown using the BlueCloth library.
+  #
+  def markdown_filter( str )
+    BlueCloth.new(str).to_html
+  rescue NameError
+    $stderr.puts 'ERROR: markdown filter failed (BlueCloth not installed?)'
+    exit
+  end
+
+  # Render text via textile using the RedCloth library.
+  #
+  def textile_filter( str )
+    RedCloth.new(str).to_html
+  rescue NameError
+    $stderr.puts 'ERROR: textile filter failed (RedCloth not installed?)'
+    exit
   end
 
 end  # class Renderer

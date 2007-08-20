@@ -152,9 +152,6 @@ class File < ::File
 
   private
 
-  # call-seq:
-  #    skip_meta_data
-  #
   # Moves the file pointer to the end of the meta-data section. Does nothing
   # if there is no meta-data section or if the file pointer is already past
   # the meta-data section.
@@ -165,9 +162,6 @@ class File < ::File
     seek @meta_end
   end
 
-  # call-seq:
-  #    end_of_meta_data
-  #
   # Returns the position in this file where the meta-data ends and the file
   # data begins. If there is no meta-data in the file, returns +nil+.
   #

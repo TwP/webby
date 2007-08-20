@@ -104,10 +104,14 @@ class Main
   # stores them in a hash.
   #
   def site_files
+    exclude = %r/tmp$|bak$|~$|CVS|\.svn/o
+
     rgxp = %r/\A#{data}\/?/o
     paths = Hash.new {|h,k| h[k] = []}
 
     Find.find(data) do |p|
+      next if exclude =~ p
+
       if test(?d, p)
         paths[p.sub(rgxp, '')]
         next

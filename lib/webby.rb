@@ -48,6 +48,18 @@ module Webby
 end  # module Webby
 
 
-Webby .require_all_libs_relative_to __FILE__
+# call-seq:
+#    try_require( library )
+#
+# Try to laod the given _library_ using the built-in require, but do not
+# raise a LoadError if unsuccessful.
+#
+def try_require( lib )
+  require lib
+rescue LoadError
+end
+
+
+Webby.require_all_libs_relative_to __FILE__
 
 # EOF

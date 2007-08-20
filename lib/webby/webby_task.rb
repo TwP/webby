@@ -11,7 +11,22 @@ end
 
 module Rake
 
-# 
+# The WebbyTask defines several rake tasks for working with Webby based
+# websites:
+#
+# [:build]    Build the site by compiling only those resources in the
+#             content folder that have been modifed recently. If the a
+#             content file has a modification time more recent then its
+#             corresponding output file, then it will be built by this task.
+#
+# [:rebuild]  Rebuild the entire site from the content folder and store the
+#             results in the output folder.
+#
+# [:create:page]  Create a new page in the content folder based on the
+#                 template 'page' found in the templates folder. One task
+#                 will be created for each file found in the templates
+#                 folder.
+#
 class WebbyTask < TaskLib
 
   # Location of the generated website
@@ -88,7 +103,7 @@ class WebbyTask < TaskLib
 
   # Scans the templates directory for any files, and creats a corresponding
   # task for creating a new page based on that template.
-  # 
+  #
   def define_create_tasks
     FileList["#{@template_dir}/*"].each do |template|
       name = template.pathmap '%n'

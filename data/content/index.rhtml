@@ -1,8 +1,10 @@
 --- 
 title:  Home Page
-filter: erb
+filter:
+  - erb
+  - textile
 --- 
-<h1><%= @page.title %></h1>
+h1.<%= @page.title %>
 
-This website was created with <a href="http://webby.rubyforge.org">Webby</a>
+This website was created with "Webby":http://webby.rubyforge.org
 
