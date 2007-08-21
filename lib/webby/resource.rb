@@ -13,13 +13,18 @@ class Resource
     end
 
     def layouts
-      return @layouts if defined? @layouts
+      return @layouts if defined? @layouts and @layouts
 
       @layouts = []
       class << @layouts
         def find_by_name( name ) find {|x| x.filename == name} end
       end
       @layouts
+    end
+
+    def reset
+      @pages = nil
+      @layouts = nil
     end
   end  # class << self
 

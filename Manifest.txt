@@ -25,6 +25,7 @@ data/layouts/default.rhtml
 data/tasks/create.rake
 data/templates/page.erb
 lib/webby.rb
+lib/webby/auto_builder.rb
 lib/webby/builder.rb
 lib/webby/file.rb
 lib/webby/main.rb

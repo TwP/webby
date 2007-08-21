@@ -14,13 +14,17 @@ module Rake
 # The WebbyTask defines several rake tasks for working with Webby based
 # websites:
 #
-# [:build]    Build the site by compiling only those resources in the
-#             content folder that have been modifed recently. If the a
-#             content file has a modification time more recent then its
-#             corresponding output file, then it will be built by this task.
+# [:build]  Build the site by compiling only those resources in the content
+#           folder that have been modifed recently. If the a content file
+#           has a modification time more recent then its corresponding
+#           output file, then it will be built by this task.
 #
 # [:rebuild]  Rebuild the entire site from the content folder and store the
 #             results in the output folder.
+#
+# [:autobuild]  Monitors the content and layout directories for modified
+#               resources and compiles those files as needed. This task
+#               returns only when the user hits Ctrl-C.
 #
 # [:create:page]  Create a new page in the content folder based on the
 #                 template 'page' found in the templates folder. One task
@@ -98,6 +102,11 @@ class WebbyTask < TaskLib
     desc "rebuild the website"
     task :rebuild do |t|
       ::Webby::Builder.run :rebuild => true
+    end
+
+    desc "continuously build the website"
+    task :autobuild do |t|
+      ::Webby::AutoBuilder.run
     end
   end
 
