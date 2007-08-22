@@ -29,6 +29,7 @@ lib/webby/auto_builder.rb
 lib/webby/builder.rb
 lib/webby/file.rb
 lib/webby/main.rb
+lib/webby/pages_db.rb
 lib/webby/renderer.rb
 lib/webby/resource.rb
 lib/webby/utils.rb

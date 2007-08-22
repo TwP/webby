@@ -7,24 +7,17 @@ module Webby
 class Resource
 
   class << self
-
     def pages
-      @pages ||= []
+      @pages ||= PagesDB.new
     end
 
     def layouts
-      return @layouts if defined? @layouts and @layouts
-
-      @layouts = []
-      class << @layouts
-        def find_by_name( name ) find {|x| x.filename == name} end
-      end
-      @layouts
+      @layouts ||= PagesDB.new
     end
 
-    def reset
-      @pages = nil
-      @layouts = nil
+    def clear
+      self.pages.clear
+      self.layouts.clear
     end
   end  # class << self
 
@@ -32,11 +25,11 @@ class Resource
   #    Resource.new( filename, defaults = {} )    => page
   #
   def initialize( fn, defaults = {} )
-    @path     = fn.dup.freeze
-    @dir      = ::File.dirname(@path).sub(%r/\A(?:\.\/|\/)?[^\/]+\/?/o, '')
+    @path     = fn.sub(%r/\A(?:\.\/|\/)/o, '').freeze
+    @dir      = ::File.dirname(@path).sub(%r/\A[^\/]+\/?/o, '')
     @filename = ::File.basename(@path).sub(%r/\.\w+\z/o, '')
-    @mtime    = ::File.mtime @path
     @ext      = ::File.extname(@path).sub(%r/\A\.?/o, '')
+    @mtime    = ::File.mtime @path
 
     @rendering = false
 
@@ -49,6 +42,25 @@ class Resource
     self.class.pages << self if is_page? or is_static?
     self.class.layouts << self if is_layout?
   end
+
+  # call-seq:
+  #    equal?( other )    => true or false
+  #
+  def equal?( other )
+    return false unless self.class == other.class
+    @path == other.path
+  end
+  alias :== :equal?
+  alias :eql? :equal?
+
+  # call-seq:
+  #    resource <=> other    => -1, 0, +1, or nil
+  #
+  def <=>( other )
+    return unless self.class == other.class
+    @path <=> other.path
+  end
+
 
   attr_reader :path, :dir, :filename, :mtime, :ext
 
@@ -137,7 +149,7 @@ class Resource
 
     # if this file's mtime is larger than the destination file's
     # mtime, then we are dirty
-    @mdata['dirty'] = @mtime >= File.mtime(destination)
+    @mdata['dirty'] = @mtime > File.mtime(destination)
     return @mdata['dirty'] if is_static? or @mdata['dirty']
 
     # check to see if the layout is dirty, and it it is then we
@@ -150,32 +162,6 @@ class Resource
 
     # if we got here, then we are not dirty
     @mdata['dirty'] = false
-  end
-
-  def siblings( opts = {} )
-    return nil unless is_page?
-
-    ary = self.class.pages.find_all {|p| @dir == p.dir}
-    ary.delete self
-    return ary unless opts.has_key? :sort_by
-
-    m = opts[:sort_by]
-    ary.sort! {|a,b| a.send(m) <=> b.send(m)}
-    ary.reverse! if opts[:reverse]
-    ary
-  end
-
-  def children( opts = {} )
-    return nil unless is_page?
-
-    rgxp = Regexp.new "\\A#@dir/[^/]+"
-    ary = self.class.pages.find_all {|p| rgxp =~ p.dir}
-    return ary unless opts.has_key? :sort_by
-
-    m = opts[:sort_by]
-    ary.sort! {|a,b| a.send(m) <=> b.send(m)}
-    ary.reverse! if opts[:reverse]
-    ary
   end
 
   def method_missing( name, *a, &b )

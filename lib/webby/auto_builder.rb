@@ -50,6 +50,8 @@ class AutoBuilder
     print '- started at '
     puts Time.now.strftime('%H:%M:%S')
     Builder.run
+  rescue => err
+    puts err.message
   end
 
   # call-seq:

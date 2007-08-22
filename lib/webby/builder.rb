@@ -70,7 +70,7 @@ class Builder
   # more recently than the output file.
   #
   def run( opts = {} )
-    Resource.reset
+    Resource.clear
 
     unless test(?d, output_dir)
       puts "creating #{output_dir}"
