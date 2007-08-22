@@ -32,6 +32,12 @@ class PagesDB
     self.find {|page| page.filename == name}
   end
 
+  # call-seq:
+  #    siblings( page, opts = {} )    => array
+  #
+  # Options include:
+  #    :sorty_by => 'attribute'
+  #
   def siblings( page, opts = {} )
     ary = @db[page.dir].dup
     ary.delete page

@@ -43,7 +43,8 @@ web server for general consumption.
 
 * rake
 * rspec
+* directory_watcher
 
 == LICENSE:
 
-???
+MIT
