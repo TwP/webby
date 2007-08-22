@@ -42,4 +42,3 @@ tasks/gem.rake
 tasks/manifest.rake
 tasks/setup.rb
 tasks/spec.rake
-tasks/test.rake
