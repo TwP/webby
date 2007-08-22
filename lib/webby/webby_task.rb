@@ -123,6 +123,7 @@ class WebbyTask < TaskLib
 
         page = t.application.top_level_tasks.pop
         page = File.join(@content_dir, page)
+        page << '.txt' if File.extname(page).empty?
 
         ::Webby::Builder.create page, :from => template
       end  # task
