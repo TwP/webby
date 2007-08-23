@@ -1,0 +1,159 @@
+/* -------------------------------------------------------------- 
+   
+   Typography.css
+   * Sets some default typography.
+  
+   Based on work by:
+   * Nathan Borror     [playgroundblues.com]
+   * Jeff Croft        [jeffcroft.com]
+   * Christian Metts   [mintchaos.com]
+   * Wilson Miner      [wilsonminer.com]
+   
+   Read more about using a baseline here:
+   * alistapart.com/articles/settingtypeontheweb
+  
+-------------------------------------------------------------- */   
+
+body {
+  font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1.5; /* Unitless for proper inheritance */
+}
+
+/* This is where you set your desired font size. The line-height 
+   and vertical margins are automatically calculated from this. 
+   
+   You have to add an extra calculation here because of IE, so that 
+   all users may resize text manually in their browsers.
+   
+   The top one is for IE: The percentage is of 16px (default IE text size)
+   10px is 62.5%, 12px is 75%, 13px is 81.25%, and so forth).
+   The second value is what all other browsers see (the wanted font size). */
+   
+body          { font-size: 75%; }   /* IE */
+html > body   { font-size: 12px; }  /* Other browsers */
+
+
+/* Headings
+-------------------------------------------------------------- */
+
+h1,h2,h3,h4,h5,h6 { 
+  font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+  color:#111; 
+  clear:both; 
+}
+
+h1 { font-size: 3em; }
+h2 { font-size: 2em; }
+h3 { font-size: 1.5em; line-height:2; }
+h4 { font-size: 1.2em; line-height:1.25; font-weight:bold; }
+h5 { font-size: 1em; font-weight:bold; }
+h6 { font-size: 1em; }
+
+
+/* Text elements
+-------------------------------------------------------------- */
+
+p           { margin: 0 0 1.5em 0; text-align:justify; }
+p.last      { margin-bottom:0; }
+p img       { float: left; margin: 1.5em 1.5em 1.5em 0; padding:0; }
+p img.top   { margin-top:0; } /* Use this if the image is at the top of the <p>. */
+
+ul, ol      { margin: 0 0 1.5em 1.5em; }
+ol          { list-style-type: decimal; }
+dl          { margin: 1.5em 0; }
+dl dt       { font-weight: bold; }
+
+a           { color: #125AA7; text-decoration: underline; outline: none; }
+a:hover     { color: #000; }
+
+blockquote  { margin: 1.5em 0 1.5em 1.5em; color: #666; font-style: italic; }
+strong      { font-weight: bold; }
+em          { font-style: italic; }
+pre         { margin-bottom: 1.3em; background: #eee; border:0.1em solid #ddd; padding:1.5em; }
+code        { font:0.9em Monaco, monospace; }
+
+/* Use this to create a horizontal ruler across a column. */
+hr {
+  background: #B2CCFF; 
+  color: #B2CCFF;
+  clear: both; 
+  float: none; 
+  width: 100%; 
+  height: 0.1em;
+  margin: 0 0 1.4em 0;
+  border: none; 
+}
+* html hr { margin: 0 0 1.2em 0; } /* IE6 fix */
+
+
+/* Tables
+-------------------------------------------------------------- */
+
+table   { margin-bottom: 1.4em; border-top:0.1em solid #ddd; border-left:0.1em solid #ddd; }
+th,td   { height: 1em; padding:0.2em 0.4em; border-bottom:0.1em solid #ddd; border-right:0.1em solid #ddd; }
+th      { font-weight:bold; }
+
+
+/* Forms
+-------------------------------------------------------------- */
+
+label     { font-weight: bold; }
+textarea  { height: 180px; width: 300px; }
+
+
+/* Some default classes
+-------------------------------------------------------------- */
+
+p.small   { font-size: 0.8em; margin-bottom: 1.875em; line-height: 1.875em; }
+p.large   { font-size: 1.2em; line-height: 2.5em; }
+p.quiet   { color: #666; }
+.hide     { display: none; }
+
+
+/* Extra fancy typography
+-------------------------------------------------------------- */
+
+/* For great looking type, use this code instead of asdf: 
+   <span class="alt">asdf</span>  
+   Best used on prepositions and ampersands. */
+  
+.alt { 
+  color: #666; 
+  font-family: "Warnock Pro", "Goudy Old Style","Palatino","Book Antiqua", serif; 
+  font-size: 1.2em;
+  line-height: 1%; /* Maintain correct baseline */
+  font-style: italic;
+}
+
+/* For great looking quote marks in titles, replace "asdf" width:
+   <span class="dquo">&#8220;</span>asdf&#8221;
+   (That is, when the title starts with a quote mark). 
+   (You may have to change this value depending on your font size). */  
+   
+.dquo { margin-left: -.7em; } 
+
+
+/* Reduced size type with incremental leading
+   (http://www.markboulton.co.uk/journal/comments/incremental_leading/)
+
+   This could be used for side notes. For smaller type, you don't necessarily want to 
+   follow the 1.5x vertical rhythm -- the line-height is too much. 
+   
+   Using this class, it reduces your font size and line-height so that for 
+   every four lines of normal sized type, there is five lines of the sidenote. eg:
+
+   New type size in em's:
+     10px (wanted side note size) / 12px (existing base size) = 0.8333 (new type size in ems)
+
+   New line-height value:
+     12px x 1.5 = 18px (old line-height)
+     18px x 4 = 72px 
+     60px / 5 = 14.4px (new line height)
+     14.4px / 10px = 1.44 (new line height in em's) */
+
+p.incr, .incr p {
+	font-size: 0.83333em; /* font size 10px */
+	line-height: 1.44em;  
+	margin-bottom: 1.8em; /* Still 1.5 x normal font size as baseline */
+}
+

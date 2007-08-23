@@ -1,0 +1,49 @@
+--- 
+extension: html
+filter:    erb
+--- 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title><%= @page.title %></title>
+   <meta name="author" content="<%= @page.author %>" />
+
+   <!--- Blueprint CSS Framework -->
+   <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
+   <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="css/site.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+
+<div class="container">
+	
+   <div class="column span-11 prepend-1 append-2 first last" id="header">
+      <h1>Webby &#9775; <%= @page.title %></h1>
+      <hr />
+      <ul id="navigation"
+        ><li><a href="index.html">Home</a>&#8766;</li
+        ><li><a href="download.html">Download</a>&#8766;</li
+        ><li><a href="tutorial.html">Tutorial</a>&#8766;</li
+        ><li><a href="manual.html">Manual</a>&#8766;</li
+        ><li><a href="tips_and_tricks.html">Tips &amp; Tricks</a></li
+        ></ul>
+   </div>
+	
+   <div class="column span-11 prepend-1 append-2 first last">
+      <%= @content %>
+   </div>
+
+   <div class="column span-11 prepend-1 append-2 first last" id="footer">
+     <hr />
+     <p>This website was created with <a href="http://webby.rubyforge.org">Webby</a><br />
+     Webby is released under the MIT license</p>
+   </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+--- 
+title:      Tutorial
+created_at: Tue Aug 21 17:02:40 -0600 2007
+filter:     textile
+--- 
+h3. Require
+
+Webby has a family of friends that help it get it's job done. The command-line is where Webby lives and works. You should be comfortable with your terminal if you're going to get serious with Webby. Webby is built on top of "Ruby":http://www.ruby-lang.org/, and many of the templates use Ruby in one way or another. Learning a little bit about Ruby will make Webby far less intimidating.
+
+This tutorial requires *Ruby* to be installed as well as *Webby* and the "*RedCloth*":http://whytheluckystiff.net/ruby/redcloth/ templating engine. RedCloth provides support for the Textile markup language.
+
+h3. Create a Site
+
+You need a catchy name for your website to survive in this Web 2.0 world. Webby is distinctly Web 1.0 (or maybe Web 0.5) so we'll use the name *my_site*.
+
+<pre class="code">
+webby my_site
+</pre>
+
+This command creates a new folder named _my_site_, and the new Webby based website resides there. Change directories to the _my_site_ folder and do a listing. You will see the following files and folder:
+
+<pre class="code">
+Rakefile
+content/
+layouts/
+lib/
+output/
+tasks/
+templates/
+</pre> 
+
+h3. Build Your Site
+
+What? Didn't we just do that?
+
+Webby creates a site template - the larval form of your new website. "Rake":http://docs.rubyrake.org/ (another command line tool) is used to generate the HTML files for your site - a unique, beautiful butterfly.
+
+<pre class="code">
+rake
+</pre>
+
+Again, you will see lots of output scrolling across the screen. This is the rake task copying files from the _content_ folder to the _output_ folder. Some files are copied "as is", while others are compiled into HTML using your markup language of choice.
+
+Point your web browser to *my_site/output/index.html* to see what your new website looks like.
+
+h3. Making Changes
+
+Of course _Lorem Ipsum_ is some great content, but if everyone posted their site in such a state the web would be a monochromatic smurf blue. Let's change that into something more creative, more us. Open the *content/index.rhtml* in your favorite editor.
+
+<pre class="code">
+--- 
+title:  Home Page
+filter:
+  - erb
+  - textile
+--- 
+h2. <%= @page.title %>
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc congue ipsum
+vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est
+eu lobortis mattis, lectus tellus tempus felis, a ultricies erat ipsum at
+metus.
+
+h3. Litora Sociis
+...
+</pre>
+
+This is not the entire contents of the file, just to enough to get a feel for how Webby operates. The text between the dashed lines "@---@" is information about the page, referred to as _meta-data_. Obviously one piece of information is the *title* of the page, "Home Page". The other is a little more cryptic and bears some explaining.
+
+The content of this page is not HTML, but it ends up that way. How? Webby uses _filters_ on the page to transform the text into HTML. The *filter* item in the meta-data tells Webby which filters to apply to the page. Two filters will be applied, "erb" and "textile" - in that order. Each filter operates on the page text (everything after the meta-data).
+
+The erb filter (erb stands for "embedded Ruby") allows Webby to process Ruby statements found in the page text and to substitue the output of those Ruby statements back into the page text. The Ruby statements appear between @<%= ruby_code %>@ delimiters. The meta-data found at the top of the page is made available through the @@page@ object. You can see from the index.rhtml file that the page title, "Home Page", will be substituted on the first line.
+
+The textile filter operates on all page text. It is a human readable markup that gets converted into HTML. For example, the line @h3. Litora Sociis@ will be converted into @<h3>Litora Sociis</h3>@ by the textile filter. It is a powerful markup language that simplifies web publishing. 
+
+Okay, back to our regularly scheduled page changes. Go ahead and change the title of the page in the meta-data. Then run rake again.
+
+<pre class="code">
+rake
+</pre>
+
+You'll notice much less output than before. The rake task only builds those pages that you have modified. You'll also notice, after reloading the page in your browser, that the title has now changed.
+
+Play around with making changes, running rake, and seeing your changes show up in the web browser. Done? All right! Let's go on to the next section.
+
+bq. *TIP* You can simplify this whole process - modify content, rake, view in browser - by running @rake autobuild@ on the command line. This starts a build loop that compiles the content of your website as files change. All you need to do now is - modify content, view in browser.
+
+h3. Creating a Page
+
+h3. What Now?
+
+Let your creativity run wild!
+
+Try writing your own page templates to simplify the creation of blog posts, news items, photo galleries, etc. You can read more about page templates in the "manual":manual.html

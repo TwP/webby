@@ -1,0 +1,22 @@
+
+
+body { margin: 1.0em 0 }
+
+#header hr { margin-bottom: 0.5em; height: 0.3em; }
+
+#navigation { text-align: center; margin-left: 0; font-size: 1.5em; list-style-type: none; }
+#navigation li { display:inline; padding-right: 0.5em; }
+#navigation li a { padding-right: 0.5em; }
+
+
+#footer hr { margin-bottom: 0.5em }
+#footer p { text-align: right }
+
+.code {
+  padding: 0.5em;
+  margin-bottom: 1.3em;
+  color: #fff;
+  background-color: #333;
+  border: 0.1em solid black;
+  font: 1.1em Monaco, monospace;
+}

@@ -87,12 +87,12 @@ SUDO = if WIN32 then ''
 RCOV = WIN32 ? 'rcov.cmd'  : 'rcov'
 GEM  = WIN32 ? 'gem.cmd'   : 'gem'
 
-%w(rcov rspec rubyforge).each do |g|
+%w(rcov rspec rubyforge).each do |lib|
   begin
-    gem g
-    Object.instance_eval {const_set "HAVE_#{g.upcase}", true}
+    require lib
+    Object.instance_eval {const_set "HAVE_#{lib.upcase}", true}
   rescue LoadError
-    Object.instance_eval {const_set "HAVE_#{g.upcase}", false}
+    Object.instance_eval {const_set "HAVE_#{lib.upcase}", false}
   end
 end
 

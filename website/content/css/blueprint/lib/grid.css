@@ -1,0 +1,177 @@
+/* -------------------------------------------------------------- 
+  
+   Grid.css
+   * Creates an easy to use grid of 14 columns.
+   
+   Based on work by:
+   * Nathan Borror     [playgroundblues.com]
+   * Jeff Croft        [jeffcroft.com]
+   * Christian Metts   [mintchaos.com]
+   * Khoi Vinh         [subtraction.com]
+   
+   By default, the grid is 960px wide, with columns 
+   spanning 50px, and a 20px margin between columns.
+   
+   If you need fewer or more columns, use this 
+   formula to find the new total width: 
+   
+   Total width = (columns * 70) - 20
+  
+-------------------------------------------------------------- */
+
+body { 
+  text-align: center; /* IE Fix */
+  margin:36px 0;
+}
+
+/* A container should group all your columns. */
+.container {
+  text-align: left;
+  position: relative;
+  padding: 0;
+  margin: 0 auto;   /* Centers layout */
+  width: 960px;     /* Total width */
+}
+
+
+/* Columns
+-------------------------------------------------------------- */
+
+/* Use this class together with the .span-x classes
+   to create any compsition of columns in a layout.
+   Nesting columns works like a charm (remember .first and .last). */
+   
+.column {
+  float: left;
+  margin: 0 10px;
+  padding: 0;
+}
+* html .column { overflow-x: hidden; } /* IE6 fix */
+
+
+/* Add this class to a column if you want a border on its 
+   right hand side. This should be customized to fit your needs. */
+
+.border {
+  padding-right: 9px;
+  margin-right: 0;
+  border-right: 1px solid #ddd;
+}
+
+
+/* The first and last elements in a multi-column 
+   block needs one of these classes each. */
+
+.first  { margin-left: 0; }
+.last   { margin-right: 0; }
+
+
+/* Use these classes to set how wide a column should be. */
+.span-1   { width: 50px; }
+.span-2   { width: 120px; }
+.span-3   { width: 190px; }
+.span-4   { width: 260px; }
+.span-5   { width: 330px; }
+.span-6   { width: 400px; }
+.span-7   { width: 470px; }
+.span-8   { width: 540px; }
+.span-9   { width: 610px; }
+.span-10  { width: 680px; }
+.span-11  { width: 750px; }
+.span-12  { width: 820px; }
+.span-13  { width: 890px; }
+.span-14  { width: 960px; margin: 0; }
+
+/* Add these to a column to append empty cols. */
+.append-1   { padding-right: 70px; }  
+.append-2   { padding-right: 140px; } 
+.append-3   { padding-right: 210px; } 
+.append-4   { padding-right: 280px; } 
+.append-5   { padding-right: 350px; } 
+.append-6   { padding-right: 420px; } 
+.append-7   { padding-right: 490px; } 
+.append-8   { padding-right: 560px; } 
+.append-9   { padding-right: 630px; } 
+.append-10  { padding-right: 700px; }
+.append-11  { padding-right: 770px; }
+.append-12  { padding-right: 840px; }
+.append-13  { padding-right: 910px; }
+
+/* Add these to a column to prepend empty cols. */
+.prepend-1   { padding-left: 70px; }  
+.prepend-2   { padding-left: 140px; } 
+.prepend-3   { padding-left: 210px; } 
+.prepend-4   { padding-left: 280px; } 
+.prepend-5   { padding-left: 350px; } 
+.prepend-6   { padding-left: 420px; } 
+.prepend-7   { padding-left: 490px; } 
+.prepend-8   { padding-left: 560px; } 
+.prepend-9   { padding-left: 630px; } 
+.prepend-10  { padding-left: 700px; }
+.prepend-11  { padding-left: 770px; }
+.prepend-12  { padding-left: 840px; }
+.prepend-13  { padding-left: 910px; }
+
+
+/* Use a .box to create a padded box inside a column. 
+   Sticking to the the baseline. */ 
+   
+.box { 
+  padding: 1.5em; 
+  margin-bottom: 1.5em; 
+  background: #f0f0f0; 
+}
+
+
+/* Clearing floats without extra markup
+   Based on How To Clear Floats Without Structural Markup by PiE
+   [http://www.positioniseverything.net/easyclearing.html] */
+
+.clear { display: inline-block; }   
+.clear:after, .container:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+* html .clear { height: 1%; }
+.clear { display: block; }
+
+
+/* Nudge your elements [subtraction.com/archives/2007/0606_nudge_your_e.php]:
+   All block elements (not hr) inside a col should have a 5px padding on each side.
+   (Not everyone wants this, but feel free to uncomment if you do.) 
+
+p,ul,ol,dl,h1,h2,h3,h4,h5,h6,
+caption,pre,blockquote,input,textarea {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+div, table {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 0;
+} */
+
+
+/* Images
+-------------------------------------------------------------- */
+
+/* Remember the baseline (typography.css). */
+img { margin: 0 0 1.5em 0; }
+
+
+/* Use these classes to make an image flow into the column before 
+   or after it. This techique can also be used on other objects. */
+
+.pull-1  { margin-left: -70px; }
+.pull-2  { margin-left: -140px; }
+.pull-3  { margin-left: -210px; }
+
+.push-0  { margin: 0 0 0 1.5em; float: right; } /* Right aligns the image. */
+.push-1  { margin: 0 -88px 0 1.5em; float: right; }
+.push-2  { margin: 0 -158px 0 1.5em; float: right; }
+.push-3  { margin: 0 -228px 0 1.5em; float: right; }
+
+
