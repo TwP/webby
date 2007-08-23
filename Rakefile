@@ -21,6 +21,7 @@ PROJ.rdoc_dir = 'doc/rdoc'
 PROJ.rdoc_remote_dir = 'rdoc'
 PROJ.version = Webby::VERSION
 
+PROJ.exclude << '^(\.\/|\/)?website/output'
 PROJ.rdoc_exclude << '^(\.\/|\/)?data'
 PROJ.rdoc_exclude << '^(\.\/|\/)?website'
 

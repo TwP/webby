@@ -1,6 +1,6 @@
 # $Id$
 
-if HAVE_RSPEC
+if HAVE_SPEC
 
 require 'spec/rake/spectask'
 
@@ -32,6 +32,6 @@ end  # namespace :spec
 
 task :clobber => 'spec:clobber_rcov' if HAVE_RCOV
 
-end  # if HAVE_RSPEC
+end  # if HAVE_SPEC
 
 # EOF

@@ -84,12 +84,14 @@ class WebbyTask < TaskLib
     })
     ::Webby.page_defaults.merge! @page_defaults
 
+    # load any user defined libraries
+    glob = File.join(FileUtils.pwd, 'lib', '**', '*.rb')
+    Dir.glob(glob).sort.each {|fn| require fn}
+
+    # create the Webby rake tasks
     define_build_tasks
     namespace(:create) {define_create_tasks}
   end
-
-
-  private
 
   # Defines the :build and :rebuild tasks
   #
