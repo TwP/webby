@@ -33,6 +33,7 @@ PROJ.rdoc_opts = []
 PROJ.rdoc_include = %w(^lib ^bin ^ext txt$)
 PROJ.rdoc_exclude = %w(extconf\.rb$ ^Manifest\.txt$)
 PROJ.rdoc_main = 'README.txt'
+PROJ.rdoc_dir = 'doc'
 PROJ.rdoc_remote_dir = nil
 
 # Extensions

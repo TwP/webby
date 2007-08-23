@@ -40,5 +40,6 @@ spec/webby/file_spec.rb
 tasks/doc.rake
 tasks/gem.rake
 tasks/manifest.rake
+tasks/rubyforge.rake
 tasks/setup.rb
 tasks/spec.rake
