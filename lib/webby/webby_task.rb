@@ -33,27 +33,22 @@ module Rake
 #
 class WebbyTask < TaskLib
 
-  # Location of the generated website
-  attr_accessor :output_dir
+  # Define a setter and getter for each key in the Webby configuration hash
+  ::Webby.config.keys.each do |key|
+    self.class_eval do
+      define_method(key) {::Webby.config[key]}
+      define_method(key+'=') {|val| ::Webby.config[key] = val}
+    end
+  end
 
-  # Location of the webiste source material
-  attr_accessor :content_dir
-
-  # Location of the layout files for generated pages
-  attr_accessor :layout_dir
-
-  # Location of the page templates
-  attr_accessor :template_dir
-
-  # Array of patterns used to exclude files
-  attr_accessor :exclude
-
-  # Global page attributes (default is {})
-  attr_reader :page_defaults
+  # Global page attributes
+  def page_defaults
+    ::Webby.page_defaults
+  end
 
   # Merge the given _hash_ with the page defaults hash
   def page_defaults=( hash )
-    @page_defaults.merge! hash
+    ::Webby.page_defaults.merge! hash
   end
 
   # call-seq:
@@ -63,26 +58,7 @@ class WebbyTask < TaskLib
   # pages in the website.
   #
   def initialize
-    @output_dir = 'output'
-    @content_dir = 'content'
-    @layout_dir = 'layouts'
-    @template_dir = 'templates'
-    @exclude = %w(tmp$ bak$ ~$ CVS \.svn)
-    @page_defaults = {
-      'extension' => 'html',
-      'layout'    => 'default'
-    }
-
     yield self if block_given?
-
-    ::Webby.config.merge!({
-      'output_dir' => @output_dir,
-      'content_dir' => @content_dir,
-      'layout_dir' => @layout_dir,
-      'template_dir' => @template_dir,
-      'exclude' => @exclude
-    })
-    ::Webby.page_defaults.merge! @page_defaults
 
     # load any user defined libraries
     glob = File.join(FileUtils.pwd, 'lib', '**', '*.rb')
@@ -116,7 +92,7 @@ class WebbyTask < TaskLib
   # task for creating a new page based on that template.
   #
   def define_create_tasks
-    FileList["#{@template_dir}/*"].each do |template|
+    FileList["#{template_dir}/*"].each do |template|
       name = template.pathmap '%n'
 
       desc "create a new #{name} page"
@@ -124,7 +100,7 @@ class WebbyTask < TaskLib
         raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 
         page = t.application.top_level_tasks.pop
-        page = File.join(@content_dir, page)
+        page = File.join(content_dir, page)
         page << '.txt' if File.extname(page).empty?
 
         ::Webby::Builder.create page, :from => template

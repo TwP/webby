@@ -20,9 +20,10 @@ data/content/css/blueprint/lib/typography.css
 data/content/css/blueprint/print.css
 data/content/css/blueprint/screen.css
 data/content/css/site.css
-data/content/index.rhtml
+data/content/index.txt
 data/layouts/default.rhtml
 data/tasks/create.rake
+data/tasks/setup.rb
 data/templates/page.erb
 lib/webby.rb
 lib/webby/auto_builder.rb
@@ -64,4 +65,5 @@ website/content/index.txt
 website/content/tutorial.txt
 website/layouts/default.rhtml
 website/tasks/create.rake
+website/tasks/setup.rb
 website/templates/page.erb

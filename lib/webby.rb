@@ -2,7 +2,7 @@
 
 module Webby
 
-  VERSION = '0.1.0'   # :nodoc:
+  VERSION = '0.2.0'   # :nodoc:
 
   # Path to the Webby package
   PATH = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..'))
@@ -29,22 +29,27 @@ module Webby
   #    Webby.config    => hash
   #
   # Returns the configuration hash for the Webby application.
-  #--
-  # The defaults are defined in the lib/webby/webby_task.rb file
-  #++
+  #
   def self.config
-    @config ||= {}
+    @config ||= {
+      'output_dir'    => 'output',
+      'content_dir'   => 'content',
+      'layout_dir'    => 'layouts',
+      'template_dir'  => 'templates',
+      'exclude'       => %w(tmp$ bak$ ~$ CVS \.svn)
+    }
   end
 
   # call-seq:
   #    Webby.page_defaults    => hash
   #
   # Returns the page defaults hash used for page resource objects.
-  #--
-  # The defaults are defined in the lib/webby/webby_task.rb file
-  #++
+  #
   def self.page_defaults
-    @page_defaults ||= {}
+    @page_defaults ||= {
+      'extension' => 'html',
+      'layout'    => 'default'
+    }
   end
 
 end  # module Webby
