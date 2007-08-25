@@ -77,8 +77,7 @@ class Builder
       FileUtils.mkdir output_dir
     end
 
-    load_layouts
-    load_content
+    load_files
 
     Resource.pages.each do |page|
       next unless page.dirty? or opts[:rebuild]
@@ -111,13 +110,13 @@ class Builder
 
   private
 
-  # Scan the <code>layouts/</code> folder and create a new Resource object
-  # for each file found there.
+  # Scan the <code>layouts/</code> folder and the <code>content/</code>
+  # folder and create a new Resource object for each file found there.
   #
-  def load_layouts
+  def load_files
     excl = Regexp.new exclude.join('|')
 
-    ::Find.find(layout_dir) do |path|
+    ::Find.find(layout_dir, content_dir) do |path|
       next unless test ?f, path
       next if path =~ excl
       Resource.new path
@@ -139,18 +138,6 @@ class Builder
         lyt = layouts.find_by_name lyt.layout
       end  # while
     end  # each
-  end
-
-  # Scan the <code>content/</code> folder and create a new Resource object
-  # for each file found there.
-  #
-  def load_content
-    excl = Regexp.new exclude.join('|')
-    Find.find(content_dir) do |path|
-      next unless test ?f, path
-      next if path =~ excl
-      Resource.new path, ::Webby.page_defaults
-    end
   end
 
   %w(output_dir layout_dir content_dir exclude).each do |key|

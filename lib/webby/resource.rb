@@ -22,9 +22,9 @@ class Resource
   end  # class << self
 
   # call-seq:
-  #    Resource.new( filename, defaults = {} )    => page
+  #    Resource.new( filename )    => resource
   #
-  def initialize( fn, defaults = {} )
+  def initialize( fn )
     @path     = fn.sub(%r/\A(?:\.\/|\/)/o, '').freeze
     @dir      = ::File.dirname(@path).sub(%r/\A[^\/]+\/?/o, '')
     @filename = ::File.basename(@path).sub(%r/\.\w+\z/o, '')
@@ -36,7 +36,9 @@ class Resource
     # deal with the meta-data
     @mdata = ::Webby::File.meta_data(@path)
     @have_mdata = !@mdata.nil?
-    @mdata = @have_mdata ? defaults.merge(@mdata) : {}
+
+    @mdata ||= {}
+    @mdata = ::Webby.page_defaults.merge(@mdata) if is_page?
     @mdata.sanitize!
 
     self.class.pages << self if is_page? or is_static?
