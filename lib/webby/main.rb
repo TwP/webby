@@ -2,6 +2,7 @@
 
 require 'fileutils'
 require 'find'
+require 'optparse'
 
 module Webby
 
@@ -16,37 +17,94 @@ class Main
   # Directory where the prototype Webby website can be found
   attr_accessor :data
 
+  # Flag used to update an existing website
+  attr_accessor :update
+
   # call-seq:
-  #    Main.run( *args )    => nil
+  #    Main.run( args )    => nil
   #
   # Create a new instance of Main, and run the +webby+ application given the
   # command line _args_.
   #
-  def self.run( *args )
-    self.new.run *args
+  def self.run( args )
+    m = self.new
+    m.parse args
+
+    if m.update then m.update_site
+                else m.create_site end
   end
 
   # call-seq:
-  #    run( *args )    => nil
+  #    parse( args )   => nil
   #
-  # Run the +webby+ application given the command line _args_.
+  # Parse the command line arguments and store the values for later use by
+  # the create_site and update_site methods.
   #
-  def run( *args )
-    abort "Usage: #{$0} /path/to/your/site" unless args.length == 1
-
-    self.site = args.at 0
+  def parse( args )
     self.data = File.join(::Webby::PATH, 'data')
+    self.update = false
 
+    opts = OptionParser.new
+    opts.banner << ' site'
+
+    opts.separator ''
+    opts.on('-u', '--update',
+            'update the rake tasks for the site') {self.update = true}
+
+    opts.separator ''
+    opts.separator 'common options:'
+
+    opts.on_tail( '-h', '--help', 'show this message' ) {puts opts; exit}
+    opts.on_tail( '--version', 'show version' ) do
+      puts "Webby #{::Webby::VERSION}"
+      exit
+    end
+
+    # parse the command line arguments
+    opts.parse! args
+    self.site = args.shift
+
+    if site.nil?
+      puts opts
+      ::Kernel.abort
+    end
+    nil
+  end
+
+  # call-seq:
+  #    create_site    => nil
+  #
+  # Create a new website.
+  #
+  def create_site
     # see if the site already exists
-    abort "#{site} already exists" if test ?e, site
+    abort "'#{site}' already exists" if test ?e, site
 
     # copy over files from the data directory
     files = site_files
 
     files.keys.sort.each do |dir|
       mkdir dir
-      files[dir].each {|file| cp file}
+      files[dir].sort.each {|file| cp file}
     end
+    nil
+  end
+
+  # call-seq:
+  #    update_site    => nil
+  #
+  # Update the rake tasks for an existing website.
+  #
+  def update_site
+    # ensure the site already exists
+    abort "'#{site}' does not exist" unless test ?d, site
+
+    # copy over files from the data/tasks directory
+    files = site_files
+
+    mkdir 'tasks'
+    files['tasks'].sort.each {|file| cp file}
+
     nil
   end
 
@@ -58,8 +116,10 @@ class Main
   #
   def mkdir( dir )
     dir = dir.empty? ? site : ::File.join(site, dir)
-    creating dir
-    FileUtils.mkdir_p dir
+    unless test ?d, dir
+      creating dir
+      FileUtils.mkdir_p dir
+    end
   end
 
   # call-seq:
@@ -72,7 +132,7 @@ class Main
   def cp( file )
     src = ::File.join(data, file)
     dst = ::File.join(site, file)
-    creating dst
+    test(?e, dst) ? updating(dst) : creating(dst)
     FileUtils.cp src, dst
   end
 
@@ -83,6 +143,16 @@ class Main
   #
   def creating( msg )
     print "creating "
+    puts msg
+  end
+
+  # call-seq:
+  #    updating( msg )   => nil
+  #
+  # Prints a "updating _msg_" to the screen.
+  #
+  def updating( msg )
+    print "updating "
     puts msg
   end
 

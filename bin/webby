@@ -9,6 +9,6 @@ rescue LoadError
   retry
 end
 
-::Webby::Main.run *ARGV
+::Webby::Main.run ARGV
 
 # EOF
