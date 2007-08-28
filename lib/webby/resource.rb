@@ -2,27 +2,62 @@
 
 module Webby
 
+# A Webby::Resource is any file that can be found in the content directory
+# or in the layout directory. This class contains information about the
+# resources available to Webby. This information includes the resource
+# type (static, page, layout), if the resource is dirty (it needs to be
+# rendered), the output location of the rendered resource, etc.
 #
+# A resource is a "layout" if the resource is found in the layout
+# directory. Static and page resources are found in the content directory.
+#
+# A resource is considered static only if it *does not* contain a YAML
+# meta-data header at the top of the file. These resources will be copied
+# as-is from the content directory to the output directory.
+#
+# If a resouce does have meta-data, then it will be processed (i.e.
+# rendered/filtered) by Webby, and the rendered results will be written to
+# the output directory.
 #
 class Resource
 
   class << self
+    # Returns the pages hash object.
     def pages
       @pages ||= PagesDB.new
     end
 
+    # Returns the layouts hash object.
     def layouts
       @layouts ||= PagesDB.new
     end
 
+    # Clear the contents of the +layouts+ and the +pages+ hash objects.
     def clear
       self.pages.clear
       self.layouts.clear
     end
   end  # class << self
 
+  # The full path to the resource file
+  attr_reader :path
+
+  # The directory of the resource excluding the content directory
+  attr_reader :dir
+
+  # The resource filename excluding path and extension
+  attr_reader :filename
+
+  # Extesion of the resource file
+  attr_reader :ext
+
+  # Resource file modification time
+  attr_reader :mtime
+
   # call-seq:
   #    Resource.new( filename )    => resource
+  #
+  # Creates a new resource object given the _filename_.
   #
   def initialize( fn )
     @path     = fn.sub(%r/\A(?:\.\/|\/)/o, '').freeze
@@ -48,6 +83,9 @@ class Resource
   # call-seq:
   #    equal?( other )    => true or false
   #
+  # Returns +true+ if the path of this resource is equivalent to the path of
+  # the _other_ resource. Returns +false+ if this is not the case.
+  #
   def equal?( other )
     return false unless self.class == other.class
     @path == other.path
@@ -58,16 +96,24 @@ class Resource
   # call-seq:
   #    resource <=> other    => -1, 0, +1, or nil
   #
+  # Resource comparison operates on the full path of the resource objects
+  # and uses the standard String comparison operator. Returns +nil+ if
+  # _other_ is not a Resource instance.
+  #
   def <=>( other )
     return unless self.class == other.class
     @path <=> other.path
   end
 
-
-  attr_reader :path, :dir, :filename, :mtime, :ext
-
   # call-seq:
   #    extension    => string
+  #
+  # Returns the extension that will be appended to the output destination
+  # filename. The extension is determined by looking at the following:
+  #
+  # * this resource's meta-data for an 'extension' property
+  # * the meta-data of this resource's layout for an 'extension' propery
+  # * the extension of this resource file
   #
   def extension
     return @mdata['extension'] if @mdata.has_key? 'extension'
@@ -81,18 +127,38 @@ class Resource
     @ext
   end
 
+  # call-seq:
+  #    destination    => string
+  #
+  # Returns the path in the output directory where the results of rendering
+  # this resource should be stored. This path is used to determine if the
+  # resource is dirty and in need of rendering.
+  #
+  # The destination for any resource can be overridden by explicitly setting
+  # the 'destination' propery in the resource's meta-data.
+  #
   def destination
-    return @destination if defined? @destination
-    return @destination = ::Webby.config['output_dir'] if is_layout?
+    return @dest if defined? @dest
+    return @dest = ::Webby.config['output_dir'] if is_layout?
 
-    @destination = File.join(::Webby.config['output_dir'], dir, filename)
-    @destination << '.'
-    @destination << extension
-    @destination
+    @dest = if @mdata.has_key? 'destination' then @mdata['destination']
+            else File.join(dir, filename) end
+
+    @dest = File.join(::Webby.config['output_dir'], @dest)
+    @dest << '.'
+    @dest << extension
+    @dest
   end
 
   # call-seq:
   #    render   => string
+  #
+  # Creates a new Webby::Renderer instance and uses that instance to render
+  # the resource contents using the configured filter(s). The filter(s) to
+  # use is defined in the resource's meta-data as the 'filter' key.
+  #
+  # Note, this only renders this resource. The returned string does not
+  # include any layout rendering.
   #
   def render
     raise Error, "page '#@path' is in a rendering loop" if @rendering
@@ -166,6 +232,14 @@ class Resource
     @mdata['dirty'] = false
   end
 
+  # call-seq:
+  #    method_missing( symbol [, *args, &block] )    => result
+  #
+  # Invoked by Ruby when a message is sent to the resource that it cannot
+  # handle. The default behavior is to convert _symbol_ to a string and
+  # search for that string in the resource's meta-data. If found, the
+  # meta-data item is returned; otherwise, +nil+ is returned.
+  #
   def method_missing( name, *a, &b )
     @mdata[name.to_s]
   end
