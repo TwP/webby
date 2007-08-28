@@ -7,20 +7,32 @@ module Webby
 class PagesDB
   include Enumerable
 
+  # call-seq:
+  #    PagesDB.new
+  #
   def initialize
     @db = Hash.new {|h,k| h[k] = []}
   end
 
+  # call-seq:
+  #    add( resource )
+  #
   def add( page )
     @db[page.dir] << page
     self
   end
   alias :<< :add
 
+  # call-seq:
+  #    clear
+  #
   def clear
     @db.clear
   end
 
+  # call-seq:
+  #    each {|resource| block}
+  #
   def each( &b )
     keys = @db.keys.sort
     keys.each do |k|
@@ -28,6 +40,9 @@ class PagesDB
     end
   end
 
+  # call-seq:
+  #    find_by_name( name )
+  #
   def find_by_name( name )
     self.find {|page| page.filename == name}
   end
@@ -37,6 +52,7 @@ class PagesDB
   #
   # Options include:
   #    :sorty_by => 'attribute'
+  #    :reverse  => true
   #
   def siblings( page, opts = {} )
     ary = @db[page.dir].dup
@@ -49,6 +65,13 @@ class PagesDB
     ary
   end
 
+  # call-seq:
+  #    children( page, opts = {} )    => array
+  #
+  # Options include:
+  #    :sorty_by => 'attribute'
+  #    :reverse  => true
+  #
   def children( page, opts = {} )
     rgxp = Regexp.new "\\A#{page.dir}/[^/]+"
 

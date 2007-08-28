@@ -15,6 +15,10 @@ class Renderer
   # call-seq:
   #    Renderer.new( page )
   #
+  # Create a new renderer for the given _page_. The renderer will apply the
+  # desired filters to the _page_ (from the page's meta-data) and then
+  # render the filtered page into the desired layout.
+  #
   def initialize( page )
     unless page.is_page?
       raise ArgumentError,
@@ -27,7 +31,12 @@ class Renderer
   end
 
   # call-seq:
-  #    layout_page
+  #    layout_page    => string
+  #
+  # Apply the desired filters to the page and then render the filtered page
+  # into the desired layout. The filters to apply to the page are determined
+  # from the page's meta-data. The layout to use is also determined from the
+  # page's meta-data.
   #
   def layout_page
     layouts = Resource.layouts
@@ -51,7 +60,10 @@ class Renderer
   end
 
   # call-seq:
-  #    render_page
+  #    render_page    => string
+  #
+  # Apply the desired filters to the page. The filters to apply are
+  # determined from the page's meta-data.
   #
   def render_page
     str = ::Webby::File.read(@page.path)
