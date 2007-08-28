@@ -23,6 +23,8 @@ data/content/css/site.css
 data/content/index.txt
 data/layouts/default.rhtml
 data/tasks/create.rake
+data/tasks/deploy.rake
+data/tasks/heel.rake
 data/tasks/setup.rb
 data/templates/page.erb
 lib/webby.rb
@@ -65,5 +67,7 @@ website/content/index.txt
 website/content/tutorial.txt
 website/layouts/default.rhtml
 website/tasks/create.rake
+website/tasks/deploy.rake
+website/tasks/heel.rake
 website/tasks/setup.rb
 website/templates/page.erb

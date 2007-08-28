@@ -1,6 +1,13 @@
 
+require 'webby'
 load 'tasks/setup.rb'
 
 task :default => :build
+
+desc 'deploy the website to Rubyforge'
+task :deploy => [:build, 'deploy:rsync']
+
+SITE.host = 'tim_pease@rubyforge.org'
+SITE.remote_dir = '/var/www/gforge-projects/webby/'
 
 # EOF

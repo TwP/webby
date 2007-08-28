@@ -7,7 +7,17 @@ try_require 'redcloth'
 
 module Webby
 
+# The Webby::Renderer is used to _filter_ and _layout_ the text found in the
+# resource page files in the content directory.
 #
+# A page is filtered based on the settings of the 'filter' option in the
+# page's meta-data information. For example, if 'textile' is specified as
+# a filter, then the page will be run through the RedCloth markup filer.
+# More than one filter can be used on a page; they will be run in the
+# order specified in the meta-data.
+#
+# A page is rendered into a layout specified by the 'layout' option in the
+# page's meta-data information.
 #
 class Renderer
   include ERB::Util

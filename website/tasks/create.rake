@@ -1,6 +1,4 @@
 
-require 'webby'
-
 Rake::WebbyTask.new do |webby|
   webby.content_dir   = SITE.content_dir
   webby.output_dir    = SITE.output_dir
@@ -10,3 +8,4 @@ Rake::WebbyTask.new do |webby|
   webby.page_defaults = SITE.page_defaults
 end
 
+# EOF

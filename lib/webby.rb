@@ -56,14 +56,17 @@ end  # module Webby
 
 
 # call-seq:
-#    try_require( library )
+#    try_require( library )    => true or false
 #
 # Try to laod the given _library_ using the built-in require, but do not
-# raise a LoadError if unsuccessful.
+# raise a LoadError if unsuccessful. Returns +true+ if the _library_ was
+# successfully loaded; returns +false+ otherwise.
 #
 def try_require( lib )
   require lib
+  true
 rescue LoadError
+  false
 end
 
 

@@ -14,6 +14,14 @@ SITE.page_defaults = {
   'layout'    => 'default'
 }
 
+SITE.host       = 'user@hostname.tld'
+SITE.remote_dir = '/not/a/valid/dir'
+SITE.rsync_args = %w(-av --delete)
+
 FileList['tasks/*.rake'].each {|task| import task}
+
+%w(heel).each do |lib|
+  Object.instance_eval {const_set "HAVE_#{lib.upcase}", try_require(lib)}
+end
 
 # EOF
