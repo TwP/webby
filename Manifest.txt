@@ -64,6 +64,8 @@ website/content/css/blueprint/screen.css
 website/content/css/site.css
 website/content/download.txt
 website/content/index.txt
+website/content/manual.txt
+website/content/tips_and_tricks.txt
 website/content/tutorial.txt
 website/layouts/default.rhtml
 website/tasks/create.rake

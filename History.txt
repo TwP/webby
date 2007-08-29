@@ -1,3 +1,10 @@
+== 0.2.0 / 2007-08-28
+
+* Updated rake tasks for website deployment
+* Can use 'heel' and 'launchy' for viewing websites
+* Webby executable can update rake tasks for existing websites
+* Added more rdoc documentation to classes
+
 == 0.1.0 / 2007-08-22
 
 * Birthday!

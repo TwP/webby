@@ -8,8 +8,8 @@ filter:    erb
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-   <title>Webby :: <%= @page.title %></title>
-   <meta name="author" content="<%= @page.author %>" />
+   <title>Webby :: <%= h(@page.title) %></title>
+   <meta name="author" content="<%= h(@page.author) %>" />
 
    <!--- Blueprint CSS Framework -->
    <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection" />
@@ -23,7 +23,7 @@ filter:    erb
 <div class="container">
 	
    <div class="column span-11 prepend-1 append-2 first last" id="header">
-      <h1>Webby &#9775; <%= @page.title %></h1>
+      <h1>Webby &#9775; <%= h(@page.title) %></h1>
       <hr />
       <ul id="navigation"
         ><li><a href="index.html">Home</a>&#8766;</li
