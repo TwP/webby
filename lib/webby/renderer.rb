@@ -1,7 +1,6 @@
 # $Id$
 
 require 'erb'
-
 try_require 'bluecloth'
 try_require 'redcloth'
 
@@ -83,6 +82,15 @@ class Renderer
     end
 
     str
+  end
+
+  #
+  #
+  def coderay_filter( str )
+    CodeRayFilter.new(str).to_html
+  rescue NameError
+    $stderr.puts "ERROR: coderay filter failed (CodeRay not installed?)"
+    exit
   end
 
   # Render text via ERB using the built in ERB library.

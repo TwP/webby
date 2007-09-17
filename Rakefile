@@ -27,7 +27,8 @@ PROJ.rdoc_exclude << '^(\.\/|\/)?website'
 
 PROJ.spec_opts << '--color'
 
-PROJ.dependencies << ['rspec', ">= #{Spec::VERSION::STRING}"]
-PROJ.dependencies << ['directory_watcher', ">= #{DirectoryWatcher::VERSION}"]
+depend_on 'directory_watcher', '1.0.0'
+depend_on 'hpricot'
+depend_on 'rspec'
 
 # EOF

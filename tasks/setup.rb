@@ -106,4 +106,15 @@ def paragraphs_of(path, *paragraphs)
   File.read(path).delete("\r").split(/\n\n+/).values_at(*paragraphs)
 end
 
+# Adds the given gem _name_ to the current project's dependency list. An
+# optional gem _version_ can be given. If omitted, the newest gem version
+# will be used.
+#
+def depend_on( name, version = nil )
+  spec = Gem.source_index.find_name(name).last
+  version = spec.version.to_s if version.nil? and !spec.nil?
+
+  PROJ.dependencies << (version.nil? ? [name] : [name, ">= #{version}"])
+end
+
 # EOF
