@@ -1,3 +1,7 @@
+== 0.3.0 / 2007-09-17
+
+* Added support for CodeRay syntax highlighting
+
 == 0.2.0 / 2007-08-28
 
 * Updated rake tasks for website deployment
