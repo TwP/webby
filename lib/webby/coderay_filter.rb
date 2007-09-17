@@ -63,7 +63,11 @@ class CodeRayFilter
         opts[key.to_sym] = cr[key].send(convert)
       end
 
-      cr.swap(CodeRay.scan(text, lang).html(opts).div)
+      #cr.swap(CodeRay.scan(text, lang).html(opts).div)
+      out = "<div class=\"CodeRay\"><pre>\n"
+      out << CodeRay.scan(text, lang).html(opts)
+      out << "\n</pre></div>"
+      cr.swap out
     end
 
     doc.to_html
