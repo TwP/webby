@@ -19,6 +19,7 @@ data/content/css/blueprint/lib/reset.css
 data/content/css/blueprint/lib/typography.css
 data/content/css/blueprint/print.css
 data/content/css/blueprint/screen.css
+data/content/css/coderay.css
 data/content/css/site.css
 data/content/index.txt
 data/layouts/default.rhtml
