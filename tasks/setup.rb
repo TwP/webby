@@ -1,6 +1,8 @@
 # $Id$
 
 require 'rubygems'
+require 'rake'
+require 'fileutils'
 require 'ostruct'
 
 PROJ = OpenStruct.new

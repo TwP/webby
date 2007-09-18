@@ -12,11 +12,23 @@ body { margin: 1.0em 0 }
 #footer hr { margin-bottom: 0.5em }
 #footer p { text-align: right }
 
-.code {
+pre.code {
   padding: 0.5em;
   margin-bottom: 1.3em;
-  color: #fff;
-  background-color: #333;
-  border: 0.1em solid black;
+  color: #100;
+  background-color: #eee;
+  border: 1px solid #aaa;
   font: 1.1em Monaco, monospace;
+  overflow: auto;
 }
+
+div.toc {
+  float: right;
+  padding: 1.5em;
+  margin-left: 1.5em;
+  margin-bottom: 1.5em;
+  background-color: #b2ccff;
+  border: 1px solid #aaa;
+}
+
+div.toc ul { margin-bottom: 0; }

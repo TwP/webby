@@ -3,6 +3,52 @@ title:      Tips & Tricks
 created_at: Wed Aug 29 08:57:11 -0600 2007
 filter:     textile
 --- 
-h2. To-Do
+<div class="toc push-1">
 
-The Webby tips & tricks page goes here.
+h4. Table of Contents
+
+* "CodeRay":#toc_cr
+
+</div>
+
+h3(#toc_cr){clear:none}. CodeRay
+
+To include "CodeRay":http://coderay.rubychan.de/ syntax highlighting support in a page you need to have the @coderay@ gem installed, and you need to include the CodeRay stylesheet in your layout. The following example shows a page that uses CodeRay syntax highlighting combined with Textile markup.
+
+Note how the @coderay@ block is enclosed by a @notextile@ block. This ensures that the Textile filter does not clobber the generated syntax highlighting.
+
+<pre class="code">
+---
+title:  CodeRay Example
+filter:
+  - erb
+  - coderay
+  - textile
+--- 
+h3. <%= h(@page.title) %>
+
+This is the @render_page@ function from the Webby static website generation
+system. It is used to render a page by applying the specified filters in
+succession to the page contents.
+
+<notextile>&lt;notextile&gt;
+&lt;coderay lang="ruby" line_numbers="inline"&gt;
+# call-seq:
+#    render_page    => string
+#
+# Apply the desired filters to the page. The filters to apply are
+# determined from the page's meta-data.
+#
+def render_page
+  ary = []
+  str = ::Webby::File.read(@page.path)
+
+  @page.filter.to_a.each do |filter|
+    str = self.send(filter + '_filter', str)
+  end
+
+  str
+end
+&lt;/coderay&gt;
+&lt;/notextile&gt;</notextile>
+</pre>

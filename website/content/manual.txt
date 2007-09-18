@@ -1,9 +1,10 @@
 --- 
 title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
-filter:     textile
+filter:
+  - coderay
+  - textile
 --- 
 h2. To-Do
 
 The Webby user's manual goes here.
-
