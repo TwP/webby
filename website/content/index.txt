@@ -24,7 +24,7 @@ h3. Features
 
 h3. But Wait! There's More!
 
-Webby has a great _autobuild_ feature that continously generates HTML whenever the *pages* or *layouts* for you site change. The HTML is served up via "heel":http://copiousfreetime.rubyforge.org/heel/, a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
+Webby has a great _autobuild_ feature that continously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via "heel":http://copiousfreetime.rubyforge.org/heel/, a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
 
 <pre class="code">
 $ rake autobuild
