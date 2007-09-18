@@ -1,7 +1,8 @@
 /* -------------------------------------------------------------- 
   
    Buttons.css
-   * Gives you some great buttons for many purposes.
+   * Version:   0.5 (28/8/2007)
+   * Website:   http://code.google.com/p/blueprintcss/
    
    Created by Kevin Hale [particletree.com]
    * particletree.com/features/rediscovering-the-button-element
@@ -23,7 +24,6 @@
    <a href="#" class="button negative">
      <img src="css/blueprint/lib/img/icons/cross.png" alt=""/> Cancel
    </a>
-   
    
 -------------------------------------------------------------- */
 

@@ -51,8 +51,6 @@ website/Rakefile
 website/content/css/blueprint/lib/buttons.css
 website/content/css/blueprint/lib/compressed.css
 website/content/css/blueprint/lib/grid.css
-website/content/css/blueprint/lib/img/baseline-black.png
-website/content/css/blueprint/lib/img/baseline.png
 website/content/css/blueprint/lib/img/grid.png
 website/content/css/blueprint/lib/img/icons/cross.png
 website/content/css/blueprint/lib/img/icons/textfield_key.png
