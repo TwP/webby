@@ -46,11 +46,11 @@ Webby is not limited to producing HTML. By no means! Do you ever get tired of re
 
    $ cd my_site
 
-   $ rake create:page new_page.rhtml
-   creating content/new_page.rhtml
+   $ rake create:page new_page.txt
+   creating content/new_page.txt
 
-   $ rake create:page another/new_page.rhtml
-   creating content/another/new_page.rhtml
+   $ rake create:page another/new_page.txt
+   creating content/another/new_page.txt
 
    $ rake autobuild
    heel --root output --daemonize
