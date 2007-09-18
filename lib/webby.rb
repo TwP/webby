@@ -2,7 +2,7 @@
 
 module Webby
 
-  VERSION = '0.3.0'   # :nodoc:
+  VERSION = '0.4.0'   # :nodoc:
 
   # Path to the Webby package
   PATH = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..'))
