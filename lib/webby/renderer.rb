@@ -84,15 +84,6 @@ class Renderer
     str
   end
 
-  #
-  #
-  def coderay_filter( str )
-    CodeRayFilter.new(str).to_html
-  rescue NameError
-    $stderr.puts "ERROR: coderay filter failed (CodeRay not installed?)"
-    exit
-  end
-
   # Render text via ERB using the built in ERB library.
   #
   def erb_filter( str )
@@ -115,6 +106,15 @@ class Renderer
     RedCloth.new(str).to_html
   rescue NameError
     $stderr.puts 'ERROR: textile filter failed (RedCloth not installed?)'
+    exit
+  end
+
+  # Render text via the CodeRay syntax highlighter library.
+  #
+  def coderay_filter( str )
+    CodeRayFilter.new(str).to_html
+  rescue NameError
+    $stderr.puts "ERROR: coderay filter failed (CodeRay not installed?)"
     exit
   end
 

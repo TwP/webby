@@ -52,3 +52,5 @@ end
 &lt;/coderay&gt;
 &lt;/notextile&gt;</notextile>
 </pre>
+
+There are more options that can be passed to the CodeRay syntax highlighter than those shown in the example above. Take a look at the RDoc documentation for the "CodeRayFilter":http://webby.rubyforge.org/rdoc/classes/Webby/CodeRayFilter.html class for more information.

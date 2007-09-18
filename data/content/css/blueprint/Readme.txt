@@ -1,4 +1,4 @@
-Blueprint CSS framework (http://bjorkoy.com/blueprint)
+Blueprint CSS framework 0.5 (http://bjorkoy.com/blueprint)
 ----------------------------------------------------------------
 
 Welcome to Blueprint! This is a CSS framework designed to 
@@ -37,8 +37,8 @@ How to use Blueprint
 Here's a quick primer on how to use BP:
 http://code.google.com/p/blueprintcss/wiki/Tutorial
 
-Each file is also heavily commented, so you'll learn a
-lot by reading through them.
+Each file is also heavily commented, so you'll 
+learn a lot by reading through them.
 
 
 Files in Blueprint
@@ -67,6 +67,13 @@ contains lots of (hopefully) clarifying comments.
 
 * lib/reset.css
   This file resets CSS values that browsers tend to set for you.
+
+* lib/buttons.css
+  Provides some great CSS-only buttons.
+
+* lib/compressed.css
+  A compressed version of the core files. Use this on every live site.
+  See screen.css for instructions.
 
 
 Credits

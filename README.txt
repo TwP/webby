@@ -6,16 +6,34 @@ Webby
 
 == DESCRIPTION:
 
-Webby is a tool for creating and managing static websites. Web pages
-are written using ERB, Textile, Markdown, HAML, etc. The Webby rake tasks
-transform the pages into valid HTML, and these pages can be uploaded to a
-web server for general consumption.
+Webby is a super fantastic little website management system. It would be called a _content management system_ if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.
+
+Webby works by combining the contents of a *page* with a *layout* to produce HTML. The layout contains everthing common to all the pages - HTML headers, navigation menu, footer, etc. - and the page contains just the information for that page. You can use your favorite markup language to write your pages; Webby supports quite a few.
+
+Install Webby and try it out!
 
 == FEATURES:
 
-* Provides +webby+ for creating new websites 
-* Uses rake for building HTML from the pages and layouts
-* Provides templates for quickly creating new pages
+* choose your templating language: *eRuby*, *Textile*, *Markdown*, *HAML*
+* support for {CodeRay}[http://coderay.rubychan.de/] syntax highlighting
+* quick and speedy - only builds pages that have changed
+* deploy anywhere - it's just HTML, no special server stuff required
+* happy {rake}[http://docs.rubyrake.org/] tasks for deploying your website to a server
+* build new pages from templates for quicker blog posts and news items
+
+But Wait! There's More!
+
+Webby has a great _autobuild_ feature that continously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via {heel}[http://copiousfreetime.rubyforge.org/heel/], a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
+
+   $ rake autobuild
+   heel --root output --daemonize
+   -- starting autobuild (Ctrl-C to stop)
+   - started at 10:21:26
+   creating output/index.html
+   - started at 10:22:57
+   creating output/index.html
+
+Webby is not limited to producing HTML. By no means! Do you ever get tired of repeating the same color code <b>#D3C4A2</b> in your CSS files? Webby can help. Need some customized JavaScript for your website. Webby can help. Anytime you find yourself repeating the same bit of text over and over, then you should be using Webby.
 
 == INSTALL:
 
@@ -34,7 +52,10 @@ web server for general consumption.
    $ rake create:page another/new_page.rhtml
    creating content/another/new_page.rhtml
 
-   $ rake build
+   $ rake autobuild
+   heel --root output --daemonize
+   -- starting autobuild (Ctrl-C to stop)
+   - started at 07:01:30
    creating output/index.html
    creating output/new_page.html
    creating output/another/new_page.html
@@ -44,6 +65,8 @@ web server for general consumption.
 * rake
 * rspec
 * directory_watcher
+* hpricot
+* heel
 
 == LICENSE:
 

@@ -9,8 +9,6 @@ data/content/css/blueprint/Readme.txt
 data/content/css/blueprint/lib/buttons.css
 data/content/css/blueprint/lib/compressed.css
 data/content/css/blueprint/lib/grid.css
-data/content/css/blueprint/lib/img/baseline-black.png
-data/content/css/blueprint/lib/img/baseline.png
 data/content/css/blueprint/lib/img/grid.png
 data/content/css/blueprint/lib/img/icons/cross.png
 data/content/css/blueprint/lib/img/icons/textfield_key.png
