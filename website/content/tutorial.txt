@@ -3,13 +3,13 @@ title:      Tutorial
 created_at: Tue Aug 21 17:02:40 -0600 2007
 filter:     textile
 --- 
-h3. Require
+h2. Require
 
 Webby has a family of friends that help it get it's job done. The command-line is where Webby lives and works. You should be comfortable with your terminal if you're going to get serious with Webby. Webby is built on top of "Ruby":http://www.ruby-lang.org/, and many of the templates use Ruby in one way or another. Learning a little bit about Ruby will make Webby far less intimidating.
 
 This tutorial requires *Ruby* to be installed as well as *Webby* and the "*RedCloth*":http://whytheluckystiff.net/ruby/redcloth/ templating engine. RedCloth provides support for the Textile markup language.
 
-h3. Create a Site
+h2. Create a Site
 
 You need a catchy name for your website to survive in this Web 2.0 world. Webby is distinctly Web 1.0 (or maybe Web 0.5) so we'll use the name *my_site*.
 
@@ -29,7 +29,7 @@ tasks/
 templates/
 </pre> 
 
-h3. Build Your Site
+h2. Build Your Site
 
 What? Didn't we just do that?
 
@@ -43,7 +43,7 @@ Again, you will see lots of output scrolling across the screen. This is the rake
 
 Point your web browser to *my_site/output/index.html* to see what your new website looks like.
 
-h3. Making Changes
+h2. Making Changes
 
 Of course _Lorem Ipsum_ is some great content, but if everyone posted their site in such a state the web would be a monochromatic smurf blue. Let's change that into something more creative, more us. Open the *content/index.rhtml* file in your favorite editor.
 
@@ -61,7 +61,7 @@ vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est
 eu lobortis mattis, lectus tellus tempus felis, a ultricies erat ipsum at
 metus.
 
-h3. Litora Sociis
+h2. Litora Sociis
 ...
 </pre>
 
@@ -85,7 +85,7 @@ Play around with making changes, running rake, and seeing your changes show up i
 
 bq. *TIP* You can simplify this whole process - modify content, rake, view in browser - by running @rake autobuild@ on the command line. This starts a build loop that compiles the content of your website as files change. All you need to do now is - modify content, view in browser.
 
-h3. Creating a Page
+h2. Creating a Page
 
 Let's tell the world all about your new website. We'll create a new _about_ page that describes what this website is all about, who you are, and the answer to life, the universe, and everything.
 
@@ -95,7 +95,7 @@ rake create:page about
 
 The output from the command tells you that a new file has been created - @content/about.txt@. You can now edit this page, give it a title "About", and somewhere in there include _42_.
 
-h3. Change the Layout
+h2. Change the Layout
 
 The next step is to change how the page looks. In fact, we want to change the appearance of all the pages in our website. This is easily by done by changing the website layout file in the _layouts_ folder. Open the *layouts/default.rhtml* file in your favorite editor.
 
@@ -123,7 +123,7 @@ We can see in the HTML header data that the page title will be set to the value 
 
 Let's change the layout by removing the sidebar from every page. Find the sidebar div @<div class="column span-3 last">@. Delete that div, run rake to build the webiste again, and take a look at the site in your browser. You'll notice that both pages have been updated since both depend upon the default layout.
 
-h3. What Now?
+h2. What Now?
 
 Let your creativity run wild!
 

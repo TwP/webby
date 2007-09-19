@@ -1,12 +1,32 @@
+--- 
+extension: css
+filter:    erb
+layout:    nil
 
-body { margin: 1.0em 0 }
+colors:
+  code-bg:    "#eee"
+  box-border: "#aaa"
+  links:      "#125AA7"
+  highlight:  "#b2ccff"
+--- 
+body {
+  margin: 1.5em 0;
+  font-family: Verdana, "Bitstream Vera Sans", sans-serif;
+}
 
+a { color: <%= @page.colors['links'] %>; }
+hr {
+  background: <%= @page.colors['highlight'] %>;
+  color:      <%= @page.colors['highlight'] %>;
+}
+
+#header { margin-bottom: 1.7em; }
+#header h1 { margin-bottom: 0; padding-bottom: 0.2em; }
 #header hr { margin-bottom: 0.5em; height: 0.3em; }
-
 #navigation { text-align: center; margin-left: 0; font-size: 1.5em; list-style-type: none; }
 #navigation li { display:inline; padding-right: 0.5em; }
-#navigation li a { padding-right: 0.5em; }
-
+#navigation li a { margin-right: 0.5em; padding: 0 0.2em; text-decoration: none; }
+#navigation li a:hover { background-color: <%= @page.colors['highlight'] %>; }
 
 #footer hr { margin-bottom: 0.5em }
 #footer p { text-align: right }
@@ -15,8 +35,8 @@ pre.code {
   padding: 0.5em;
   margin-bottom: 1.3em;
   color: #100;
-  background-color: #eee;
-  border: 1px solid #aaa;
+  background-color: <%= @page.colors['code-bg'] %>;
+  border: 1px solid <%= @page.colors['box-border'] %>;
   font: 1.1em Monaco, monospace;
   overflow: auto;
 }
@@ -26,8 +46,8 @@ div.toc {
   padding: 1.5em;
   margin-left: 1.5em;
   margin-bottom: 1.5em;
-  background-color: #b2ccff;
-  border: 1px solid #aaa;
+  background-color: <%= @page.colors['highlight'] %>;
+  border: 1px solid <%= @page.colors['box-border'] %>;
 }
 
 div.toc ul { margin-bottom: 0; }

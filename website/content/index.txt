@@ -13,7 +13,7 @@ Install Webby and try it out!
 gem install webby
 </pre>
 
-h3. Features
+h2. Features
 
 * choose your templating language: *eRuby*, *Textile*, *Markdown*, *HAML*
 * support for "CodeRay":http://coderay.rubychan.de/ syntax highlighting
@@ -22,7 +22,7 @@ h3. Features
 * happy "rake":http://docs.rubyrake.org/ tasks for deploying your website to a server
 * build new pages from templates for quicker blog posts and news items
 
-h3. But Wait! There's More!
+h2. But Wait! There's More!
 
 Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via "heel":http://copiousfreetime.rubyforge.org/heel/, a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
 

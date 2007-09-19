@@ -11,7 +11,7 @@ h4. Table of Contents
 
 </div>
 
-h3(#toc_cr){clear:none}. CodeRay
+h2(#toc_cr){clear:none}. CodeRay
 
 To include "CodeRay":http://coderay.rubychan.de/ syntax highlighting support in a page you need to have the @coderay@ gem installed, and you need to include the CodeRay stylesheet in your layout. The following example shows a page that uses CodeRay syntax highlighting combined with Textile markup.
 
@@ -25,7 +25,7 @@ filter:
   - coderay
   - textile
 --- 
-h3. <%= h(@page.title) %>
+h2. <%= h(@page.title) %>
 
 This is the @render_page@ function from the Webby static website generation
 system. It is used to render a page by applying the specified filters in
