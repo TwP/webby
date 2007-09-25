@@ -3,6 +3,8 @@
 require 'erb'
 try_require 'bluecloth'
 try_require 'redcloth'
+try_require 'haml'
+try_require 'sass'
 
 module Webby
 
@@ -37,6 +39,8 @@ class Renderer
     @page = page
     @pages = Resource.pages
     @content = nil
+
+    @log = Logging::Logger[self]
   end
 
   # call-seq:
@@ -96,7 +100,7 @@ class Renderer
   def markdown_filter( str )
     BlueCloth.new(str).to_html
   rescue NameError
-    $stderr.puts 'ERROR: markdown filter failed (BlueCloth not installed?)'
+    @log.error 'markdown filter failed (BlueCloth not installed?)'
     exit
   end
 
@@ -105,7 +109,7 @@ class Renderer
   def textile_filter( str )
     RedCloth.new(str).to_html
   rescue NameError
-    $stderr.puts 'ERROR: textile filter failed (RedCloth not installed?)'
+    @log.error 'textile filter failed (RedCloth not installed?)'
     exit
   end
 
@@ -114,7 +118,27 @@ class Renderer
   def coderay_filter( str )
     CodeRayFilter.new(str).to_html
   rescue NameError
-    $stderr.puts "ERROR: coderay filter failed (CodeRay not installed?)"
+    @log.error 'coderay filter failed (CodeRay not installed?)'
+    exit
+  end
+
+  # Render text via the Haml library
+  #
+  def haml_filter( str )
+    opts = @page.haml_options || {}
+    Haml::Engine.new(str, opts).to_html
+  rescue NameError
+    @log.error 'haml filter failed (Haml not installed?)'
+    exit
+  end
+
+  # Render text via the Sass library (part of Haml)
+  #
+  def sass_filter( str )
+    opts = @page.sass_options || {}
+    Sass::Engine.new(str, opts).render
+  rescue NameError
+    @log.error 'sass filter failed (Haml not installed?)'
     exit
   end
 

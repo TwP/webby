@@ -34,6 +34,8 @@ class AutoBuilder
     glob << File.join(::Webby.config['layout_dir'], '**', '*')
     glob << File.join(::Webby.config['content_dir'], '**', '*')
     @watcher.glob = glob
+
+    @log = Logging::Logger[self]
   end
 
   # call-seq:
@@ -47,11 +49,9 @@ class AutoBuilder
     ary = events.find_all {|evt| evt.type != :removed}
     return if ary.empty?
 
-    print '- started at '
-    puts Time.now.strftime('%H:%M:%S')
     Builder.run
   rescue => err
-    puts err.message
+    @log.error err
   end
 
   # call-seq:
@@ -61,7 +61,7 @@ class AutoBuilder
   # Ctrl-C to stop the watcher thread.
   #
   def run
-    puts '-- starting autobuild (Ctrl-C to stop)'
+    @log.info 'starting autobuild (Ctrl-C to stop)'
 
     Signal.trap('INT') {@watcher.stop}
 

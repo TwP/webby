@@ -38,7 +38,7 @@ class Builder
       raise Error, "template not given" unless tmpl
       raise Error, "#{page} already exists" if test ?e, page
 
-      puts "creating #{page}"
+      Logging::Logger[self].info "creating #{page}"
       FileUtils.mkdir_p File.dirname(page)
       str = ERB.new(::File.read(tmpl), nil, '-').result
       ::File.open(page, 'w') {|fd| fd.write str}
@@ -46,6 +46,16 @@ class Builder
       return nil
     end
   end  # class << self
+
+  # call-seq:
+  #    Builder.new
+  #
+  # Creates a new Builder object for creating pages from the content and
+  # layout directories.
+  #
+  def initialize
+    @log = Logging::Logger[self]
+  end
 
   # call-seq:
   #    run( :rebuild => false )
@@ -73,7 +83,7 @@ class Builder
     Resource.clear
 
     unless test(?d, output_dir)
-      puts "creating #{output_dir}"
+      @log.info "creating #{output_dir}"
       FileUtils.mkdir output_dir
     end
 
@@ -82,7 +92,7 @@ class Builder
     Resource.pages.each do |page|
       next unless page.dirty? or opts[:rebuild]
 
-      puts "creating #{page.destination}"
+      @log.info "creating #{page.destination}"
 
       # make sure the directory exists
       FileUtils.mkdir_p ::File.dirname(page.destination)

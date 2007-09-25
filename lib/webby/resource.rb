@@ -224,8 +224,9 @@ class Resource
     # are dirty, too
     if @mdata.has_key? 'layout'
       lyt = self.class.layouts.find_by_name @mdata['layout']
-      break if lyt.nil?
-      return @mdata['dirty'] = true if lyt.dirty?
+      unless lyt.nil?
+        return @mdata['dirty'] = true if lyt.dirty?
+      end
     end
 
     # if we got here, then we are not dirty

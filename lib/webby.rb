@@ -1,5 +1,15 @@
 # $Id$
 
+require 'logging'
+
+# Configure Webby to log to STDOUT at the 'info' level
+Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
+    :pattern      => "[%d] %5l: %m\n",    # [date] LEVEL: message
+    :date_pattern => "%H:%M:%S"           # date == HH:MM:SS
+)
+Logging::Logger['Webby'].add(Logging::Appender.stdout)
+Logging::Logger['Webby'].level = :info
+
 module Webby
 
   VERSION = '0.4.0'   # :nodoc:

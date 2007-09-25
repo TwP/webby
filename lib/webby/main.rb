@@ -35,6 +35,15 @@ class Main
   end
 
   # call-seq:
+  #    Main.new
+  #
+  # Create a new Main webby object for building websites.
+  #
+  def initialize
+    @log = Logging::Logger[self]
+  end
+
+  # call-seq:
   #    parse( args )   => nil
   #
   # Parse the command line arguments and store the values for later use by
@@ -142,8 +151,7 @@ class Main
   # Prints a "creating _msg_" to the screen.
   #
   def creating( msg )
-    print "creating "
-    puts msg
+    @log.info "creating #{msg}"
   end
 
   # call-seq:
@@ -152,8 +160,7 @@ class Main
   # Prints a "updating _msg_" to the screen.
   #
   def updating( msg )
-    print "updating "
-    puts msg
+    @log.info "updating #{msg}"
   end
 
   # call-seq:
@@ -162,8 +169,7 @@ class Main
   # Prints an abort _msg_ to the screen and then exits the Ruby interpreter.
   #
   def abort( msg )
-    puts msg
-    puts "Aborting!"
+    @log.fatal msg
     exit 1
   end
 
