@@ -126,6 +126,8 @@ class Renderer
   #
   def haml_filter( str )
     opts = @page.haml_options || {}
+    opts[:locals] ||= {}
+    opts[:locals].merge!({:page => @page, :pages => @pages})
     Haml::Engine.new(str, opts).to_html
   rescue NameError
     @log.error 'haml filter failed (Haml not installed?)'
