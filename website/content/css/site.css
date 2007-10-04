@@ -1,92 +1,112 @@
 --- 
 extension: css
-filter:    erb
+filter:    sass
 layout:    nil   # no layout
-
-color:
-  border:      "#ddd"
-  header:      "#111"
-  link:        "#125AA7"
-  link-hover:  "#000"
-  blockquote:  "#666"
-  box-bg:      "#eee"
-  highlight:   "#B2CCFF"
-  quiet:       "#666"
-  alt:         "#666"
+sass_options:
+  :style: :expanded
 --- 
-body {
-  margin: 1.5em 0;
-  font-family: Verdana, "Bitstream Vera Sans", sans-serif;
-}
+!border      = #ddd
+!header      = #111
+!link        = #125AA7
+!link_hover  = #000
+!blockquote  = #666
+!code        = #100
+!box_bg      = #eee
+!highlight   = #B2CCFF
+!quiet       = #666
+!alt         = #666
 
-/* Headings
- * --------------------------------------------------------------------- */
-h1,h2,h3,h4,h5,h6 { color: <%= @page.color['header'] %>; }
+body
+  :margin       1.5em 0
+  :font-family  Verdana, "Bitstream Vera Sans", sans-serif
 
-/* Text Elements
- * --------------------------------------------------------------------- */
-a                 { color: <%= @page.color['link'] %>; }
-a:hover           { color: <%= @page.color['link-hover'] %>; }
-blockquote        { color: <%= @page.color['blockquote'] %>; }
+// Headings
+// ------------------------------------------------------------------------
+h1,h2,h3,h4,h5,h6 
+  :color  !header
 
-pre {
-  background: <%= @page.color['box-bg'] %>;
-  border:     1px solid <%= @page.color['border'] %>;
-}
+// Text Elements
+// ------------------------------------------------------------------------
+a
+  :color    !link
+  &:hover
+    :color  !link_hover
+blockquote
+  :color    !blockquote
 
-hr {
-  background: <%= @page.color['highlight'] %>;
-  color:      <%= @page.color['highlight'] %>;
-}
+pre
+  :background  !box-bg
+  :border      1px solid !border
 
-/* Tables
- * --------------------------------------------------------------------- */
-table {
-  border-top:     1px solid <%= @page.color['border'] %>;
-  border-left:    1px solid <%= @page.color['border'] %>;
-}
-th,td {
-  border-bottom:  1px solid <%= @page.color['border'] %>;
-  border-right:   1px solid <%= @page.color['border'] %>;
-}
+hr
+  :background  !highlight
+  :color       !highlight
 
-/* Default Classes
- * --------------------------------------------------------------------- */
-p.quiet { color: <%= @page.color['quiet'] %>; }
-.alt    { color: <%= @page.color['alt'] %>; }
+// Tables
+// ------------------------------------------------------------------------
+table
+  :border-top     1px solid !border
+  :border-left    1px solid !border
+th,td
+  :border-bottom  1px solid !border
+  :border-right   1px solid !border
 
-/* My Site Stylings
- * --------------------------------------------------------------------- */
-#header { margin-bottom: 1.7em; }
-#header h1 { margin-bottom: 0; padding-bottom: 0.2em; }
-#header hr { margin-bottom: 0.5em; height: 0.3em; }
-#navigation { text-align: center; margin-left: 0; font-size: 1.5em; list-style-type: none; }
-#navigation li { display:inline; padding-right: 0.5em; }
-#navigation li a { margin-right: 0.5em; padding: 0 0.2em; text-decoration: none; }
-#navigation li a:hover { background-color: <%= @page.color['highlight'] %>; }
+// Default Classes
+// ------------------------------------------------------------------------
+p.quiet
+  :color  !quiet
+.alt
+  :color  !alt
 
-#footer hr { margin-bottom: 0.5em }
-#footer p { text-align: right }
+// My Site Stylings
+// ------------------------------------------------------------------------
+#header
+  :margin-bottom     1.7em
+  h1
+    :margin-bottom   0
+    :padding-bottom  0.2em
+  hr 
+    :height          0.3em
+    :margin-bottom   0.5em
 
-pre.code {
-  padding: 0.5em;
-  margin-bottom: 1.3em;
-  color: #100;
-  background-color: <%= @page.color['box-bg'] %>;
-  border: 1px solid <%= @page.color['border'] %>;
-  font: 1.1em Monaco, monospace;
-  overflow: auto;
-}
+#navigation 
+  :text-align               center
+  :margin-left              0
+  :font-size                1.5em
+  :list-style-type          none
+  li 
+    :display                inline
+    :padding-right          0.5em
+    a 
+      :margin-right         0.5em
+      :padding              0 0.2em
+      :text-decoration      none
+      &:hover 
+        :background-color  !highlight
 
-div.toc {
-  float: right;
-  padding: 1.5em;
-  margin-left: 1.5em;
-  margin-bottom: 1.5em;
-  background-color: <%= @page.color['highlight'] %>;
-  border: 1px solid <%= @page.color['border'] %>;
-}
+#footer
+  hr 
+    :margin-bottom   0.5em
+  p 
+    :text-align      right
 
-div.toc ul { margin-bottom: 0; }
+pre.code
+  :padding           0.5em
+  :margin-bottom     1.3em
+  :color             !code
+  :background-color  !box-bg
+  :border            1px solid !border
+  :font              1.1em Monaco, monospace
+  :overflow          auto
 
-/* EOF */
+div.toc
+  :float             right
+  :padding           1.5em
+  :margin-left       1.5em
+  :margin-bottom     1.5em
+  :background-color  !highlight
+  :border            1px solid !border
+  ul 
+    :margin-bottom   0
+
+// EOF

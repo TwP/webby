@@ -138,7 +138,7 @@ class Resource
   # the 'destination' propery in the resource's meta-data.
   #
   def destination
-    return @dest if defined? @dest
+    return @dest if defined? @dest and @dest
     return @dest = ::Webby.config['output_dir'] if is_layout?
 
     @dest = if @mdata.has_key? 'destination' then @mdata['destination']
@@ -160,11 +160,12 @@ class Resource
   # Note, this only renders this resource. The returned string does not
   # include any layout rendering.
   #
-  def render
+  def render( renderer = nil )
     raise Error, "page '#@path' is in a rendering loop" if @rendering
 
     @rendering = true
-    content = Renderer.new(self).render_page
+    renderer ||= Renderer.new(self)
+    content = renderer.render_page
     @rendering = false
 
     return content

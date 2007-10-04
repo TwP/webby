@@ -5,6 +5,7 @@ try_require 'bluecloth'
 try_require 'redcloth'
 try_require 'haml'
 try_require 'sass'
+try_require 'paginator'
 
 module Webby
 
@@ -13,7 +14,7 @@ module Webby
 #
 # A page is filtered based on the settings of the 'filter' option in the
 # page's meta-data information. For example, if 'textile' is specified as
-# a filter, then the page will be run through the RedCloth markup filer.
+# a filter, then the page will be run through the RedCloth markup filter.
 # More than one filter can be used on a page; they will be run in the
 # order specified in the meta-data.
 #
@@ -22,6 +23,20 @@ module Webby
 #
 class Renderer
   include ERB::Util
+
+  # call-seq:
+  #    Renderer.write( page )
+  #
+  def self.write( page )
+    renderer = self.new(page)
+
+    loop {
+      ::File.open(page.destination, 'w') do |fd|
+        fd.write renderer.layout_page
+      end
+      break unless renderer.next_page
+    } 
+  end
 
   # call-seq:
   #    Renderer.new( page )
@@ -54,7 +69,7 @@ class Renderer
   def layout_page
     layouts = Resource.layouts
     obj = @page
-    str = @page.render
+    str = @page.render(self)
 
     loop do
       lyt = layouts.find_by_name obj.layout
@@ -86,6 +101,39 @@ class Renderer
     end
 
     str
+  end
+
+  # call-seq:
+  #    paginate( items, per_page ) {|item| block}
+  #
+  def paginate( items, count, &block )
+    @pager ||= Paginator.new(items.length, count) do |offset, per_page|
+      items[offset,per_page]
+    end.first
+
+    @pager.each &block
+
+  rescue NameError
+    @log.error 'pagination failed (Paginator not installed?)'
+    exit
+  end
+
+  # call-seq:
+  #    next_page
+  #
+  def next_page
+    return false unless defined? @pager and @pager
+
+    # go to the next page; break out if there is no next page
+    @pager = @pager.next
+    return false if @pager.nil?
+
+    # set filename based on pager number
+    fn = "%s%d" % [@page.filename, @pager.number]
+    @page.instance_variable_set :@filename, fn
+    @page.instance_variable_set :@dest, nil
+
+    true
   end
 
   # Render text via ERB using the built in ERB library.

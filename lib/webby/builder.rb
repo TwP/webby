@@ -103,11 +103,7 @@ class Builder
 
       # otherwise, layout the resource and write the results to
       # the output directory
-      else
-        ::File.open(page.destination, 'w') do |fd|
-          fd.write Renderer.new(page).layout_page
-        end
-      end
+      else Renderer.write(page) end
     end
 
     # touch the output directory so we know when the
