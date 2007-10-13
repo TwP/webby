@@ -8,3 +8,26 @@ filter:
 h2. To-Do
 
 The Webby user's manual goes here.
+
+<notextile>
+<coderay lang="ruby">
+def method( blah )
+  blah.upcase
+end
+</coderay>
+</notextile>
+
+directory structure
+* content
+* output
+* layouts
+* templates
+* lib
+* tasks
+
+resources
+
+renderer
+
+pages database
+

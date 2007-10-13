@@ -5,4 +5,10 @@ filter:     textile
 --- 
 h2. Download
 
-You can read more about textile "here":http://whytheluckystiff.net/ruby/redcloth/
+Webby is available as a ruby gem. You need to have "RubyGems":http://www.rubygems.org/ installed in order to use it.
+
+<pre class="code">
+sudo gem install webby
+</pre>
+
+* "Files":http://rubyforge.org/frs/?group_id=4283

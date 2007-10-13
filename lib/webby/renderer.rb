@@ -5,7 +5,6 @@ try_require 'bluecloth'
 try_require 'redcloth'
 try_require 'haml'
 try_require 'sass'
-try_require 'paginator'
 
 module Webby
 
@@ -26,6 +25,10 @@ class Renderer
 
   # call-seq:
   #    Renderer.write( page )
+  #
+  # Render the given _page_ and write the resulting output to the page's
+  # destination. If the _page_ uses pagination, then multiple destination
+  # files will be created -- one for each paginated data set in the page.
   #
   def self.write( page )
     renderer = self.new(page)
@@ -105,6 +108,17 @@ class Renderer
 
   # call-seq:
   #    paginate( items, per_page ) {|item| block}
+  #
+  # Iterate the given _block_ for each item selected from the _items_ array
+  # using the given number of items _per_page_. The first time the page is
+  # rendered, the items passed to the block are selected using the range
+  # (0...per_page). The next rendering selects (per_page...2*per_page). This
+  # continues until all _items_ have been paginated.
+  #
+  # Calling this method creates a <code>@pager</code> object that can be
+  # accessed from the _page_. The <code>@pager</code> contains information
+  # about the next page, the current page number, the previous page, and the
+  # number of items in the current page.
   #
   def paginate( items, count, &block )
     @pager ||= Paginator.new(items.length, count) do |offset, per_page|

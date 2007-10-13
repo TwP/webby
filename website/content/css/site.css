@@ -5,58 +5,62 @@ layout:    nil   # no layout
 sass_options:
   :style: :expanded
 --- 
-!border      = #ddd
-!header      = #111
+!text        = #000
+!border      = #DDD
+!header      = #333
 !link        = #125AA7
 !link_hover  = #000
 !blockquote  = #666
-!code        = #100
-!box_bg      = #eee
+!code        = #000
+!box_bg      = #F8F8F8
 !highlight   = #B2CCFF
 !quiet       = #666
 !alt         = #666
 
 body
   :margin       1.5em 0
-  :font-family  Verdana, "Bitstream Vera Sans", sans-serif
+  :color =      !text
+  :font-family  Verdana, sans-serif
 
 // Headings
 // ------------------------------------------------------------------------
 h1,h2,h3,h4,h5,h6 
-  :color  !header
+  :color =      !header
+  :font-family  Georgia, serif
 
 // Text Elements
 // ------------------------------------------------------------------------
 a
-  :color    !link
+  :color =   !link
   &:hover
-    :color  !link_hover
+    :color = !link_hover
 blockquote
-  :color    !blockquote
+  :color =   !blockquote
 
 pre
-  :background  !box-bg
-  :border      1px solid !border
+  :background =  !box_bg
+  :border        none
+  :border-left = 7px solid !border
 
 hr
-  :background  !highlight
-  :color       !highlight
+  :background = !highlight
+  :color =      !highlight
 
 // Tables
 // ------------------------------------------------------------------------
 table
-  :border-top     1px solid !border
-  :border-left    1px solid !border
+  :border-top =    1px solid !border
+  :border-left =   1px solid !border
 th,td
-  :border-bottom  1px solid !border
-  :border-right   1px solid !border
+  :border-bottom = 1px solid !border
+  :border-right =  1px solid !border
 
 // Default Classes
 // ------------------------------------------------------------------------
 p.quiet
-  :color  !quiet
+  :color = !quiet
 .alt
-  :color  !alt
+  :color = !alt
 
 // My Site Stylings
 // ------------------------------------------------------------------------
@@ -70,19 +74,19 @@ p.quiet
     :margin-bottom   0.5em
 
 #navigation 
-  :text-align               center
-  :margin-left              0
-  :font-size                1.5em
-  :list-style-type          none
+  :text-align                center
+  :margin-left               0
+  :font-size                 1.5em
+  :list-style-type           none
   li 
-    :display                inline
-    :padding-right          0.5em
+    :display                 inline
+    :padding-right           0.5em
     a 
-      :margin-right         0.5em
-      :padding              0 0.2em
-      :text-decoration      none
+      :margin-right          0.5em
+      :padding               0 0.2em
+      :text-decoration       none
       &:hover 
-        :background-color  !highlight
+        :background-color = !highlight
 
 #footer
   hr 
@@ -91,22 +95,35 @@ p.quiet
     :text-align      right
 
 pre.code
-  :padding           0.5em
-  :margin-bottom     1.3em
-  :color             !code
-  :background-color  !box-bg
-  :border            1px solid !border
-  :font              1.1em Monaco, monospace
-  :overflow          auto
+  :padding            0.5em
+  :margin-bottom      1.3em
+  :color =            !code
+  :font               1.1em 'Courier New', 'Terminal', monospace
+  :overflow           auto
+
+.CodeRay
+  :border             none
+  :border-left =      7px solid !border
+  :background =       !box_bg
+  :color =            !code
+  pre
+    :font             1.0em 'Courier New', 'Terminal', monospace
 
 div.toc
-  :float             right
-  :padding           1.5em
-  :margin-left       1.5em
-  :margin-bottom     1.5em
-  :background-color  !highlight
-  :border            1px solid !border
+  :float              right
+  :padding            1.5em
+  :margin-left        1.5em
+  :margin-bottom      1.5em
+  :background-color = !highlight
+  :border =           1px solid !border
   ul 
-    :margin-bottom   0
+    :margin-bottom    0
+
+span.caps
+  :font-weight        normal
+
+strong
+  span.caps
+    :font-weight      bold
 
 // EOF
