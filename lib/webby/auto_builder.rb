@@ -27,6 +27,9 @@ class AutoBuilder
   # Create a new AutoBuilder class.
   #
   def initialize
+    @log = Logging::Logger[self]
+
+    @builder = Builder.new
     @watcher = DirectoryWatcher.new '.', :interval => 2
     @watcher.add_observer self
 
@@ -34,8 +37,6 @@ class AutoBuilder
     glob << File.join(::Webby.config['layout_dir'], '**', '*')
     glob << File.join(::Webby.config['content_dir'], '**', '*')
     @watcher.glob = glob
-
-    @log = Logging::Logger[self]
   end
 
   # call-seq:
@@ -49,7 +50,14 @@ class AutoBuilder
     ary = events.find_all {|evt| evt.type != :removed}
     return if ary.empty?
 
-    Builder.run
+    ary.each do |evt|
+      @log.debug "changed #{evt.path}"
+      next unless test ?f, evt.path
+      next if evt.path =~ ::Webby.exclude
+      Resource.new evt.path
+    end
+
+    @builder.run :load_files => false
   rescue => err
     @log.error err
   end

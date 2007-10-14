@@ -12,7 +12,7 @@ Logging::Logger['Webby'].level = :info
 
 module Webby
 
-  VERSION = '0.4.0'   # :nodoc:
+  VERSION = '0.5.0'   # :nodoc:
 
   # Path to the Webby package
   PATH = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..'))
@@ -60,6 +60,17 @@ module Webby
       'extension' => 'html',
       'layout'    => 'default'
     }
+  end
+
+  # call-seq
+  #    Webby.exclude    => regexp
+  #
+  # Returns a regular expression used to exclude resources from the content
+  # directory from being processed by Webby. This same regular expression is
+  # also used to exclude layouts.
+  #
+  def self.exclude
+    @exclude ||= Regexp.new(config['exclude'].join('|'))
   end
 
 end  # module Webby

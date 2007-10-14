@@ -58,7 +58,7 @@ class Builder
   end
 
   # call-seq:
-  #    run( :rebuild => false )
+  #    run( :rebuild => false, :load_files => true )
   #
   # Runs the Webby builder by loading in the layout files from the
   # <code>layouts/</code> folder and the content from the
@@ -80,14 +80,15 @@ class Builder
   # more recently than the output file.
   #
   def run( opts = {} )
-    Resource.clear
+    opts[:load_files] = true unless opts.has_key?(:load_files)
 
     unless test(?d, output_dir)
       @log.info "creating #{output_dir}"
       FileUtils.mkdir output_dir
     end
 
-    load_files
+    load_files if opts[:load_files]
+    loop_check
 
     Resource.pages.each do |page|
       next unless page.dirty? or opts[:rebuild]
@@ -120,18 +121,20 @@ class Builder
   # folder and create a new Resource object for each file found there.
   #
   def load_files
-    excl = Regexp.new exclude.join('|')
-
     ::Find.find(layout_dir, content_dir) do |path|
       next unless test ?f, path
-      next if path =~ excl
+      next if path =~ ::Webby.exclude
       Resource.new path
     end
+  end
 
+  # Loop over all the layout resources looking for circular reference -- a
+  # layout that eventually refers back to itself. These are bad. Raise an
+  # error if one is detected.
+  #
+  def loop_check
     layouts = Resource.layouts
 
-    # look for loops in the layout references -- i.e. a layout
-    # eventually refers back to itself
     layouts.each do |lyt|
       stack = []
       while lyt
@@ -146,7 +149,7 @@ class Builder
     end  # each
   end
 
-  %w(output_dir layout_dir content_dir exclude).each do |key|
+  %w(output_dir layout_dir content_dir).each do |key|
     self.class_eval <<-CODE
       def #{key}( ) ::Webby.config['#{key}'] end
     CODE

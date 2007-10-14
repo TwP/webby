@@ -18,7 +18,12 @@ class PagesDB
   #    add( resource )
   #
   def add( page )
-    @db[page.dir] << page
+    ary = @db[page.dir]
+
+    # make sure we don't duplicate pages
+    ary.delete page if ary.include? page
+    ary << page
+
     self
   end
   alias :<< :add

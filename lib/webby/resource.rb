@@ -214,24 +214,24 @@ class Resource
     return @mdata['dirty'] if @mdata.has_key? 'dirty'
 
     # if the destination file does not exist, then we are dirty
-    return @mdata['dirty'] = true unless test ?e, destination
+    return true unless test ?e, destination
 
     # if this file's mtime is larger than the destination file's
     # mtime, then we are dirty
-    @mdata['dirty'] = @mtime > File.mtime(destination)
-    return @mdata['dirty'] if is_static? or @mdata['dirty']
+    dirty = @mtime > File.mtime(destination)
+    return dirty if is_static? or dirty
 
     # check to see if the layout is dirty, and it it is then we
     # are dirty, too
     if @mdata.has_key? 'layout'
       lyt = self.class.layouts.find_by_name @mdata['layout']
       unless lyt.nil?
-        return @mdata['dirty'] = true if lyt.dirty?
+        return true if lyt.dirty?
       end
     end
 
     # if we got here, then we are not dirty
-    @mdata['dirty'] = false
+    false
   end
 
   # call-seq:
