@@ -54,6 +54,9 @@ class Resource
   # Resource file modification time
   attr_reader :mtime
 
+  # Resource page number (if needed)
+  attr_reader :number
+
   # call-seq:
   #    Resource.new( filename )    => resource
   #
@@ -66,6 +69,7 @@ class Resource
     @ext      = ::File.extname(@path).sub(%r/\A\.?/o, '')
     @mtime    = ::File.mtime @path
 
+    @number = nil
     @rendering = false
 
     # deal with the meta-data
@@ -139,15 +143,28 @@ class Resource
   #
   def destination
     return @dest if defined? @dest and @dest
-    return @dest = ::Webby.config['output_dir'] if is_layout?
+    return @dest = ::Webby.cairn if is_layout?
 
     @dest = if @mdata.has_key? 'destination' then @mdata['destination']
             else File.join(dir, filename) end
 
     @dest = File.join(::Webby.config['output_dir'], @dest)
+    @dest << @number.to_s if @number
     @dest << '.'
     @dest << extension
     @dest
+  end
+
+  # call-seq:
+  #    resource.number = Integer
+  #
+  # Sets the page number for the current resource to the given integer. This
+  # number is used to modify the output destination for resources that
+  # require pagination.
+  #
+  def number=( num )
+    @number = num
+    @dest = nil
   end
 
   # call-seq:

@@ -1,8 +1,16 @@
+# This code was originally written by Bruce Williams, and it is available
+# as the Paginator gem. I've added a few helper methods and modifications so
+# it plays a little more nicely with Webby. Specifically, a Webby::Resource
+# can be given to the Page and used to generate links to the previous and
+# next pages.
+#
+# Many thanks to Bruce Williams for letting me use his work. Drop him a note
+# of praise scribbled on the back of a $100 bill. He'd appreciate it.
+
 require 'forwardable'
 
+module Webby
 class Paginator
-  
-  VERSION = '1.1.0'
   
   include Enumerable
 
@@ -10,7 +18,7 @@ class Paginator
   class MissingCountError < ArgumentError; end
   class MissingSelectError < ArgumentError; end  
   
-  attr_reader :per_page, :count 
+  attr_reader :per_page, :count, :resource
   
   # Instantiate a new Paginator object
   #
@@ -21,8 +29,8 @@ class Paginator
   #   * The block is passed the item offset 
   #     (and the number of items to show per page, for
   #     convenience, if the arity is 2)
-  def initialize(count, per_page, &select)
-    @count, @per_page = count, per_page
+  def initialize(count, per_page, resource, &select)
+    @count, @per_page, @resource = count, per_page, resource
     unless select
       raise MissingSelectError, "Must provide block to select data for each page"
     end
@@ -75,6 +83,8 @@ class Paginator
       @pager, @number = pager, number
       @offset = (number - 1) * pager.per_page
       @select = select
+
+      @pager.resource.number = number
     end
     
     # Retrieve the items for this page
@@ -132,7 +142,8 @@ class Paginator
         super
       end
     end
-    
+
   end
   
-end
+end  # class Paginator
+end  # module Webby

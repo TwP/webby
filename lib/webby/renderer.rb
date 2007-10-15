@@ -38,7 +38,7 @@ class Renderer
         fd.write renderer.layout_page
       end
       break unless renderer.next_page
-    } 
+    }
   end
 
   # call-seq:
@@ -121,31 +121,26 @@ class Renderer
   # number of items in the current page.
   #
   def paginate( items, count, &block )
-    @pager ||= Paginator.new(items.length, count) do |offset, per_page|
+    @pager ||= Paginator.new(items.length, count, @page) do |offset, per_page|
       items[offset,per_page]
     end.first
 
     @pager.each &block
-
-  rescue NameError
-    @log.error 'pagination failed (Paginator not installed?)'
-    exit
   end
 
   # call-seq:
-  #    next_page
+  #    next_page    => true or false
   #
   def next_page
     return false unless defined? @pager and @pager
 
     # go to the next page; break out if there is no next page
-    @pager = @pager.next
-    return false if @pager.nil?
-
-    # set filename based on pager number
-    fn = "%s%d" % [@page.filename, @pager.number]
-    @page.instance_variable_set :@filename, fn
-    @page.instance_variable_set :@dest, nil
+    if @pager.next?
+      @pager = @pager.next
+    else
+      @page.number = nil
+      return false
+    end
 
     true
   end

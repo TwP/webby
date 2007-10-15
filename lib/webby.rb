@@ -10,6 +10,7 @@ Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
 Logging::Logger['Webby'].add(Logging::Appender.stdout)
 Logging::Logger['Webby'].level = :info
 
+
 module Webby
 
   VERSION = '0.5.0'   # :nodoc:
@@ -71,6 +72,17 @@ module Webby
   #
   def self.exclude
     @exclude ||= Regexp.new(config['exclude'].join('|'))
+  end
+
+  # call-seq:
+  #    cairn    => filename
+  #
+  # The Webby _cairn_ file is used to mark the last time the content was
+  # built into the output directory. It is an empty file; only the
+  # modification time of the file is important.
+  #
+  def self.cairn
+    @cairn ||= File.join(config['output_dir'], '.cairn')
   end
 
 end  # module Webby

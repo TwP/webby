@@ -107,11 +107,10 @@ class Builder
       else Renderer.write(page) end
     end
 
-    # touch the output directory so we know when the
-    # website was last generated
-    FileUtils.touch output_dir
+    # touch the cairn so we know when the website was last generated
+    FileUtils.touch ::Webby.cairn
 
-    return nil
+    nil
   end
 
 
