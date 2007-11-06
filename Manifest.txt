@@ -23,6 +23,7 @@ data/content/index.txt
 data/layouts/default.rhtml
 data/tasks/create.rake
 data/tasks/deploy.rake
+data/tasks/growl.rake
 data/tasks/heel.rake
 data/tasks/setup.rb
 data/templates/page.erb
@@ -65,11 +66,13 @@ website/content/css/site.css
 website/content/download.txt
 website/content/index.txt
 website/content/manual.txt
+website/content/robots.txt
 website/content/tips_and_tricks.txt
 website/content/tutorial.txt
 website/layouts/default.rhtml
 website/tasks/create.rake
 website/tasks/deploy.rake
+website/tasks/growl.rake
 website/tasks/heel.rake
 website/tasks/setup.rb
 website/templates/page.erb
