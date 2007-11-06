@@ -62,11 +62,12 @@ Webby is not limited to producing HTML. By no means! Do you ever get tired of re
 
 == REQUIREMENTS:
 
+* directory_watcher
+* heel
+* hpricot
+* logging
 * rake
 * rspec
-* directory_watcher
-* hpricot
-* heel
 
 == LICENSE:
 
