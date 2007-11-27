@@ -75,7 +75,7 @@ class Renderer
     str = @page.render(self)
 
     loop do
-      lyt = layouts.find_by_name obj.layout
+      lyt = layouts.find :filename => obj.layout
       break if lyt.nil?
 
       @content, str = str, ::Webby::File.read(lyt.path)
@@ -130,6 +130,10 @@ class Renderer
 
   # call-seq:
   #    next_page    => true or false
+  #
+  # Returns +true+ if there is a next page to render. Returns +false+ if
+  # there is no next page or if pagination has not been configured for the
+  # current page.
   #
   def next_page
     return false unless defined? @pager and @pager

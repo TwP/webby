@@ -10,3 +10,4 @@ Rake::WebbyTask.new do |webby|
   webby.page_defaults = SITE.page_defaults
 end
 
+# EOF

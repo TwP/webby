@@ -40,7 +40,7 @@ class File < ::File
       fd = new name, 'r'
       fd.read *args
     ensure
-      fd.close
+      fd.close unless fd.nil?
     end
 
     # call-seq:
@@ -54,7 +54,7 @@ class File < ::File
       fd = new name, 'r'
       fd.readlines sep
     ensure
-      fd.close
+      fd.close unless fd.nil?
     end
 
     # call-seq:
@@ -67,7 +67,7 @@ class File < ::File
       fd = new name, 'r'
       fd.meta_data
     ensure
-      fd.close
+      fd.close unless fd.nil?
     end
   end
 
@@ -140,7 +140,7 @@ class File < ::File
     seek 0, IO::SEEK_END
   end
 
-  %w(getc gets read read_nonblock readbytes readchar readline readlines readpartial scanf sysread).each do |m|
+  %w(getc gets read read_nonblock readbytes readchar readline readlines readpartial scanf).each do |m|
     self.class_eval <<-CODE
       def #{m}(*a)
         skip_meta_data
@@ -169,17 +169,14 @@ class File < ::File
     cur = tell
 
     seek 0
-    line = readline
+    line = gets
     return unless META_SEP =~ line
 
-    loop do
-      line = readline
+    while line = gets
       break if META_SEP =~ line
     end
-    return tell
-
-  rescue EOFError
-    return
+    return if line.nil?
+    tell
 
   ensure
     seek cur

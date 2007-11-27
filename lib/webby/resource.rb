@@ -123,7 +123,7 @@ class Resource
     return @mdata['extension'] if @mdata.has_key? 'extension'
 
     if @mdata.has_key? 'layout'
-      lyt = self.class.layouts.find_by_name @mdata['layout']
+      lyt = self.class.layouts.find :filename => @mdata['layout']
       break if lyt.nil?
       return lyt.extension
     end
@@ -153,6 +153,20 @@ class Resource
     @dest << '.'
     @dest << extension
     @dest
+  end
+
+  # call-seq
+  #    href    => string or nil
+  #
+  # Returns a string suitable for use as an href linking to this page. Nil
+  # is returned for layouts.
+  #
+  def href
+    return nil if is_layout?
+    return @href if defined? @href and @href
+
+    @href = destination.sub(::Webby.config['output_dir'], '')
+    @href
   end
 
   # call-seq:
@@ -241,7 +255,7 @@ class Resource
     # check to see if the layout is dirty, and it it is then we
     # are dirty, too
     if @mdata.has_key? 'layout'
-      lyt = self.class.layouts.find_by_name @mdata['layout']
+      lyt = self.class.layouts.find :filename => @mdata['layout']
       unless lyt.nil?
         return true if lyt.dirty?
       end

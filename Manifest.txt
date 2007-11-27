@@ -37,6 +37,7 @@ lib/webby/pages_db.rb
 lib/webby/renderer.rb
 lib/webby/resource.rb
 lib/webby/stelan/paginator.rb
+lib/webby/stelan/spawner.rb
 lib/webby/utils.rb
 lib/webby/webby_task.rb
 spec/spec.opts

@@ -1,3 +1,9 @@
+== 0.5.0 / 2007-??-??
+
+* Launching heel now works on Windows boxen
+* Now using "logging" gem to output build status
+* Updated find routine for the pages DB
+
 == 0.4.0 / 2007-09-18
 
 * Updated the Blueprint CSS stylesheets to version 0.5

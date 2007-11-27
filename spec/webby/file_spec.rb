@@ -95,7 +95,6 @@ describe Webby::File do
       fd.readline.should == LINES.first;           fd.seek 0
       fd.readlines.should == LINES;                fd.seek 0
       fd.readpartial(11).should == 'Lorem ipsum';  fd.seek 0
-      fd.sysread(11).should == 'Lorem ipsum';      fd.seek 0
 
     ensure
       fd.close

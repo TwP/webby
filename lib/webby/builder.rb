@@ -143,7 +143,7 @@ class Builder
                 "loop detected in layout references: #{stack.join(' > ')}"
         end
         stack << lyt.filename
-        lyt = layouts.find_by_name lyt.layout
+        lyt = layouts.find :filename => lyt.layout
       end  # while
     end  # each
   end
