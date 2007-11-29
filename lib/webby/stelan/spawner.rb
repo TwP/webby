@@ -115,8 +115,8 @@ class Spawner
 
         ary = sync do
                 case arg
-                when :all: self.dup
-                when Integer: self.slice(0,arg)
+                when :all; self.dup
+                when Integer; self.slice(0,arg)
                 else raise ArgumentError end
               end
 
