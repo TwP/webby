@@ -12,9 +12,9 @@ class Hash
   def sanitize!
     h = self.injecting({}) do |h, (k, v)|
           h[k] = case v
-                 when 'none', 'nil': nil
-                 when 'true', 'yes': true
-                 when 'false', 'no': false
+                 when 'none', 'nil'; nil
+                 when 'true', 'yes'; true
+                 when 'false', 'no'; false
                  else v end
         end
     self.replace h

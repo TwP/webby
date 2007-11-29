@@ -124,8 +124,7 @@ class Resource
 
     if @mdata.has_key? 'layout'
       lyt = self.class.layouts.find :filename => @mdata['layout']
-      break if lyt.nil?
-      return lyt.extension
+      return lyt.extension if lyt
     end
 
     @ext

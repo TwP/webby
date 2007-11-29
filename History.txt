@@ -1,3 +1,8 @@
+== 0.5.1 / 2007-??-??
+
+* Growl notifications now work on Leopard / Tiger
+* Fixed a few things for compatibility with Ruby 1.9
+
 == 0.5.0 / 2007-11-26
 
 * Launching heel now works on Windows boxen

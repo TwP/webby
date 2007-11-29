@@ -80,7 +80,7 @@ class Renderer
 
       @content, str = str, ::Webby::File.read(lyt.path)
 
-      lyt.filter.to_a.each do |filter|
+      Array(lyt.filter).each do |filter|
         str = self.send(filter + '_filter', str)
       end
 
@@ -99,7 +99,7 @@ class Renderer
   def render_page
     str = ::Webby::File.read(@page.path)
 
-    @page.filter.to_a.each do |filter|
+    Array(@page.filter).each do |filter|
       str = self.send(filter + '_filter', str)
     end
 

@@ -33,8 +33,8 @@ namespace :gem do
     excl = Regexp.new(excl.join('|'))
     rdoc_files = PROJ.files.find_all do |fn|
                    case fn
-                   when excl: false
-                   when incl: true
+                   when excl; false
+                   when incl; true
                    else false end
                  end
     s.rdoc_options = PROJ.rdoc_opts + ['--main', PROJ.rdoc_main]
