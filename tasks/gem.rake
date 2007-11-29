@@ -25,7 +25,7 @@ namespace :gem do
     s.extensions = PROJ.files.grep %r/extconf\.rb$/
 
     s.bindir = 'bin'
-    dirs = Dir['{lib,ext}']
+    dirs = Dir["{#{PROJ.libs.join(',')}}"]
     s.require_paths = dirs unless dirs.empty?
 
     incl = Regexp.new(PROJ.rdoc_include.join('|'))
