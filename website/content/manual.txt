@@ -3,19 +3,35 @@ title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
 filter:
   - coderay
+  - graphviz
   - textile
 --- 
 h2. To-Do
 
 The Webby user's manual goes here.
 
-<notextile>
+<graphviz style="float:right"
+          output="images/my_graph"
+          type="png"
+          imagemap="true"
+          alt="test image">
+
+digraph my_graph {
+   graph [URL="index.html"]
+   a [URL="a.html", style=filled, fillcolor="#8899AA"]
+   b [URL="b.html", style=filled, fillcolor="#CCDDEE"]
+   c [URL="c.html", style=filled, fillcolor="#CCDDEE"]
+   a -> b -> c
+   a -> c
+}
+
+</graphviz>
+
 <coderay lang="ruby">
 def method( blah )
   blah.upcase
 end
 </coderay>
-</notextile>
 
 directory structure
 * content

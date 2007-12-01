@@ -33,12 +33,13 @@ module Webby
 class CodeRayFilter
 
   # call-seq:
-  #    CodeRayFilter.new( string )
+  #    CodeRayFilter.new( string, filters = nil )
   #
   # Creates a new CodeRay filter that will operate on the given _string_.
   #
-  def initialize( str )
+  def initialize( str, filters = nil )
     @str = str
+    @filters = filters
   end
 
   # call-seq:
@@ -68,6 +69,15 @@ class CodeRayFilter
       out = "<div class=\"CodeRay\"><pre>\n"
       out << CodeRay.scan(text, lang).html(opts)
       out << "\n</pre></div>"
+
+      @filters.each do |f|
+        case f
+        when 'textile'
+          out.insert 0, "<notextile>\n"
+          out << "\n</notextile>"
+        end
+      end unless @filters.nil?
+
       cr.swap out
     end
 

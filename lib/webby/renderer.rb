@@ -160,8 +160,9 @@ class Renderer
   #
   def markdown_filter( str )
     BlueCloth.new(str).to_html
-  rescue NameError
+  rescue NameError => err
     @log.error 'markdown filter failed (BlueCloth not installed?)'
+    @log.debug err
     exit
   end
 
@@ -169,17 +170,43 @@ class Renderer
   #
   def textile_filter( str )
     RedCloth.new(str).to_html
-  rescue NameError
+  rescue NameError => err
     @log.error 'textile filter failed (RedCloth not installed?)'
+    @log.debug err
     exit
   end
 
   # Render text via the CodeRay syntax highlighter library.
   #
   def coderay_filter( str )
-    CodeRayFilter.new(str).to_html
-  rescue NameError
+    filters = nil
+
+    if Array === @page.filter
+      idx = @page.filter.index('coderay') + 1
+      filters = @page.filter.slice(idx..-1)
+    end
+
+    CodeRayFilter.new(str, filters).to_html
+  rescue NameError => err
     @log.error 'coderay filter failed (CodeRay not installed?)'
+    @log.debug err
+    exit
+  end
+
+  # Render text into iamges via the Graphviz programs.
+  #
+  def graphviz_filter( str )
+    filters = nil
+
+    if Array === @page.filter
+      idx = @page.filter.index('graphviz') + 1
+      filters = @page.filter.slice(idx..-1)
+    end
+
+    GraphvizFilter.new(str, filters).to_html
+  rescue NameError => err
+    @log.error 'graphviz filter failed (Graphviz not installed?)'
+    @log.debug err
     exit
   end
 
@@ -190,8 +217,9 @@ class Renderer
     opts[:locals] ||= {}
     opts[:locals].merge!({:page => @page, :pages => @pages})
     Haml::Engine.new(str, opts).to_html
-  rescue NameError
+  rescue NameError => err
     @log.error 'haml filter failed (Haml not installed?)'
+    @log.debug err
     exit
   end
 
@@ -200,8 +228,9 @@ class Renderer
   def sass_filter( str )
     opts = @page.sass_options || {}
     Sass::Engine.new(str, opts).render
-  rescue NameError
+  rescue NameError => err
     @log.error 'sass filter failed (Haml not installed?)'
+    @log.debug err
     exit
   end
 
