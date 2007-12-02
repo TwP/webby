@@ -13,7 +13,7 @@ Logging::Logger['Webby'].level = :info
 
 module Webby
 
-  VERSION = '0.5.1'   # :nodoc:
+  VERSION = '0.6.0'   # :nodoc:
 
   # Path to the Webby package
   PATH = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..'))
