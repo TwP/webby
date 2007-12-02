@@ -186,7 +186,7 @@ class Renderer
       filters = @page.filter.slice(idx..-1)
     end
 
-    CodeRayFilter.new(str, filters).to_html
+    Filters::CodeRay.new(str, filters).to_html
   rescue NameError => err
     @log.error 'coderay filter failed (CodeRay not installed?)'
     @log.debug err
@@ -203,7 +203,7 @@ class Renderer
       filters = @page.filter.slice(idx..-1)
     end
 
-    GraphvizFilter.new(str, filters).to_html
+    Filters::Graphviz.new(str, filters).to_html
   rescue NameError => err
     @log.error 'graphviz filter failed (Graphviz not installed?)'
     @log.debug err

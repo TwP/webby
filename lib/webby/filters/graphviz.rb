@@ -5,6 +5,7 @@ require 'tempfile'
 require 'fileutils'
 
 module Webby
+module Filters
 
 # The Graphviz filter processes DOT scripts in a webpage and replaces them
 # with generated image files. A set of <graphviz>...</graphviz> tags is
@@ -47,10 +48,10 @@ module Webby
 #    id       : HTML identifier
 #    alt      : alternate text for the <img />
 #
-class GraphvizFilter
+class Graphviz
 
   # call-seq:
-  #    GraphvizFilter.new( string, filters = nil )
+  #    Graphviz.new( string, filters = nil )
   #
   # Creates a new Graphviz filter that will operate on the given _string_.
   # The optional _filters_ describe filters that will be applied to the
@@ -144,7 +145,8 @@ class GraphvizFilter
     doc.to_html
   end
 
-end  # class CodeRayFilter
+end  # class CodeRay
+end  # module Filters
 end  # module Webby
 
 # EOF

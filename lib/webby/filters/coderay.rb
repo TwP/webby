@@ -5,8 +5,9 @@ require 'hpricot'
 try_require 'coderay'
 
 module Webby
+module Filters  
 
-# The CodeRayFilter applies syntax highlighting to source code embedded in a
+# The CodeRay applies syntax highlighting to source code embedded in a
 # webpage. The CodeRay highlighting engine is used for the HTML markup of
 # the source code. A set of <coderay>...</coderay> tags is used to denote
 # which sections of the page should be highlighted.
@@ -30,10 +31,10 @@ module Webby
 #    bold_every         : make every n-th number appear bold
 #    tab_width          : convert tab characters to n spaces
 #     
-class CodeRayFilter
+class CodeRay
 
   # call-seq:
-  #    CodeRayFilter.new( string, filters = nil )
+  #    CodeRay.new( string, filters = nil )
   #
   # Creates a new CodeRay filter that will operate on the given _string_.
   #
@@ -67,7 +68,7 @@ class CodeRayFilter
 
       #cr.swap(CodeRay.scan(text, lang).html(opts).div)
       out = "<div class=\"CodeRay\"><pre>\n"
-      out << CodeRay.scan(text, lang).html(opts)
+      out << ::CodeRay.scan(text, lang).html(opts)
       out << "\n</pre></div>"
 
       @filters.each do |f|
@@ -84,7 +85,8 @@ class CodeRayFilter
     doc.to_html
   end
 
-end  # class CodeRayFilter
+end  # class CodeRay
+end  # module Filters
 end  # module Webby
 
 # EOF
