@@ -6,16 +6,47 @@ require 'fileutils'
 
 module Webby
 
+# The Graphviz filter processes DOT scripts in a webpage and replaces them
+# with generated image files. A set of <graphviz>...</graphviz> tags is
+# used to denote which section(s) of the page contains DOT scripts.
 #
-# possilbe options to pass in
-# - class   => pass to generated HTML
-# - id      => pass to generated HTML
-# - alt     => pass to generated HTML
-# - type    => type of image to generated (jpeg, png, gif, etc)
-# - output  => path/to/generated/image.type
-# - cmd     => particular graphviz converter to use (dot)
-# - imagemap => false or true
-#     
+# Options can be passed to the Graphviz filter using attributes in the
+# <graphviz> tag.
+#
+#     <graphviz path="images" type="gif" cmd="dot">
+#     digraph graph_1 {
+#       graph [URL="default.html"]
+#       a [URL="a.html"]
+#       b [URL="b.html"]
+#       c [URL="c.html"]
+#       a -> b -> c
+#       a -> c
+#     }
+#     </graphviz>
+#
+# If the DOT script contains *URL* or *href* statements on any of the nodes
+# or edges, then an image map will be generated and the image will be
+# "clikcable" in the webpage. If *URL* or *href* statements do not appear in
+# the DOT script, then a regular image will be inserted into the webpage.
+#
+# The image is inserted into the page using an HTML <img /> tag. A
+# corresponding <map>...</map> element will be inserted if needed.
+#
+# The supported Graphviz options are the following:
+#
+#    path     : where generated images will be stored
+#               [default is "/"]
+#    type     : the type of image to generate (png, jpeg, gif)
+#               [default is png]
+#    cmd      : the Graphviz command to use when generating images
+#               (dot, neato, twopi, circo, fdp) [default is dot]
+#
+#    the following options are passed as-is to the generated <img /> tag
+#    style    : CSS styles to apply to the <img />
+#    class    : CSS class to apply to the <img />
+#    id       : HTML identifier
+#    alt      : alternate text for the <img />
+#
 class GraphvizFilter
 
   # call-seq:
@@ -42,16 +73,24 @@ class GraphvizFilter
     doc = Hpricot(@str)
     doc.search('//graphviz') do |gviz|
       
-      output = gviz['output']
-      raise ArgumentError, "graphviz images must have an output" if output.nil?
-
-      path = File.dirname output
-      name = File.basename output, '.*'
+      text = gviz.inner_html.strip   # the DOT script to process
+      path = gviz['path']
       cmd  = gviz['cmd'] || 'dot'
-      type = gviz['type'] || 'jpeg'
-      image_fn = File.join(path, name) << '.' << type
-      usemap = gviz['imagemap'] == 'true'
+      type = gviz['type'] || 'png'
 
+      # pull the name of the graph|digraph out of the DOT script
+      name = text.match(%r/\A\s*(?:strict\s+)?(?:di)?graph\s+([A-Za-z_][A-Za-z0-9_]*)\s+\{/o)[1]
+
+      # see if the user includes any URL or href attributes
+      # if so, then we need to create an imagemap
+      usemap = text.match(%r/(?:URL|href)\s*=/o) != nil
+
+      # generate the image filename based on the path, graph name, and type
+      # of image to generate
+      image_fn = path.nil? ? name.dup : File.join(path, name)
+      image_fn << '.' << type
+
+      # create the HTML img tag
       out = "<img src=\"#{image_fn}\""
 
       %w[class style id alt].each do |attr|
@@ -62,11 +101,13 @@ class GraphvizFilter
       out << " usemap=\"#{name}\"" if usemap
       out << " />\n"
 
+      # write the DOT text out to a temp file for processing by the
+      # graphviz programs
       fd = Tempfile.new('webbydot')
-      fd.write(gviz.inner_html.strip)
+      fd.write text
       fd.close
 
-      # generate the image map
+      # generate the image map if needed
       if usemap
         out << %x[#{cmd} -Tcmapx #{fd.path}]
         out << "\n"
@@ -79,7 +120,7 @@ class GraphvizFilter
       # generate the image using graphviz -- but first ensure that the
       # path exists
       out_dir = ::Webby.config['output_dir']
-      FileUtils.mkpath(File.join(out_dir, path))
+      FileUtils.mkpath(File.join(out_dir, path)) unless path.nil?
 
       %x[#{cmd} -T#{type} -o #{File.join(out_dir, image_fn)} #{fd.path}]
 

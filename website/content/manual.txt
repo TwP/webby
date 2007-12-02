@@ -6,26 +6,30 @@ filter:
   - graphviz
   - textile
 --- 
+<graphviz path="images" alt="test image">
+digraph my_graph {
+   rankdir=LR;
+   node [shape=rect,
+         style=filled,
+         fillcolor="#99CCCC",
+         fontname="Verdana",
+         fontsize=10];
+   edge [fontname="Verdana", fontsize=8];
+
+   a [URL="/index.html", label="Home"];
+   b [URL="/download.html", label="Download"];
+   c [URL="/tutorial.html", label="Tutorial"];
+   d [label="Manual", fillcolor="#6699CC"];
+   e [URL="/tips_and_tricks.html", label="Tips &\nTricks"];
+   a -> b -> c;
+   c -> d -> e;
+   a -> c [URL="http://www.google.com" label="skipping\ndownload"];
+}
+</graphviz>
+
 h2. To-Do
 
 The Webby user's manual goes here.
-
-<graphviz style="float:right"
-          output="images/my_graph"
-          type="png"
-          imagemap="true"
-          alt="test image">
-
-digraph my_graph {
-   graph [URL="index.html"]
-   a [URL="a.html", style=filled, fillcolor="#8899AA"]
-   b [URL="b.html", style=filled, fillcolor="#CCDDEE"]
-   c [URL="c.html", style=filled, fillcolor="#CCDDEE"]
-   a -> b -> c
-   a -> c
-}
-
-</graphviz>
 
 <coderay lang="ruby">
 def method( blah )

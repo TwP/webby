@@ -21,7 +21,7 @@ module Webby
 #    end
 #    </coderay>
 #    
-#  The supported CodeRay options are the following:
+# The supported CodeRay options are the following:
 #
 #    lang               : the language to highlight (ruby, c, html, ...)
 #    line_numbers       : include line nubers in 'table', 'inline',
