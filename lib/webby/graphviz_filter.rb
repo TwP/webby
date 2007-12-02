@@ -50,6 +50,7 @@ class GraphvizFilter
       cmd  = gviz['cmd'] || 'dot'
       type = gviz['type'] || 'jpeg'
       image_fn = File.join(path, name) << '.' << type
+      usemap = gviz['imagemap'] == 'true'
 
       out = "<img src=\"#{image_fn}\""
 
@@ -58,7 +59,7 @@ class GraphvizFilter
         out << " %s=\"%s\"" % [attr, gviz[attr]]
       end
 
-      out << " usemap=\"#{name}\""
+      out << " usemap=\"#{name}\"" if usemap
       out << " />\n"
 
       fd = Tempfile.new('webbydot')
@@ -66,7 +67,7 @@ class GraphvizFilter
       fd.close
 
       # generate the image map
-      if gviz['imagemap'] == 'true'
+      if usemap
         out << %x[#{cmd} -Tcmapx #{fd.path}]
         out << "\n"
 
