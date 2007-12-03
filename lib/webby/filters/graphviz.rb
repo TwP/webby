@@ -1,8 +1,8 @@
 # $Id$
 
 require 'hpricot'
-require 'tempfile'
 require 'fileutils'
+require 'tempfile'
 
 module Webby
 module Filters
@@ -50,6 +50,8 @@ module Filters
 #
 class Graphviz
 
+  class Error < StandardError; end    # :nodoc:
+
   # call-seq:
   #    Graphviz.new( string, filters = nil )
   #
@@ -58,8 +60,14 @@ class Graphviz
   # output string returned by the Graphviz filter.
   #
   def initialize( str, filters = nil )
+    @log = ::Logging::Logger[self]
     @str = str
     @filters = filters
+
+    # create a temporary file for holding any error messages
+    # from the graphviz program
+    @err = Tempfile.new('graphviz_err')
+    @err.close
   end
 
   # call-seq:
@@ -78,6 +86,11 @@ class Graphviz
       path = gviz['path']
       cmd  = gviz['cmd'] || 'dot'
       type = gviz['type'] || 'png'
+
+      %x[#{cmd} -V 2>&1]
+      unless 0 == $?.exitstatus
+        raise NameError, "'#{cmd}' not found on the path"
+      end
 
       # pull the name of the graph|digraph out of the DOT script
       name = text.match(%r/\A\s*(?:strict\s+)?(?:di)?graph\s+([A-Za-z_][A-Za-z0-9_]*)\s+\{/o)[1]
@@ -102,32 +115,25 @@ class Graphviz
       out << " usemap=\"#{name}\"" if usemap
       out << " />\n"
 
-      # write the DOT text out to a temp file for processing by the
-      # graphviz programs
-      fd = Tempfile.new('webbydot')
-      fd.write text
-      fd.close
-
       # generate the image map if needed
       if usemap
-        out << %x[#{cmd} -Tcmapx #{fd.path}]
-        out << "\n"
-
-        unless 0 == $?.exitstatus
-          raise NameError, "'#{cmd}' not found on the path"
+        IO.popen("#{cmd} -Tcmapx 2> #{@err.path}", 'r+') do |io|
+          io.write text
+          io.close_write
+          out << io.read
         end
+        error_check
       end
 
       # generate the image using graphviz -- but first ensure that the
       # path exists
       out_dir = ::Webby.config['output_dir']
+      out_file = File.join(out_dir, image_fn)
       FileUtils.mkpath(File.join(out_dir, path)) unless path.nil?
+      cmd = "#{cmd} -T#{type} -o #{out_file} 2> #{@err.path}"
 
-      %x[#{cmd} -T#{type} -o #{File.join(out_dir, image_fn)} #{fd.path}]
-
-      unless 0 == $?.exitstatus
-        raise NameError, "'#{cmd}' not found on the path"
-      end
+      IO.popen(cmd, 'w') {|io| io.write text}
+      error_check
 
       # see if we need to put some guards around the output
       # (specifically for textile)
@@ -143,6 +149,23 @@ class Graphviz
     end
 
     doc.to_html
+  end
+
+
+  private
+
+  # call-seq:
+  #    error_check
+  #
+  # Check the temporary error file to see if it contains any error messages
+  # from the graphviz program. If it is not empty, then read the contents
+  # and log an error message and raise an exception.
+  #
+  def error_check
+    if File.size(@err.path) != 0
+      @log.error File.read(@err.path).strip
+      raise Error
+    end
   end
 
 end  # class CodeRay

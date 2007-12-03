@@ -208,6 +208,8 @@ class Renderer
     @log.error 'graphviz filter failed (Graphviz not installed?)'
     @log.debug err
     exit
+  rescue Filters::Graphviz::Error
+    exit
   end
 
   # Render text via the Haml library
