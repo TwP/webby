@@ -30,9 +30,10 @@ data/templates/page.erb
 lib/webby.rb
 lib/webby/auto_builder.rb
 lib/webby/builder.rb
-lib/webby/coderay_filter.rb
 lib/webby/file.rb
-lib/webby/graphviz_filter.rb
+lib/webby/filters/coderay.rb
+lib/webby/filters/graphviz.rb
+lib/webby/filters/tidy.rb
 lib/webby/main.rb
 lib/webby/pages_db.rb
 lib/webby/renderer.rb
