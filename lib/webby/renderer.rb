@@ -212,6 +212,18 @@ class Renderer
     exit
   end
 
+  # Render html into html/xhtml via the Tidy program
+  #
+  def tidy_filter( str )
+    Filters::Tidy.new(str).process
+  rescue NameError => err
+    @log.error 'tidy filter failed (Tidy not installed?)'
+    @log.debug err
+    exit
+  rescue Filters::Tidy::Error
+    exit
+  end
+
   # Render text via the Haml library
   #
   def haml_filter( str )

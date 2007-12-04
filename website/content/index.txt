@@ -15,8 +15,10 @@ gem install webby
 
 h2. Features
 
-* choose your templating language: *eRuby*, *Textile*, *Markdown*, *HAML*
+* choose your templating language: *eRuby*, *Textile*, *Markdown*, *HAML*, *SASS*
 * support for "CodeRay":http://coderay.rubychan.de/ syntax highlighting
+* embeddable DOT scripts for "Graphviz":http://www.graphviz.org/ graphs
+* automatically clean up generated content using "Tidy":http://tidy.sourceforge.net/
 * quick and speedy - only builds pages that have changed
 * deploy anywhere - it's just HTML, no special server stuff required
 * happy "rake":http://docs.rubyrake.org/ tasks for deploying your website to a server

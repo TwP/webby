@@ -155,17 +155,17 @@ class Resource
   end
 
   # call-seq
-  #    href    => string or nil
+  #    url    => string or nil
   #
-  # Returns a string suitable for use as an href linking to this page. Nil
+  # Returns a string suitable for use as a URL linking to this page. Nil
   # is returned for layouts.
   #
-  def href
+  def url
     return nil if is_layout?
-    return @href if defined? @href and @href
+    return @url if defined? @url and @url
 
-    @href = destination.sub(::Webby.site.output_dir, '')
-    @href
+    @url = destination.sub(::Webby.site.output_dir, '')
+    @url
   end
 
   # call-seq:

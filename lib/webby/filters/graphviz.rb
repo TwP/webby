@@ -168,7 +168,7 @@ class Graphviz
     end
   end
 
-end  # class CodeRay
+end  # class Graphviz
 end  # module Filters
 end  # module Webby
 
