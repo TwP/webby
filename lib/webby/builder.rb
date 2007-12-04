@@ -150,7 +150,7 @@ class Builder
 
   %w(output_dir layout_dir content_dir).each do |key|
     self.class_eval <<-CODE
-      def #{key}( ) ::Webby.config['#{key}'] end
+      def #{key}( ) ::Webby.site.#{key} end
     CODE
   end
 

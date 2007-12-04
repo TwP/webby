@@ -127,7 +127,7 @@ class Graphviz
 
       # generate the image using graphviz -- but first ensure that the
       # path exists
-      out_dir = ::Webby.config['output_dir']
+      out_dir = ::Webby.site.output_dir
       out_file = File.join(out_dir, image_fn)
       FileUtils.mkpath(File.join(out_dir, path)) unless path.nil?
       cmd = "#{cmd} -T#{type} -o #{out_file} 2> #{@err.path}"

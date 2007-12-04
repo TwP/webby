@@ -1,6 +1,7 @@
 # $Id$
 
 require 'logging'
+require 'ostruct'
 
 # Configure Webby to log to STDOUT at the 'info' level
 Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
@@ -37,30 +38,27 @@ module Webby
   end
 
   # call-seq:
-  #    Webby.config    => hash
+  #    Webby.site    => struct
   #
-  # Returns the configuration hash for the Webby application.
+  # Returns a struct containing the configuration parameters for the 
+  # Webby site. These defaults should be overridden as needed in the
+  # site specific Rakefile.
   #
-  def self.config
-    @config ||= {
-      'output_dir'    => 'output',
-      'content_dir'   => 'content',
-      'layout_dir'    => 'layouts',
-      'template_dir'  => 'templates',
-      'exclude'       => %w(tmp$ bak$ ~$ CVS \.svn)
-    }
-  end
+  def self.site
+    return @site if defined? @site
 
-  # call-seq:
-  #    Webby.page_defaults    => hash
-  #
-  # Returns the page defaults hash used for page resource objects.
-  #
-  def self.page_defaults
-    @page_defaults ||= {
+    @site = OpenStruct.new
+    @site.output_dir    = 'output'
+    @site.content_dir   = 'content'
+    @site.layout_dir    = 'layouts'
+    @site.template_dir  = 'templates'
+    @site.exclude       = %w(tmp$ bak$ ~$ CVS \.svn)
+    @site.page_defaults = {
       'extension' => 'html',
       'layout'    => 'default'
     }
+
+    @site
   end
 
   # call-seq
@@ -71,7 +69,7 @@ module Webby
   # also used to exclude layouts.
   #
   def self.exclude
-    @exclude ||= Regexp.new(config['exclude'].join('|'))
+    @exclude ||= Regexp.new(site.exclude.join('|'))
   end
 
   # call-seq:
@@ -82,7 +80,7 @@ module Webby
   # modification time of the file is important.
   #
   def self.cairn
-    @cairn ||= File.join(config['output_dir'], '.cairn')
+    @cairn ||= File.join(site.output_dir, '.cairn')
   end
 
 end  # module Webby

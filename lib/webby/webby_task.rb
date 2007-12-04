@@ -33,24 +33,6 @@ module Rake
 #
 class WebbyTask < TaskLib
 
-  # Define a setter and getter for each key in the Webby configuration hash
-  ::Webby.config.keys.each do |key|
-    self.class_eval do
-      define_method(key) {::Webby.config[key]}
-      define_method(key+'=') {|val| ::Webby.config[key] = val}
-    end
-  end
-
-  # Global page attributes
-  def page_defaults
-    ::Webby.page_defaults
-  end
-
-  # Merge the given _hash_ with the page defaults hash
-  def page_defaults=( hash )
-    ::Webby.page_defaults.merge! hash
-  end
-
   # call-seq:
   #    WebbyTask.new {|self| block}
   #
@@ -92,15 +74,15 @@ class WebbyTask < TaskLib
   # task for creating a new page based on that template.
   #
   def define_create_tasks
-    FileList["#{template_dir}/*"].each do |template|
+    FileList["#{::Webby.site.template_dir}/*"].each do |template|
       name = template.pathmap '%n'
 
-      desc "create a new #{name} page"
+      desc "create a new #{name}"
       task name do |t|
         raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 
         page = t.application.top_level_tasks.pop
-        page = File.join(content_dir, page)
+        page = File.join(::Webby.site.content_dir, page)
         page << '.txt' if File.extname(page).empty?
 
         ::Webby::Builder.create page, :from => template

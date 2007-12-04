@@ -34,8 +34,8 @@ class AutoBuilder
     @watcher.add_observer self
 
     glob = []
-    glob << File.join(::Webby.config['layout_dir'], '**', '*')
-    glob << File.join(::Webby.config['content_dir'], '**', '*')
+    glob << File.join(::Webby.site.layout_dir, '**', '*')
+    glob << File.join(::Webby.site.content_dir, '**', '*')
     @watcher.glob = glob
   end
 

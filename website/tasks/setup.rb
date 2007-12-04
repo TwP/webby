@@ -1,7 +1,7 @@
 
-require 'ostruct'
+require 'webby'
 
-SITE = OpenStruct.new
+SITE = Webby.site
 
 SITE.content_dir   = 'content'
 SITE.output_dir    = 'output'

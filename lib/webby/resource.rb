@@ -77,7 +77,7 @@ class Resource
     @have_mdata = !@mdata.nil?
 
     @mdata ||= {}
-    @mdata = ::Webby.page_defaults.merge(@mdata) if is_page?
+    @mdata = ::Webby.site.page_defaults.merge(@mdata) if is_page?
     @mdata.sanitize!
 
     self.class.pages << self if is_page? or is_static?
@@ -147,7 +147,7 @@ class Resource
     @dest = if @mdata.has_key? 'destination' then @mdata['destination']
             else File.join(dir, filename) end
 
-    @dest = File.join(::Webby.config['output_dir'], @dest)
+    @dest = File.join(::Webby.site.output_dir, @dest)
     @dest << @number.to_s if @number
     @dest << '.'
     @dest << extension
@@ -164,7 +164,7 @@ class Resource
     return nil if is_layout?
     return @href if defined? @href and @href
 
-    @href = destination.sub(::Webby.config['output_dir'], '')
+    @href = destination.sub(::Webby.site.output_dir, '')
     @href
   end
 
@@ -212,7 +212,7 @@ class Resource
   #
   def is_layout?
     @is_layout ||=
-        !(%r/\A(?:\.\/|\/)?#{::Webby.config['layout_dir']}\//o =~ @path).nil?
+        !(%r/\A(?:\.\/|\/)?#{::Webby.site.layout_dir}\//o =~ @path).nil?
   end
 
   # call-seq:
