@@ -1,6 +1,7 @@
 == 0.6.0 / 
 
 * Added support for embedded graphviz images and image maps
+* Tidy can be used as a filter to format HTML and check for errors
 * Simplified coderay when used with textile
 
 == 0.5.1 / 2007-11-29
