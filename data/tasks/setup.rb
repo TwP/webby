@@ -1,27 +1,12 @@
-
+# Load webby from vendor/webby if available
+$:.unshift File.dirname(__FILE__) + '/../vendor/webby/lib'
 require 'webby'
 
+# Load vendor/filters/*.rb
+Webby.require_all_libs_relative_to File.dirname(__FILE__) + '/../vendor/filters'
+
+# Note: Override SITE defaults in Rakefile
 SITE = Webby.site
-
-# Webby defaults
-SITE.content_dir   = 'content'
-SITE.output_dir    = 'output'
-SITE.layout_dir    = 'layouts'
-SITE.template_dir  = 'templates'
-SITE.exclude       = %w[tmp$ bak$ ~$ CVS \.svn]
-  
-SITE.page_defaults = {
-  'extension' => 'html',
-  'layout'    => 'default'
-}
-
-# Items used to deploy the webiste
-SITE.host       = 'user@hostname.tld'
-SITE.remote_dir = '/not/a/valid/dir'
-SITE.rsync_args = %w(-av --delete)
-
-# Options passed to the 'tidy' program when the tidy filter is used
-SITE.tidy_options = '-indent -wrap 80'
 
 # Load up the other rake tasks
 FileList['tasks/*.rake'].each {|task| import task}

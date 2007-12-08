@@ -40,7 +40,7 @@ class Renderer
       break unless renderer.next_page
     }
   end
-
+    
   # call-seq:
   #    Renderer.new( page )
   #
@@ -48,6 +48,7 @@ class Renderer
   # desired filters to the _page_ (from the page's meta-data) and then
   # render the filtered page into the desired layout.
   #
+  attr_reader :page, :pages, :pager, :content
   def initialize( page )
     unless page.is_page?
       raise ArgumentError,
@@ -79,10 +80,7 @@ class Renderer
       break if lyt.nil?
 
       @content, str = str, ::Webby::File.read(lyt.path)
-
-      Array(lyt.filter).each do |filter|
-        str = self.send(filter + '_filter', str)
-      end
+      str = Filters.process(self, lyt, str)
 
       @content, obj = nil, lyt
     end
@@ -97,13 +95,7 @@ class Renderer
   # determined from the page's meta-data.
   #
   def render_page
-    str = ::Webby::File.read(@page.path)
-
-    Array(@page.filter).each do |filter|
-      str = self.send(filter + '_filter', str)
-    end
-
-    str
+    Filters.process(self, @page, ::Webby::File.read(@page.path))
   end
 
   # call-seq:
@@ -125,7 +117,7 @@ class Renderer
       items[offset,per_page]
     end.first
 
-    @pager.each &block
+    @pager.each(&block)
   end
 
   # call-seq:
@@ -147,105 +139,6 @@ class Renderer
     end
 
     true
-  end
-
-  # Render text via ERB using the built in ERB library.
-  #
-  def erb_filter( str )
-    b = binding
-    ERB.new(str, nil, '-').result(b)
-  end
-
-  # Render text via markdown using the BlueCloth library.
-  #
-  def markdown_filter( str )
-    BlueCloth.new(str).to_html
-  rescue NameError => err
-    @log.error 'markdown filter failed (BlueCloth not installed?)'
-    @log.debug err
-    exit
-  end
-
-  # Render text via textile using the RedCloth library.
-  #
-  def textile_filter( str )
-    RedCloth.new(str).to_html
-  rescue NameError => err
-    @log.error 'textile filter failed (RedCloth not installed?)'
-    @log.debug err
-    exit
-  end
-
-  # Render text via the CodeRay syntax highlighter library.
-  #
-  def coderay_filter( str )
-    filters = nil
-
-    if Array === @page.filter
-      idx = @page.filter.index('coderay') + 1
-      filters = @page.filter.slice(idx..-1)
-    end
-
-    Filters::CodeRay.new(str, filters).to_html
-  rescue NameError => err
-    @log.error 'coderay filter failed (CodeRay not installed?)'
-    @log.debug err
-    exit
-  end
-
-  # Render text into iamges via the Graphviz programs.
-  #
-  def graphviz_filter( str )
-    filters = nil
-
-    if Array === @page.filter
-      idx = @page.filter.index('graphviz') + 1
-      filters = @page.filter.slice(idx..-1)
-    end
-
-    Filters::Graphviz.new(str, filters).to_html
-  rescue NameError => err
-    @log.error 'graphviz filter failed (Graphviz not installed?)'
-    @log.debug err
-    exit
-  rescue Filters::Graphviz::Error
-    exit
-  end
-
-  # Render html into html/xhtml via the Tidy program
-  #
-  def tidy_filter( str )
-    Filters::Tidy.new(str).process
-  rescue NameError => err
-    @log.error 'tidy filter failed (Tidy not installed?)'
-    @log.debug err
-    exit
-  rescue Filters::Tidy::Error
-    exit
-  end
-
-  # Render text via the Haml library
-  #
-  def haml_filter( str )
-    opts = @page.haml_options || {}
-    opts[:locals] ||= {}
-    opts[:locals].merge!({:page => @page, :pages => @pages})
-    Haml::Engine.new(str, opts).to_html
-  rescue NameError => err
-    @log.error 'haml filter failed (Haml not installed?)'
-    @log.debug err
-    exit
-  end
-
-  # Render text via the Sass library (part of Haml)
-  #
-  def sass_filter( str )
-    opts = @page.sass_options || {}
-    Sass::Engine.new(str, opts).render
-  rescue NameError => err
-    @log.error 'sass filter failed (Haml not installed?)'
-    @log.debug err
-    exit
   end
 
 end  # class Renderer

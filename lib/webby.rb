@@ -46,19 +46,24 @@ module Webby
   #
   def self.site
     return @site if defined? @site
-
-    @site = OpenStruct.new
-    @site.output_dir    = 'output'
-    @site.content_dir   = 'content'
-    @site.layout_dir    = 'layouts'
-    @site.template_dir  = 'templates'
-    @site.exclude       = %w(tmp$ bak$ ~$ CVS \.svn)
-    @site.page_defaults = {
-      'extension' => 'html',
-      'layout'    => 'default'
-    }
-
-    @site
+    @site = OpenStruct.new(
+      :output_dir    => 'output',
+      :content_dir   => 'content',
+      :output_dir    => 'output',
+      :layout_dir    => 'layouts',
+      :template_dir  => 'templates',
+      :exclude       => %w[tmp$ bak$ ~$ CVS \.svn],
+      :page_defaults => {
+        'extension'  => 'html',
+        'layout'     => 'default'
+      },
+      # Items used to deploy the webiste
+      :host       => 'user@hostname.tld',
+      :remote_dir => '/not/a/valid/dir',
+      :rsync_args => %w(-av --delete),
+      # Options passed to the 'tidy' program when the tidy filter is used
+      :tidy_options => '-indent -wrap 80'
+    )
   end
 
   # call-seq
