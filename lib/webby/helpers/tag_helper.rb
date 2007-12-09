@@ -38,7 +38,7 @@ module TagHelper
 
   private
     def tag_options( options, escape = true )
-      unless options.blank?
+      unless options.empty?
         attrs = []
         if escape
           options.each do |key, value|
