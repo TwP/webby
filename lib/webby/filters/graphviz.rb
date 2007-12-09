@@ -25,9 +25,9 @@ module Filters
 #     }
 #     </graphviz>
 #
-# If the DOT script contains *URL* or *href* statements on any of the nodes
+# If the DOT script contains *URL* or *href* cursorments on any of the nodes
 # or edges, then an image map will be generated and the image will be
-# "clikcable" in the webpage. If *URL* or *href* statements do not appear in
+# "clikcable" in the webpage. If *URL* or *href* cursorments do not appear in
 # the DOT script, then a regular image will be inserted into the webpage.
 #
 # The image is inserted into the page using an HTML <img /> tag. A
@@ -60,7 +60,6 @@ class Graphviz
   # output string returned by the Graphviz filter.
   #
   def initialize( str, filters = nil )
-    @log = ::Logging::Logger[self]
     @str = str
     @filters = filters
 
@@ -163,12 +162,19 @@ class Graphviz
   #
   def error_check
     if File.size(@err.path) != 0
-      @log.error File.read(@err.path).strip
-      raise Error
+      msg = "\n" << File.read(@err.path).strip
+      raise Error, msg
     end
   end
 
 end  # class Graphviz
+
+# Render text into iamges via the Graphviz programs.
+#
+register :graphviz do |input, cursor|
+  Filters::Graphviz.new(input, cursor.remaining_filters).to_html
+end
+
 end  # module Filters
 end  # module Webby
 

@@ -5,7 +5,7 @@ require 'hpricot'
 try_require 'coderay'
 
 module Webby
-module Filters  
+module Filters
 
 # The CodeRay applies syntax highlighting to source code embedded in a
 # webpage. The CodeRay highlighting engine is used for the HTML markup of
@@ -86,6 +86,12 @@ class CodeRay
   end
 
 end  # class CodeRay
+
+# Render text via the CodeRay syntax highlighter library.
+register :coderay do |input, cursor|
+  Filters::CodeRay.new(input, cursor.remaining_filters).to_html
+end
+
 end  # module Filters
 end  # module Webby
 

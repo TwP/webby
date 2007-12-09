@@ -8,20 +8,30 @@ module Helpers #:nodoc:
 module UrlHelper
 
   #
-  #    url_for(:page => { :title => 'Home Page' })
+  #    url_for( string, opts = {} ) 
+  #    url_for( page, opts ={} )
+  #    url_for( :page => { :title => 'Home Page' }, opts = {} )
   #
-  def url_for( opts = {} )
-    escape, anchor = true, nil
+  # Options
+  # 
+  #    :escape  => true or false
+  #    :anchor  => string
+  #
+  def url_for( *args )
+    opts = Hash === args.last ? args.pop : {}
+    obj = args.first
 
-    case opts
+    anchor = opts.delete(:anchor)
+    escape = opts.has_key?(:escape) ? opts.delte(:escape) : true
+
+    case obj
     when String
-      url = opts
+      by = Webby.site.find_by.to_sym
+      p = @pages.find(by => obj)
+      url = p.nil? ? obj : p.url
     when Webby::Resource
-      url = opts.url
+      url = obj.url
     else
-      anchor = opts.delete(:anchor)
-      escape = opts.delete(:escape) if opts.has_key?(:escape)
-
       p = @pages.find(opts[:page])
       raise Webby::Renderer::Error,
             "could not find requested page: #{opts.inspect}" if p.nil?
@@ -36,48 +46,29 @@ module UrlHelper
 
   #
   #
-  def link_to( *args )
+  def link_to( name, *args )
     opts = Hash === args.last ? args.pop : {}
-    name, url = args.compact
+    url = args.first
     attrs = opts.delete(:attrs)
 
-    case url
-    when String; nil
-    when :back
-      url = 'javascript:history.back()'
-    else
-      case name
+    url = case url
       when String
-        if opts.has_key? :page
-          url = self.url_for(opts)
-        else
-          p = @pages.find(:title => name) ||
-              @pages.find(:filename => name)
-          url = p.nil? ? self.url_for(name) : self.url_for(p)
-        end
-
+        url
       when Webby::Resource
-        name = name.title || name.filename
-        url = self.url_for(name)
-
+        self.url_for(url)
+      when :back
+        'javascript:history.back()'
       else
-        unless opts.has_key?(:page)
-          raise Webby::Renderer::Error,
-                "a name, URL, or a page to find must be given"
+        if opts.has_key? :page
+          self.url_for(opts)
+        else
+          self.url_for(name)
         end
-
-        p = @pages.find(opts[:page])
-        raise Webby::Renderer::Error,
-              "could not find requested page: #{opts.inspect}" if p.nil?
-
-        name = p.title || p.filename
-        url = self.url_for(p)
       end
-    end
 
     if attrs
       html_opts = attrs.stringify_keys
-      href = html_opts.has_key?('href')
+      href = html_opts.has_key? 'href'
       attrs = tag_options(html_opts)
     else
       href = false

@@ -65,6 +65,13 @@ class Tidy
   end
 
 end  # class Tidy
+
+# Render html into html/xhtml via the Tidy program
+#
+register :tidy do |input|
+  Filters::Tidy.new(input).process
+end
+
 end  # module Filters
 end  # module Webby
 
