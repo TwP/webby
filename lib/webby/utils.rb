@@ -19,6 +19,18 @@ class Hash
         end
     self.replace h
   end
+
+  def stringify_keys
+    h = {}
+    self.each {|k,v| h[k.to_s] = v}
+    return h
+  end
+
+  def symbolize_keys
+    h = {}
+    self.each {|k,v| h[k.to_sym] = v}
+    return h
+  end
 end
 
 # EOF

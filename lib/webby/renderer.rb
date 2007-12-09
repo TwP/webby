@@ -22,6 +22,10 @@ module Webby
 #
 class Renderer
   include ERB::Util
+  include Webby::Helpers::TagHelper
+  include Webby::Helpers::UrlHelper
+
+  class Error < StandardError; end    # :nodoc:
 
   # call-seq:
   #    Renderer.write( page )
@@ -37,7 +41,7 @@ class Renderer
       ::File.open(page.destination, 'w') do |fd|
         fd.write renderer.layout_page
       end
-      break unless renderer.next_page
+      break unless renderer.__send__(:next_page)
     }
   end
 
@@ -126,27 +130,6 @@ class Renderer
     end.first
 
     @pager.each &block
-  end
-
-  # call-seq:
-  #    next_page    => true or false
-  #
-  # Returns +true+ if there is a next page to render. Returns +false+ if
-  # there is no next page or if pagination has not been configured for the
-  # current page.
-  #
-  def next_page
-    return false unless defined? @pager and @pager
-
-    # go to the next page; break out if there is no next page
-    if @pager.next?
-      @pager = @pager.next
-    else
-      @page.number = nil
-      return false
-    end
-
-    true
   end
 
   # Render text via ERB using the built in ERB library.
@@ -246,6 +229,30 @@ class Renderer
     @log.error 'sass filter failed (Haml not installed?)'
     @log.debug err
     exit
+  end
+
+
+  private
+
+  # call-seq:
+  #    next_page    => true or false
+  #
+  # Returns +true+ if there is a next page to render. Returns +false+ if
+  # there is no next page or if pagination has not been configured for the
+  # current page.
+  #
+  def next_page
+    return false unless defined? @pager and @pager
+
+    # go to the next page; break out if there is no next page
+    if @pager.next?
+      @pager = @pager.next
+    else
+      @page.number = nil
+      return false
+    end
+
+    true
   end
 
 end  # class Renderer

@@ -78,7 +78,7 @@ class PagesDB
   #
   # Options include:
   #
-  #    :all          => true
+  #    :all
   #    :in_directory => 'directory'
   #
   # Examples:
@@ -87,19 +87,18 @@ class PagesDB
   #    pages_db.find( :filename => 'index', :in_directory => 'foo/bar' )
   #
   #    # find all resources named "widgets" whose color is "blue"
-  #    pages_db.find( :name => 'widgets', :color => 'blue', :all => true )
+  #    pages_db.find( :all, :name => 'widgets', :color => 'blue' )
   #
   #    # find all resources created in the past week
-  #    pages_db.find( :all => true ) do |resource|
+  #    pages_db.find( :all ) do |resource|
   #      resource.created_at > Time.now - (7 * 24 * 3600)
   #    end
   #
-  def find( opts = {}, &block )
-    find_all = if opts.has_key?(:all) then opts.delete(:all)
-               else false end
+  def find( *args, &block )
+    opts = Hash === args.last ? args.pop : {}
+    find_all = args.include? :all
 
-    dir = if opts.has_key?(:in_directory) then opts.delete(:in_directory)
-          else nil end
+    dir = opts.has_key?(:in_directory) ? opts.delete(:in_directory) : nil
     if dir && !@db.has_key?(dir)
       raise RuntimeError, "unknown directory '#{dir}'"
     end

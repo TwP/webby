@@ -165,6 +165,7 @@ class Resource
     return @url if defined? @url and @url
 
     @url = destination.sub(::Webby.site.output_dir, '')
+    @url = File.dirname(@url) if filename == 'index'
     @url
   end
 
