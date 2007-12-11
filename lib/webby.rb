@@ -56,7 +56,7 @@ module Webby
         'extension'  => 'html',
         'layout'     => 'default'
       },
-      :find_by       => 'filename',
+      :find_by       => 'title',
       # Items used to deploy the webiste
       :host       => 'user@hostname.tld',
       :remote_dir => '/not/a/valid/dir',

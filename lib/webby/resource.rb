@@ -21,6 +21,11 @@ module Webby
 #
 class Resource
 
+  instance_methods.each do |m|
+      undef_method(m) unless m =~ %r/\A__/ ||
+                             m == 'class'
+  end
+
   class << self
     # Returns the pages hash object.
     def pages

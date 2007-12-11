@@ -76,6 +76,7 @@ module UrlHelper
   #    link_to_page( name )
   #    link_to_page( :key => value )
   #    link_to_page( name, :key => value )
+  #    link_to_page( page )
   #
   # Creates a link tag of the given _name_ using a URL created by finding
   # the associated page from the key/value pairs. If the key/value pairs are
@@ -114,15 +115,18 @@ module UrlHelper
     link_opts = opts.delete(:url) || {}
     link_opts[:attrs] = opts.delete(:attrs)
 
-    p = if opts.empty? && name
-      @pages.find(Webby.site.find_by.to_sym => name)
+    if Webby::Resource === name
+      p, name = name, nil
+    elsif opts.empty? && name
+      p = @pages.find(Webby.site.find_by.to_sym => name)
     else
-      @pages.find(opts)
+      p = @pages.find(opts)
     end
-    raise Webby::Renderer::Error,
-          "could not find requested page: #{args.inspect}" if p.nil?
 
-    name = p.title || p.filename if name.nil?
+    raise Webby::Renderer::Error,
+          "could not find requested page: #{opts.inspect}" if p.nil?
+
+    name = h(p.title || p.filename) if name.nil?
     self.link_to(name, p, link_opts)
   end
 
