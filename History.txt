@@ -1,3 +1,8 @@
+== 0.7.0 / 
+
+* Refactored how the filters are handled (thanks Bruce Williams)
+* Added helper methods for URL and tag generation
+
 == 0.6.0 / 2007-12-04
 
 * Added support for embedded graphviz images and image maps
