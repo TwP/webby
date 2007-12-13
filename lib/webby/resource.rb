@@ -69,9 +69,9 @@ class Resource
   #
   def initialize( fn )
     @path     = fn.sub(%r/\A(?:\.\/|\/)/o, '').freeze
-    @dir      = ::File.dirname(@path).sub(%r/\A[^\/]+\/?/o, '')
-    @filename = ::File.basename(@path).sub(%r/\.\w+\z/o, '')
-    @ext      = ::File.extname(@path).sub(%r/\A\.?/o, '')
+    @dir      = Webby::File.dirname(@path)
+    @filename = Webby::File.basename(@path)
+    @ext      = Webby::File.extname(@path)
     @mtime    = ::File.mtime @path
 
     @number = nil

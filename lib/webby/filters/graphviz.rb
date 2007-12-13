@@ -81,11 +81,19 @@ class Graphviz
     doc = Hpricot(@str)
     doc.search('//graphviz') do |gviz|
       
-      text = gviz.inner_html.strip   # the DOT script to process
       path = gviz['path']
       cmd  = gviz['cmd'] || 'dot'
       type = gviz['type'] || 'png'
+      text = gviz.inner_html.strip   # the DOT script to process
 
+      # if we don't have a DOT script, then replace it with
+      # the empty text and move on to the next graphviz tags
+      if text.empty?
+        gviz.swap text
+        next
+      end
+
+      # ensure the requested graphviz command actually exists
       %x[#{cmd} -V 2>&1]
       unless 0 == $?.exitstatus
         raise NameError, "'#{cmd}' not found on the path"
@@ -101,7 +109,7 @@ class Graphviz
       # generate the image filename based on the path, graph name, and type
       # of image to generate
       image_fn = path.nil? ? name.dup : File.join(path, name)
-      image_fn << '.' << type
+      image_fn = File.join('', image_fn) << '.' << type
 
       # create the HTML img tag
       out = "<img src=\"#{image_fn}\""

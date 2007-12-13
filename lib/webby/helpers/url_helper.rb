@@ -108,6 +108,22 @@ module UrlHelper
   # ==== Examples
   #
   def link_to_page( *args )
+    self.link_to(*_find_page(args))
+  end
+
+  #
+  #
+  def link_to_page_unless_current( *args )
+    name, page, link_opts = _find_page(args)
+    return name if @page == page
+
+    self.link_to(name, page, link_opts)
+  end
+
+  
+  private
+
+  def _find_page( args )
     raise ArgumentError, 'wrong number of arguments (0 for 1)' if args.empty?
 
     opts = Hash === args.last ? args.pop : {}
@@ -127,7 +143,7 @@ module UrlHelper
           "could not find requested page: #{opts.inspect}" if p.nil?
 
     name = h(p.title || p.filename) if name.nil?
-    self.link_to(name, p, link_opts)
+    return [name, p, link_opts]
   end
 
 end  # module UrlHelper

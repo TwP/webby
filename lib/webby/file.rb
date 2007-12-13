@@ -69,6 +69,38 @@ class File < ::File
     ensure
       fd.close unless fd.nil?
     end
+
+    # call-seq:
+    #    Webby::File.dirname( filename )    => dir_name
+    #
+    # Returns all components of the _filename_ except the last one. The
+    # filename must be formed using forward slashes ("/") regardless of the
+    # separator used on the local file system.
+    #
+    def dirname( fn )
+      ::File.dirname(fn).sub(%r/\A[^\/]+\/?/o, '')
+    end
+
+    # call-seq:
+    #    Webby::File.basename( filename )    => base_name
+    #
+    # Returns the last component of the _filename_, which must be formed
+    # using forward slashes ("/"regardless of the separator used on the
+    # local file system. The suffix is removed from the filename.
+    #
+    def basename( fn )
+      ::File.basename(fn, '.*')
+    end
+
+    # call-seq:
+    #    Webby::File.extname( filename )    => ext_name
+    #
+    # Returns the extension (the portion of file name in path after the
+    # period). This method excludes the period from the extension name.
+    #
+    def extname( fn )
+      ::File.extname(fn).tr('.', '')
+    end
   end
 
   # call-seq:
