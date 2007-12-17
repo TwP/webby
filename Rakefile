@@ -19,6 +19,7 @@ PROJ.version = Webby::VERSION
 
 PROJ.exclude << '^(\.\/|\/)?website/output'
 PROJ.exclude << '^(\.\/|\/)?doc'
+PROJ.exclude << '^(\.\/|\/)?tags$'
 PROJ.rdoc_exclude << '^(\.\/|\/)?data'
 PROJ.rdoc_exclude << '^(\.\/|\/)?website'
 

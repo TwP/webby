@@ -31,9 +31,17 @@ lib/webby.rb
 lib/webby/auto_builder.rb
 lib/webby/builder.rb
 lib/webby/file.rb
+lib/webby/filters.rb
 lib/webby/filters/coderay.rb
+lib/webby/filters/erb.rb
 lib/webby/filters/graphviz.rb
+lib/webby/filters/haml.rb
+lib/webby/filters/markdown.rb
+lib/webby/filters/sass.rb
+lib/webby/filters/textile.rb
 lib/webby/filters/tidy.rb
+lib/webby/helpers/tag_helper.rb
+lib/webby/helpers/url_helper.rb
 lib/webby/main.rb
 lib/webby/pages_db.rb
 lib/webby/renderer.rb

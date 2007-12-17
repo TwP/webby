@@ -7,14 +7,15 @@ module Helpers #:nodoc:
 #
 module UrlHelper
 
-  #
+  # call-seq:
   #    url_for( string, opts = {} ) 
   #    url_for( page, opts ={} )
   #
   # Options
   # 
-  #    :escape  => true or false
-  #    :anchor  => string
+  #    :escape  => determins whether the returned URL will be HTML escaped
+  #                or not (+true+ by default)
+  #    :anchor  => specifies the anchor name to be appended to the path
   #
   def url_for( *args )
     opts = Hash === args.last ? args.pop : {}
@@ -87,9 +88,9 @@ module UrlHelper
   #
   # Pages are found using key/value pairs. The key is any of the page
   # attributes, and the value is what that attribute should be. Any number
-  # of key/value pairs can be included, but all values must match the
+  # of key/value pairs can be included, but all values must equal the
   # corresponding page attributes for a match to be found -- i.e. the
-  # comparisons are joined by AND operations to determin a match.
+  # comparisons are joined by AND operations to determine a match.
   #
   # In the absence of any key/value pairs -- just a name was given -- then
   # the default site +find_by+ attribute is used, and the name is compared
