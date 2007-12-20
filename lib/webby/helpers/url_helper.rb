@@ -124,6 +124,14 @@ module UrlHelper
   
   private
 
+  # call-seq:
+  #    _find_page( name, opts = {}  )
+  #    _find_page( :key => value, [:key => value, ...], opts = {}  )
+  #    _find_page( name, :key => value, [:key => value, ...], opts = {} )
+  #    _find_page( page, opts = {} )
+  #
+  # Returns an array of the [name, page, options]. 
+  #
   def _find_page( args )
     raise ArgumentError, 'wrong number of arguments (0 for 1)' if args.empty?
 

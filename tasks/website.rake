@@ -6,7 +6,7 @@ namespace :website do
   task :build do
     begin
       olddir = pwd
-      chdir 'website'
+      chdir 'examples/webby'
       sh 'rake build'
       cp_r 'output/.', olddir + '/doc'
     ensure
