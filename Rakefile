@@ -1,6 +1,8 @@
 # $Id$
 
-load './tasks/setup.rb'
+load 'rakelib/setup.rb'
+ensure_in_path 'lib'
+
 require 'webby'
 
 task :default => 'spec:run'

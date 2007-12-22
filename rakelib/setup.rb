@@ -56,9 +56,6 @@ PROJ.dependencies = []
 PROJ.need_tar = true
 PROJ.need_zip = false
 
-# Import the rake tasks
-FileList['tasks/*.rake'].each {|task| import task}
-
 # Setup some constants
 WIN32 = %r/win32/ =~ RUBY_PLATFORM unless defined? WIN32
 
@@ -117,6 +114,13 @@ def depend_on( name, version = nil )
   version = spec.version.to_s if version.nil? and !spec.nil?
 
   PROJ.dependencies << (version.nil? ? [name] : [name, ">= #{version}"])
+end
+
+# Adds the given _path_ to the include path if it is not already there
+#
+def ensure_in_path( path )
+  path = File.expand_path(path)
+  $: << path if test(?d, path) and not $:.include?(path)
 end
 
 # EOF
