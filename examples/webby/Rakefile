@@ -1,5 +1,5 @@
 
-load 'tasks/setup.rb'
+load 'rakelib/setup.rb'
 
 task :default => :build
 

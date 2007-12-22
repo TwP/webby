@@ -1,6 +1,4 @@
 
-if HAVE_HEEL
-
 namespace :heel do
 
   desc 'start the heel server to view website (not for Windows)'
@@ -26,7 +24,5 @@ namespace :heel do
 end
 
 task :autobuild => 'heel:autobuild'
-
-end  # HAVE_HEEL
 
 # EOF
