@@ -17,11 +17,11 @@ PROJ.rdoc_dir = 'doc/rdoc'
 PROJ.rdoc_remote_dir = 'rdoc'
 PROJ.version = Webby::VERSION
 
-PROJ.exclude << '^(\.\/|\/)?website/output'
+PROJ.exclude << '^(\.\/|\/)?examples/webby/output'
 PROJ.exclude << '^(\.\/|\/)?doc'
 PROJ.exclude << '^(\.\/|\/)?tags$'
 PROJ.rdoc_exclude << '^(\.\/|\/)?data'
-PROJ.rdoc_exclude << '^(\.\/|\/)?website'
+PROJ.rdoc_exclude << '^(\.\/|\/)?examples/webby'
 
 PROJ.spec_opts << '--color'
 
