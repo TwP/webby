@@ -1,8 +1,6 @@
 # $Id$
 
-if HAVE_SPEC
-
-require 'spec/rake/spectask'
+if HAVE_SPEC_RAKE_SPECTASK
 
 namespace :spec do
 

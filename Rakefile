@@ -1,6 +1,6 @@
 # $Id$
 
-load 'rakelib/setup.rb'
+load 'tasks/setup.rb'
 ensure_in_path 'lib'
 
 require 'webby'
@@ -30,7 +30,7 @@ PROJ.spec_opts << '--color'
 depend_on 'directory_watcher', '1.1.0'
 depend_on 'heel'
 depend_on 'hpricot'
-depend_on 'logging', '0.5.3'
+depend_on 'logging', '0.6.0'
 depend_on 'rspec'
 
 # EOF

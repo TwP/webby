@@ -38,6 +38,10 @@ namespace :doc do
 
 end  # namespace :doc
 
+desc 'Alias to doc:rdoc'
+task :doc => 'doc:rdoc'
+
+desc 'Remove all build products'
 task :clobber => %w(doc:clobber_rdoc doc:clobber_ri)
 
 # EOF
