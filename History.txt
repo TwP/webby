@@ -2,6 +2,7 @@
 
 * Refactored how the filters are handled (thanks Bruce Williams)
 * Added helper methods for URL and tag generation
+* Fixed a bug arising from the order of the logger creation
 
 == 0.6.0 / 2007-12-04
 

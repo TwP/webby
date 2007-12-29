@@ -25,7 +25,7 @@ content/
 layouts/
 lib/
 output/
-tasks/
+rakelib/
 templates/
 </pre> 
 
