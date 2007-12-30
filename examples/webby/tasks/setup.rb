@@ -23,4 +23,7 @@ SITE.rsync_args = %w(-av --delete)
 # Options passed to the 'tidy' program when the tidy filter is used
 SITE.tidy_options = '-indent -wrap 80'
 
+# Load the other rake files in the tasks folder
+Dir.glob('tasks/*.rake').sort.each {|fn| import fn}
+
 # EOF
