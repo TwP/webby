@@ -31,7 +31,7 @@ PROJ.spec_opts << '--color'
 depend_on 'directory_watcher', '1.1.0'
 depend_on 'heel'
 depend_on 'hpricot'
-depend_on 'logging', '0.6.0'
+depend_on 'logging', '0.6.1'
 depend_on 'rspec'
 
 # EOF
