@@ -53,7 +53,6 @@ module Webby
       :template_dir  => 'templates',
       :exclude       => %w(tmp$ bak$ ~$ CVS \.svn),
       :page_defaults => {
-        'extension'  => 'html',
         'layout'     => 'default'
       },
       :find_by       => 'title',

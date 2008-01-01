@@ -68,6 +68,12 @@ class WebbyTask < TaskLib
     task :autobuild do |t|
       ::Webby::AutoBuilder.run
     end
+
+    desc "delete the website"
+    task :clobber do |t|
+      rm_rf ::Webby.site.output_dir
+      mkdir ::Webby.site.output_dir
+    end
   end
 
   # Scans the templates directory for any files, and creats a corresponding

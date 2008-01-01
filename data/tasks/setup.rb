@@ -1,3 +1,4 @@
+# $Id$
 
 require 'webby'
 
@@ -11,8 +12,7 @@ SITE.template_dir  = 'templates'
 SITE.exclude       = %w[tmp$ bak$ ~$ CVS \.svn]
   
 SITE.page_defaults = {
-  'extension' => 'html',
-  'layout'    => 'default'
+  'layout' => 'default'
 }
 
 # Items used to deploy the webiste

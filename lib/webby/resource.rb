@@ -81,12 +81,6 @@ class Resource
     @mdata = ::Webby::File.meta_data(@path)
     @have_mdata = !@mdata.nil?
 
-    # TODO - Fix the page_defaults bug
-    # This is a bug because some defaults should be settable in the layout
-    # (the extension for example) but this clobbers any chance of ever
-    # hitting the layout defined extension. Handle this on a case-by-case
-    # basis?
-    #
     @mdata ||= {}
     @mdata = ::Webby.site.page_defaults.merge(@mdata) if is_page?
     @mdata.sanitize!
@@ -135,10 +129,11 @@ class Resource
 
     if @mdata.has_key? 'layout'
       lyt = self.class.layouts.find :filename => @mdata['layout']
-      return lyt.extension if lyt
+      ext = lyt ? lyt.extension : nil
+      return ext if ext
     end
 
-    @ext
+    return (is_layout? ? nil : @ext)
   end
 
   # call-seq:

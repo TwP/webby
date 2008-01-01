@@ -1,8 +1,14 @@
 == 0.7.0 / 
 
-* Refactored how the filters are handled (thanks Bruce Williams)
-* Added helper methods for URL and tag generation
-* Fixed a bug arising from the order of the logger creation
+* 1 major enhancement
+  - Refactored how the filters are handled (thanks Bruce Williams)
+* 2 minor enhancements
+  - Added helper methods for URL and tag generation
+  - Added rake task to delete the generated website
+* 2 bug fixes
+  - Fixed a bug arising from the order of the logger creation
+  - Removed the file extension form the page defaults
+    (should be set in the layout or the page itself)
 
 == 0.6.0 / 2007-12-04
 
