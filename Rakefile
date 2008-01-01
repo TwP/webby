@@ -2,7 +2,6 @@
 
 load 'tasks/setup.rb'
 ensure_in_path 'lib'
-
 require 'webby'
 
 task :default => 'spec:run'
@@ -19,11 +18,13 @@ PROJ.rdoc_dir = 'doc/rdoc'
 PROJ.rdoc_remote_dir = 'rdoc'
 PROJ.version = Webby::VERSION
 
-PROJ.exclude << '^(\.\/|\/)?examples/webby/output'
-PROJ.exclude << '^(\.\/|\/)?doc'
-PROJ.exclude << '^(\.\/|\/)?tags$'
-PROJ.rdoc_exclude << '^(\.\/|\/)?data'
-PROJ.rdoc_exclude << '^(\.\/|\/)?examples/webby'
+
+PROJ.exclude << '^examples/[^/]+/output'
+PROJ.exclude << '^tasks/archive'
+PROJ.exclude << '^tags$'
+
+PROJ.rdoc_exclude << '^data'
+PROJ.rdoc_exclude << '^examples'
 
 PROJ.spec_opts << '--color'
 
