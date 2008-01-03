@@ -39,7 +39,7 @@ class Builder
       raise Error, "#{page} already exists" if test ?e, page
 
       Logging::Logger[self].info "creating #{page}"
-      FileUtils.mkdir_p File.dirname(page)
+      FileUtils.mkdir_p ::File.dirname(page)
       str = ERB.new(::File.read(tmpl), nil, '-').result
       ::File.open(page, 'w') {|fd| fd.write str}
 

@@ -1,14 +1,17 @@
-== 0.7.1 / 
+== 0.7.1 / 2008-01-03
 
-* 1 bug fix
-  - No longer appending a '.' to files without an extension (.htaccess)
+* 2 bug fixes
+  - No longer appending a '.' to files without an extension (like .htaccess)
+    (patch supplied by Stephen Duncan)
+  - Fixed a "No such file or directory" error when creating pages
+    from templates
 
 == 0.7.0 / 2008-01-01
 
 * 1 major enhancement
   - Refactored how the filters are handled (thanks Bruce Williams)
 * 2 minor enhancements
-  - Added helper methods for URL and tag generation
+  - Added helper methods for URL and anchor generation
   - Added rake task to delete the generated website
 * 2 bug fixes
   - Fixed a bug arising from the order of the logger creation
