@@ -10,7 +10,7 @@ Webby works by combining the contents of a *page* with a *layout* to produce HTM
 Install Webby and try it out!
 
 <pre class="code">
-gem install webby
+sudo gem install -y webby
 </pre>
 
 h2. Features

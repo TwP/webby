@@ -1,11 +1,27 @@
 --- 
 title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
-filter:
-  - coderay
-  - textile
+filter:     textile
 --- 
 h2. Installation
+
+Webby is an application written using the Ruby programming language. You will need to install a Ruby interpreter on your computer. Download and installation instructions can be found on the "Ruby":http://ruby-lang.org webiste. For the Windows platform, the one-click installer is recommended. Webby is not compatible with the Ruby 1.9.0 release; please use the Ruby 1.8.6 release.
+
+You will also need to install RubyGems. If you used the Windows one-click installer, RubyGems is already present on your system. For everyone else you can find installation instructions on the "RubyGems":http://rubygems.org/read/chapter/3 website.
+
+To install Webby and its dependent gems type the following command. Omit the @sudo@ portion for the Windows platform; you will need to specify the *mswin32* versions of the _mongrel_ and _hpricot_ dependent gems when prompted.
+
+<pre class="code">
+sudo gem install -y webby
+</pre>
+
+
+<pre class="code">
+sudo gem install -y RedcCoth
+sudo gem install -y BlueCloth
+sudo gem install -y haml
+sudo gem install -y coderay
+</pre>
 
 directory structure
 
