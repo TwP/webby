@@ -155,8 +155,12 @@ class Resource
 
     @dest = File.join(::Webby.site.output_dir, @dest)
     @dest << @number.to_s if @number
-    @dest << '.'
-    @dest << extension
+
+    ext = extension
+    unless ext.nil? or ext.empty?
+      @dest << '.'
+      @dest << ext
+    end
     @dest
   end
 

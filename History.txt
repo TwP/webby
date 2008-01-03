@@ -1,3 +1,8 @@
+== 0.7.1 / 
+
+* 1 bug fix
+  - No longer appending a '.' to files without an extension (.htaccess)
+
 == 0.7.0 / 2008-01-01
 
 * 1 major enhancement
