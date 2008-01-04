@@ -26,6 +26,7 @@ PROJ.exclude << '^tags$'
 PROJ.rdoc_exclude << '^data'
 PROJ.rdoc_exclude << '^examples'
 
+PROJ.svn = true
 PROJ.spec_opts << '--color'
 
 depend_on 'directory_watcher'
