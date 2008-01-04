@@ -87,6 +87,9 @@ class WebbyTask < TaskLib
       task name do |t|
         raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 
+        # TODO: add ability to create only index.html pages
+        #       this behavior would create a directory using the given page
+        #       name, and then create an index.txt file in that directory
         page = t.application.top_level_tasks.pop
         page = File.join(::Webby.site.content_dir, page)
         page << '.txt' if File.extname(page).empty?
