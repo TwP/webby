@@ -151,9 +151,9 @@ class Resource
     return @dest = ::Webby.cairn if is_layout?
 
     @dest = if @mdata.has_key? 'destination' then @mdata['destination']
-            else File.join(dir, filename) end
+            else ::File.join(dir, filename) end
 
-    @dest = File.join(::Webby.site.output_dir, @dest)
+    @dest = ::File.join(::Webby.site.output_dir, @dest)
     @dest << @number.to_s if @number
 
     ext = extension
@@ -259,7 +259,7 @@ class Resource
 
     # if this file's mtime is larger than the destination file's
     # mtime, then we are dirty
-    dirty = @mtime > File.mtime(destination)
+    dirty = @mtime > ::File.mtime(destination)
     return dirty if is_static? or dirty
 
     # check to see if the layout is dirty, and it it is then we

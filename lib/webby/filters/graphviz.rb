@@ -108,8 +108,8 @@ class Graphviz
 
       # generate the image filename based on the path, graph name, and type
       # of image to generate
-      image_fn = path.nil? ? name.dup : File.join(path, name)
-      image_fn = File.join('', image_fn) << '.' << type
+      image_fn = path.nil? ? name.dup : ::File.join(path, name)
+      image_fn = ::File.join('', image_fn) << '.' << type
 
       # create the HTML img tag
       out = "<img src=\"#{image_fn}\""
@@ -135,8 +135,8 @@ class Graphviz
       # generate the image using graphviz -- but first ensure that the
       # path exists
       out_dir = ::Webby.site.output_dir
-      out_file = File.join(out_dir, image_fn)
-      FileUtils.mkpath(File.join(out_dir, path)) unless path.nil?
+      out_file = ::File.join(out_dir, image_fn)
+      FileUtils.mkpath(::File.join(out_dir, path)) unless path.nil?
       cmd = "#{cmd} -T#{type} -o #{out_file} 2> #{@err.path}"
 
       IO.popen(cmd, 'w') {|io| io.write text}
@@ -169,8 +169,8 @@ class Graphviz
   # and log an error message and raise an exception.
   #
   def error_check
-    if File.size(@err.path) != 0
-      msg = "\n" << File.read(@err.path).strip
+    if ::File.size(@err.path) != 0
+      msg = "\n" << ::File.read(@err.path).strip
       raise Error, msg
     end
   end
