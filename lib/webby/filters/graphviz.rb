@@ -119,7 +119,7 @@ class Graphviz
         out << " %s=\"%s\"" % [attr, gviz[attr]]
       end
 
-      out << " usemap=\"#{name}\"" if usemap
+      out << " usemap=\"\##{name}\"" if usemap
       out << " />\n"
 
       # generate the image map if needed
