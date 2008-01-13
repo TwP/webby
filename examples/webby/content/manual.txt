@@ -3,7 +3,11 @@ title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
 filter:     textile
 --- 
-h2. Installation
+# "Installation":#installation
+# "New Webiste":#newwebsite
+# "Blah":#Blah
+
+h2. <a name="installation">Installation</a>
 
 Webby is an application written using the Ruby programming language. You will need to install a Ruby interpreter on your computer. Download and installation instructions can be found on the "Ruby":http://ruby-lang.org webiste. For the Windows platform, the one-click installer is recommended. Webby is not compatible with the Ruby 1.9.0 release; please use the Ruby 1.8.6 release.
 
@@ -15,6 +19,7 @@ To install Webby and its dependent gems type the following command. Omit the @su
 sudo gem install -y webby
 </pre>
 
+To make use of all the features Webby has to offer, the following gems should also be installed. These gems provide different ways to transform text into HTML or CSS.
 
 <pre class="code">
 sudo gem install -y RedcCoth
@@ -22,6 +27,8 @@ sudo gem install -y BlueCloth
 sudo gem install -y haml
 sudo gem install -y coderay
 </pre>
+
+h2. <a name="newwebsite">New Website</a>
 
 directory structure
 

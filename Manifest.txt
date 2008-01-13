@@ -59,6 +59,7 @@ lib/webby/auto_builder.rb
 lib/webby/builder.rb
 lib/webby/file.rb
 lib/webby/filters.rb
+lib/webby/filters/basepath.rb
 lib/webby/filters/coderay.rb
 lib/webby/filters/erb.rb
 lib/webby/filters/graphviz.rb

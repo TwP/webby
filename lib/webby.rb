@@ -56,12 +56,33 @@ module Webby
         'layout'     => 'default'
       },
       :find_by       => 'title',
+      :base          => nil,
+
       # Items used to deploy the webiste
       :host       => 'user@hostname.tld',
       :remote_dir => '/not/a/valid/dir',
       :rsync_args => %w(-av --delete),
+
       # Options passed to the 'tidy' program when the tidy filter is used
-      :tidy_options => '-indent -wrap 80'
+      :tidy_options => '-indent -wrap 80',
+
+      # XPath identifiers used by the basepath filter
+      :xpaths => %w(
+          /html/head//base[@href]
+          /html/head//link[@href]
+          //script[@src]
+          /html/body[@background]
+          /html/body//a[@href]
+          /html/body//object[@data]
+          /html/body//img[@src]
+          /html/body//area[@href]
+          /html/body//form[@action]
+          /html/body//input[@src]
+      )
+      # other possible XPaths to include for base path substitution
+      #   /html/body//object[@usemap]
+      #   /html/body//img[@usemap]
+      #   /html/body//input[@usemap]
     )
   end
 

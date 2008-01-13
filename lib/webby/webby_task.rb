@@ -54,18 +54,22 @@ class WebbyTask < TaskLib
   # Defines the :build and :rebuild tasks
   #
   def define_build_tasks
+    task :configure_basepath do
+      ::Webby.site.base = ENV['BASE'] if ENV.has_key?('BASE')
+    end
+
     desc "build the website"
-    task :build do |t|
+    task :build => :configure_basepath do |t|
       ::Webby::Builder.run
     end
 
     desc "rebuild the website"
-    task :rebuild do |t|
+    task :rebuild => :configure_basepath do |t|
       ::Webby::Builder.run :rebuild => true
     end
 
     desc "continuously build the website"
-    task :autobuild do |t|
+    task :autobuild => :configure_basepath do |t|
       ::Webby::AutoBuilder.run
     end
 
