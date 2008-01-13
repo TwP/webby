@@ -2,6 +2,7 @@
 extension: html
 filter:
   - erb
+  - basepath
 --- 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -26,23 +27,26 @@ filter:
 
 <div class="container">
 
-   <div class="column span-18 prepend-2 append-4 first last" id="header">
+   <div class="column span-20 prepend-2 append-2 first last" id="header">
       <h1>Webby &#9775; <%= h(@page.title) %></h1>
-      <hr />
-      <ul id="navigation"
-        ><li><a href="/index.html">Home</a>&middot;</li
-        ><li><a href="/download.html">Download</a>&middot;</li
-        ><li><a href="/tutorial.html">Tutorial</a>&middot;</li
-        ><li><a href="/manual.html">Manual</a>&middot;</li
+   </div>
+
+   <div class="column span-4 prepend-2 first" id="navigation">
+      <ul
+        ><li><a href="/index.html">Home</a></li
+        ><li><a href="/download.html">Download</a></li
+        ><li><a href="/tutorial.html">Tutorial</a></li
+        ><li><a href="/manual.html">Manual</a></li
         ><li><a href="/tips_and_tricks.html">Tips &amp; Tricks</a></li
         ></ul>
    </div>
 
-   <div class="column span-18 prepend-2 append-4 first last">
+
+   <div class="column span-16 append-2 last">
       <%= @content %>
    </div>
 
-   <div class="column span-18 prepend-2 append-4 first last" id="footer">
+   <div class="column span-20 prepend-2 append-2 first last" id="footer">
      <hr />
      <p>This website was created with <a href="http://webby.rubyforge.org">Webby</a><br />
      Webby is released under the MIT license</p>

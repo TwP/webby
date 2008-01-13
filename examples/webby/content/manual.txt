@@ -3,13 +3,24 @@ title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
 filter:     textile
 --- 
-# "Installation":#installation
-# "New Webiste":#newwebsite
-# "Blah":#Blah
+<div class="toc push-1">
 
-h2. <a name="installation">Installation</a>
+h4. Table of Contents
 
-Webby is an application written using the Ruby programming language. You will need to install a Ruby interpreter on your computer. Download and installation instructions can be found on the "Ruby":http://ruby-lang.org webiste. For the Windows platform, the one-click installer is recommended. Webby is not compatible with the Ruby 1.9.0 release; please use the Ruby 1.8.6 release.
+# "Getting Started":#gettingstarted
+## "Installation":#installation
+## "New Webiste":#newwebsite
+# "Working With Resources":#workingwithresources
+## "Pages":#pages
+## "Layouts":#layouts
+
+</div>
+
+h2(#gettingstarted){clear:none}. Getting Started
+
+h3(#installation){clear:none}. Installation
+
+Webby is an application written using the Ruby programming language. You will need to install a Ruby interpreter on your computer. Download and installation instructions can be found on the "Ruby":http://ruby-lang.org website. For the Windows platform, the one-click installer is recommended. Webby is not compatible with the Ruby 1.9.0 release; please use the Ruby 1.8.6 release.
 
 You will also need to install RubyGems. If you used the Windows one-click installer, RubyGems is already present on your system. For everyone else you can find installation instructions on the "RubyGems":http://rubygems.org/read/chapter/3 website.
 
@@ -28,20 +39,21 @@ sudo gem install -y haml
 sudo gem install -y coderay
 </pre>
 
-h2. <a name="newwebsite">New Website</a>
+h3(#newwebsite). New Website
 
-directory structure
+h2(#workingwithresources). Working With Resources
 
-* content
-* output
-* layouts
-* templates
-* lib
-* tasks
+A resource is any file that is found in the _content_ or _layouts_ folders. Resources are either copied to the output folder, or they are processed through the Webby filter engine to generate an output file. Resources fall into one of three types:
 
-resources
+* Files
+* Pages
+* Layouts
 
-renderer
+Files are the simplest resource to handle. They are copied, unchanged, from the content folder to the output folder. Files include resources such as images, CSS stylesheets, and so forth. A file will be copied from its location in the content folder to its corresponding location in the output folder -- i.e. a file located at @content/some/folder/image.jpg@ would be copied to @output/some/folder/image.jpg@.
 
-pages database
+Files will only be found in the _content_ folder. The _layouts_ folder is reserved solely for layouts.
+
+h3(#pages). Pages
+
+h3(#layouts). Layouts
 

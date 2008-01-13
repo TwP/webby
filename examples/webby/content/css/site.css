@@ -18,7 +18,6 @@ sass_options:
 !alt         = #666
 
 body
-  :margin       1.5em 0
   :color =      !text
   :font-family  Verdana, sans-serif
 
@@ -65,40 +64,30 @@ p.quiet
 // My Site Stylings
 // ------------------------------------------------------------------------
 #header
-  :margin-bottom     1.7em
-  h1
-    :margin-bottom   0
-    :padding-bottom  0.2em
-  hr 
-    :height          0.3em
-    :margin-bottom   0.5em
 
 #navigation 
-  :text-align                center
-  :margin-left               0
-  :font-size                 1.5em
-  :list-style-type           none
-  li 
-    :display                 inline
-    :padding-right           0.5em
-    a 
-      :margin-right          0.5em
-      :padding               0 0.2em
-      :text-decoration       none
-      &:hover 
-        :background-color = !highlight
+  ul
+    :margin-left               0
+    :text-align                left
+    :font-size                 16px
+    :list-style-type           none
+    li 
+      a 
+        :display               block
+        :text-decoration       none
+        &:hover 
+          :background-color = !highlight
 
 #footer
   hr 
-    :margin-bottom   0.5em
+    :margin-bottom   18px
   p 
     :text-align      right
 
 pre.code
-  :padding            0.5em
-  :margin-bottom      1.3em
+  :padding            8px
   :color =            !code
-  :font               1.1em 'Courier New', 'Terminal', monospace
+  :font               12px 'Courier New', 'Terminal', monospace
   :overflow           auto
 
 .CodeRay
@@ -107,23 +96,18 @@ pre.code
   :background =       !box_bg
   :color =            !code
   pre
-    :font             1.0em 'Courier New', 'Terminal', monospace
+    :font             14px 'Courier New', 'Terminal', monospace
 
 div.toc
   :float              right
-  :padding            1.5em
-  :margin-left        1.5em
-  :margin-bottom      1.5em
+  :padding            8px
+  :margin-left        16px
+  :margin-bottom      16px
   :background-color = !highlight
   :border =           1px solid !border
   ul 
     :margin-bottom    0
-
-span.caps
-  :font-weight        normal
-
-strong
-  span.caps
-    :font-weight      bold
+  ol
+    :margin-bottom    0
 
 // EOF
