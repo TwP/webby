@@ -37,22 +37,23 @@ module TagHelper
   end
 
   private
-    def tag_options( options, escape = true )
-      unless options.empty?
-        attrs = []
-        if escape
-          options.each do |key, value|
-            next if value.nil?
-            key = key.to_s
-            value = BOOLEAN_ATTRIBUTES.include?(key) ? key : escape_once(value)
-            attrs << %Q(#{key}="#{value}")
-          end
-        else
-          attrs = options.map {|key, value| %Q(#{key}="#{value}")}
+
+  def tag_options( options, escape = true )
+    unless options.empty?
+      attrs = []
+      if escape
+        options.each do |key, value|
+          next if value.nil?
+          key = key.to_s
+          value = BOOLEAN_ATTRIBUTES.include?(key) ? key : escape_once(value)
+          attrs << %Q(#{key}="#{value}")
         end
-        %Q( #{attrs.sort * ' '}) unless attrs.empty?
+      else
+        attrs = options.map {|key, value| %Q(#{key}="#{value}")}
       end
+      %Q( #{attrs.sort * ' '}) unless attrs.empty?
     end
+  end
 
 end  # module TagHelper
 end  # module Helpers

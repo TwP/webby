@@ -8,14 +8,30 @@ module Helpers #:nodoc:
 module UrlHelper
 
   # call-seq:
-  #    url_for( string, opts = {} ) 
-  #    url_for( page, opts ={} )
+  #    url_for( name, opts = {} ) 
   #
-  # Options
+  # Creates a URL for the given _name_ and _opts_. If _name_ is a string
+  # then it is used as the URL base. If _name_ is a Resource then it is
+  # converted to a URL by calling its +url+ method.
+  #
+  # ==== Options
   # 
-  #    :escape  => determins whether the returned URL will be HTML escaped
-  #                or not (+true+ by default)
-  #    :anchor  => specifies the anchor name to be appended to the path
+  # * <tt>:escape</tt> -- determines whether the returned URL will be HTML escaped or not (+true+ by default)
+  # * <tt>:anchor</tt> -- specifies the anchor name to be appended to the path
+  #
+  # ==== Examples
+  #
+  #    <%= url_for('/some/page.html') %>
+  #    # => /some/page
+  #
+  #    <%= url_for('/some/page.html', :anchor => 'tidbit') %>
+  #    # => /some/page#tidbit
+  #
+  #    <%= url_for(@page) %>
+  #    # => /current/page.html
+  #
+  #    <%= url_for(@page, :anchor => 'this&that') %>
+  #    # => /current/page.html#this&amp;that
   #
   def url_for( *args )
     opts = Hash === args.last ? args.pop : {}
@@ -31,6 +47,22 @@ module UrlHelper
     return url
   end
 
+  # call-seq:
+  #    url_for_page( :key => value, :url => {} )
+  #
+  # Creates a URL for the page identified by the set of <em>:key /
+  # value</em> pairs. The <em>:url</em> options are passed to the url_for
+  # method for final URL creation; see the url_for method for
+  # documentation on those options.
+  #
+  # The PagesDB#find method is used to locate the page; see the find method
+  # for the available options.
+  #
+  # ==== Examples
+  #
+  #    <%= url_for_page(:title => 'Funny Story', :anchor => 'punchline') %>
+  #    # => /humor/funny_story.html#punchline
+  #
   def url_for_page( opts = {} )
     opts = opts.symbolize_keys
     url_opts = opts.delete(:url)
@@ -42,7 +74,14 @@ module UrlHelper
     self.url_for(p, url_opts)
   end
 
+  # call-seq:
+  #    link_to( name, url, :attrs => {} )
   #
+  # Create an HTTP anchor tag with 
+  #
+  # url can be a url string, a Resource, :back, or nothing
+  #
+  # :attrs are used to generate HTML anchor tag attributes
   #
   def link_to( name, *args )
     opts = Hash === args.last ? args.pop : {}
@@ -107,6 +146,12 @@ module UrlHelper
   # options.
   #
   # ==== Examples
+  #
+  #    <%= link_to_page('Funny Story', :url => {:anchor => 'punchline'}) %>
+  #    # => <a href="/humor/funny_story.html#punchline">Funny Story</a>
+  #
+  #    <%= link_to_page('Hilarious', :title => 'Funny Story') %>
+  #    # => <a href="/humor/funn_story.html">Hilarious</a>
   #
   def link_to_page( *args )
     self.link_to(*_find_page(args))
