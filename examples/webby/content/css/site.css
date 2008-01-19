@@ -7,7 +7,7 @@ sass_options:
 --- 
 !text        = #000
 !border      = #DDD
-!header      = #333
+!header      = #111
 !link        = #125AA7
 !link_hover  = #000
 !blockquote  = #666
@@ -26,6 +26,10 @@ body
 h1,h2,h3,h4,h5,h6 
   :color =      !header
   :font-family  Georgia, serif
+  :font-weight  bold
+
+h2,h3,h4,h5,h6
+  :border-bottom = 2px solid !highlight
 
 // Text Elements
 // ------------------------------------------------------------------------
@@ -37,8 +41,12 @@ blockquote
   :color =   !blockquote
 
 pre
+  :padding       8px
+  :color =       !code
+  :font-family   monospace, courier
+  :overflow      auto
   :background =  !box_bg
-  :border        none
+  :border =      1px solid !border
   :border-left = 7px solid !border
 
 hr
@@ -72,6 +80,7 @@ p.quiet
     :font-size                 16px
     :list-style-type           none
     li 
+      :margin-bottom           9px
       a 
         :display               block
         :text-decoration       none
@@ -84,19 +93,13 @@ p.quiet
   p 
     :text-align      right
 
-pre.code
-  :padding            8px
-  :color =            !code
-  :font               12px 'Courier New', 'Terminal', monospace
-  :overflow           auto
-
 .CodeRay
-  :border             none
+  :border =           1px solid !border
   :border-left =      7px solid !border
   :background =       !box_bg
   :color =            !code
   pre
-    :font             14px 'Courier New', 'Terminal', monospace
+    :font             12px monospace, courier
 
 div.toc
   :float              right

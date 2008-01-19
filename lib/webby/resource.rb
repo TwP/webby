@@ -121,7 +121,7 @@ class Resource
   # filename. The extension is determined by looking at the following:
   #
   # * this resource's meta-data for an 'extension' property
-  # * the meta-data of this resource's layout for an 'extension' propery
+  # * the meta-data of this resource's layout for an 'extension' property
   # * the extension of this resource file
   #
   def extension
@@ -144,7 +144,7 @@ class Resource
   # resource is dirty and in need of rendering.
   #
   # The destination for any resource can be overridden by explicitly setting
-  # the 'destination' propery in the resource's meta-data.
+  # the 'destination' property in the resource's meta-data.
   #
   def destination
     return @dest if defined? @dest and @dest

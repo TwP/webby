@@ -1,18 +1,24 @@
 --- 
 title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
-filter:     textile
+filter:
+  - graphviz
+  - textile
 --- 
 <div class="toc push-1">
 
-h4. Table of Contents
+h4(#toc). Table of Contents
 
 # "Getting Started":#gettingstarted
 ## "Installation":#installation
 ## "New Webiste":#newwebsite
 # "Working With Resources":#workingwithresources
 ## "Pages":#pages
+### "Page Attributes":#pageattributes
+### "Page Filters":#pagefilters
 ## "Layouts":#layouts
+# "Filters":#filters
+# "Default Settings":#defaultsettings
 
 </div>
 
@@ -26,13 +32,13 @@ You will also need to install RubyGems. If you used the Windows one-click instal
 
 To install Webby and its dependent gems type the following command. Omit the @sudo@ portion for the Windows platform; you will need to specify the *mswin32* versions of the _mongrel_ and _hpricot_ dependent gems when prompted.
 
-<pre class="code">
+<pre>
 sudo gem install -y webby
 </pre>
 
 To make use of all the features Webby has to offer, the following gems should also be installed. These gems provide different ways to transform text into HTML or CSS.
 
-<pre class="code">
+<pre>
 sudo gem install -y RedcCoth
 sudo gem install -y BlueCloth
 sudo gem install -y haml
@@ -43,7 +49,7 @@ h3(#newwebsite). New Website
 
 h2(#workingwithresources). Working With Resources
 
-A resource is any file that is found in the _content_ or _layouts_ folders. Resources are either copied to the output folder, or they are processed through the Webby filter engine to generate an output file. Resources fall into one of three types:
+A resource is any file that is found in the _content_ or _layouts_ folders. Resources are either copied to the output folder or they are processed through the Webby filter engine to generate an output file. Resources fall into one of three types:
 
 * Files
 * Pages
@@ -55,5 +61,96 @@ Files will only be found in the _content_ folder. The _layouts_ folder is reserv
 
 h3(#pages). Pages
 
+Pages are found in the _content_ folder along with regular files. Pages contain *meta-data* at the top of the file; this is what differentiates a page from a regular file. The meta-data is a section of "YAML":http://www.yaml.org/spec/1.1/ formatted text that describes various properties and attributes of the page. These attributes are used by Webby to determine how the page will be processed by the filter engine.
+
+Let's look at an example page.
+
+<pre>
+---
+title:      Lorem Ipsum
+created_at: Wed Aug 29 08:57:00 -0600 2007
+filter:
+  - erb
+  - textile
+---
+h2. <%= @page.title %>
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc congue ipsum
+vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est eu
+lobortis mattis, lectus tellus tempus felis, a ultricies erat ipsum at metus.
+</pre>
+
+The page meta-data is contained in the first section  --  it is located between the two @---@ lines. The page meta-data will not be present in the generated HTML file. Only the page content (the text below the second @---@ line) will be rendered into the final HTML file. The meta-data defines a collection of attributes that (1) are made available to the various Webby filters and (2) provide instructions to the Webby filter engine itself.
+
+Three attributes are defined in the above example: @title@, @created_at@, and @filter@. The first attribute, @title@, is associated with the value "Lorem Ipsum". This attribute is used in the first line of the page content to render the title using a combination of the ERB and Textile filters (more can be read in the "Filters":#filters section of this manual). The example page above will result in the following snippet of HTML code.
+
+<pre>
+<h2>Lorem Ipsum</h2>
+
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc congue ipsum
+vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est eu
+lobortis mattis, lectus tellus tempus felis, a ultricies erat ipsum at metus.</p>
+</pre>
+
+You can see that the value of the @title@ attribute was substituted for the ERB snippet <code><%= @page.title %></code>. All page attributes can be accessed using the <code>@page.attribute</code> syntax within an ERB block. This will be discussed in greater detail in the "ERB Filter":#erbfilter section.
+
+The last attribute in the meta-data section is the @filter@ attribute. The value for this attribute is a list of filters that will be applied to the page contents. The filters will be applied in the order they are specified. For the example page this would be the ERB filter followed by the Textile filter.
+
+h4(#pageattributes). Page Attributes
+
+Attribute identifiers cannot contain spaces; they must be separated from their values by a colon. Other than that, you are free to define as many attributes as you like. Aside from defining values that can be rendered into a page, attributes are also used to find other pages in the site. Finding and linking to other pages is discussed in the "ERB Filter":#erbfilter section.
+
+There are a few attributes that control when, where, and how pages are rendered. These are listed below with a brief description of how the attribute affects the system.
+
+* *destination*  --  Defines the path in the output directory where the rendered page should be stored.
+* *dirty*  --  The dirty flag is used to determine whether the page should rendered or not. Normally this is automatically determined by the filter engine, but it can be overridden by setting this attribute. If the dirty flag is set to _true_ then the page will always be rendered. If the dirty flag is set to _false_ then the page will never be rendered.
+* *extension*  --  Defines the extension that will be appended to the filename of the rendered page in the output folder. The extension is determined by looking at the following:
+** the meta-data of the current page for an @extension@ attribute
+** the meta-data of layout file of the current page for an @extension@ attribute
+** the extension of this page file in the _content_ folder
+* *filter*  --  Defines the list of filters that will be applied to the contents of this page. If left blank, then the default filter will be applied to the page contents.
+* *layout*  --  Defines the layout that the page contents will be rendered into. The default layout will be used if this attribute is not defined. The value of @nil@ should be specified if the page should not be rendered into any layout.
+
+The following attributes are defined for each page in the content folder. These attributes cannot be changed in the page's meta-data section. However, they are available to the ERB filter when rendering the contents of a page.
+
+* *path*  --  The full path to the file in the _content_ folder
+* *dir*  --  The relative directory in the output folder where the page will be rendered
+* *filename*  --  The name of the file in the _content_ folder excluding any path information
+* *ext*  --  The extension of the file in the _content_ folder
+* *mtime*  --  The modification time of the file in the _content_ folder
+* *number*  --  Reserved variable used for multi-page content
+* *url*  --  A URL suitable for creating a link to the page
+* *render*  --  Returns the contents of the page as rendered by the Webby filter engine
+
+h4(#pagefilters). Page Filters
+
+Filters operate on the content of a page by transforming the text of the content section according the rules of the individual filter. Some filters transform simplified markup into true HTML syntax; examples of these are the Textile filter and the Markdown filter. Other filters create images from text in the page (Graphviz filter) or apply syntax highlighting to the text (CodeRay filter). All the filters are discussed in detail in the "Filters":#filters section of this document.
+
 h3(#layouts). Layouts
 
+<graphviz path="images" class="push-0" alt="layout diagram">
+digraph layout_graph {
+  rankdir = LR;
+  edge [fontname="Verdana", fontsize=8];
+  node [fontname="Verdana", fontsize=10];
+
+  page -> layout [label="rendered\ninto"];
+  layout -> HTML [label="results\nin"];
+}
+</graphviz>
+
+
+h2(#filters). Filters
+
+* ERB
+* Textile
+* Markdown
+* HAML
+* SASS
+* CodeRay
+* Graphviz
+* BasePath
+* Tidy
+
+
+h2(#defaultsettings). Default Settings
