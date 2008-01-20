@@ -79,9 +79,17 @@ module UrlHelper
   #
   # Create an HTTP anchor tag with 
   #
-  # url can be a url string, a Resource, :back, or nothing
+  # url can be a url string, a page, :back, or nothing
   #
   # :attrs are used to generate HTML anchor tag attributes
+  #
+  # ==== Examples
+  #
+  #    <%= link_to('Google', 'http://www.google.com/', :attrs => {:name => 'google'}) %>
+  #    # => <a href="http://www.google.com/" name="google">Google</a>
+  #
+  #    <%= link_to('A Page', @page, :anchor => 'blah') %>
+  #    # => <a href="/a/page.html#blah">A Page</a>
   #
   def link_to( name, *args )
     opts = Hash === args.last ? args.pop : {}
@@ -89,9 +97,7 @@ module UrlHelper
     attrs = opts.delete(:attrs)
 
     url = case url
-      when String
-        url
-      when Webby::Resource
+      when String, Webby::Resource
         self.url_for(url, opts)
       when :back
         'javascript:history.back()'
@@ -121,9 +127,8 @@ module UrlHelper
   # Creates a link tag of the given _name_ using a URL created by finding
   # the associated page from the key/value pairs. If the key/value pairs are
   # omitted, the _name_ is used in conjunction with the default site +find_by+
-  # attribute. If the _name_ is omitted, then either the page +title+
-  # attribute or the page +filename+ attribute is used as the name (in that
-  # order of preference).
+  # attribute. Unless changed by the user, the default +find_by+ attribute
+  # is the page title.
   #
   # Pages are found using key/value pairs. The key is any of the page
   # attributes, and the value is what that attribute should be. Any number
@@ -157,7 +162,23 @@ module UrlHelper
     self.link_to(*_find_page(args))
   end
 
+  # call-seq:
+  #    link_to_page_unless_current( name )
+  #    link_to_page_unless_current( :key => value )
+  #    link_to_page_unless_current( name, :key => value )
+  #    link_to_page_unless_current( page )
   #
+  # This function operates in the same fashion as the +link_to_page+ fuction
+  # with the exception that if the page to be linked to is the current page,
+  # then only the _name_ is rendered without an HTML anchor tag.
+  #
+  # ==== Examples
+  #
+  #    <%= link_to_page_unless_current('Funny Story') %>
+  #    # => <a href="/humor/funny_story.html">Funny Story</a>
+  #
+  #    <%= link_to_page_unless_current(@page) %>
+  #    # => This Page
   #
   def link_to_page_unless_current( *args )
     name, page, link_opts = _find_page(args)
@@ -176,6 +197,11 @@ module UrlHelper
   #    _find_page( page, opts = {} )
   #
   # Returns an array of the [name, page, options]. 
+  #
+  # ==== Options
+  # 
+  # * <tt>:url</tt> -- hash of options for the +url_for+ method
+  # * <tt>:attrs</tt> -- hash of options for the +link_to+ method
   #
   def _find_page( args )
     raise ArgumentError, 'wrong number of arguments (0 for 1)' if args.empty?

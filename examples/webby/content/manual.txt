@@ -124,9 +124,11 @@ The following attributes are defined for each page in the content folder. These 
 
 h4(#pagefilters). Page Filters
 
-Filters operate on the content of a page by transforming the text of the content section according the rules of the individual filter. Some filters transform simplified markup into true HTML syntax; examples of these are the Textile filter and the Markdown filter. Other filters create images from text in the page (Graphviz filter) or apply syntax highlighting to the text (CodeRay filter). All the filters are discussed in detail in the "Filters":#filters section of this document.
+Filters operate on the content of a page by transforming the text of the content section according to the rules of the individual filter. Some filters transform simplified markup into true HTML syntax; examples of these are the Textile filter and the Markdown filter. Other filters create images from text in the page (Graphviz filter) or apply syntax highlighting to the text (CodeRay filter). All the filters are discussed in detail in the "Filters":#filters section of this document.
 
 h3(#layouts). Layouts
+
+Layouts provide the basic framework for a page  --  the header, the footer, the navigation. They provide a consistent look and feel across all pages in the website. Individual pages contain just the content for that particular page.
 
 <graphviz path="images" class="push-0" alt="layout diagram">
 digraph layout_graph {
@@ -139,6 +141,28 @@ digraph layout_graph {
 }
 </graphviz>
 
+The diagram to the right shows a typical page rendering process. The content of a page is rendered by the Webby filter engine. The rendered content is inserted into the layout specified by the page; the content insertion occurs as the layout is being rendered. The result is the HTML that is stored in the _output_ folder.
+
+Layouts are treated exactly as pages are treated with one exception  --  the layout has access to the rendered contents of another page in site. The content of the page being rendered is made available to the layout via the @@content@ variable accessible from the ERB filter.
+
+<pre>
+---
+extension: html
+filter:    erb
+---
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title><%= @page.title %></title>
+</head>
+<body>
+  <%= @content %>
+</body>
+</html>
+</pre>
+
+The example above shows a very simple layout. The content for the current page being rendered will be inserted between the HTML body tags.
+
+Along with the @@content@ variable, all the attributes of the current page being rendered are also accessible in the layout. The page title is inserted into the HTML title tags. But again, any page attribute can be accessed within the layout via the @@page@ variable.
 
 h2(#filters). Filters
 
@@ -154,3 +178,4 @@ h2(#filters). Filters
 
 
 h2(#defaultsettings). Default Settings
+
