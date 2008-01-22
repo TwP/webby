@@ -24,6 +24,13 @@ h4(#toc). Table of Contents
 
 h2(#gettingstarted){clear:none}. Getting Started
 
+h3(#requirements){clear:none}. Requirements
+
+Webby is an application written using the Ruby programming language. To install and run Webby you will need the following applications on your system:
+
+* "Ruby":http://ruby-lang.org
+* "RubyGems":http://rubygems.org/read/chapter/3
+
 h3(#installation){clear:none}. Installation
 
 Webby is an application written using the Ruby programming language. You will need to install a Ruby interpreter on your computer. Download and installation instructions can be found on the "Ruby":http://ruby-lang.org website. For the Windows platform, the one-click installer is recommended. Webby is not compatible with the Ruby 1.9.0 release; please use the Ruby 1.8.6 release.

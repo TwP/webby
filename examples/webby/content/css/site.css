@@ -115,4 +115,8 @@ div.toc
   ol
     :margin-bottom    0
 
+ul
+  ul
+    :margin-bottom    0
+
 // EOF
