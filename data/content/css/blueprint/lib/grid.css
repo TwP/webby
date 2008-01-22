@@ -1,11 +1,9 @@
 /* -------------------------------------------------------------- 
-  
-   Grid.css
-   * Version:   0.5 (28/8/2007)
-   * Website:   http://code.google.com/p/blueprintcss/
+   
+   grid.css
+   * Sets up an easy-to-use grid of 24 columns.
    
    Based on work by:
-   * Olav Bjorkoy      [bjorkoy.com]
    * Nathan Borror     [playgroundblues.com]
    * Jeff Croft        [jeffcroft.com]
    * Christian Metts   [mintchaos.com]
@@ -16,23 +14,17 @@
    
    If you need fewer or more columns, use this 
    formula to find the new total width: 
+   Total width = (columns * 40) - 10
    
-   Total width = (columns * 30) - 10
-  
+   Read more about using a grid here:
+   * subtraction.com/archives/2007/0318_oh_yeeaahh.php
+   
 -------------------------------------------------------------- */
-
-body { 
-  text-align: center; /* IE6 Fix */
-  margin:36px 0;
-}
 
 /* A container should group all your columns. */
 .container {
-  text-align: left;
-  position: relative;
-  padding: 0;
-  margin: 0 auto;   /* Centers layout */
-  width: 950px;     /* Total width */
+  width: 950px;
+  margin: 0 auto;
 }
 
 
@@ -40,27 +32,18 @@ body {
 -------------------------------------------------------------- */
 
 /* Use this class together with the .span-x classes
-   to create any compsition of columns in a layout.
-   Nesting columns works like a charm (remember .first and .last). */
+   to create any composition of columns in a layout. */
    
 .column {
   float: left;
   margin-right: 10px;
-  padding: 0;
-}
-* html .column { overflow-x: hidden; } /* IE6 fix */
-
-/* Add this class to a column if you want a border on its 
-   right hand side. This should be customized to fit your needs. */
-
-.border {
-  padding-right: 4px;
-  margin-right: 5px;
-  border-right: 1px solid #ddd;
 }
 
 
-/* Use these classes to set how wide a column should be. */
+/* The last column in a row needs this class. */
+.last { margin-right: 0; }
+
+/* Use these classes to set the width of a column. */
 .span-1   { width: 30px; }
 .span-2   { width: 70px; }
 .span-3   { width: 110px; }
@@ -86,9 +69,6 @@ body {
 .span-23  { width: 910px; }
 .span-24  { width: 950px; margin: 0; }
 
-/* The last element in a multi-column block needs this class. */
-.last     { margin-right: 0; }
-
 /* Add these to a column to append empty cols. */
 .append-1   { padding-right: 40px; }  
 .append-2   { padding-right: 80px; } 
@@ -102,6 +82,17 @@ body {
 .append-10  { padding-right: 400px; } 
 .append-11  { padding-right: 440px; } 
 .append-12  { padding-right: 480px; } 
+.append-13  { padding-right: 520px; } 
+.append-14  { padding-right: 560px; } 
+.append-15  { padding-right: 600px; } 
+.append-16  { padding-right: 640px; } 
+.append-17  { padding-right: 680px; } 
+.append-18  { padding-right: 720px; } 
+.append-19  { padding-right: 760px; } 
+.append-20  { padding-right: 800px; } 
+.append-21  { padding-right: 840px; } 
+.append-22  { padding-right: 880px; } 
+.append-23  { padding-right: 920px; } 
 
 /* Add these to a column to prepend empty cols. */
 .prepend-1   { padding-left: 40px; }  
@@ -116,34 +107,87 @@ body {
 .prepend-10  { padding-left: 400px; } 
 .prepend-11  { padding-left: 440px; } 
 .prepend-12  { padding-left: 480px; } 
+.prepend-13  { padding-left: 520px; } 
+.prepend-14  { padding-left: 560px; } 
+.prepend-15  { padding-left: 600px; } 
+.prepend-16  { padding-left: 640px; } 
+.prepend-17  { padding-left: 680px; } 
+.prepend-18  { padding-left: 720px; } 
+.prepend-19  { padding-left: 760px; } 
+.prepend-20  { padding-left: 800px; } 
+.prepend-21  { padding-left: 840px; } 
+.prepend-22  { padding-left: 880px; } 
+.prepend-23  { padding-left: 920px; } 
 
 
+/* Border on right hand side of a column. */
+.border {
+  padding-right: 4px;
+  margin-right: 5px;
+  border-right: 1px solid #eee;
+}
 
-/* Images
--------------------------------------------------------------- */
+/* Border with more whitespace, spans one column. */
+.colborder {
+  padding-right: 24px;
+  margin-right: 25px;
+  border-right: 1px solid #eee;
+}
 
-/* Remember the baseline (typography.css). */
-img { margin: 0 0 18px 0; }
 
-
-/* Use these classes to make an image flow into the column before 
-   or after it. This techique can also be used on other objects. */
+/* Use these classes on an element to push it into the 
+   next column, or to pull it into the previous column. */
 
 .pull-1  { margin-left: -40px; }
 .pull-2  { margin-left: -80px; }
 .pull-3  { margin-left: -120px; }
 .pull-4  { margin-left: -160px; }
 
-.push-0  { margin: 0 0 0 18px;      float: right; } /* Right aligns the image. */
-.push-1  { margin: 0 -40px 0 18px;  float: right; }
-.push-2  { margin: 0 -80px 0 18px;  float: right; }
-.push-3  { margin: 0 -120px 0 18px; float: right; }
-.push-4  { margin: 0 -160px 0 18px; float: right; }
+.push-0  { margin: 0 0 0 18px; }
+.push-1  { margin: 0 -40px 0 18px; }
+.push-2  { margin: 0 -80px 0 18px; }
+.push-3  { margin: 0 -120px 0 18px; }
+.push-4  { margin: 0 -160px 0 18px; }
+.push-0, .push-1, .push-2, .push-3, .push-4 { float: right; }
 
-.pull-1, .pull-2, .pull-3, .pull-4,
-.push-1, .push-2, .push-3, .push-4 {
-  overflow-x: visible; /* Overrides previous IE6 fix (needs improvement). */
+
+/* Misc classes and elements
+-------------------------------------------------------------- */
+
+/* Use a .box to create a padded box inside a column.  */ 
+.box { 
+  padding: 1.5em; 
+  margin-bottom: 1.5em; 
+  background: #eee; 
 }
 
-/* EOF */
+/* Use this to create a horizontal ruler across a column. */
+hr {
+  background: #ddd; 
+  color: #ddd;
+  clear: both; 
+  float: none; 
+  width: 100%; 
+  height: .1em;
+  margin: 0 0 1.4em;
+  border: none; 
+}
+hr.space {
+  background: #fff;
+  color: #fff;
+}
 
+/* Clearing floats without extra markup
+   Based on How To Clear Floats Without Structural Markup by PiE
+   [http://www.positioniseverything.net/easyclearing.html] */
+
+.clear { display: inline-block; }   
+.clear:after, .container:after {
+  content: "."; 
+  display: block; 
+  height: 0; 
+  clear: both; 
+  visibility: hidden;
+}
+* html .clear { height: 1%; }
+.clear { display: block; }

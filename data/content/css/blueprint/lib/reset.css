@@ -1,20 +1,17 @@
 /* -------------------------------------------------------------- 
   
-   Reset.css
-   * Version:   0.5 (28/8/2007)
-   * Website:   http://code.google.com/p/blueprintcss/
+   reset.css
+   * Resets default browser CSS.
    
-   Original by Eric Meyer:
+   Based on work by Eric Meyer:
    * meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
    
 -------------------------------------------------------------- */
 
-html, body, div, span, applet, object, iframe,
+html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-strike, strong, sub, sup, tt, var,
-dl, dt, dd, ol, ul, li,
+a, abbr, acronym, address, code,
+del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 0;
@@ -27,14 +24,16 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	vertical-align: baseline;
 }
 
-body { line-height: 1; color: #333; background: white; }
+
+body { line-height: 1.5; background: #fff; margin:1.5em 0; }
 
 /* Tables still need 'cellspacing="0"' in the markup. */
 table { border-collapse: separate; border-spacing: 0; }
-caption, th, td { text-align: left; font-weight: normal; }
+caption, th, td { text-align: left; font-weight:400; }
 
 /* Remove possible quote marks (") from <q>, <blockquote>. */
 blockquote:before, blockquote:after, q:before, q:after { content: ""; }
 blockquote, q { quotes: "" ""; }
 
-/* EOF */
+a img { border: none; }
+
