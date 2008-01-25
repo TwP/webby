@@ -43,7 +43,7 @@ class WebbyTask < TaskLib
     yield self if block_given?
 
     # load any user defined libraries
-    glob = File.join(FileUtils.pwd, 'lib', '**', '*.rb')
+    glob = ::File.join(FileUtils.pwd, 'lib', '**', '*.rb')
     Dir.glob(glob).sort.each {|fn| require fn}
 
     # create the Webby rake tasks
@@ -91,12 +91,18 @@ class WebbyTask < TaskLib
       task name do |t|
         raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 
-        # TODO: add ability to create only index.html pages
-        #       this behavior would create a directory using the given page
-        #       name, and then create an index.txt file in that directory
         page = t.application.top_level_tasks.pop
-        page = File.join(::Webby.site.content_dir, page)
-        page << '.txt' if File.extname(page).empty?
+        name = ::Webby::File.basename(page)
+        ext  = ::Webby::File.extname(page)
+        dir  = ::Webby::File.dirname(page)
+
+        if ::Webby.site.create_mode == 'directory'
+          page = ::File.join(::Webby.site.content_dir, name, 'index')
+          page << '.' << (ext.empty? ? 'txt' : ext)
+        else
+          page = ::File.join(::Webby.site.content_dir, page)
+          page << '.txt' if ext.empty?
+        end
 
         ::Webby::Builder.create page, :from => template
       end  # task

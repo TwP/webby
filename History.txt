@@ -1,7 +1,8 @@
 == 0.7.2 /
 
-* 1 minor enhancement
+* 2 minor enhancements
   - Created a URI base path rewriter filter
+  - Pages can be created as files or as directories
 * 1 bug fix
   - Fixed a bug in the graphviz filter where the wrong map ID was
     being generated

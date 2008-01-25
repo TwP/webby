@@ -57,6 +57,7 @@ module Webby
       },
       :find_by       => 'title',
       :base          => nil,
+      :create_mode   => 'page',
 
       # Items used to deploy the webiste
       :host       => 'user@hostname.tld',
