@@ -3,7 +3,6 @@ extension: html
 filter:
   - erb
   - basepath
-  - tidy
 --- 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -32,7 +31,7 @@ filter:
       <h1>Webby &#9775; <%= h(@page.title) %></h1>
    </div>
 
-   <div class="column span-3 prepend-1 append-1 first" id="navigation">
+   <div class="column span-4 prepend-1 first" id="navigation">
       <ul
         ><li><a href="/index.html">Home</a></li
         ><li><a href="/download.html">Download</a></li

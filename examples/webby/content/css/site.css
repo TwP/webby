@@ -25,7 +25,6 @@ body
 // ------------------------------------------------------------------------
 h1,h2,h3,h4,h5,h6 
   :color =      !header
-  :font-family  Georgia, serif
   :font-weight  bold
 
 h2,h3,h4,h5,h6
@@ -55,6 +54,9 @@ hr
   :background = !highlight
   :color =      !highlight
 
+code
+  :background-color = !box_bg
+
 // Tables
 // ------------------------------------------------------------------------
 table
@@ -82,10 +84,10 @@ p.quiet
     :font-size                 16px
     :list-style-type           none
     li 
-      :margin-top              9px
       a 
         :display               block
         :text-decoration       none
+        :padding-right         5px
         &:hover 
           :background-color = !highlight
 
@@ -114,6 +116,8 @@ div.toc
     :margin-bottom    0
   ol
     :margin-bottom    0
+  h4
+    :margin-bottom    0.25em
 
 ul
   ul
