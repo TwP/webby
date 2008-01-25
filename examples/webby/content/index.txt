@@ -9,7 +9,7 @@ Webby works by combining the contents of a *page* with a *layout* to produce HTM
 
 Install Webby and try it out!
 
-<pre class="code">
+<pre>
 sudo gem install -y webby
 </pre>
 
@@ -28,7 +28,7 @@ h2. But Wait! There's More!
 
 Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via "heel":http://copiousfreetime.rubyforge.org/heel/, a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
 
-<pre class="code">
+<pre>
 $ rake autobuild
 heel --root output --daemonize
 [10:21:26]  INFO: starting autobuild (Ctrl-C to stop)
