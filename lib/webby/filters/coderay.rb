@@ -25,7 +25,7 @@ module Filters
 # The supported CodeRay options are the following:
 #
 #    lang               : the language to highlight (ruby, c, html, ...)
-#    line_numbers       : include line nubers in 'table', 'inline',
+#    line_numbers       : include line numbers in 'table', 'inline',
 #                         or 'list'
 #    line_number_start  : where to start with line number counting
 #    bold_every         : make every n-th number appear bold

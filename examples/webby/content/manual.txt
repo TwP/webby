@@ -3,6 +3,7 @@ title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
 filter:
   - graphviz
+  - coderay
   - textile
 --- 
 <div class="toc push-1">
@@ -249,11 +250,99 @@ The @haml@ gem must be installed on your system in order to use the haml filter 
 
 h3(#coderay). %(num)3.5% CodeRay
 
+"CodeRay":http://coderay.rubychan.de/ is a Ruby library that provides syntax highlighting for various types of source code. The coderay filter takes a portion of the page contents and runs it through the CodeRay syntax highlighter, and pretty, colored XHTML is inserted into the page. The end result is that you can embed code into a page, and the coderay filter will convert that code into valid XHTML.
+
+Unlike the filters mentioned thus far, the coderay filter does not operate on the entire contents of a page. Only text between <code><notextile>&lt;coderay&gt;...&lt;/coderay&gt;</notextile></code> tags will be run through the coderay filter. The XHTML inserted into the page is contained in a @div@ element styled with a @CodeReay@ class.
+
+The coderay filter is controlled by setting attributes on the coderay tags in the content of the page. These attributes tell the CodeRay engine the language being parsed, to show line numbers, where to start numbering etc.
+
+<pre>
+<notextile>&lt;coderay lang="ruby" line_numbers="inline"&gt;
+class Object
+  def returning( r )
+    yield r if block_given?
+    r
+  end
+end
+&lt;/coderay&gt;</notextile>
+</pre>
+
+<coderay lang="ruby" line_numbers="inline">
+class Object
+  def returning( r )
+    yield r if block_given?
+    r
+  end
+end
+</coderay>
+
+*Usage*:
+
+Include "coderay" in the filter list of the page or layout that contains Markdown formatting. You will also need to link to the coderay stylesheet in any page containing coderay markup.
+
+*Options*:
+
+The full list of "coderay options":/rdoc/classes/Webby/Filters/CodeRay.html can be found in the source documentation.
+
+*Require*:
+
+The @coderay@ gem must be installed on your system in order to use the coderay filter. Be sure to include the coderay stylesheet in your layout.
+
 h3(#graphviz). %(num)3.6% Graphviz
+
+"Graphviz":http://www.graphviz.org/ is open source graph visualization software. Graph visualization is a way of representing structural information as diagrams of abstract graphs and networks. The Graphviz layout programs take descriptions of graphs in a simple text language, and make diagrams in several useful formats. The graphviz filter allows you to embed Graphviz scripts into a page and generate an image in the page.
+
+The graphviz filter does not operate on the entire contents of a page. Only text between <code><notextile>&lt;graphviz&gt;...&lt;/graphviz&gt;</notextile></code> tags will be run through the graphviz filter. The resulting image will be inserted into the page using a standard @img@ tag. If the Graphviz script contains references to URLs, then an image map will also be generated and inserted into the page. This results in an image with clickable regions.
+
+The graphviz filter is controlled by setting attributes on the graphviz tags in the content of the page. These attributes tell the Graphviz renderer where to store the generated image, the type of image to create, etc.
+
+<pre>
+<notextile>&lt;graphviz path="images" alt="hello world graph"&gt;
+digraph hello_world {
+  rankdir = LR;
+  Hello -> World;
+}
+&lt;/graphviz&gt;</notextile>
+</pre>
+
+<graphviz path="images" alt="hello world graph">
+digraph hello_world {
+  rankdir = LR;
+  Hello -> World;
+}
+</graphviz>
+
+*Usage*:
+
+Include "graphviz" in the filter list of the page or layout that contains Graphviz scripts.
+
+*Options*:
+
+The full list of "graphviz options":/rdoc/classes/Webby/Filters/Graphviz.html can be found in the source documentation.
+
+*Require*:
+
+The Graphviz application must be installed on your system, and the Graphviz executables must be available on the path.
 
 h3(#basepath). %(num)3.7% BasePath
 
+The 
+
 h3(#tidy). %(num)3.8% Tidy
+
+"Tidy":http://www.w3.org/People/Raggett/tidy/ is a useful application for cleaning up and detecting errors in XHTML text.
+
+bq. When editing HTML it's easy to make mistakes. Wouldn't it be nice if there was a simple way to fix these mistakes automatically and tidy up sloppy editing into nicely layed out markup? Well now there is! Dave Raggett's HTML TIDY is a free utility for doing just that. Tidy is able to fix up a wide range of problems and to bring to your attention things that you need to work on yourself. Each item found is listed with the line number and column so that you can see where the problem lies in your markup. Tidy won't generate a cleaned up version when there are problems that it can't be sure of how to handle. These are logged as "errors" rather than "warnings".
+
+*Usage*:
+
+Include "tidy" as the last item in the filter list of your layout(s).
+
+*Options*: none
+
+*Require*:
+
+The HTML Tidy application must be installed on your system, and the @tidy@ executable must be available on the path.
 
 h2(#defaultsettings). Default Settings
 

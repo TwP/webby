@@ -98,6 +98,8 @@ p.quiet
     :text-align      right
 
 .CodeRay
+  :margin-left        18px
+  :padding            8px
   :border =           1px solid !border
   :border-left =      7px solid !border
   :background =       !box_bg

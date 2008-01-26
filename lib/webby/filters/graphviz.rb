@@ -25,9 +25,9 @@ module Filters
 #     }
 #     </graphviz>
 #
-# If the DOT script contains *URL* or *href* cursorments on any of the nodes
+# If the DOT script contains *URL* or *href* attributes on any of the nodes
 # or edges, then an image map will be generated and the image will be
-# "clikcable" in the webpage. If *URL* or *href* cursorments do not appear in
+# "clikcable" in the webpage. If *URL* or *href* attributes do not appear in
 # the DOT script, then a regular image will be inserted into the webpage.
 #
 # The image is inserted into the page using an HTML <img /> tag. A

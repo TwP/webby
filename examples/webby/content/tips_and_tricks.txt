@@ -29,7 +29,7 @@ This is the @render_page@ function from the Webby static website generation
 system. It is used to render a page by applying the specified filters in
 succession to the page contents.
 <notextile>
-&lt;coderay lang="ruby" line_numbers="inline"&gt;
+&lt;coderay lang="ruby" line_numbers="inline"&gt;</notextile>
 # call-seq:
 #    render_page    => string
 #
@@ -46,7 +46,7 @@ def render_page
 
   str
 end
-&lt;/coderay&gt;
+<notextile>&lt;/coderay&gt;
 </notextile></pre>
 
 There are more options that can be passed to the CodeRay syntax highlighter than those shown in the example above. Take a look at the RDoc documentation for the "CodeRay Filter":http://webby.rubyforge.org/rdoc/classes/Webby/CodeRayFilter.html class for more information.
