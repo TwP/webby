@@ -110,7 +110,7 @@ class Renderer
   # continues until all _items_ have been paginated.
   #
   # Calling this method creates a <code>@pager</code> object that can be
-  # accessed from the _page_. The <code>@pager</code> contains information
+  # accessed from the page. The <code>@pager</code> contains information
   # about the next page, the current page number, the previous page, and the
   # number of items in the current page.
   #

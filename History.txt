@@ -1,11 +1,13 @@
-== 0.7.2 /
+== 0.7.2 / 2008-
 
 * 2 minor enhancements
   - Created a URI base path rewriter filter
   - Pages can be created as files or as directories
-* 1 bug fix
+* 2 bug fixes
   - Fixed a bug in the graphviz filter where the wrong map ID was
     being generated
+  - Now passing the binding of the Renderer to the HAML filter
+    (this makes the @page, @pages availabe in HAML pages)
 
 == 0.7.1 / 2008-01-03
 

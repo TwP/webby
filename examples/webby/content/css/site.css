@@ -123,4 +123,11 @@ ul
   ul
     :margin-bottom    0
 
+span.num
+  :margin-right  10px
+
+p.fn
+  :color =       !blockquote
+  :margin-left   1.5em
+
 // EOF

@@ -18,6 +18,14 @@ h4(#toc). Table of Contents
 ### "Page Filters":#pagefilters
 ## "Layouts":#layouts
 # "Filters":#filters
+## "ERB":#erbfilter
+## "Textile":#textile
+## "Markdown":#markdown
+## "HAML & SASS":#hamlsass
+## "CodeRay":#coderay
+## "Graphviz":#graphviz
+## "BasePath":#basepath
+## "Tidy":#tidy
 # "Default Settings":#defaultsettings
 
 </div>
@@ -54,7 +62,7 @@ sudo gem install -y coderay
 
 h3(#newwebsite). New Website
 
-h2(#workingwithresources). Working With Resources
+h2(#workingwithresources). %(num)2% Working With Resources
 
 A resource is any file that is found in the _content_ or _layouts_ folders. Resources are either copied to the output folder or they are processed through the Webby filter engine to generate an output file. Resources fall into one of three types:
 
@@ -66,7 +74,7 @@ Files are the simplest resource to handle. They are copied, unchanged, from the 
 
 Files will only be found in the _content_ folder. The _layouts_ folder is reserved solely for layouts.
 
-h3(#pages). Pages
+h3(#pages). %(num)2.1% Pages
 
 Pages are found in the _content_ folder along with regular files. Pages contain *meta-data* at the top of the file; this is what differentiates a page from a regular file. The meta-data is a section of "YAML":http://www.yaml.org/spec/1.1/ formatted text that describes various properties and attributes of the page. These attributes are used by Webby to determine how the page will be processed by the filter engine.
 
@@ -103,7 +111,7 @@ You can see that the value of the @title@ attribute was substituted for the ERB 
 
 The last attribute in the meta-data section is the @filter@ attribute. The value for this attribute is a list of filters that will be applied to the page contents. The filters will be applied in the order they are specified. For the example page this would be the ERB filter followed by the Textile filter.
 
-h4(#pageattributes). Page Attributes
+h4(#pageattributes). %(num)2.1.1% Page Attributes
 
 Attribute identifiers cannot contain spaces; they must be separated from their values by a colon. Other than that, you are free to define as many attributes as you like. Aside from defining values that can be rendered into a page, attributes are also used to find other pages in the site. Finding and linking to other pages is discussed in the "ERB Filter":#erbfilter section.
 
@@ -129,11 +137,11 @@ The following attributes are defined for each page in the content folder. These 
 * *url*  --  A URL suitable for creating a link to the page
 * *render*  --  Returns the contents of the page as rendered by the Webby filter engine
 
-h4(#pagefilters). Page Filters
+h4(#pagefilters). %(num)2.1.2% Page Filters
 
 Filters operate on the content of a page by transforming the text of the content section according to the rules of the individual filter. Some filters transform simplified markup into true HTML syntax; examples of these are the Textile filter and the Markdown filter. Other filters create images from text in the page (Graphviz filter) or apply syntax highlighting to the text (CodeRay filter). All the filters are discussed in detail in the "Filters":#filters section of this document.
 
-h3(#layouts). Layouts
+h3(#layouts). %(num)2.2% Layouts
 
 Layouts provide the basic framework for a page  --  the header, the footer, the navigation. They provide a consistent look and feel across all pages in the website. Individual pages contain just the content for that particular page.
 
@@ -171,18 +179,81 @@ The example above shows a very simple layout. The content for the current page b
 
 Along with the @@content@ variable, all the attributes of the current page being rendered are also accessible in the layout. The page title is inserted into the HTML title tags. But again, any page attribute can be accessed within the layout via the @@page@ variable.
 
-h2(#filters). Filters
+h2(#filters). %(num)3% Filters
 
-* ERB
-* Textile
-* Markdown
-* HAML
-* SASS
-* CodeRay
-* Graphviz
-* BasePath
-* Tidy
+Filters are used in Webby to transform the text of pages and layouts. The filtes applied to a page are defined in the meta-data of the page. The filters are used to transform different parts of thep page contents resulting in HTML syntax, images, highlighted code, etc. Filters apply equally to pages and to layouts  --  that is, pages and layouts are treated in the same manner by filters.
 
+This section will look at the various filters provided by Webby, what those filters do, and how they should be used. Enjoy!
+
+h3(#erbfilter). %(num)3.1% ERB
+
+h3(#textile). %(num)3.2% Textile
+
+"Textile":http://en.wikipedia.org/wiki/Textile_%28markup_language%29 is a lightweight markup language originally developed by Dean Allen and billed as a "humane Web text generator". The textile filter converts Textile formatted text into valid, well-formed XHTML.
+
+A complete textile reference is beyond the scope of this document. Please refer to the "Textile reference":http://hobix.com/textile/ compiled by _why the luck stiff_ <sup><a href="#fn1">1</a></sup>.
+
+The textile filter will operate on all the contents of a page or layout. Given that fact, it should be one of the last filters applied to the page. You can prevent a section of the page from being processed by the textile filter by surrounding it with <code><notextile>&lt;notextile&gt;...&lt;/notextile&gt;</notextile></code> tags.
+
+*Usage*:
+
+Include "textile" in the filter list of the page or layout that contains Textile formatting
+
+*Options*: none
+
+*Require*:
+
+The @RedCloth@ gem must be installed on your system in order to use the textile filter.
+
+fn1(fn). Please don't ask. Why is very smart, he wrote the Ruby code that handles Textile markup, and the code is very solid. Enjoy the benefits of his work.
+
+h3(#markdown). %(num)3.3% Markdown
+
+"Markdown":http://daringfireball.net/projects/markdown/ is a lightweight markup language created by John Gruber. It allows you to write using an easy-to-read, easty-to-write plain text format. From the Markdown webpage:
+
+bq. The overriding design goal for Markdown's formatting syntax is to make it as readable as possible. The idea is that a Markdown-formatted document should be publishable as-is, as plain text, without looking like it's been marked up with tags or formatting instructions. While Markdown's syntax has been influenced by several existing text-to-HTML filters, the single biggest source of inspiration for Markdown's syntax is the format of plain text email.
+
+The markdown filter will operate on all the contents of a page or layout. Given that fact, it should be one of the last filters applied to the page.
+
+*Usage*:
+
+Include "markdown" in the filter list of the page or layout that contains Markdown formatting.
+
+*Options*: none
+
+*Require*:
+
+The @BlueCloth@ gem must be installed on your system in order to use the markdown filter.
+
+h3(#hamlsass). %(num)3.4% HAML & SASS
+
+"HAML":http://haml.hamptoncatlin.com/ is a markup language created by Hampton Catlin that's used to cleanly and simply describe the XHTML of any web document without the use of inline code. SASS is the equivalent for CSS documents. From the HAML website:
+
+bq. "Haml":http://haml.hamptoncatlin.com/docs/haml and "Sass":http://haml.hamptoncatlin.com/docs/sass are templating engines for the two most common types of documents on the web: HTML and CSS, respectively. They are designed to make it both easier and more pleasant to code HTML and CSS documents, by eliminating redundancy, reflecting the underlying structure that the document represents, and providing elegant, easily understandable, and powerful syntax.
+
+Both the haml and the sass filter will operate on all the contents of a page or layout. Given that fact, these should be one of the last filters applied to the page.
+
+*Usage*:
+
+Include "haml" in the filter list of the page or layout that contains HAML  formatting. Include "sass" in the filter list of the page that contains SASS formatting (this should be a CSS page).
+
+*Options*:
+
+Options are passed to the haml filter by setting the "haml_options" in the page meta-data  --  the hash of options defined under the "haml_options" attribute will be passed to the haml filter engine when it is run. Please refer to the HAML documentation for the list of available options.
+
+Options are passed to the sass filter by setting the "sass_options" in the page meta-data  --  the hash of options defined under the "sass_options" attribute will be passed to the sass filter engine when it is run. Please refer to the SASS documentation for the list of available options.
+
+*Require*:
+
+The @haml@ gem must be installed on your system in order to use the haml filter or the sass filter.
+
+h3(#coderay). %(num)3.5% CodeRay
+
+h3(#graphviz). %(num)3.6% Graphviz
+
+h3(#basepath). %(num)3.7% BasePath
+
+h3(#tidy). %(num)3.8% Tidy
 
 h2(#defaultsettings). Default Settings
 
