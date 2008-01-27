@@ -2,17 +2,24 @@
 title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
 filter:
+  - erb
   - graphviz
   - coderay
   - textile
 --- 
+<notextile><script type="text/javascript">
+  $(function(){
+    $('div.toc').corner("tl br round 22px");
+  });
+</script></notextile>
+
 <div class="toc push-1">
 
 h4(#toc). Table of Contents
 
 # "Getting Started":#gettingstarted
 ## "Installation":#installation
-## "New Webiste":#newwebsite
+## "New Website":#newwebsite
 # "Working With Resources":#workingwithresources
 ## "Pages":#pages
 ### "Page Attributes":#pageattributes
@@ -27,7 +34,7 @@ h4(#toc). Table of Contents
 ## "Graphviz":#graphviz
 ## "BasePath":#basepath
 ## "Tidy":#tidy
-# "Default Settings":#defaultsettings
+# "Using Rake":#usingrake
 
 </div>
 
@@ -182,11 +189,35 @@ Along with the @@content@ variable, all the attributes of the current page being
 
 h2(#filters). %(num)3% Filters
 
-Filters are used in Webby to transform the text of pages and layouts. The filtes applied to a page are defined in the meta-data of the page. The filters are used to transform different parts of thep page contents resulting in HTML syntax, images, highlighted code, etc. Filters apply equally to pages and to layouts  --  that is, pages and layouts are treated in the same manner by filters.
+Filters are used in Webby to transform the text of pages and layouts. The filters applied to a page are defined in the meta-data of the page. The filters are used to transform different parts of the page contents resulting in HTML syntax, images, highlighted code, etc. Filters apply equally to pages and to layouts  --  that is, pages and layouts are treated in the same manner by filters.
 
 This section will look at the various filters provided by Webby, what those filters do, and how they should be used. Enjoy!
 
 h3(#erbfilter). %(num)3.1% ERB
+
+"ERB":http://ruby-doc.org/stdlib/libdoc/erb/rdoc/classes/ERB.html provides an easy to use but powerful templating system for Ruby. Using ERB, Ruby code can be added to any plain text document for the purposes of generating document information details and/or flow control. Much of the functionality Webby has to offer is made available through the erb filter. ERB does not place any limitations on the content of the page, so it is recommended to use the erb filter with another filter that simplifies the HTML markup  --  Textile is my favorite, but Markdown and HAML support are provided in Webby, as well. Chose the markup language that suits your style.
+
+Some examples of ERB have already been seen in the "pages":#pages section of this document. Ruby code is placed between ERB delimiters, <code><notextile>&lt;%= ruby code %&gt;</notextile></code> somewhere in the content section of your page or layout. The erb filter executes that code and inserts the results into the page. Webby provides quite a few features that are accessed via ERB. Page attributes are one feature, and "helper methods":#helpermethods are another that are discussed elsewhere in this manual.
+
+<pre><notextile>
+The title of this page is "&lt;%= @page.title" %&gt;".
+</notextile></pre>
+
+<pre>
+The title of this page is "<%= @page.title %>".
+</pre>
+
+p(column span-2). *Usage*:
+
+p(column span-13). Include "erb" in the filter list of the page or layout that contains ERB formatting.
+
+p(column span-2). *Options*:
+
+p(column span-13). none
+
+p(column span-2). *Require*:
+
+p(column span-13). none
 
 h3(#textile). %(num)3.2% Textile
 
@@ -196,63 +227,67 @@ A complete textile reference is beyond the scope of this document. Please refer 
 
 The textile filter will operate on all the contents of a page or layout. Given that fact, it should be one of the last filters applied to the page. You can prevent a section of the page from being processed by the textile filter by surrounding it with <code><notextile>&lt;notextile&gt;...&lt;/notextile&gt;</notextile></code> tags.
 
-*Usage*:
+p(column span-2). *Usage*:
 
-Include "textile" in the filter list of the page or layout that contains Textile formatting
+p(column span-13). Include "textile" in the filter list of the page or layout that contains Textile formatting
 
-*Options*: none
+p(column span-2). *Options*:
 
-*Require*:
+p(column span-13). none
 
-The @RedCloth@ gem must be installed on your system in order to use the textile filter.
+p(column span-2). *Require*:
 
-fn1(fn). Please don't ask. Why is very smart, he wrote the Ruby code that handles Textile markup, and the code is very solid. Enjoy the benefits of his work.
+p(column span-13). The @RedCloth@ gem must be installed on your system in order to use the textile filter.
+
+fn1(fn){clear:both}. Please don't ask. Why is very smart, he wrote the Ruby code that handles Textile markup, and the code is very solid. Enjoy the benefits of his work.
 
 h3(#markdown). %(num)3.3% Markdown
 
-"Markdown":http://daringfireball.net/projects/markdown/ is a lightweight markup language created by John Gruber. It allows you to write using an easy-to-read, easty-to-write plain text format. From the Markdown webpage:
+"Markdown":http://daringfireball.net/projects/markdown/ is a lightweight markup language created by John Gruber. It allows you to write using an easy-to-read, easy-to-write plain text format. From the Markdown web page:
 
 bq. The overriding design goal for Markdown's formatting syntax is to make it as readable as possible. The idea is that a Markdown-formatted document should be publishable as-is, as plain text, without looking like it's been marked up with tags or formatting instructions. While Markdown's syntax has been influenced by several existing text-to-HTML filters, the single biggest source of inspiration for Markdown's syntax is the format of plain text email.
 
 The markdown filter will operate on all the contents of a page or layout. Given that fact, it should be one of the last filters applied to the page.
 
-*Usage*:
+p(column span-2). *Usage*:
 
-Include "markdown" in the filter list of the page or layout that contains Markdown formatting.
+p(column span-13). Include "markdown" in the filter list of the page or layout that contains Markdown formatting.
 
-*Options*: none
+p(column span-2). *Options*:
 
-*Require*:
+p(column span-13). none
 
-The @BlueCloth@ gem must be installed on your system in order to use the markdown filter.
+p(column span-2). *Require*:
+
+p(column span-13). The @BlueCloth@ gem must be installed on your system in order to use the markdown filter.
 
 h3(#hamlsass). %(num)3.4% HAML & SASS
 
 "HAML":http://haml.hamptoncatlin.com/ is a markup language created by Hampton Catlin that's used to cleanly and simply describe the XHTML of any web document without the use of inline code. SASS is the equivalent for CSS documents. From the HAML website:
 
-bq. "Haml":http://haml.hamptoncatlin.com/docs/haml and "Sass":http://haml.hamptoncatlin.com/docs/sass are templating engines for the two most common types of documents on the web: HTML and CSS, respectively. They are designed to make it both easier and more pleasant to code HTML and CSS documents, by eliminating redundancy, reflecting the underlying structure that the document represents, and providing elegant, easily understandable, and powerful syntax.
+bq. "HAML":http://haml.hamptoncatlin.com/docs/haml and "SASS":http://haml.hamptoncatlin.com/docs/sass are templating engines for the two most common types of documents on the web: HTML and CSS, respectively. They are designed to make it both easier and more pleasant to code HTML and CSS documents, by eliminating redundancy, reflecting the underlying structure that the document represents, and providing elegant, easily understandable, and powerful syntax.
 
 Both the haml and the sass filter will operate on all the contents of a page or layout. Given that fact, these should be one of the last filters applied to the page.
 
-*Usage*:
+p(column span-2). *Usage*:
 
-Include "haml" in the filter list of the page or layout that contains HAML  formatting. Include "sass" in the filter list of the page that contains SASS formatting (this should be a CSS page).
+p(column span-13). Include "haml" in the filter list of the page or layout that contains HAML  formatting. Include "sass" in the filter list of the page that contains SASS formatting (this should be a CSS page).
 
-*Options*:
+p(column span-2). *Options*:
 
-Options are passed to the haml filter by setting the "haml_options" in the page meta-data  --  the hash of options defined under the "haml_options" attribute will be passed to the haml filter engine when it is run. Please refer to the HAML documentation for the list of available options.
+p(column span-13). Options are passed to the haml filter by setting the "haml_options" in the page meta-data  --  the hash of options defined under the "haml_options" attribute will be passed to the haml filter engine when it is run. Please refer to the HAML documentation for the list of available options.
 
-Options are passed to the sass filter by setting the "sass_options" in the page meta-data  --  the hash of options defined under the "sass_options" attribute will be passed to the sass filter engine when it is run. Please refer to the SASS documentation for the list of available options.
+p(column span-13 prepend-2). Options are passed to the sass filter by setting the "sass_options" in the page meta-data  --  the hash of options defined under the "sass_options" attribute will be passed to the sass filter engine when it is run. Please refer to the SASS documentation for the list of available options.
 
-*Require*:
+p(column span-2). *Require*:
 
-The @haml@ gem must be installed on your system in order to use the haml filter or the sass filter.
+p(column span-13). The @haml@ gem must be installed on your system in order to use the haml filter or the sass filter.
 
 h3(#coderay). %(num)3.5% CodeRay
 
 "CodeRay":http://coderay.rubychan.de/ is a Ruby library that provides syntax highlighting for various types of source code. The coderay filter takes a portion of the page contents and runs it through the CodeRay syntax highlighter, and pretty, colored XHTML is inserted into the page. The end result is that you can embed code into a page, and the coderay filter will convert that code into valid XHTML.
 
-Unlike the filters mentioned thus far, the coderay filter does not operate on the entire contents of a page. Only text between <code><notextile>&lt;coderay&gt;...&lt;/coderay&gt;</notextile></code> tags will be run through the coderay filter. The XHTML inserted into the page is contained in a @div@ element styled with a @CodeReay@ class.
+Unlike the filters mentioned thus far, the coderay filter does not operate on the entire contents of a page. Only text between <code><notextile>&lt;coderay&gt;...&lt;/coderay&gt;</notextile></code> tags will be run through the coderay filter. The XHTML inserted into the page is contained in a @div@ element styled with a @CodeRay@ class.
 
 The coderay filter is controlled by setting attributes on the coderay tags in the content of the page. These attributes tell the CodeRay engine the language being parsed, to show line numbers, where to start numbering etc.
 
@@ -276,17 +311,17 @@ class Object
 end
 </coderay>
 
-*Usage*:
+p(column span-2). *Usage*:
 
-Include "coderay" in the filter list of the page or layout that contains Markdown formatting. You will also need to link to the coderay stylesheet in any page containing coderay markup.
+p(column span-13). Include "coderay" in the filter list of the page or layout that contains Markdown formatting. You will also need to link to the coderay stylesheet in any page containing coderay markup.
 
-*Options*:
+p(column span-2). *Options*:
 
-The full list of "coderay options":/rdoc/classes/Webby/Filters/CodeRay.html can be found in the source documentation.
+p(column span-13). The full list of "coderay options":/rdoc/classes/Webby/Filters/CodeRay.html can be found in the source documentation.
 
-*Require*:
+p(column span-2). *Require*:
 
-The @coderay@ gem must be installed on your system in order to use the coderay filter. Be sure to include the coderay stylesheet in your layout.
+p(column span-13). The @coderay@ gem must be installed on your system in order to use the coderay filter. Be sure to include the coderay stylesheet in your layout.
 
 h3(#graphviz). %(num)3.6% Graphviz
 
@@ -312,37 +347,68 @@ digraph hello_world {
 }
 </graphviz>
 
-*Usage*:
+p(column span-2). *Usage*:
 
-Include "graphviz" in the filter list of the page or layout that contains Graphviz scripts.
+p(column span-13). Include "graphviz" in the filter list of the page or layout that contains Graphviz scripts.
 
-*Options*:
+p(column span-2). *Options*:
 
-The full list of "graphviz options":/rdoc/classes/Webby/Filters/Graphviz.html can be found in the source documentation.
+p(column span-13). The full list of "graphviz options":/rdoc/classes/Webby/Filters/Graphviz.html can be found in the source documentation.
 
-*Require*:
+p(column span-2). *Require*:
 
-The Graphviz application must be installed on your system, and the Graphviz executables must be available on the path.
+p(column span-13). The Graphviz application must be installed on your system, and the Graphviz executables must be available on the path.
 
 h3(#basepath). %(num)3.7% BasePath
 
-The 
+The basepath filter is used to rewrite the base path location for all URLs in a page. This is useful for the times when the publish location of the website is no at the root of the web server  --  @http://your.website.com/path/to/your/site@ for example. This allows pages and resources (images, javascript, stylesheets, etc.) to be referenced from the root of the Webby web server for easy development, but the paths of these resources can easily be changed by the basepath filter when the website is being deployed.
+
+The basepath filter only works on HTML/XHTML text, and therefore, it should be one of the last (if not the last) filter applied to your content. It is recommended to only include the basepath filter in your layout(s). The basepath filter should appear before the tidy filter.
+
+p(column span-2). *Usage*:
+
+p(column span-13){margin-bottom:0}. Include "basepath" in the filter list of your layout(s). Specify the new base path to use either as a command line argument or as an option configured in the _Rakefile_. The base path specified on the command line takes precedence over the base path specified in the Rakefile.
+
+<pre class="option">
+$ rake rebuild BASE='http://your.website.com/path/to/your/site'
+</pre>
+
+p(column span-2). *Options*:
+
+p(column span-13){margin-bottom:0}. Options can be passed to the basepath filter by specifying them in the project _Rakefile_.
+
+<pre class="option">
+SITE.xpaths << '/html/body//img[@usemap]'
+SITE.base = 'http://webby.rubyforge.org'
+</pre>
+
+p(column span-2). *Require*:
+
+p(column span-13). none
 
 h3(#tidy). %(num)3.8% Tidy
 
-"Tidy":http://www.w3.org/People/Raggett/tidy/ is a useful application for cleaning up and detecting errors in XHTML text.
+"Tidy":http://www.w3.org/People/Raggett/tidy/ is a useful application for cleaning up and detecting errors in XHTML text. The tidy filter will run your XHTML code through the tidy program and report any errors in the build log. From the HTML Tidy website:
 
 bq. When editing HTML it's easy to make mistakes. Wouldn't it be nice if there was a simple way to fix these mistakes automatically and tidy up sloppy editing into nicely layed out markup? Well now there is! Dave Raggett's HTML TIDY is a free utility for doing just that. Tidy is able to fix up a wide range of problems and to bring to your attention things that you need to work on yourself. Each item found is listed with the line number and column so that you can see where the problem lies in your markup. Tidy won't generate a cleaned up version when there are problems that it can't be sure of how to handle. These are logged as "errors" rather than "warnings".
 
-*Usage*:
+The tidy program only works on HTML/XHTML text, and therefore, tidy should be one of the last (if not the last) filter applied to your content. It is recommended to only include the tidy filter in your layout(s).
 
-Include "tidy" as the last item in the filter list of your layout(s).
+p(column span-2). *Usage*:
 
-*Options*: none
+p(column span-13). Include "tidy" as the last item in the filter list of your layout(s).
 
-*Require*:
+p(column span-2). *Options*:
 
-The HTML Tidy application must be installed on your system, and the @tidy@ executable must be available on the path.
+p(column span-13){margin-bottom:0}. Options can be passed to the tidy program by specifying them in the project _Rakefile_. These are the command line options that will be passed to the tidy program when it is run.
 
-h2(#defaultsettings). Default Settings
+<pre class="option">
+SITE.tidy_options = '-indent -wrap 80'
+</pre>
+
+p(column span-2). *Require*:
+
+p(column span-13). The HTML Tidy application must be installed on your system, and the @tidy@ executable must be available on the path.
+
+h2(#usingrake). Using Rake
 

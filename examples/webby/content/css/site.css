@@ -6,13 +6,13 @@ sass_options:
   :style: :expanded
 --- 
 !text        = #000
-!border      = #DDD
+!border      = #CCC
 !header      = #111
 !link        = #125AA7
 !link_hover  = #000
 !blockquote  = #666
 !code        = #000
-!box_bg      = #F8F8F8
+!box_bg      = #EEE
 !highlight   = #B2CCFF
 !quiet       = #666
 !alt         = #666
@@ -131,5 +131,10 @@ span.num
 p.fn
   :color =       !blockquote
   :margin-left   1.5em
+
+pre.option
+  :float         left
+  :margin-left   80px
+  :width         500px
 
 // EOF
