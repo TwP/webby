@@ -132,9 +132,13 @@ p.fn
   :color =       !blockquote
   :margin-left   1.5em
 
+p.span-2
+  :clear         left
+
 pre.option
   :float         left
   :margin-left   80px
   :width         500px
+  :clear         both
 
 // EOF
