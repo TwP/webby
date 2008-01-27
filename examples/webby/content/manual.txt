@@ -9,7 +9,7 @@ filter:
 --- 
 <notextile><script type="text/javascript">
   $(function(){
-    $('div.toc').corner("tl br round 22px");
+    $('div.toc').corner("br tl round 22px");
   });
 </script></notextile>
 
