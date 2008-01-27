@@ -8,12 +8,14 @@ namespace :spec do
   Spec::Rake::SpecTask.new(:run) do |t|
     t.spec_opts = PROJ.spec_opts
     t.spec_files = PROJ.specs
+    t.libs += PROJ.libs
   end
 
   desc 'Run all specs with text output'
   Spec::Rake::SpecTask.new(:specdoc) do |t|
     t.spec_opts = PROJ.spec_opts + ['--format', 'specdoc']
     t.spec_files = PROJ.specs
+    t.libs += PROJ.libs
   end
 
   if HAVE_RCOV
@@ -21,6 +23,7 @@ namespace :spec do
     Spec::Rake::SpecTask.new(:rcov) do |t|
       t.spec_opts = PROJ.spec_opts
       t.spec_files = PROJ.specs
+      t.libs += PROJ.libs
       t.rcov = true
       t.rcov_opts = PROJ.rcov_opts + ['--exclude', 'spec']
     end

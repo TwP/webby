@@ -130,11 +130,13 @@ def depend_on( name, version = nil )
   PROJ.dependencies << (version.nil? ? [name] : [name, ">= #{version}"])
 end
 
-# Adds the given _path_ to the include path if it is not already there
+# Adds the given arguments to the include path if they are not already there
 #
-def ensure_in_path( path )
-  path = File.expand_path(path)
-  $:.unshift(path) if test(?d, path) and not $:.include?(path)
+def ensure_in_path( *args )
+  args.each do |path|
+    path = File.expand_path(path)
+    $:.unshift(path) if test(?d, path) and not $:.include?(path)
+  end
 end
 
 # Find a rake task using the task name and remove any description text. This
@@ -145,6 +147,20 @@ def remove_desc_for_task( names )
     task = Rake.application.tasks.find {|t| t.name == task_name}
     next if task.nil?
     task.instance_variable_set :@comment, nil
+  end
+end
+
+# Change working directories to _dir_, call the _block_ of code, and then
+# change back to the original working directory (the current directory when
+# this method was called).
+#
+def in_directory( dir, &block )
+  curdir = pwd
+  begin
+    cd dir
+    return block.call
+  ensure
+    cd curdir
   end
 end
 
