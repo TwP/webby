@@ -1,7 +1,9 @@
 --- 
 title:      New Page
-created_at: <%= Time.now %>
-filter:     textile
+created_at: <%= Time.now.to_y %>
+filter:
+  - erb
+  - textile
 --- 
 h2. <%%= Textile %>
 

@@ -1,11 +1,11 @@
 --- 
 title:      New Page
-created_at: <%= Time.now %>
+created_at: <%= Time.now.to_y %>
 filter:
   - erb
   - textile
 --- 
-h2. <%%= @page.title %>
+h2. <%%= h(@page.title) %>
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc congue ipsum vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est eu lobortis mattis, lectus tellus tempus felis, a ultricies erat ipsum at metus.
 
