@@ -80,11 +80,15 @@ class PagesDB
   #
   #    :all
   #    :in_directory => 'directory'
+  #    :recursive => true
   #
   # Examples:
   #
   #    # find the "index" resource in the "foo/bar" directory
   #    pages_db.find( :filename => 'index', :in_directory => 'foo/bar' )
+  #
+  #    # find any "index" resource under the "foo/bar" directory
+  #    pages_db.find( :filename => 'index', :in_directory => 'foo/bar', :recursive => true )
   #
   #    # find all resources named "widgets" whose color is "blue"
   #    pages_db.find( :all, :name => 'widgets', :color => 'blue' )
