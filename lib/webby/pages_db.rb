@@ -98,9 +98,17 @@ class PagesDB
     opts = Hash === args.last ? args.pop : {}
     find_all = args.include? :all
 
-    dir = opts.has_key?(:in_directory) ? opts.delete(:in_directory) : nil
-    if dir && !@db.has_key?(dir)
-      raise RuntimeError, "unknown directory '#{dir}'"
+    search = if (dir = opts.delete(:in_directory))
+      strategy = if opts.delete(:recursive)
+        lambda { |key| key =~ /^#{Regexp.escape(dir)}(?:\/|$)/ }
+      else
+        lambda { |key| key == dir }
+      end
+      matching_keys = @db.keys.select(&strategy)
+      raise RuntimeError, "unknown directory '#{dir}'" if matching_keys.empty?
+      matching_keys.map { |key| @db[key] }.flatten
+    else
+      self
     end
 
     block ||= lambda do |page|
@@ -111,18 +119,17 @@ class PagesDB
       end
       found
     end
-
+    
     ary = []
-    search = dir ? @db[dir] : self
     search.each do |page|
       if block.call(page)
         ary << page
         break unless find_all
       end
     end
-
+    
     return ary if find_all
-    return ary.first 
+    return ary.first
   end
 
   # call-seq:
