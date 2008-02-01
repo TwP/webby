@@ -68,7 +68,9 @@ PROJ.svn_tags = 'tags'
 PROJ.svn_branches = 'branches'
 
 # Load the other rake files in the tasks folder
-Dir.glob('tasks/*.rake').sort.each {|fn| import fn}
+rakefiles = Dir.glob('tasks/*.rake').sort
+rakefiles.unshift(rakefiles.delete('tasks/post_load.rake')).compact!
+import(*rakefiles)
 
 # Setup some constants
 WIN32 = %r/win32/ =~ RUBY_PLATFORM unless defined? WIN32
