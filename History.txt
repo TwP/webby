@@ -3,11 +3,13 @@
 * 2 minor enhancements
   - Created a URI base path rewriter filter
   - Pages can be created as files or as directories
-* 2 bug fixes
+* 3 bug fixes
   - Fixed a bug in the graphviz filter where the wrong map ID was
     being generated
   - Now passing the binding of the Renderer to the HAML filter
     (this makes the @page, @pages availabe in HAML pages)
+  - The created_at attribute was not being created as a YAML
+    time object
 
 == 0.7.1 / 2008-01-03
 

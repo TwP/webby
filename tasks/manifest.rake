@@ -36,6 +36,9 @@ namespace :manifest do
     files << fn unless test ?f, fn
     File.open(fn, 'w') {|fp| fp.puts files.sort}
   end
-end
+end  # namespace :manifest
+
+desc 'Alias to manifest:check'
+task :manifest => 'manifest:check'
 
 # EOF
