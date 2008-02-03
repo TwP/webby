@@ -1,9 +1,10 @@
-== 0.7.2 / 2008-
+== 0.7.2 / 2008-02-02
 
-* 2 minor enhancements
+* 4 minor enhancements
   - Created a URI base path rewriter filter
   - Create an outline filter for generating table of contents
   - Pages can be created as files or as directories
+  - The @pages find method now recurses into sub-directories
 * 3 bug fixes
   - Fixed a bug in the graphviz filter where the wrong map ID was
     being generated
