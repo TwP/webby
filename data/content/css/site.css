@@ -55,5 +55,13 @@ th,td {
 p.quiet { color: <%= @page.color['quiet'] %>; }
 .alt    { color: <%= @page.color['alt'] %>; }
 
+p.title {
+  color: #111; 
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  font-size: 2em;
+  margin-bottom: 0.75em;
+}
+
+#header p.title { font-size: 3em; line-height: 1; margin-bottom: 0.5em; }
 
 /* EOF */
