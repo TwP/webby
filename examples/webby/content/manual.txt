@@ -6,48 +6,25 @@ filter:
   - graphviz
   - coderay
   - textile
+  - outline
 --- 
-<notextile><script type="text/javascript">
-  $(function(){
-    $('div.toc').corner("br tl round 22px");
-  });
-</script></notextile>
-
 <div class="toc push-1">
 
-h4(#toc). Table of Contents
+p(title). Table of Contents
 
-# "Getting Started":#gettingstarted
-## "Installation":#installation
-## "New Website":#newwebsite
-# "Working With Resources":#workingwithresources
-## "Pages":#pages
-### "Page Attributes":#pageattributes
-### "Page Filters":#pagefilters
-## "Layouts":#layouts
-# "Filters":#filters
-## "ERB":#erbfilter
-## "Textile":#textile
-## "Markdown":#markdown
-## "HAML & SASS":#hamlsass
-## "CodeRay":#coderay
-## "Graphviz":#graphviz
-## "BasePath":#basepath
-## "Tidy":#tidy
-# "Using Rake":#usingrake
-
+<toc />
 </div>
 
-h2(#gettingstarted){clear:none}. Getting Started
+h2{clear:none}. Getting Started
 
-h3(#requirements){clear:none}. Requirements
+h3{clear:none}. Requirements
 
 Webby is an application written using the Ruby programming language. To install and run Webby you will need the following applications on your system:
 
 * "Ruby":http://ruby-lang.org
 * "RubyGems":http://rubygems.org/read/chapter/3
 
-h3(#installation){clear:none}. Installation
+h3{clear:none}. Installation
 
 Webby is an application written using the Ruby programming language. You will need to install a Ruby interpreter on your computer. Download and installation instructions can be found on the "Ruby":http://ruby-lang.org website. For the Windows platform, the one-click installer is recommended. Webby is not compatible with the Ruby 1.9.0 release; please use the Ruby 1.8.6 release.
 
@@ -68,9 +45,9 @@ sudo gem install -y haml
 sudo gem install -y coderay
 </pre>
 
-h3(#newwebsite). New Website
+h3. New Website
 
-h2(#workingwithresources). %(num)2% Working With Resources
+h2. Working With Resources
 
 A resource is any file that is found in the _content_ or _layouts_ folders. Resources are either copied to the output folder or they are processed through the Webby filter engine to generate an output file. Resources fall into one of three types:
 
@@ -82,7 +59,7 @@ Files are the simplest resource to handle. They are copied, unchanged, from the 
 
 Files will only be found in the _content_ folder. The _layouts_ folder is reserved solely for layouts.
 
-h3(#pages). %(num)2.1% Pages
+h3(#pages). Pages
 
 Pages are found in the _content_ folder along with regular files. Pages contain *meta-data* at the top of the file; this is what differentiates a page from a regular file. The meta-data is a section of "YAML":http://www.yaml.org/spec/1.1/ formatted text that describes various properties and attributes of the page. These attributes are used by Webby to determine how the page will be processed by the filter engine.
 
@@ -119,7 +96,7 @@ You can see that the value of the @title@ attribute was substituted for the ERB 
 
 The last attribute in the meta-data section is the @filter@ attribute. The value for this attribute is a list of filters that will be applied to the page contents. The filters will be applied in the order they are specified. For the example page this would be the ERB filter followed by the Textile filter.
 
-h4(#pageattributes). %(num)2.1.1% Page Attributes
+h4. Page Attributes
 
 Attribute identifiers cannot contain spaces; they must be separated from their values by a colon. Other than that, you are free to define as many attributes as you like. Aside from defining values that can be rendered into a page, attributes are also used to find other pages in the site. Finding and linking to other pages is discussed in the "ERB Filter":#erbfilter section.
 
@@ -145,11 +122,11 @@ The following attributes are defined for each page in the content folder. These 
 * *url*  --  A URL suitable for creating a link to the page
 * *render*  --  Returns the contents of the page as rendered by the Webby filter engine
 
-h4(#pagefilters). %(num)2.1.2% Page Filters
+h4. Page Filters
 
 Filters operate on the content of a page by transforming the text of the content section according to the rules of the individual filter. Some filters transform simplified markup into true HTML syntax; examples of these are the Textile filter and the Markdown filter. Other filters create images from text in the page (Graphviz filter) or apply syntax highlighting to the text (CodeRay filter). All the filters are discussed in detail in the "Filters":#filters section of this document.
 
-h3(#layouts). %(num)2.2% Layouts
+h3. Layouts
 
 Layouts provide the basic framework for a page  --  the header, the footer, the navigation. They provide a consistent look and feel across all pages in the website. Individual pages contain just the content for that particular page.
 
@@ -187,13 +164,13 @@ The example above shows a very simple layout. The content for the current page b
 
 Along with the @@content@ variable, all the attributes of the current page being rendered are also accessible in the layout. The page title is inserted into the HTML title tags. But again, any page attribute can be accessed within the layout via the @@page@ variable.
 
-h2(#filters). %(num)3% Filters
+h2(#filters). Filters
 
 Filters are used in Webby to transform the text of pages and layouts. The filters applied to a page are defined in the meta-data of the page. The filters are used to transform different parts of the page contents resulting in HTML syntax, images, highlighted code, etc. Filters apply equally to pages and to layouts  --  that is, pages and layouts are treated in the same manner by filters.
 
 This section will look at the various filters provided by Webby, what those filters do, and how they should be used. Enjoy!
 
-h3(#erbfilter). %(num)3.1% ERB
+h3(#erbfilter). ERB
 
 "ERB":http://ruby-doc.org/stdlib/libdoc/erb/rdoc/classes/ERB.html provides an easy to use but powerful templating system for Ruby. Using ERB, Ruby code can be added to any plain text document for the purposes of generating document information details and/or flow control. Much of the functionality Webby has to offer is made available through the erb filter. ERB does not place any limitations on the content of the page, so it is recommended to use the erb filter with another filter that simplifies the HTML markup  --  Textile is my favorite, but Markdown and HAML support are provided in Webby, as well. Chose the markup language that suits your style.
 
@@ -219,7 +196,7 @@ p(column span-2). *Require*:
 
 p(column span-13). none
 
-h3(#textile). %(num)3.2% Textile
+h3. Textile
 
 "Textile":http://en.wikipedia.org/wiki/Textile_%28markup_language%29 is a lightweight markup language originally developed by Dean Allen and billed as a "humane Web text generator". The textile filter converts Textile formatted text into valid, well-formed XHTML.
 
@@ -241,7 +218,7 @@ p(column span-13). The @RedCloth@ gem must be installed on your system in order 
 
 fn1(fn){clear:both}. Please don't ask. Why is very smart, he wrote the Ruby code that handles Textile markup, and the code is very solid. Enjoy the benefits of his work.
 
-h3(#markdown). %(num)3.3% Markdown
+h3. Markdown
 
 "Markdown":http://daringfireball.net/projects/markdown/ is a lightweight markup language created by John Gruber. It allows you to write using an easy-to-read, easy-to-write plain text format. From the Markdown web page:
 
@@ -261,7 +238,7 @@ p(column span-2). *Require*:
 
 p(column span-13). The @BlueCloth@ gem must be installed on your system in order to use the markdown filter.
 
-h3(#hamlsass). %(num)3.4% HAML & SASS
+h3. HAML & SASS
 
 "HAML":http://haml.hamptoncatlin.com/ is a markup language created by Hampton Catlin that's used to cleanly and simply describe the XHTML of any web document without the use of inline code. SASS is the equivalent for CSS documents. From the HAML website:
 
@@ -283,7 +260,7 @@ p(column span-2). *Require*:
 
 p(column span-13). The @haml@ gem must be installed on your system in order to use the haml filter or the sass filter.
 
-h3(#coderay). %(num)3.5% CodeRay
+h3. CodeRay
 
 "CodeRay":http://coderay.rubychan.de/ is a Ruby library that provides syntax highlighting for various types of source code. The coderay filter takes a portion of the page contents and runs it through the CodeRay syntax highlighter, and pretty, colored XHTML is inserted into the page. The end result is that you can embed code into a page, and the coderay filter will convert that code into valid XHTML.
 
@@ -323,7 +300,7 @@ p(column span-2). *Require*:
 
 p(column span-13). The @coderay@ gem must be installed on your system in order to use the coderay filter. Be sure to include the coderay stylesheet in your layout.
 
-h3(#graphviz). %(num)3.6% Graphviz
+h3. Graphviz
 
 "Graphviz":http://www.graphviz.org/ is open source graph visualization software. Graph visualization is a way of representing structural information as diagrams of abstract graphs and networks. The Graphviz layout programs take descriptions of graphs in a simple text language, and make diagrams in several useful formats. The graphviz filter allows you to embed Graphviz scripts into a page and generate an image in the page.
 
@@ -359,7 +336,7 @@ p(column span-2). *Require*:
 
 p(column span-13). The Graphviz application must be installed on your system, and the Graphviz executables must be available on the path.
 
-h3(#basepath). %(num)3.7% BasePath
+h3. BasePath
 
 The basepath filter is used to rewrite the base path location for all URLs in a page. This is useful for the times when the publish location of the website is no at the root of the web server  --  @http://your.website.com/path/to/your/site@ for example. This allows pages and resources (images, javascript, stylesheets, etc.) to be referenced from the root of the Webby web server for easy development, but the paths of these resources can easily be changed by the basepath filter when the website is being deployed.
 
@@ -386,7 +363,7 @@ p(column span-2). *Require*:
 
 p(column span-13). none
 
-h3(#tidy). %(num)3.8% Tidy
+h3. Tidy
 
 "Tidy":http://www.w3.org/People/Raggett/tidy/ is a useful application for cleaning up and detecting errors in XHTML text. The tidy filter will run your XHTML code through the tidy program and report any errors in the build log. From the HTML Tidy website:
 
@@ -410,5 +387,5 @@ p(column span-2). *Require*:
 
 p(column span-13). The HTML Tidy application must be installed on your system, and the @tidy@ executable must be available on the path.
 
-h2(#usingrake). Using Rake
+h2. Using Rake
 

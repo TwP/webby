@@ -2,6 +2,7 @@
 
 * 2 minor enhancements
   - Created a URI base path rewriter filter
+  - Create an outline filter for generating table of contents
   - Pages can be created as files or as directories
 * 3 bug fixes
   - Fixed a bug in the graphviz filter where the wrong map ID was

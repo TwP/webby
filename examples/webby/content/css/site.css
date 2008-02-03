@@ -114,18 +114,21 @@ div.toc
   :margin-bottom      16px
   :background-color = !highlight
   :border =           1px solid !border
-  ul 
-    :margin-bottom    0
   ol
-    :margin-bottom    0
-  h4
+    :margin-bottom    0.5em
+    ol
+      :margin-bottom  0
+  p.title
     :margin-bottom    0.25em
+    :font-weight      bold
+    :font-size        1.2em
+    :text-align       center
 
 ul
   ul
     :margin-bottom    0
 
-span.num
+span.heading-num
   :margin-right  10px
 
 p.fn

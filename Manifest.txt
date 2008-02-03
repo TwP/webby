@@ -67,6 +67,7 @@ lib/webby/filters/erb.rb
 lib/webby/filters/graphviz.rb
 lib/webby/filters/haml.rb
 lib/webby/filters/markdown.rb
+lib/webby/filters/outline.rb
 lib/webby/filters/sass.rb
 lib/webby/filters/textile.rb
 lib/webby/filters/tidy.rb
@@ -87,6 +88,7 @@ tasks/annotations.rake
 tasks/doc.rake
 tasks/gem.rake
 tasks/manifest.rake
+tasks/post_load.rake
 tasks/rubyforge.rake
 tasks/setup.rb
 tasks/spec.rake
