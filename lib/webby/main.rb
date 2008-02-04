@@ -11,6 +11,9 @@ module Webby
 #
 class Main
 
+  # TODO: need to fix line endings for the target platform
+  #       anything that's a page, all the layouts, all the templates
+
   # Directory where the Webby website will be created
   attr_accessor :site
 

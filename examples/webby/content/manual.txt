@@ -73,7 +73,7 @@ filter:
   - erb
   - textile
 ---
-h2. <%= @page.title %>
+h2. <%%= @page.title %>
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc congue ipsum
 vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est eu
@@ -155,7 +155,7 @@ filter:    erb
   <title><%= @page.title %></title>
 </head>
 <body>
-  <%= @content %>
+  <%%= @content %>
 </body>
 </html>
 </pre>
