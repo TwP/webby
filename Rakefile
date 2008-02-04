@@ -33,6 +33,7 @@ depend_on 'directory_watcher'
 depend_on 'heel'
 depend_on 'hpricot'
 depend_on 'logging', '0.6.1'
+depend_on 'rake'
 depend_on 'rspec'
 depend_on 'RedCloth'
 
