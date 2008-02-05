@@ -1,4 +1,4 @@
-== 0.7.3 / 2008-
+== 0.7.3 / 2008-02-05
 
 * 2 bug fixes
   - The setup.rb task now requires rubygems in case it is not in the
