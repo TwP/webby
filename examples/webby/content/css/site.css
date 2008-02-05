@@ -1,10 +1,10 @@
---- 
+---
 extension: css
 filter:    sass
 layout:    nil   # no layout
 sass_options:
   :style: :expanded
---- 
+---
 !text        = #000
 !border      = #CCC
 !header      = #111
@@ -23,7 +23,7 @@ body
 
 // Headings
 // ------------------------------------------------------------------------
-h1,h2,h3,h4,h5,h6 
+h1,h2,h3,h4,h5,h6
   :color =      !header
   :font-weight  bold
 
@@ -77,24 +77,24 @@ p.quiet
 // ------------------------------------------------------------------------
 #header
 
-#navigation 
+#navigation
   ul
     :margin-left               0
     :text-align                right
     :font-size                 16px
     :list-style-type           none
-    li 
-      a 
+    li
+      a
         :display               block
         :text-decoration       none
         :padding-right         5px
-        &:hover 
+        &:hover
           :background-color = !highlight
 
 #footer
-  hr 
+  hr
     :margin-bottom   18px
-  p 
+  p
     :text-align      right
 
 .CodeRay
