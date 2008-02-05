@@ -3,8 +3,7 @@
 * 2 bug fixes
   - The setup.rb task now requires rubygems in case it is not in the
     user's rubyopt
-  - Now explicitly requiring the most recent version of rake when
-    building the gem
+  - Fixed file line endings on Windows when creating a new site
 
 == 0.7.2 / 2008-02-02
 

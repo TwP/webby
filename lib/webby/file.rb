@@ -163,6 +163,7 @@ class File < ::File
 
     truncate 0
     unless data.nil?
+# TODO: is the corect on the windows platform?
       write YAML.dump(data)
       write "--- #$/"
     end

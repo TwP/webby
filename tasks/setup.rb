@@ -73,7 +73,7 @@ rakefiles.unshift(rakefiles.delete('tasks/post_load.rake')).compact!
 import(*rakefiles)
 
 # Setup some constants
-WIN32 = %r/win32/ =~ RUBY_PLATFORM unless defined? WIN32
+WIN32 = %r/djgpp|(cyg|ms|bcc)win|mingw/ =~ RUBY_PLATFORM unless defined? WIN32
 
 DEV_NULL = WIN32 ? 'NUL:' : '/dev/null'
 

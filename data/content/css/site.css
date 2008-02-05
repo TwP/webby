@@ -1,4 +1,4 @@
---- 
+---
 extension: css
 filter:    erb
 layout:    nil   # no layout
@@ -13,7 +13,7 @@ color:
   highlight:   "#B2CCFF"
   quiet:       "#666"
   alt:         "#666"
---- 
+---
 
 body {
   font-family: Verdana, "Bitstream Vera Sans", sans-serif;
@@ -56,8 +56,8 @@ p.quiet { color: <%= @page.color['quiet'] %>; }
 .alt    { color: <%= @page.color['alt'] %>; }
 
 p.title {
-  color: #111; 
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  color: #111;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 2em;
   margin-bottom: 0.75em;
 }

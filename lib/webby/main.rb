@@ -11,8 +11,7 @@ module Webby
 #
 class Main
 
-  # TODO: need to fix line endings for the target platform
-  #       anything that's a page, all the layouts, all the templates
+  WINDOWS = %r/djgpp|(cyg|ms|bcc)win|mingw/ =~ RUBY_PLATFORM    # :nodoc:
 
   # Directory where the Webby website will be created
   attr_accessor :site
@@ -145,7 +144,29 @@ class Main
     src = ::File.join(data, file)
     dst = ::File.join(site, file)
     test(?e, dst) ? updating(dst) : creating(dst)
-    FileUtils.cp src, dst
+#    FileUtils.cp(src, dst)
+    if WINDOWS then win_line_endings(src, dst)
+    else FileUtils.cp(src, dst) end
+  end
+
+  # call-seq:
+  #    win_line_endings( src, dst )
+  #
+  # Copy the file from the _src_ location to the _dst_ location and
+  # transform the line endings to the windows "\r\n" format.
+  #
+  def win_line_endings( src, dst )
+    case ::File.extname(src)
+    when *%w[.png .gif .jpg .jpeg]
+      FileUtils.cp src, dst
+    else
+      ::File.open(dst,'w') do |fd|
+        ::File.foreach(src, "\n") do |line|
+          line.tr!("\r\n",'')
+          fd.puts line
+        end
+      end
+    end
   end
 
   # call-seq:
