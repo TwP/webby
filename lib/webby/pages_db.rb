@@ -78,9 +78,11 @@ class PagesDB
   #
   # Options include:
   #
-  #    :all
   #    :in_directory => 'directory'
-  #    :recursive => true
+  #    :recursive    => true or false
+  #
+  #    :limit        => :all or integer
+  #    :sorty_by     => 'attribute'
   #
   # Examples:
   #
@@ -100,8 +102,12 @@ class PagesDB
   #
   def find( *args, &block )
     opts = Hash === args.last ? args.pop : {}
-    find_all = args.include? :all
 
+    limit = opts.delete(:limit)
+    sort_by = opts.delete(:sort_by)
+
+    # figure out which directories to search through and whether to recurse
+    # into directories or not
     search = if (dir = opts.delete(:in_directory))
       strategy = if opts.delete(:recursive)
         lambda { |key| key =~ /^#{Regexp.escape(dir)}(?:\/|$)/ }
@@ -115,6 +121,7 @@ class PagesDB
       self
     end
 
+    # construct a search block if one was not supplied by the user
     block ||= lambda do |page|
       found = true
       opts.each do |key, value|
@@ -124,16 +131,28 @@ class PagesDB
       found
     end
     
+    # search through the directories for the desired pages
     ary = []
     search.each do |page|
-      if block.call(page)
-        ary << page
-        break unless find_all
-      end
+      ary << page if block.call(page)
     end
-    
-    return ary if find_all
-    return ary.first
+
+    # sort the search results if the user gave an attribute to sort by
+    if sort_by
+      m = sort_by.to_sym
+      ary.delete_if {|p| p.__send__(m).nil?}
+      ary.sort! {|a,b| a.__send__(m) <=> b.__send__(m)}
+    end
+
+    # limit the search results
+    case limit
+    when :all, 'all'
+      ary
+    when Integer
+      ary.slice(0,limit)
+    else
+      ary.first
+    end
   end
 
   # call-seq:
