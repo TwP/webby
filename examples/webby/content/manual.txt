@@ -39,7 +39,7 @@ sudo gem install -y webby
 To make use of all the features Webby has to offer, the following gems should also be installed. These gems provide different ways to transform text into HTML or CSS.
 
 <pre>
-sudo gem install -y RedcCoth
+sudo gem install -y RedCloth
 sudo gem install -y BlueCloth
 sudo gem install -y haml
 sudo gem install -y coderay
