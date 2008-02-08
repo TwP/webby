@@ -1,3 +1,8 @@
+== 0.7.4 / 2008-
+
+* 1 minor enhancement
+  - Added "limit" and "sort_by" options to the pages find method
+
 == 0.7.3 / 2008-02-05
 
 * 2 bug fixes
