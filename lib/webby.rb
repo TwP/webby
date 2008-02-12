@@ -2,6 +2,7 @@
 
 require 'logging'
 require 'ostruct'
+require 'date'
 
 # Configure Webby to log to STDOUT at the 'info' level
 Logging::Logger['Webby'].level = :info

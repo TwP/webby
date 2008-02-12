@@ -28,6 +28,11 @@ class Outline
 
   class Error < StandardError; end    # :nodoc:
 
+  # TODO: options for table of contents
+  #       - where to start numbering
+  #       - list style (numbered or unordered)
+  #       - header range to select (h2-h3)
+
   # call-seq:
   #    Outline.new( html )
   #
