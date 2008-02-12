@@ -115,7 +115,7 @@ module UrlHelper
     end
 
     href_attr = href ? nil : %Q(href="#{url}")
-    "<a #{href_attr}#{attrs}>#{h(name || url)}</a>"
+    "<a #{href_attr}#{attrs}>#{name || h(url)}</a>"
   end
 
   # call-seq:
@@ -222,8 +222,8 @@ module UrlHelper
     raise Webby::Renderer::Error,
           "could not find requested page: #{opts.inspect}" if p.nil?
 
-    name = h(p.title || p.filename) if name.nil?
-    return [name, p, link_opts]
+    name = p.title || p.filename if name.nil?
+    return [h(name), p, link_opts]
   end
 
 end  # module UrlHelper
