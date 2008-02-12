@@ -15,37 +15,64 @@ p(title). Table of Contents
 <toc />
 </div>
 
-h2{clear:none}. Getting Started
+h2{clear:none}. Introduction
+
+Webby was created out of the need for a simple way to build and manage small websites. The desire was for a system that could take files written in plain text, combine them with a layout file and produce web pages. In this system, a single page can be written quickly without the need for HTML markup; the look and feel of the entire site can be changed by modifying the site layout file.
+
+<graphviz path="images" alt="Webby Overview">
+digraph overview {
+  rankdir = LR;
+  edge [fontname="Verdana", fontsize=8];
+  node [fontname="Verdana", fontsize=10];
+
+  layout [label="Layout",color="#BBBBBB",style=filled];
+  p1 [label="Page 1",color=red];
+  h1 [label="HTML 1",color=red];
+  p2 [label="Page 2",color=green];
+  h2 [label="HTML 2",color=green];
+  p3 [label="Page 3",color=blue];
+  h3 [label="HTML 3",color=blue];
+
+  p1 -> layout -> h1 [color=red];
+  p2 -> layout -> h2 [color=green];
+  p3 -> layout -> h3 [color=blue];
+}
+</graphviz>
+
+The diagram above show the basic concept of how Webby works. Changing the layout file will result in changes to every generated HTML file. Changes to a single will only results in changes to the single HTML file corresponding to that page.
+
+Webby does not limit the output to HTML. Webby can be used to generate XML files for RSS or Atom newsfeeds, CSS files for styling webpages, or any other type of text file that you can think of.
 
 h3{clear:none}. Requirements
 
-Webby is an application written using the Ruby programming language. To install and run Webby you will need the following applications on your system:
+Webby is written in the Ruby programming language. To install and run Webby you will need the following applications installed on your system:
 
 * "Ruby":http://ruby-lang.org
 * "RubyGems":http://rubygems.org/read/chapter/3
 
 h3{clear:none}. Installation
 
-Webby is an application written using the Ruby programming language. You will need to install a Ruby interpreter on your computer. Download and installation instructions can be found on the "Ruby":http://ruby-lang.org website. For the Windows platform, the one-click installer is recommended. Webby is not compatible with the Ruby 1.9.0 release; please use the Ruby 1.8.6 release.
-
-You will also need to install RubyGems. If you used the Windows one-click installer, RubyGems is already present on your system. For everyone else you can find installation instructions on the "RubyGems":http://rubygems.org/read/chapter/3 website.
-
-To install Webby and its dependent gems type the following command. Omit the @sudo@ portion for the Windows platform; you will need to specify the *mswin32* versions of the _mongrel_ and _hpricot_ dependent gems when prompted.
+Webby is easily installed as a Ruby gem. From a command prompt, type in the following:
 
 <pre>
 sudo gem install -y webby
 </pre>
 
+This will install Webby and all its required dependencies.
+
+bq. For those users installing Webby on the Windows platform, please omit the @sudo@ portion of the above command. You will also need to specify the *mswin32* versions of the _mongrel_ and _hpricot_ gems when prompted.
+
 To make use of all the features Webby has to offer, the following gems should also be installed. These gems provide different ways to transform text into HTML or CSS.
 
 <pre>
-sudo gem install -y RedCloth
 sudo gem install -y BlueCloth
 sudo gem install -y haml
 sudo gem install -y coderay
 </pre>
 
-h3. New Website
+Webby can also use a few other programs to clean up generated HTML and to created pretty graphs. You can read more about these programs and how they are used by Webby in the section about Filters in this manual; specifically, the sections on the "Tidy":#tidy filter and the "Graphviz":#graphviz filter.
+
+h3. Running Webby
 
 h2. Working With Resources
 
@@ -300,7 +327,7 @@ p(column span-2). *Require*:
 
 p(column span-13). The @coderay@ gem must be installed on your system in order to use the coderay filter. Be sure to include the coderay stylesheet in your layout.
 
-h3. Graphviz
+h3(#graphviz). Graphviz
 
 "Graphviz":http://www.graphviz.org/ is open source graph visualization software. Graph visualization is a way of representing structural information as diagrams of abstract graphs and networks. The Graphviz layout programs take descriptions of graphs in a simple text language, and make diagrams in several useful formats. The graphviz filter allows you to embed Graphviz scripts into a page and generate an image in the page.
 
@@ -363,7 +390,7 @@ p(column span-2). *Require*:
 
 p(column span-13). none
 
-h3. Tidy
+h3(#tidy). Tidy
 
 "Tidy":http://www.w3.org/People/Raggett/tidy/ is a useful application for cleaning up and detecting errors in XHTML text. The tidy filter will run your XHTML code through the tidy program and report any errors in the build log. From the HTML Tidy website:
 

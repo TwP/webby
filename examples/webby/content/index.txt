@@ -3,7 +3,7 @@ title:      Home
 created_at: Tue Aug 21 11:25:06 -0600 2007
 filter:     textile
 --- 
-*Webby* is a super fantastic little website management system. It would be called a _content management system_ if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.
+*Webby* is a fantastic little website management system. It would be called a _content management system_ if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.
 
 Webby works by combining the contents of a *page* with a *layout* to produce HTML. The layout contains everything common to all the pages - HTML headers, navigation menu, footer, etc. - and the page contains just the information for that page. You can use your favorite markup language to write your pages; Webby supports quite a few.
 
