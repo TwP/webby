@@ -37,11 +37,11 @@ filter:
 
    <div class="column span-4 prepend-1 first" id="navigation">
       <ul
-        ><li><a href="/index.html">Home</a></li
-        ><li><a href="/download.html">Download</a></li
-        ><li><a href="/tutorial.html">Tutorial</a></li
-        ><li><a href="/manual.html">Manual</a></li
-        ><li><a href="/tips_and_tricks.html">Tips &amp; Tricks</a></li
+        ><li><%= link_to_page_unless_current 'Home' %></li
+        ><li><%= link_to_page_unless_current 'Download' %></li
+        ><li><%= link_to_page_unless_current 'Tutorial' %></li
+        ><li><%= link_to_page_unless_current 'Manual' %></li
+        ><li><%= link_to_page_unless_current 'Tips & Tricks' %></li
         ></ul>
    </div>
 
