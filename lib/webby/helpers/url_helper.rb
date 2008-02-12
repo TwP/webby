@@ -115,7 +115,7 @@ module UrlHelper
     end
 
     href_attr = href ? nil : %Q(href="#{url}")
-    "<a #{href_attr}#{attrs}>#{name || url}</a>"
+    "<a #{href_attr}#{attrs}>#{h(name || url)}</a>"
   end
 
   # call-seq:
@@ -182,7 +182,7 @@ module UrlHelper
   #
   def link_to_page_unless_current( *args )
     name, page, link_opts = _find_page(args)
-    return name if @page == page
+    return h(name) if @page == page
 
     self.link_to(name, page, link_opts)
   end
