@@ -6,7 +6,7 @@ require 'date'
 
 # Configure Webby to log to STDOUT at the 'info' level
 Logging::Logger['Webby'].level = :info
-Logging::Logger['Webby'].add(Logging::Appender.stdout)
+Logging::Logger['Webby'].add_appenders(Logging::Appender.stdout)
 Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
     :pattern      => "[%d] %5l: %m\n",    # [date] LEVEL: message
     :date_pattern => "%H:%M:%S"           # date == HH:MM:SS
