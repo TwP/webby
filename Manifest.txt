@@ -43,12 +43,12 @@ examples/webby/content/css/coderay.css
 examples/webby/content/css/site.css
 examples/webby/content/download.txt
 examples/webby/content/index.txt
-examples/webby/content/manual.txt
+examples/webby/content/manual/index.txt
 examples/webby/content/robots.txt
 examples/webby/content/script/jquery.corner.js
 examples/webby/content/script/jquery.js
-examples/webby/content/tips_and_tricks.txt
-examples/webby/content/tutorial.txt
+examples/webby/content/tips_and_tricks/index.txt
+examples/webby/content/tutorial/index.txt
 examples/webby/layouts/default.rhtml
 examples/webby/tasks/create.rake
 examples/webby/tasks/deploy.rake

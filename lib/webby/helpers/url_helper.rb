@@ -182,7 +182,7 @@ module UrlHelper
   #
   def link_to_page_unless_current( *args )
     name, page, link_opts = _find_page(args)
-    return h(name) if @page == page
+    return name if @page == page
 
     self.link_to(name, page, link_opts)
   end
