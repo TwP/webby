@@ -39,9 +39,9 @@ digraph overview {
 }
 </graphviz>
 
-The diagram above show the basic concept of how Webby works. Changing the layout file will result in changes to every generated HTML file. Changes to a single will only results in changes to the single HTML file corresponding to that page.
+The diagram above shows the basic concept of how Webby works. Changing the layout file will result in changes to every generated HTML file. Changes to a single page will result in changes only to the HTML file corresponding to that particular page.
 
-Webby does not limit the output to HTML. Webby can be used to generate XML files for RSS or Atom newsfeeds, CSS files for styling webpages, or any other type of text file that you can think of.
+Webby does not limit the output to HTML. Webby can be used to generate XML files for RSS or Atom news feeds, CSS files for styling web pages, or any other type of text file that you can think of.
 
 h3{clear:none}. Requirements
 
