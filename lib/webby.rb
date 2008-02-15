@@ -15,7 +15,7 @@ Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
 
 module Webby
 
-  VERSION = '0.7.4'   # :nodoc:
+  VERSION = '0.7.5'   # :nodoc:
 
   # Path to the Webby package
   PATH = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..'))
