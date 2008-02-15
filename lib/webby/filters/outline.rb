@@ -25,6 +25,7 @@ module Filters
 # etc.).
 #
 class Outline
+  include ERB::Util
 
   class Error < StandardError; end    # :nodoc:
 
@@ -78,6 +79,7 @@ class Outline
 
     unless toc_elem.nil?
       @outline_numbering = toc_elem['outline_numbering'] !~ %r/off/i
+      @list_style = toc_elem['list'] || 'ol'
     end
 
     doc.traverse_element(*%w[h1 h2 h3 h4 h5 h6]) do |elem|
@@ -166,16 +168,56 @@ class Outline
   # Add the given text and id reference to the table of contents.
   #
   def add_to_toc( text, id )
-    str = '#' * depth
-    str << ' ' << "\"#{text}\":##{id}"
-    @toc << str
+    a = "<a href=\"##{id}\">#{h(text)}</a>"
+    @toc << [depth, a]
   end
 
   # Returns the table of contents as a collection of nested ordered lists.
   # This is fully formatted HTML.
   #
   def toc
-    RedCloth.new(@toc.join("\n"), %w(no_span_caps)).to_html
+    ary = []
+
+    lopen = "<#@list_style>"
+    lclose = "</#@list_style>"
+    prev_depth = open = 0
+
+    @toc.each do |a|
+      cur = a.first
+
+      # close out the previous list item if we're at the same level
+      if cur == prev_depth
+        ary << "</li>"
+
+      # if we are increasing the level, then start a new list
+      elsif cur > prev_depth
+        ary << lopen
+        open += 1
+
+      # we are decreasing the level; close out tags but ensure we don't
+      # close out all the tags (leave one open)
+      else
+        (prev_depth - cur).times {
+          ary << "</li>" << lclose
+          open -= 1
+          break if open <= 0
+        }
+        if open > 0
+          ary << "</li>"
+        else
+          ary << lopen
+          open += 1
+        end
+      end
+
+      # add the current element
+      ary << "<li>" << a.last
+      prev_depth = cur
+    end
+
+    # close out the remaingling tags
+    ary << "</li>" << lclose
+    ary.join("\n")
   end
 
   # Returns +true+ if outline numbering should be inserted into the heading

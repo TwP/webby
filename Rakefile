@@ -35,6 +35,5 @@ depend_on 'hpricot'
 depend_on 'logging', '0.7.0'
 depend_on 'rake'
 depend_on 'rspec'
-depend_on 'RedCloth'
 
 # EOF
