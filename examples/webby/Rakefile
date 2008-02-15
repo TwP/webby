@@ -8,6 +8,7 @@ task :deploy => [:build, 'deploy:rsync']
 
 SITE.host = 'tim_pease@rubyforge.org'
 SITE.remote_dir = '/var/www/gforge-projects/webby/'
+SITE.create_mode = 'directory'
 
 task :autobuild => :growl
 

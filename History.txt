@@ -1,8 +1,10 @@
-== 0.7.4 / 2008-
+== 0.7.4 / 2008-02-15
 
-* 2 minor enhancements
+* 3 minor enhancements
   - Added "limit" and "sort_by" options to the pages find method
   - Removed dependency on RedCloth for outline generation
+  - Added some more options for outline generation, numbering, and
+    table of contents generation
 * 1 bug fix
   - Fixed incompatibility with the new logging library
 

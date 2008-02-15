@@ -15,7 +15,7 @@ module Filters
 # into the heading tags, this can be specified in the attibutes of the
 # <toc /> tag itself.
 #
-#    <toc outline_numbering="off" />
+#    <toc numbering="off" />
 #
 # This will generate a table of contents, but not insert outline numbering
 # into the heading tags.
@@ -29,11 +29,6 @@ class Outline
 
   class Error < StandardError; end    # :nodoc:
 
-  # TODO: options for table of contents
-  #       - where to start numbering
-  #       - list style (numbered or unordered)
-  #       - header range to select (h2-h3)
-
   # call-seq:
   #    Outline.new( html )
   #
@@ -46,8 +41,14 @@ class Outline
     @cur_level, @base_level, @cur_depth = nil
     @level = [0] * 6
     @h_rgxp = %r/^h(\d)$/o
+
+    @numbering = true
+    @numbering_start = 1
+
     @toc = []
-    @outline_numbering = true
+    @toc_style = 'ol'
+    @toc_range = 'h1-h6'
+    @list_opening = nil
   end
 
   # call-seq:
@@ -65,7 +66,7 @@ class Outline
   #
   # somewhere in a page about comic strips, the tag might be altered as such
   #
-  #    <h3 id="h2_2_1"><span class="heading-num>2.2.1</span>Get Fuzzy</h3>
+  #    <h3 id="h2_2_1"><span class="heading-num">2.2.1</span>Get Fuzzy</h3>
   # 
   # The id attribute is used to generate a linke from the table of contents
   # to this particular heading tag. The original text of the tag is used in
@@ -78,26 +79,45 @@ class Outline
     toc_elem = doc.search('toc').first
 
     unless toc_elem.nil?
-      @outline_numbering = toc_elem['outline_numbering'] !~ %r/off/i
-      @list_style = toc_elem['list'] || 'ol'
+      @numbering = toc_elem['numbering'] !~ %r/off/i
+      @numbering_start = Integer(toc_elem['numbering_start']) if toc_elem.has_attribute? 'numbering_start'
+      @toc_style = toc_elem['toc_style'] if toc_elem.has_attribute? 'toc_style'
+      @toc_range = toc_elem['toc_range'] if toc_elem.has_attribute? 'toc_range'
     end
+
+    unless %w[ul ol].include? @toc_style
+      raise ArgumentError, "unknown ToC list type '#{@toc_style}'"
+    end
+
+    m = %r/h(\d)\s*-\s*h(\d)/i.match @toc_range
+    @toc_range = Integer(m[1])..Integer(m[2])
+    @list_opening = build_list_opening(toc_elem)
 
     doc.traverse_element(*%w[h1 h2 h3 h4 h5 h6]) do |elem|
       text, id = heading_info(elem)
-      add_to_toc(text, id)
+      add_to_toc(text, id) if @toc_range.include? current_level
     end
 
-    # create the TOC ordered list
-
     toc_elem.swap(toc) unless toc_elem.nil?
-    
-    # replace the "toc" tag with the ordered list
-
     doc.to_html
   end
 
 
   private
+
+  def build_list_opening( elem )
+    lo = "<#{@toc_style}"
+    unless elem.nil?
+      %w[class style id].each do |atr|
+        next unless elem.has_attribute? atr
+        lo << " %s=\"%s\"" % [atr, elem[atr]]
+      end
+    end
+    if @toc_style == 'ol' and @numbering_start != 1
+      lo << " start=\"#{@numbering_start}\""
+    end
+    lo << ">"
+  end
 
   # Returns information for the given heading element. The information is
   # returned as a two element array: [text, id].
@@ -114,7 +134,7 @@ class Outline
     text = elem.inner_text
 
     lbl = label
-    if outline_numbering?
+    if numbering?
       elem.children.first.before {tag!(:span, lbl, :class => 'heading-num')}
     end
     elem['id'] = "h#{lbl.tr('.','_')}" if elem['id'].nil?
@@ -131,8 +151,10 @@ class Outline
   # heading level.
   #
   def current_level=( level )
-    @base_level ||= level
-    @cur_level ||= level
+    if @base_level.nil?
+      @base_level = @cur_level = level
+      @level[@base_level-1] = @numbering_start-1
+    end
 
     if level < @base_level
       raise Error, "heading tags are not in order, cannot outline"
@@ -148,6 +170,12 @@ class Outline
     end
 
     @cur_level = level
+  end
+
+  # Returns the current heading level number.
+  #
+  def current_level
+    @cur_level
   end
 
   # Return the label string for the current heading level.
@@ -178,8 +206,8 @@ class Outline
   def toc
     ary = []
 
-    lopen = "<#@list_style>"
-    lclose = "</#@list_style>"
+    lopen = "<#@toc_style>"
+    lclose = "</#@toc_style>"
     prev_depth = open = 0
 
     @toc.each do |a|
@@ -191,7 +219,7 @@ class Outline
 
       # if we are increasing the level, then start a new list
       elsif cur > prev_depth
-        ary << lopen
+        ary << if ary.empty? then @list_opening else lopen end
         open += 1
 
       # we are decreasing the level; close out tags but ensure we don't
@@ -223,8 +251,8 @@ class Outline
   # Returns +true+ if outline numbering should be inserted into the heading
   # tags. Returns +false+ otherwise.
   #
-  def outline_numbering?
-    @outline_numbering
+  def numbering?
+    @numbering
   end
 end  # class Outline
 
