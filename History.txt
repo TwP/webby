@@ -3,6 +3,11 @@
 * 1 major enhancement
   - Refactored the coderay and graphviz filters into helper methods
     accessible from ERB
+* 1 minor enhancement
+  - Added a template file for creating Atom feeds
+* 1 bug fix
+  - When creating pages in directory mode the full page path was
+    not being created
 
 == 0.7.4 / 2008-02-15
 

@@ -83,6 +83,7 @@ class PagesDB
   #
   #    :limit        => :all or integer
   #    :sorty_by     => 'attribute'
+  #    :reverse      => true or false
   #
   # Examples:
   #
@@ -105,6 +106,7 @@ class PagesDB
 
     limit = opts.delete(:limit)
     sort_by = opts.delete(:sort_by)
+    reverse = opts.delete(:reverse)
 
     # figure out which directories to search through and whether to recurse
     # into directories or not
@@ -143,6 +145,8 @@ class PagesDB
       ary.delete_if {|p| p.__send__(m).nil?}
       ary.sort! {|a,b| a.__send__(m) <=> b.__send__(m)}
     end
+
+    ary.reverse! if reverse
 
     # limit the search results
     case limit

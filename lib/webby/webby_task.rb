@@ -94,10 +94,11 @@ class WebbyTask < TaskLib
         page = t.application.top_level_tasks.pop
         name = ::Webby::File.basename(page)
         ext  = ::Webby::File.extname(page)
-        dir  = ::Webby::File.dirname(page)
+        dir  = ::File.dirname(page)
+        dir  = '' if dir == '.'
 
         if ::Webby.site.create_mode == 'directory'
-          page = ::File.join(::Webby.site.content_dir, name, 'index')
+          page = ::File.join(::Webby.site.content_dir, dir, name, 'index')
           page << '.' << (ext.empty? ? 'txt' : ext)
         else
           page = ::File.join(::Webby.site.content_dir, page)
