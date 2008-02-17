@@ -227,6 +227,9 @@ module UrlHelper
   end
 
 end  # module UrlHelper
+
+register(UrlHelper)
+
 end  # module Helpers
 end  # module Webby
 

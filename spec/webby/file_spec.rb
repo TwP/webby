@@ -1,8 +1,8 @@
 # $Id$
 
-require 'spec/spec_helper.rb'
-require 'fileutils'
+require File.join(File.dirname(__FILE__), %w[.. spec_helper])
 
+# ---------------------------------------------------------------------------
 describe Webby::File do
 
   FN = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lorem_ipsum.txt'))
@@ -29,8 +29,8 @@ describe Webby::File do
   end
 
   after do 
-    File.delete FN if File.exists?(FN)
-    File.delete FN_YAML if File.exists?(FN_YAML)
+    FileUtils.rm_f(FN)
+    FileUtils.rm_f(FN_YAML)
   end
 
   it 'should return nil for meta-data on regular files' do
@@ -100,7 +100,6 @@ describe Webby::File do
       fd.close
     end
   end
-
 end  # describe Webby::File
 
 # EOF

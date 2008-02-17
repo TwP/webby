@@ -1,5 +1,9 @@
 # $Id$
 
+# Equivalent to a header guard in C/C++
+# Used to prevent the spec helper from being loaded more than once
+unless defined? ::Webby::Renderer
+
 require 'erb'
 try_require 'bluecloth'
 try_require 'redcloth'
@@ -22,8 +26,6 @@ module Webby
 #
 class Renderer
   include ERB::Util
-  include Webby::Helpers::TagHelper
-  include Webby::Helpers::UrlHelper
 
   class Error < StandardError; end    # :nodoc:
 
@@ -157,5 +159,7 @@ class Renderer
 
 end  # class Renderer
 end  # module Webby
+
+end  # unless defined?
 
 # EOF

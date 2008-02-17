@@ -3,8 +3,6 @@ title:      Manual
 created_at: Wed Aug 29 08:57:00 -0600 2007
 filter:
   - erb
-  - graphviz
-  - coderay
   - textile
   - outline
 --- 
@@ -19,7 +17,7 @@ h2{clear:none}. Introduction
 
 Webby was created out of the need for a simple way to build and manage small websites. The desire was for a system that could take files written in plain text, combine them with a layout file and produce web pages. In this system, a single page can be written quickly without the need for HTML markup; the look and feel of the entire site can be changed by modifying the site layout file.
 
-<graphviz path="images" alt="Webby Overview">
+<% graphviz :path => "images", :alt => "Webby Overview" do %>
 digraph overview {
   rankdir = LR;
   edge [fontname="Verdana", fontsize=8];
@@ -37,7 +35,7 @@ digraph overview {
   p2 -> layout -> h2 [color=green];
   p3 -> layout -> h3 [color=blue];
 }
-</graphviz>
+<% end %>
 
 The diagram above shows the basic concept of how Webby works. Changing the layout file will result in changes to every generated HTML file. Changes to a single page will result in changes only to the HTML file corresponding to that particular page.
 
@@ -188,7 +186,7 @@ h3. Layouts
 
 Layouts provide the basic framework for a page  --  the header, the footer, the navigation. They provide a consistent look and feel across all pages in the website. Individual pages contain just the content for that particular page.
 
-<graphviz path="images" class="push-0" alt="layout diagram">
+<% graphviz :path => "images", :class => "push-0", :alt => "layout diagram" do %>
 digraph layout_graph {
   rankdir = LR;
   edge [fontname="Verdana", fontsize=8];
@@ -197,7 +195,7 @@ digraph layout_graph {
   page -> layout [label="rendered\ninto"];
   layout -> HTML [label="results\nin"];
 }
-</graphviz>
+<% end %>
 
 The diagram to the right shows a typical page rendering process. The content of a page is rendered by the Webby filter engine. The rendered content is inserted into the layout specified by the page; the content insertion occurs as the layout is being rendered. The result is the HTML that is stored in the _output_ folder.
 
@@ -337,14 +335,14 @@ end
 &lt;/coderay&gt;</notextile>
 </pre>
 
-<coderay lang="ruby" line_numbers="inline">
+<% coderay :lang => "ruby", :line_numbers => "inline" do %>
 class Object
   def returning( r )
     yield r if block_given?
     r
   end
 end
-</coderay>
+<% end %>
 
 p(column span-2). *Usage*:
 
@@ -375,12 +373,12 @@ digraph hello_world {
 &lt;/graphviz&gt;</notextile>
 </pre>
 
-<graphviz path="images" alt="hello world graph">
+<% graphviz :path => "images", :alt => "hello world graph" do %>
 digraph hello_world {
   rankdir = LR;
   Hello -> World;
 }
-</graphviz>
+<% end %>
 
 p(column span-2). *Usage*:
 

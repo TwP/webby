@@ -1,0 +1,78 @@
+# $Id$
+
+if try_require 'coderay'
+require 'enumerator'
+
+module Webby::Helpers
+module CodeRayHelper
+
+  # The +coderay+ method applies syntax highlighting to source code embedded
+  # in a webpage. The CodeRay highlighting engine is used for the HTML
+  # markup of the source code. The page sections to be highlighted are given
+  # as blocks of text to the +coderay+ method.
+  #
+  # Options can be passed to the CodeRay engine via attributes in the
+  # +coderay+ method.
+  #
+  #    <% coderay( :lang => "ruby", :line_numbers => "inline" ) do -%>
+  #    # Initializer for the class.
+  #    def initialize( string )
+  #      @str = stirng
+  #    end
+  #    <% end -%>
+  #    
+  # The supported CodeRay options are the following:
+  #
+  #    :lang               : the language to highlight (ruby, c, html, ...)
+  #    :line_numbers       : include line numbers in 'table', 'inline',
+  #                          or 'list'
+  #    :line_number_start  : where to start with line number counting
+  #    :bold_every         : make every n-th number appear bold
+  #    :tab_width          : convert tab characters to n spaces
+  #
+  def coderay( *args, &block )
+    opts = args.last.instance_of?(Hash) ? args.pop : {}
+
+    buffer = eval('_erbout', block.binding)
+    pos = buffer.length
+    block.call(*args)
+
+    text = buffer[pos..-1].strip
+    if text.empty?
+      buffer[pos..-1] = ''
+      return
+    end
+
+    lang = opts.getopt(:lang, :ruby).to_sym
+
+    cr_opts = {}
+    %w(line_numbers       to_sym
+       line_number_start  to_i
+       bold_every         to_i
+       tab_width          to_i).each_slice(2) do |key,convert|
+      val = opts.getopt(key)
+      next if val.nil?
+      cr_opts[key.to_sym] = val.send(convert)
+    end
+
+    #cr.swap(CodeRay.scan(text, lang).html(opts).div)
+    out = '<div class="CodeRay"><pre>'
+    out << ::CodeRay.scan(text, lang).html(cr_opts)
+    out << '</pre></div>'
+
+    if @_cursor.remaining_filters.include? 'textile'
+      out.insert 0, "<notextile>\n"
+      out << "\n</notextile>"
+    end
+
+    buffer[pos..-1] = out
+    return
+  end
+end  # module CodeRayHelper
+
+register(CodeRayHelper)
+
+end  # module Webby::Helpers
+end  # try_require
+
+# EOF

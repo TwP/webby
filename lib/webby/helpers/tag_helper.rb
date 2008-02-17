@@ -1,3 +1,5 @@
+# $Id$
+
 require 'erb'
 require 'set'
 
@@ -56,6 +58,9 @@ module TagHelper
   end
 
 end  # module TagHelper
+
+register(TagHelper)
+
 end  # module Helpers
 end  # module Webby
 

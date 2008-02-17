@@ -1,4 +1,8 @@
-== 0.7.5 / 2008-
+== 0.8.0 / 2008-
+
+* 1 major enhancement
+  - Refactored the coderay and graphviz filters into helper methods
+    accessible from ERB
 
 == 0.7.4 / 2008-02-15
 
