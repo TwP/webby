@@ -4,6 +4,8 @@ require 'rbconfig'
 require 'thread'
 require 'tempfile'
 
+# :stopdoc:
+
 # == Synopsis
 #
 # A class for spawning child processes and ensuring those children continue
@@ -333,5 +335,7 @@ class Spawner
     tmp
   end
 end  # class Spawner
+
+# :startdoc:
 
 # EOF

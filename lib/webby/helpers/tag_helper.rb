@@ -3,6 +3,7 @@
 require 'erb'
 require 'set'
 
+# :stopdoc:
 class ERB
   module Util
     HTML_ESCAPE = { '&' => '&amp;', '"' => '&quot;', '>' => '&gt;', '<' => '&lt;' }
@@ -12,9 +13,9 @@ class ERB
     end
   end
 end
+# :startdoc:
 
-module Webby
-module Helpers #:nodoc:
+module Webby::Helpers
 
 # Provides methods to generate HTML tags programmatically.
 # By default, they output XHTML compliant tags.
@@ -61,7 +62,6 @@ end  # module TagHelper
 
 register(TagHelper)
 
-end  # module Helpers
-end  # module Webby
+end  # module Webby::Helpers
 
 # EOF

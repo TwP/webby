@@ -63,6 +63,7 @@ class Renderer
     @page = page
     @pages = Resource.pages
     @content = nil
+    @config = ::Webby.site
 
     @log = Logging::Logger[self]
   end

@@ -1,5 +1,6 @@
 # $Id$
 
+# :stopdoc:
 module Enumerable
   def injecting( initial )
     inject(initial) do |memo, obj|
@@ -48,5 +49,6 @@ class Time
     self.to_yaml.slice(4..-1).strip
   end
 end
+# :startdoc:
 
 # EOF

@@ -12,6 +12,10 @@ module Webby
 #
 class Builder
 
+  # TODO: look into read only files in the ouput folder
+  #       maybe caused by copying a read only file (one that
+  #       is not processed)
+
   class << self
 
     # call-seq:

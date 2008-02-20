@@ -86,6 +86,7 @@ lib/webby/webby_task.rb
 spec/spec.opts
 spec/spec_helper.rb
 spec/webby/file_spec.rb
+tasks/ann.rake
 tasks/annotations.rake
 tasks/doc.rake
 tasks/gem.rake

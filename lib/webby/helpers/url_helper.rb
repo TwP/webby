@@ -1,7 +1,6 @@
 # $Id$
 
-module Webby
-module Helpers #:nodoc:
+module Webby::Helpers
 
 #
 #
@@ -230,7 +229,6 @@ end  # module UrlHelper
 
 register(UrlHelper)
 
-end  # module Helpers
-end  # module Webby
+end  # module Webby::Helpers
 
 # EOF

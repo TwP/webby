@@ -1,15 +1,9 @@
 # $Id$
 
-begin
-  require 'rake'
-  require 'rake/tasklib'
-rescue LoadError
-  require 'rubygems'
-  raise unless gem 'rake'
-  retry
-end
+require 'rake'
+require 'rake/tasklib'
 
-module Rake
+module Rake  # :nodoc:
 
 # The WebbyTask defines several rake tasks for working with Webby based
 # websites:
