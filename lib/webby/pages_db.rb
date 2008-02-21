@@ -2,6 +2,10 @@
 
 module Webby
 
+
+# FIXME: directories without pages don't show up :(
+
+
 # A rudimentary "database" for holding resource objects and finding them.
 # The database is held in a Ruby hash keyed by the directories in the
 # content folder.
@@ -145,6 +149,8 @@ class PagesDB
       ary.delete_if {|p| p.__send__(m).nil?}
       ary.sort! {|a,b| a.__send__(m) <=> b.__send__(m)}
     end
+
+    # TODO: do the reversing in the sort method above
 
     ary.reverse! if reverse
 
