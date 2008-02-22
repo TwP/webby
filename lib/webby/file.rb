@@ -38,7 +38,7 @@ class File < ::File
     #
     def read( name, *args )
       fd = new name, 'r'
-      fd.read *args
+      fd.read(*args)
     ensure
       fd.close unless fd.nil?
     end
@@ -172,6 +172,9 @@ class File < ::File
     seek 0, IO::SEEK_END
   end
 
+  alias :_gets :gets
+  private :_gets
+
   %w(getc gets read read_nonblock readbytes readchar readline readlines readpartial scanf).each do |m|
     self.class_eval <<-CODE
       def #{m}(*a)
@@ -201,10 +204,10 @@ class File < ::File
     cur = tell
 
     seek 0
-    line = gets
+    line = _gets
     return unless META_SEP =~ line
 
-    while line = gets
+    while line = _gets
       break if META_SEP =~ line
     end
     return if line.nil?

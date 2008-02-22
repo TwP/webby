@@ -122,7 +122,7 @@ class Renderer
       items[offset,per_page]
     end.first
 
-    @pager.each &block
+    @pager.each(&block)
   end
 
   # call-seq:

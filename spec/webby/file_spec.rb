@@ -1,11 +1,11 @@
 # $Id$
 
-require File.join(File.dirname(__FILE__), %w[.. spec_helper])
+require ::File.join(::File.dirname(__FILE__), %w[.. spec_helper])
 
 # ---------------------------------------------------------------------------
 describe Webby::File do
 
-  FN = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'lorem_ipsum.txt'))
+  FN = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..', '..', 'lorem_ipsum.txt'))
   FN_YAML = FN.gsub %r/\.txt\z/, '_yaml.txt'
   LINES = [
     "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nulla orci\n",
@@ -21,22 +21,22 @@ describe Webby::File do
   ]
 
   before do
-    File.open(FN,'w') {|fd| fd.write LINES}
-    File.open(FN_YAML,'w') do |fd|
+    ::File.open(FN,'w') {|fd| fd.write LINES}
+    ::File.open(FN_YAML,'w') do |fd|
       fd.write "--- \n- one\n- two\n- three\n--- \n"
       fd.write LINES
     end
   end
 
   after do 
-    FileUtils.rm_f(FN)
-    FileUtils.rm_f(FN_YAML)
+    ::FileUtils.rm_f(FN)
+    ::FileUtils.rm_f(FN_YAML)
   end
 
   it 'should return nil for meta-data on regular files' do
     begin
       fd = Webby::File.new FN, 'r'
-      fd.meta_data.should == nil
+      fd.meta_data.should be_nil
 
       fd.readlines.should == LINES
     ensure
@@ -46,7 +46,7 @@ describe Webby::File do
 
   it 'should add meta-data to the top of a file' do
     Webby::File.open(FN,'a+') do |fd|
-      fd.meta_data.should == nil
+      fd.meta_data.should be_nil
       fd.meta_data = %w(one two three)
     end
 
@@ -54,7 +54,7 @@ describe Webby::File do
       fd.meta_data.should == %w(one two three)
     end
 
-    File.open(FN_YAML, 'r') do |fd|
+    ::File.open(FN_YAML, 'r') do |fd|
       ary = LINES.dup
       ary.insert 0, [
         "--- \n",
@@ -74,10 +74,10 @@ describe Webby::File do
     end
 
     Webby::File.open(FN_YAML,'r') do |fd|
-      fd.meta_data.should == nil
+      fd.meta_data.should be_nil
     end
 
-    File.open(FN_YAML, 'r') do |fd|
+    ::File.open(FN_YAML, 'r') do |fd|
       fd.readlines.should == LINES
     end
   end
