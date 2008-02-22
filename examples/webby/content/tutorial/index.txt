@@ -127,4 +127,4 @@ h2. What Now?
 
 Let your creativity run wild!
 
-You can read more about the features of Webby in the "manual":manual.html. There you'll discover how to reference layouts other than the default, how to create page templates for simplifying blog posts. Take a look at the "tips &amp; tricks":tips_and_tricks.html for more ideas on simplifying your web development work cycle.
+You can read more about the features of Webby in the "manual":manual/index.html. There you'll discover how to reference layouts other than the default, how to create page templates for simplifying blog posts. Take a look at the "tips &amp; tricks":tips_and_tricks.html for more ideas on simplifying your web development work cycle.
