@@ -12,10 +12,6 @@ module Webby
 #
 class Builder
 
-  # TODO: look into read only files in the ouput folder
-  #       maybe caused by copying a read only file (one that
-  #       is not processed)
-
   class << self
 
     # call-seq:
@@ -105,6 +101,7 @@ class Builder
       # copy the resource to the output directory if it is static
       if page.is_static?
         FileUtils.cp page.path, page.destination
+        FileUtils.chmod 0644, page.destination
 
       # otherwise, layout the resource and write the results to
       # the output directory

@@ -147,12 +147,10 @@ class PagesDB
     if sort_by
       m = sort_by.to_sym
       ary.delete_if {|p| p.__send__(m).nil?}
-      ary.sort! {|a,b| a.__send__(m) <=> b.__send__(m)}
+      reverse ? 
+          ary.sort! {|a,b| b.__send__(m) <=> a.__send__(m)} :
+          ary.sort! {|a,b| a.__send__(m) <=> b.__send__(m)} 
     end
-
-    # TODO: do the reversing in the sort method above
-
-    ary.reverse! if reverse
 
     # limit the search results
     case limit

@@ -7,9 +7,11 @@
   - Added a template file for creating Atom feeds
   - The SITE configuration is available in pages and layouts as
     the @config variable
-* 1 bug fix
+* 2 bug fixes
   - When creating pages in directory mode the full page path was
     not being created
+  - Read only files were being created in the output folder
+    preventing them from being overwritten if changed
 
 == 0.7.4 / 2008-02-15
 
