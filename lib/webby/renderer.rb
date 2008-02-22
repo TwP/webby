@@ -91,6 +91,9 @@ class Renderer
     end
 
     str
+  rescue => err
+    @log.error "while rendering page '#{@page.path}'"
+    @log.error err
   end
 
   # call-seq:
