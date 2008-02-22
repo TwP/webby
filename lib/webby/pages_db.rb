@@ -2,10 +2,6 @@
 
 module Webby
 
-
-# FIXME: directories without pages don't show up :(
-
-
 # A rudimentary "database" for holding resource objects and finding them.
 # The database is held in a Ruby hash keyed by the directories in the
 # content folder.
@@ -67,41 +63,43 @@ class PagesDB
   #    find( opts = {} )                       => resource or nil
   #    find( opts = {} ) {|resource| block}    => resource or nil
   #
-  # Find a specific resource in the database. A resource can be found using
-  # any combination of attributes by passing them in as options to the
-  # +find+ method. This will used simple equality comparison to find the
-  # resource.
+  # Find a specific resource or collection of resources in the pages database.
+  # Resources can be found using any combination of attributes by passing them
+  # in as options to the +find+ method. This will used simple equality
+  # comparison to find the resource or resources.
   # 
-  # For more complex finders, a block should be supplied. The usage
-  # follows that of of the Enumerable#find method. The method will return
-  # the first resource for which the block returns true.
-  #
-  # If the :all option is given as true, then all resources that match the
-  # finder criteria will be returned in an array. If none are found, an
-  # empty array will be returned.
-  #
-  # Options include:
-  #
-  #    :in_directory => 'directory'
+  # If the :include option is given as :all then all resources that match
+  # the finder criteria will be returned in an array. If none are found, an
+  # empty array will be returned. If the :include option is given as an
+  # integer then the first n resources found will be returned. Otherwise, or
+  # if the :include option is not given, the first resource found will be
+  # returned
+  # 
+  # For more complex finders, a block should be supplied. The usage follows
+  # that of of the Enumerable#find or Enumerable#find_all methods, depending
+  # on the limit. The method will return the first resource or all
+  # resources, respectively, for which the block returns true.
+  # 
+  # Options:
+  #    :limit        => :all, integer or nil
+  #    :in_directory => directory
   #    :recursive    => true or false
-  #
-  #    :limit        => :all or integer
-  #    :sorty_by     => 'attribute'
+  #    :sort_by      => attribute
   #    :reverse      => true or false
   #
   # Examples:
   #
   #    # find the "index" resource in the "foo/bar" directory
-  #    pages_db.find( :filename => 'index', :in_directory => 'foo/bar' )
+  #    @pages.find( :filename => 'index', :in_directory => 'foo/bar' )
   #
-  #    # find any "index" resource under the "foo/bar" directory
-  #    pages_db.find( :filename => 'index', :in_directory => 'foo/bar', :recursive => true )
+  #    # find all resources under the "foo/bar" directory recursively
+  #    @pages.find( :limit => :all, :in_directory => 'foo/bar', :recursive => true )
   #
-  #    # find all resources named "widgets" whose color is "blue"
-  #    pages_db.find( :all, :name => 'widgets', :color => 'blue' )
+  #    # find the resource named "widgets" whose color is "blue"
+  #    @pages.find( :name => 'widgets', :color => 'blue' )
   #
   #    # find all resources created in the past week
-  #    pages_db.find( :all ) do |resource|
+  #    @pages.find( :limit => :all ) do |resource|
   #      resource.created_at > Time.now - (7 * 24 * 3600)
   #    end
   #
