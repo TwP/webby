@@ -5,6 +5,8 @@
     accessible from ERB
 * 1 minor enhancement
   - Added a template file for creating Atom feeds
+  - The SITE configuration is available in pages and layouts as
+    the @config variable
 * 1 bug fix
   - When creating pages in directory mode the full page path was
     not being created
