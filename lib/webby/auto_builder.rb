@@ -11,6 +11,8 @@ module Webby
 #
 class AutoBuilder
 
+  # TODO: hit Ctrl-C once to rebuild everything, and hit it twice to stop the autobuild loop
+
   # call-seq:
   #    AutoBuilder.run
   #
