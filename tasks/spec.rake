@@ -38,6 +38,8 @@ namespace :spec do
       t.index_html = File.join(PROJ.rcov_dir, 'index.html')
       t.require_exact_threshold = PROJ.rcov_threshold_exact
     end
+
+    task :verify => :rcov
   end
 
 end  # namespace :spec
