@@ -30,6 +30,7 @@ data/content/css/coderay.css
 data/content/css/site.css
 data/content/index.txt
 data/layouts/default.rhtml
+data/lib/breadcrumbs.rb
 data/tasks/create.rake
 data/tasks/deploy.rake
 data/tasks/growl.rake

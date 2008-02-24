@@ -114,7 +114,7 @@ class DB
     # into directories or not
     search = if (dir = opts.delete(:in_directory))
       strategy = if opts.delete(:recursive)
-        lambda { |key| key =~ /^#{Regexp.escape(dir)}(?:\/|$)/ }
+        lambda { |key| key =~ %r/^#{Regexp.escape(dir)}(?:\/|$)/ }
       else
         lambda { |key| key == dir }
       end
@@ -209,6 +209,30 @@ class DB
     ary.sort! {|a,b| a.__send__(m) <=> b.__send__(m)}
     ary.reverse! if opts[:reverse]
     ary
+  end
+
+  # call-seq:
+  #    parent_of( resource )    => resource or nil
+  #
+  #  Returns the parent page of the given resource or nil if the resource is
+  #  at the root of the directory structure. The parent is the "index" page
+  #  of the current directory or the next directory up the chain.
+  #
+  def parent_of( page )
+    dir = page.dir
+
+    loop do
+      if @db.has_key? dir
+        parent = @db[dir].find {|p| p.filename == 'index'}
+        return parent unless parent.nil? or parent == page
+      end
+
+      break if dir.empty?
+      dir = ::File.dirname(dir)
+      dir = '' if dir == '.'
+    end
+
+    return
   end
 
 end  # class DB

@@ -6,9 +6,17 @@ Webby
 
 == DESCRIPTION:
 
-Webby is a super fantastic little website management system. It would be called a _content management system_ if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.
+Webby is a super fantastic little website management system. It would be
+called a _content management system_ if it were a bigger kid. But, it's
+just a runt with a special knack for transforming text. And that's really
+all it does - manages the legwork of turning text into something else, an
+*ASCII Alchemist* if you will.
 
-Webby works by combining the contents of a *page* with a *layout* to produce HTML. The layout contains everything common to all the pages - HTML headers, navigation menu, footer, etc. - and the page contains just the information for that page. You can use your favorite markup language to write your pages; Webby supports quite a few.
+Webby works by combining the contents of a *page* with a *layout* to
+produce HTML. The layout contains everything common to all the pages -
+HTML headers, navigation menu, footer, etc. - and the page contains just
+the information for that page. You can use your favorite markup language
+to write your pages; Webby supports quite a few.
 
 Install Webby and try it out!
 
@@ -23,7 +31,11 @@ Install Webby and try it out!
 
 But Wait! There's More!
 
-Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via {heel}[http://copiousfreetime.rubyforge.org/heel/], a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
+Webby has a great _autobuild_ feature that continuously generates HTML whenever
+the *pages* or *layouts* change. The HTML is served up via
+{heel}[http://copiousfreetime.rubyforge.org/heel/], a static file webserver
+based on mongrel. Whenever you change a page, you can immediately see those
+changes without having to run any commands.
 
    $ rake autobuild
    heel --root output --daemonize
@@ -33,7 +45,11 @@ Webby has a great _autobuild_ feature that continuously generates HTML whenever 
    - started at 10:22:57
    creating output/index.html
 
-Webby is not limited to producing HTML. By no means! Do you ever get tired of repeating the same color code <b>#D3C4A2</b> in your CSS files? Webby can help. Need some customized JavaScript for your website. Webby can help. Anytime you find yourself repeating the same bit of text over and over, then you should be using Webby.
+Webby is not limited to producing HTML. By no means! Do you ever get tired of
+repeating the same color code <b>#D3C4A2</b> in your CSS files? Webby can help.
+Need some customized JavaScript for your website. Webby can help. Anytime you
+find yourself repeating the same bit of text over and over, then you should be
+using Webby.
 
 == INSTALL:
 
