@@ -2,12 +2,12 @@
 
 require 'yaml'
 
-module Webby
+module Webby::Resources
 
-# The Webby::File class is identical to the core Ruby file class except for
-# YAML meta-data stored at the top of the file. This meta-data is made
-# available through the <code>meta_data</code> and <code>meta_data=</code>
-# functions.
+# The Webby::Resources::File class is identical to the core Ruby file class
+# except for YAML meta-data stored at the top of the file. This meta-data
+# is made available through the <code>meta_data</code> and
+# <code>meta_data=</code> functions.
 #
 # The meta-data data must be found between two YAML block separators "---",
 # each on their own line.
@@ -30,7 +30,7 @@ class File < ::File
 
   class << self
     # call-seq:
-    #    Webby::File.read( name [, length [, offset]])    => string
+    #    File.read( name [, length [, offset]])    => string
     #
     # Opens the file, optionally seeks to the given _offset_, then returns
     # _length_ bytes (defaulting to the rest of the file). +read+ ensures
@@ -44,7 +44,7 @@ class File < ::File
     end
 
     # call-seq:
-    #    Webby::File.readlines( name, sep_string = $/ )    => array
+    #    File.readlines( name, sep_string = $/ )    => array
     #
     # Reads the entire file specified by _name_ as individual lines, and
     # returns those lines in an array. Lines are separated by _sep_string_.
@@ -58,7 +58,7 @@ class File < ::File
     end
 
     # call-seq:
-    #    Webby::File.meta_data( name )    => object or nil
+    #    File.meta_data( name )    => object or nil
     #
     # Reads the meta-data from the file specified by _name_. +meta_data+
     # ensures the files is closed before returning.
@@ -71,7 +71,7 @@ class File < ::File
     end
 
     # call-seq:
-    #    Webby::File.dirname( filename )    => dir_name
+    #    File.dirname( filename )    => dir_name
     #
     # Returns all components of the _filename_ except the last one. The
     # filename must be formed using forward slashes ("/") regardless of the
@@ -82,7 +82,7 @@ class File < ::File
     end
 
     # call-seq:
-    #    Webby::File.basename( filename )    => base_name
+    #    File.basename( filename )    => base_name
     #
     # Returns the last component of the _filename_, which must be formed
     # using forward slashes ("/"regardless of the separator used on the
@@ -93,7 +93,7 @@ class File < ::File
     end
 
     # call-seq:
-    #    Webby::File.extname( filename )    => ext_name
+    #    File.extname( filename )    => ext_name
     #
     # Returns the extension (the portion of file name in path after the
     # period). This method excludes the period from the extension name.
@@ -104,16 +104,16 @@ class File < ::File
   end
 
   # call-seq:
-  #    Webby::File.new( filename, mode = "r" )          => file
-  #    Webby::File.new( filename [, mode [, perm]] )    => file
+  #    File.new( filename, mode = "r" )          => file
+  #    File.new( filename [, mode [, perm]] )    => file
   #
   # Opens the file named by _filename_ according to _mode_ (default is 'r')
-  # and returns a new +Webby::File+ object. See the description of class
-  # +IO+ for a description of _mode_. The file _mode_ may optionally be
-  # specified as a +Fixnum+ by or-ing together the flags (+O_RDONLY+ etc,
-  # again described under +IO+). Optional permission bits may be given in
-  # _perm_. These _mode_ and permission bits are platform dependent; on Unix
-  # systems, see +open(2)+ for details. 
+  # and returns a new +Webby::Resources::File+ object. See the description
+  # of class +IO+ for a description of _mode_. The file _mode_ may
+  # optionally be specified as a +Fixnum+ by or-ing together the flags
+  # (+O_RDONLY+ etc, again described under +IO+). Optional permission bits
+  # may be given in _perm_. These _mode_ and permission bits are platform
+  # dependent; on Unix systems, see +open(2)+ for details. 
   #
   #    f = File.new("testfile", "r")
   #    f = File.new("newfile",  "w+")
@@ -218,6 +218,6 @@ class File < ::File
   end
 
 end  # class File
-end  # module Webby
+end  # module Webby::Resources
 
 # EOF

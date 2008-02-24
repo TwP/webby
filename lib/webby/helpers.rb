@@ -27,4 +27,6 @@ module Helpers
 end  # module Helper
 end  # module Webby
 
+Webby.require_all_libs_relative_to(__FILE__)
+
 # EOF

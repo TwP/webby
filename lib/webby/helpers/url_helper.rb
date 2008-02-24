@@ -39,7 +39,7 @@ module UrlHelper
     anchor = opts.delete(:anchor)
     escape = opts.has_key?(:escape) ? opts.delte(:escape) : true
 
-    url = Webby::Resource === obj ? obj.url : obj.to_s
+    url = Webby::Resources::Resource === obj ? obj.url : obj.to_s
     url = escape_once(url) if escape
     url << "#" << anchor if anchor
 
@@ -54,8 +54,8 @@ module UrlHelper
   # method for final URL creation; see the url_for method for
   # documentation on those options.
   #
-  # The PagesDB#find method is used to locate the page; see the find method
-  # for the available options.
+  # The Resources::DB#find method is used to locate the page; see the find
+  # method for the available options.
   #
   # ==== Examples
   #
@@ -96,7 +96,7 @@ module UrlHelper
     attrs = opts.delete(:attrs)
 
     url = case url
-      when String, Webby::Resource
+      when String, Webby::Resources::Resource
         self.url_for(url, opts)
       when :back
         'javascript:history.back()'
@@ -210,7 +210,7 @@ module UrlHelper
     link_opts = opts.delete(:url) || {}
     link_opts[:attrs] = opts.delete(:attrs)
 
-    if Webby::Resource === name
+    if Webby::Resources::Resource === name
       p, name = name, nil
     elsif opts.empty? && name
       p = @pages.find(Webby.site.find_by.to_sym => name)

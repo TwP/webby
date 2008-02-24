@@ -56,7 +56,7 @@ class AutoBuilder
       @log.debug "changed #{evt.path}"
       next unless test ?f, evt.path
       next if evt.path =~ ::Webby.exclude
-      Resource.new evt.path
+      Resources.new evt.path
     end
 
     @builder.run :load_files => false

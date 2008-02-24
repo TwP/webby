@@ -90,4 +90,6 @@ module Filters
 end  # module Filters
 end  # module Webby
 
+Webby.require_all_libs_relative_to(__FILE__)
+
 # EOF

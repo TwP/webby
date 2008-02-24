@@ -90,7 +90,7 @@ class Builder
     load_files if opts[:load_files]
     loop_check
 
-    Resource.pages.each do |page|
+    Resources.pages.each do |page|
       next unless page.dirty? or opts[:rebuild]
 
       @log.info "creating #{page.destination}"
@@ -99,7 +99,7 @@ class Builder
       FileUtils.mkdir_p ::File.dirname(page.destination)
 
       # copy the resource to the output directory if it is static
-      if page.is_static?
+      if page.instance_of? Resources::Static
         FileUtils.cp page.path, page.destination
         FileUtils.chmod 0644, page.destination
 
@@ -124,7 +124,7 @@ class Builder
     ::Find.find(layout_dir, content_dir) do |path|
       next unless test ?f, path
       next if path =~ ::Webby.exclude
-      Resource.new path
+      Resources.new path
     end
   end
 
@@ -133,7 +133,7 @@ class Builder
   # error if one is detected.
   #
   def loop_check
-    layouts = Resource.layouts
+    layouts = Resources.layouts
 
     layouts.each do |lyt|
       stack = []

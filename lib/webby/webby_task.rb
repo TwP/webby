@@ -86,8 +86,8 @@ class WebbyTask < TaskLib
         raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 
         page = t.application.top_level_tasks.pop
-        name = ::Webby::File.basename(page)
-        ext  = ::Webby::File.extname(page)
+        name = ::Webby::Resources::File.basename(page)
+        ext  = ::Webby::Resources::File.extname(page)
         dir  = ::File.dirname(page)
         dir  = '' if dir == '.'
 

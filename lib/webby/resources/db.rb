@@ -1,18 +1,18 @@
 # $Id$
 
-module Webby
+module Webby::Resources
 
 # A rudimentary "database" for holding resource objects and finding them.
 # The database is held in a Ruby hash keyed by the directories in the
 # content folder.
 #
-class PagesDB
+class DB
 
   # call-seq:
-  #    PagesDB.new
+  #    DB.new
   #
-  # Create a new pages database object. This is used to store resources and
-  # to find them by their attributes.
+  # Create a new resources database object. This is used to store resources
+  # and to find them by their attributes.
   #
   def initialize
     @db = Hash.new {|h,k| h[k] = []}
@@ -211,7 +211,7 @@ class PagesDB
     ary
   end
 
-end  # class PagesDB
+end  # class DB
 end  # module Webby
 
 # EOF

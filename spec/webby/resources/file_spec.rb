@@ -1,9 +1,9 @@
 # $Id$
 
-require ::File.join(::File.dirname(__FILE__), %w[.. spec_helper])
+require ::File.join(::File.dirname(__FILE__), %w[.. .. spec_helper])
 
 # ---------------------------------------------------------------------------
-describe Webby::File do
+describe Webby::Resources::File do
 
   FN = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..', '..', 'lorem_ipsum.txt'))
   FN_YAML = FN.gsub %r/\.txt\z/, '_yaml.txt'
@@ -35,7 +35,7 @@ describe Webby::File do
 
   it 'should return nil for meta-data on regular files' do
     begin
-      fd = Webby::File.new FN, 'r'
+      fd = Webby::Resources::File.new FN, 'r'
       fd.meta_data.should be_nil
 
       fd.readlines.should == LINES
@@ -45,12 +45,12 @@ describe Webby::File do
   end
 
   it 'should add meta-data to the top of a file' do
-    Webby::File.open(FN,'a+') do |fd|
+    Webby::Resources::File.open(FN,'a+') do |fd|
       fd.meta_data.should be_nil
       fd.meta_data = %w(one two three)
     end
 
-    Webby::File.open(FN,'r') do |fd|
+    Webby::Resources::File.open(FN,'r') do |fd|
       fd.meta_data.should == %w(one two three)
     end
 
@@ -68,12 +68,12 @@ describe Webby::File do
   end
 
   it 'should remove the meta-data when set to nil' do
-    Webby::File.open(FN_YAML,'a+') do |fd|
+    Webby::Resources::File.open(FN_YAML,'a+') do |fd|
       fd.meta_data.should == %w(one two three)
       fd.meta_data = nil
     end
 
-    Webby::File.open(FN_YAML,'r') do |fd|
+    Webby::Resources::File.open(FN_YAML,'r') do |fd|
       fd.meta_data.should be_nil
     end
 
@@ -84,7 +84,7 @@ describe Webby::File do
 
   it 'should skip the meta-data when reading from the file' do
     begin
-      fd = Webby::File.new FN_YAML, 'r'
+      fd = Webby::Resources::File.new FN_YAML, 'r'
       fd.meta_data.should == %w(one two three)
 
       fd.getc.should == ?L;                        fd.seek 0
@@ -100,6 +100,6 @@ describe Webby::File do
       fd.close
     end
   end
-end  # describe Webby::File
+end  # describe Webby::Resources::File
 
 # EOF

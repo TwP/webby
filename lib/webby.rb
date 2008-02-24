@@ -96,7 +96,7 @@ module Webby
   # modification time of the file is important.
   #
   def self.cairn
-    @cairn ||= File.join(site.output_dir, '.cairn')
+    @cairn ||= ::File.join(site.output_dir, '.cairn')
   end
 
   # Returns the library path for Webby. If any arguments are given,
@@ -124,9 +124,9 @@ module Webby
   # the _filename_ does not have to be equivalent to the directory.
   #
   def self.require_all_libs_relative_to( fname, dir = nil )
-    dir ||= File.basename(fname, '.*')
-    search_me = File.expand_path(
-        File.join(File.dirname(fname), dir, '**', '*.rb'))
+    dir ||= ::File.basename(fname, '.*')
+    search_me = ::File.expand_path(
+        ::File.join(::File.dirname(fname), dir, '*.rb'))
 
     Dir.glob(search_me).sort.each {|rb| require rb}
   end
@@ -147,7 +147,7 @@ rescue LoadError
   false
 end
 
-Webby.require_all_libs_relative_to __FILE__
+Webby.require_all_libs_relative_to(__FILE__)
 
 end  # unless defined?
 

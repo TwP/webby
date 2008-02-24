@@ -5,10 +5,6 @@
 unless defined? ::Webby::Renderer
 
 require 'erb'
-try_require 'bluecloth'
-try_require 'redcloth'
-try_require 'haml'
-try_require 'sass'
 
 module Webby
 
@@ -27,7 +23,10 @@ module Webby
 class Renderer
   include ERB::Util
 
-  class Error < StandardError; end    # :nodoc:
+  # :stopdoc:
+  class Error < StandardError; end
+  @@stack = []
+  # :startdoc:
 
   # call-seq:
   #    Renderer.write( page )
@@ -43,7 +42,7 @@ class Renderer
       ::File.open(page.destination, 'w') do |fd|
         fd.write renderer.layout_page
       end
-      break unless renderer.__send__(:next_page)
+      break unless renderer.__send__(:_next_page)
     }
   end
 
@@ -55,13 +54,13 @@ class Renderer
   # render the filtered page into the desired layout.
   #
   def initialize( page )
-    unless page.is_page?
+    unless page.instance_of? Resources::Page
       raise ArgumentError,
             "only page resources can be rendered '#{page.path}'"
     end
 
     @page = page
-    @pages = Resource.pages
+    @pages = Resources.pages
     @content = nil
     @config = ::Webby.site
 
@@ -77,18 +76,24 @@ class Renderer
   # page's meta-data.
   #
   def layout_page
-    layouts = Resource.layouts
+    layouts = Resources.layouts
     obj = @page
     str = @page.render(self)
 
+    @@stack << @page.path
     loop do
       lyt = layouts.find :filename => obj.layout
       break if lyt.nil?
 
-      @content, str = str, ::Webby::File.read(lyt.path)
-      str = Filters.process(self, lyt, str)
+      @content, str = str, ::Webby::Resources::File.read(lyt.path)
+      str = _track_rendering(lyt.path) {
+        Filters.process(self, lyt, str)
+      }
       @content, obj = nil, lyt
     end
+
+    @@stack.pop if @page.path == @@stack.last
+    raise Error, "rendering stack corrupted" unless @@stack.empty?
 
     str
   rescue => err
@@ -103,7 +108,28 @@ class Renderer
   # determined from the page's meta-data.
   #
   def render_page
-    Filters.process(self, @page, ::Webby::File.read(@page.path))
+    _track_rendering(@page.path) {
+      Filters.process(self, @page, ::Webby::Resources::File.read(@page.path))
+    }
+  end
+
+  # call-seq:
+  #    partial( name )    => string
+  #
+  # Finds the partial identified by _name_ and returns the contents after
+  # rendering. Rendering if performed by filtering the contents of the
+  # partial using the filters identified in the meta-data of the partial.
+  #
+  def partial( name, opts = {} )
+    fn = '_' + name
+    part = Resources.partials.find(
+        :filename => fn, :in_directory => @page.dir ) rescue nil
+    part ||= Resources.partials.find(:filename => fn)
+    raise Error, "could not find partial '#{name}'" if part.nil?
+
+    _track_rendering(part.path) {
+      Filters.process(self, part, ::Webby::Resources::File.read(part.path))
+    }
   end
 
   # call-seq:
@@ -141,13 +167,13 @@ class Renderer
   private
 
   # call-seq:
-  #    next_page    => true or false
+  #    _next_page    => true or false
   #
   # Returns +true+ if there is a next page to render. Returns +false+ if
   # there is no next page or if pagination has not been configured for the
   # current page.
   #
-  def next_page
+  def _next_page
     return false unless defined? @pager and @pager
 
     # go to the next page; break out if there is no next page
@@ -161,8 +187,38 @@ class Renderer
     true
   end
 
+  # call-seq:
+  #    _track_rendering( path ) {block}
+  #
+  # Keep track of the page rendering for the given _path_. The _block_ is
+  # where the the page will be rendered.
+  #
+  # This method keeps a stack of the current pages being rendeered. It looks
+  # for duplicates in the stack -- an indication of a rendering loop. When a
+  # rendering loop is detected, an error is raised.
+  #
+  # This method returns whatever is returned from the _block_.
+  #
+  def _track_rendering( path )
+    loop_error = @@stack.include? path
+    @@stack << path
+
+    if loop_error
+      msg = "rendering loop detected for '#{path}'\n"
+      msg << "    current rendering stack\n\t"
+      msg << @@stack.join("\n\t")
+      raise Error, msg
+    end
+
+    yield
+  ensure
+    @@stack.pop if path == @@stack.last
+  end
+
 end  # class Renderer
 end  # module Webby
+
+Webby.require_all_libs_relative_to(__FILE__, 'stelan')
 
 end  # unless defined?
 
