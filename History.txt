@@ -1,9 +1,9 @@
 == 0.8.0 / 2008-
 
 * 2 major enhancements
+  - Added support for partials
   - Refactored the coderay and graphviz filters into helper methods
     accessible from ERB
-  - Added support for partials
 * 2 minor enhancements
   - Added a template file for creating Atom feeds
   - The SITE configuration is available in pages and layouts as
