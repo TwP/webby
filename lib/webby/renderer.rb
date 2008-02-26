@@ -61,6 +61,7 @@ class Renderer
 
     @page = page
     @pages = Resources.pages
+    @partials = Resources.partials
     @content = nil
     @config = ::Webby.site
 
@@ -113,21 +114,33 @@ class Renderer
     }
   end
 
-  # TODO: modify the render_partial method to accept a partial name or a partial object itself
-
   # call-seq:
-  #    render_partial( name )    => string
+  #    render_partial( partial )    => string
   #
-  # Finds the partial identified by _name_ and returns the contents after
-  # rendering. Rendering if performed by filtering the contents of the
-  # partial using the filters identified in the meta-data of the partial.
+  # Render the given _partial_ into the current page. The _partial_ can
+  # either be the name of the partial to render or a Partial object.
   #
-  def render_partial( name, opts = {} )
-    fn = '_' + name
-    part = Resources.partials.find(
-        :filename => fn, :in_directory => @page.dir ) rescue nil
-    part ||= Resources.partials.find(:filename => fn)
-    raise Error, "could not find partial '#{name}'" if part.nil?
+  # In the former case, the partial is found by first looking in the
+  # directory of the current for a partial of the same name. Failing that,
+  # the search is expanded to include all directories in the site. The first
+  # partial with a matching name is returned.
+  #
+  # In the latter case, Partial objects can be found by using the +find+
+  # method of the <tt>@partials</tt> database hash. Please refer to
+  # Webby::Resources::DB#find method for more information.
+  #
+  def render_partial( part, opts = {} )
+    part = case part
+      when String
+        fn = '_' + name
+        p = Resources.partials.find(
+            :filename => fn, :in_directory => @page.dir ) rescue nil
+        p ||= Resources.partials.find(:filename => fn)
+        raise Error, "could not find partial '#{part}'" if p.nil?
+        p
+      when ::Webby::Resource::Partial
+        part
+      else raise Error, "expecting a partial or a partial name" end
 
     _track_rendering(part.path) {
       Filters.process(self, part, ::Webby::Resources::File.read(part.path))

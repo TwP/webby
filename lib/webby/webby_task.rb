@@ -83,26 +83,45 @@ class WebbyTask < TaskLib
     FileList["#{::Webby.site.template_dir}/*"].each do |template|
       name = template.pathmap '%n'
 
-      desc "create a new #{name}"
-      task name do |t|
-        raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
+      # if the file is a partial template
+      if name =~ %r/^_(.*)/
+        name = $1
+        desc "create a new #{name}"
+        task name do |t|
+          raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 
-        page = t.application.top_level_tasks.pop
-        name = ::Webby::Resources::File.basename(page)
-        ext  = ::Webby::Resources::File.extname(page)
-        dir  = ::File.dirname(page)
-        dir  = '' if dir == '.'
+          page = '_' + t.application.top_level_tasks.pop
+          ext  = ::Webby::Resources::File.extname(page)
 
-        if ::Webby.site.create_mode == 'directory'
-          page = ::File.join(::Webby.site.content_dir, dir, name, 'index')
-          page << '.' << (ext.empty? ? 'txt' : ext)
-        else
           page = ::File.join(::Webby.site.content_dir, page)
           page << '.txt' if ext.empty?
+
+          ::Webby::Builder.create page, :from => template
         end
 
-        ::Webby::Builder.create page, :from => template
-      end  # task
+      # otherwise it's a normal file
+      else
+        desc "create a new #{name}"
+        task name do |t|
+          raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
+
+          page = t.application.top_level_tasks.pop
+          name = ::Webby::Resources::File.basename(page)
+          ext  = ::Webby::Resources::File.extname(page)
+          dir  = ::File.dirname(page)
+          dir  = '' if dir == '.'
+
+          if ::Webby.site.create_mode == 'directory'
+            page = ::File.join(::Webby.site.content_dir, dir, name, 'index')
+            page << '.' << (ext.empty? ? 'txt' : ext)
+          else
+            page = ::File.join(::Webby.site.content_dir, page)
+            page << '.txt' if ext.empty?
+          end
+
+          ::Webby::Builder.create page, :from => template
+        end  # task
+      end
     end  # each
   end
 
