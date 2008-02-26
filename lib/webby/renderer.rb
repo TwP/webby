@@ -113,14 +113,16 @@ class Renderer
     }
   end
 
+  # TODO: modify the render_partial method to accept a partial name or a partial object itself
+
   # call-seq:
-  #    partial( name )    => string
+  #    render_partial( name )    => string
   #
   # Finds the partial identified by _name_ and returns the contents after
   # rendering. Rendering if performed by filtering the contents of the
   # partial using the filters identified in the meta-data of the partial.
   #
-  def partial( name, opts = {} )
+  def render_partial( name, opts = {} )
     fn = '_' + name
     part = Resources.partials.find(
         :filename => fn, :in_directory => @page.dir ) rescue nil

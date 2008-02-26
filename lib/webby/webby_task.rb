@@ -74,6 +74,8 @@ class WebbyTask < TaskLib
     end
   end
 
+  # TODO: modify creation task to handle folders of pages/partials
+
   # Scans the templates directory for any files, and creats a corresponding
   # task for creating a new page based on that template.
   #
