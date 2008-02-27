@@ -132,13 +132,13 @@ class Renderer
   def render_partial( part, opts = {} )
     part = case part
       when String
-        fn = '_' + name
+        fn = '_' + part
         p = Resources.partials.find(
             :filename => fn, :in_directory => @page.dir ) rescue nil
         p ||= Resources.partials.find(:filename => fn)
         raise Error, "could not find partial '#{part}'" if p.nil?
         p
-      when ::Webby::Resource::Partial
+      when ::Webby::Resources::Partial
         part
       else raise Error, "expecting a partial or a partial name" end
 

@@ -90,11 +90,14 @@ class WebbyTask < TaskLib
         task name do |t|
           raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 
-          page = '_' + t.application.top_level_tasks.pop
+          page = t.application.top_level_tasks.pop
+          name = '_' + ::Webby::Resources::File.basename(page)
           ext  = ::Webby::Resources::File.extname(page)
+          dir  = ::File.dirname(page)
+          dir  = '' if dir == '.'
 
-          page = ::File.join(::Webby.site.content_dir, page)
-          page << '.txt' if ext.empty?
+          page = ::File.join(::Webby.site.content_dir, dir, name)
+          page << '.' << (ext.empty? ? 'txt' : ext)
 
           ::Webby::Builder.create page, :from => template
         end
