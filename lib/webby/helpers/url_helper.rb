@@ -37,7 +37,7 @@ module UrlHelper
     obj = args.first
 
     anchor = opts.delete(:anchor)
-    escape = opts.has_key?(:escape) ? opts.delte(:escape) : true
+    escape = opts.has_key?(:escape) ? opts.delete(:escape) : true
 
     url = Webby::Resources::Resource === obj ? obj.url : obj.to_s
     url = escape_once(url) if escape
