@@ -1,5 +1,8 @@
 # $Id$
 
+# TODO: add support for inlining TeX equations
+# TODO: add support for inlining background gradients (in the CSS)
+
 # Equivalent to a header guard in C/C++
 # Used to prevent the spec helper from being loaded more than once
 unless defined? ::Webby

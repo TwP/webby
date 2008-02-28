@@ -34,7 +34,7 @@ PROJ.test_opts = []
 
 # Rcov
 PROJ.rcov_dir = 'coverage'
-PROJ.rcov_opts = ['--sort', 'coverage', '-T']
+PROJ.rcov_opts = %w[--sort coverage -T]
 PROJ.rcov_threshold = 90.0
 PROJ.rcov_threshold_exact = false
 

@@ -95,7 +95,10 @@ namespace :gem do
 
   desc 'Uninstall the gem'
   task :uninstall do
-    sh "#{SUDO} #{GEM} uninstall -v '#{PROJ.version}' -i -x #{PROJ.name}"
+    installed_list = Gem.source_index.find_name(PROJ.name)
+    if installed_list and installed_list.collect { |s| s.version.to_s}.include?(PROJ.version) then
+      sh "#{SUDO} #{GEM} uninstall -v '#{PROJ.version}' -i -x #{PROJ.name}"
+    end
   end
 
   desc 'Reinstall the gem'
