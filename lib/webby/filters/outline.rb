@@ -27,7 +27,9 @@ module Filters
 class Outline
   include ERB::Util
 
-  class Error < StandardError; end    # :nodoc:
+  # :stopdoc:
+  class Error < StandardError; end
+  # :startdoc:
 
   # call-seq:
   #    Outline.new( html )

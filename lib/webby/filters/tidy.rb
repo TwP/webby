@@ -20,7 +20,9 @@ module Filters
 #
 class Tidy
 
-  class Error < StandardError; end    # :nodoc:
+  # :stopdoc:
+  class Error < StandardError; end
+  # :startdoc:
 
   # call-seq:
   #    Tidy.new( html )

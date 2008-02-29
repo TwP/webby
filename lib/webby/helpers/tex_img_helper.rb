@@ -7,7 +7,9 @@ require 'tempfile'
 module Webby::Helpers
 module TexImgHelper
 
-  class Error < StandardError; end    # :nodoc:
+  # :stopdoc:
+  class Error < StandardError; end
+  # :startdoc:
 
   # The +tex2img+ method converts a a section of mathematical TeX script
   # into an image and embeds the resulting image into the page. The TeX

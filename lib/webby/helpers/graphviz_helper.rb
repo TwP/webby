@@ -6,7 +6,9 @@ require 'tempfile'
 module Webby::Helpers
 module GraphvizHelper
 
-  class Error < StandardError; end    # :nodoc:
+  # :stopdoc:
+  class Error < StandardError; end
+  # :startdoc:
 
   # call-seq:
   #    GraphvizHelper.error_check( file )
