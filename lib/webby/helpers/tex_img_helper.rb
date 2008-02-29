@@ -1,29 +1,41 @@
 # $Id$
 
 require Webby.libpath(*%w[webby stelan mktemp])
+require 'fileutils'
+require 'tempfile'
 
 module Webby::Helpers
 module TexImgHelper
 
-  # The +coderay+ method applies syntax highlighting to source code embedded
-  # in a webpage. The CodeRay highlighting engine is used for the HTML
-  # markup of the source code. The page sections to be highlighted are given
-  # as blocks of text to the +coderay+ method.
+  class Error < StandardError; end    # :nodoc:
+
+  # The +tex2img+ method converts a a section of mathematical TeX script
+  # into an image and embeds the resulting image into the page. The TeX
+  # engine must be installed on your system along with the ImageMagick
+  # +convert+ program.
   #
   # Options can be passed to the TeX engine via attributes in the
   # +tex2img+ method.
   #
-  #    <% tex2img( 'wave_eq', :path => "images", :alt => "wave equation" ) do -%>
+  #    <% tex2img( "wave_eq", :path => "images", :alt => "wave equation" ) do -%>
   #      $\psi_{tot}(x,-t_0,r) = \frac{1}{(2\pi)^2} \int\!\!\!\int
   #      \tilde\Psi_{tot}\left(k_x,\frac{c}{2}\sqrt{k_x^2 + k_r^2},r=0\right)$
   #    <% end -%>
   #    
   # The supported TeX options are the following:
   #
-  #    :path     : where generated images will be stored
-  #                [default is "/"]
-  #    :type     : the type of image to generate (png, jpeg, gif)
-  #                [default is png]
+  #    :path         : where generated images will be stored
+  #                    [default is "/"]
+  #    :type         : the type of image to generate (png, jpeg, gif)
+  #                    [default is png]
+  #    :bg           : the background color of the image (color name,
+  #                    TeX color spec, or #aabbcc) [default is white]
+  #    :fg           : the foreground color of the image (color name,
+  #                    TeX color spec, or #aabbcc) [default is black]
+  #    :resolution   : the desired resolution in dpi (HxV)
+  #                    [default is 150x150]
+  #    :antialias    : if false, disables anti-aliasing in the resulting image
+  #                    [default is true]
   #
   #    the following options are passed as-is to the generated <img /> tag
   #    :style    : CSS styles to apply to the <img />
@@ -46,12 +58,21 @@ module TexImgHelper
       return
     end
 
-    path = opts.getopt(:path)
-    type = opts.getopt(:type, 'png')
+    # create a temporary file for holding any error messages
+    # from the graphviz program
+    err = Tempfile.new('graphviz_err')
+    err.close
 
-    bg = 'white'
-    fg = 'black'
-    res = '150x150'
+    path  = opts.getopt(:path)
+    type  = opts.getopt(:type, 'png')
+    bg    = opts.getopt(:bg, 'white')
+    fg    = opts.getopt(:fg, 'black')
+    res   = opts.getopt(:resolution, '150x150')
+    aa    = opts.getopt(:antialias, true)
+
+    # fix the color escaping
+    fg = TexImgHelper.tex_color(fg)
+    bg = TexImgHelper.tex_color(bg)
 
     # generate the image filename based on the path, graph name, and type
     # of image to generate
@@ -66,12 +87,12 @@ module TexImgHelper
 
     tex = <<-TEX
       \\documentclass[12pt]{article}
-      \\usepackage{color}
+      \\usepackage[usenames,dvipsnames]{color}
       \\usepackage[dvips]{graphicx}
       \\pagestyle{empty}
-      \\pagecolor{#{bg}}
+      \\pagecolor#{bg}
       \\begin{document}
-      {\\color{#{fg}}
+      {\\color#{fg}
       #{text}
       }\\end{document}
     TEX
@@ -86,9 +107,9 @@ module TexImgHelper
       File.open('out.tex', 'w') {|fd| fd.puts tex}
       dev_null = test(?e, "/dev/null") ? "/dev/null" : "NUL:"
 
-      %x[latex -interaction=batchmode out.tex 2>&1 > #{dev_null}]
-      %x[dvips -o out.eps -E out.dvi 2>&1 > #{dev_null}]
-      %x[convert +adjoin -antialias -density #{res} out.eps #{out_file}]
+      %x[latex -interaction=batchmode out.tex &> #{dev_null}]
+      %x[dvips -o out.eps -E out.dvi &> #{dev_null}]
+      %x[convert +adjoin #{aa ? '-antialias' : '+antialias'} -density #{res} out.eps #{out_file} &> #{dev_null}]
     ensure
       Dir.chdir(pwd)
       FileUtils.rm_rf(tmpdir) if test(?e, tmpdir)
@@ -112,6 +133,37 @@ module TexImgHelper
     return
   ensure
   end
+
+  # call-seq:
+  #    TexImgHelper.tex_color( string )    => string
+  #
+  # Taken the given color _string_ and convert it to a TeX color spec. The
+  # input string can be either a RGB Hex value, a TeX color spec, or a color
+  # name.
+  #
+  #    tex_color( '#666666' )         #=> [rgb]{0.4,0.4,0.4}
+  #    tex_color( 'Tan' )             #=> {Tan}
+  #    tex_color( '[rgb]{1,0,0}' )    #=> [rgb]{1,0,0}
+  #
+  # This is an example of an invalid Hex RGB color -- they must contain six
+  # hexidecimal characters to be valid.
+  #
+  #    tex_color( '#333' )            #=> {#333}
+  #
+  def self.tex_color( color )
+    case color
+    when %r/^#([A-Fa-f0-9]{6})/o
+      hex = $1
+      rgb = []
+      hex.scan(%r/../) {|n| rgb << Float(n.to_i(16))/255.0}
+      "[rgb]{#{rgb.join(',')}}"
+    when %r/^[\{\[]/o
+      "{#{color}}"
+    else
+      color
+    end
+  end
+
 end  # module TexImgHelper
 
 %x[latex --version 2>&1]

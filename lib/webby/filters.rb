@@ -76,12 +76,6 @@ module Filters
         result = handler.call(*args)
         @processed += 1
         result
-      rescue NameError => e
-        @log.fatal "Name error in filter `#{filter}' (missing dependency?): #{e.message}"
-        exit 1
-      rescue => e
-        @log.fatal "Error in filter `#{filter}': #{e.message}"
-        exit 1
       end
       
     end  # class Cursor

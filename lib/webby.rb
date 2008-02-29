@@ -1,12 +1,12 @@
 # $Id$
 
-# TODO: add support for inlining TeX equations
 # TODO: add support for inlining background gradients (in the CSS)
 
 # Equivalent to a header guard in C/C++
 # Used to prevent the spec helper from being loaded more than once
 unless defined? ::Webby
 
+require 'rubygems'
 require 'logging'
 require 'ostruct'
 require 'date'
@@ -51,6 +51,9 @@ module Webby
       :find_by       => 'title',
       :base          => nil,
       :create_mode   => 'page',
+
+      # Items for running the heel webserver
+      :heel_port => 4331,
 
       # Items used to deploy the webiste
       :host       => 'user@hostname.tld',

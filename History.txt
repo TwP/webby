@@ -1,13 +1,16 @@
-== 0.8.0 / 2008-
+== 0.8.0 / 2008-02-28
 
-* 2 major enhancements
+* 3 major enhancements
   - Added support for partials
   - Refactored the coderay and graphviz filters into helper methods
     accessible from ERB
-* 2 minor enhancements
+  - Added support for embedding LaTeX mathematical equations
+* 3 minor enhancements
   - Added a template file for creating Atom feeds
   - The SITE configuration is available in pages and layouts as
     the @config variable
+  - Can specify the port the Heel webserver starts on using the
+    SITE.heel_port option in the Rakefile
 * 2 bug fixes
   - When creating pages in directory mode the full page path was
     not being created
