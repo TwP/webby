@@ -1,5 +1,11 @@
+# $Id$
 
-require 'webby'
+begin
+  require 'webby'
+rescue LoadError
+  require 'rubygems'
+  require 'webby'
+end
 
 SITE = Webby.site
 

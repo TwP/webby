@@ -1,3 +1,4 @@
+# $Id$
 
 require 'rake/contrib/sshpublisher'
 

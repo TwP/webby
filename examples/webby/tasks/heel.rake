@@ -1,9 +1,10 @@
+# $Id$
 
 namespace :heel do
 
   desc 'start the heel server to view website (not for Windows)'
   task :start do
-    sh "heel --root #{SITE.output_dir} --daemonize"
+    sh "heel --root #{SITE.output_dir} --port #{SITE.heel_port} --daemonize"
   end
   
   desc 'stop the heel server'
@@ -13,7 +14,7 @@ namespace :heel do
 
   task :autorun do
     heel_exe = File.join(Gem.bindir, 'heel')
-    @heel_spawner = Spawner.new(Spawner.ruby, heel_exe, '--root', SITE.output_dir, :pause => 86_400)
+    @heel_spawner = Spawner.new(Spawner.ruby, heel_exe, '--root', SITE.output_dir, '--port', SITE.heel_port.to_s, :pause => 86_400)
     @heel_spawner.start
   end
 
