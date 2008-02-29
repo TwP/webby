@@ -36,6 +36,7 @@ data/tasks/deploy.rake
 data/tasks/growl.rake
 data/tasks/heel.rake
 data/tasks/setup.rb
+data/templates/_partial.erb
 data/templates/atom_feed.erb
 data/templates/page.erb
 examples/webby/Rakefile
@@ -74,6 +75,7 @@ lib/webby/helpers.rb
 lib/webby/helpers/coderay_helper.rb
 lib/webby/helpers/graphviz_helper.rb
 lib/webby/helpers/tag_helper.rb
+lib/webby/helpers/tex_img_helper.rb
 lib/webby/helpers/url_helper.rb
 lib/webby/main.rb
 lib/webby/renderer.rb
@@ -85,6 +87,7 @@ lib/webby/resources/page.rb
 lib/webby/resources/partial.rb
 lib/webby/resources/resource.rb
 lib/webby/resources/static.rb
+lib/webby/stelan/mktemp.rb
 lib/webby/stelan/paginator.rb
 lib/webby/stelan/spawner.rb
 lib/webby/utils.rb
