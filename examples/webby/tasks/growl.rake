@@ -1,4 +1,3 @@
-# $Id$
 
 desc 'send log events to Growl (Mac OS X only)'
 task :growl do

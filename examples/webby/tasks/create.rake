@@ -1,4 +1,3 @@
-# $Id$
 
 Rake::WebbyTask.new
 
