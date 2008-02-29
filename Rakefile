@@ -28,6 +28,9 @@ PROJ.rdoc_exclude << '^examples'
 PROJ.svn = true
 PROJ.spec_opts << '--color'
 
+PROJ.ann_email[:server] = 'smtp.gmail.com'
+PROJ.ann_email[:port] = 587
+
 depend_on 'directory_watcher'
 depend_on 'heel'
 depend_on 'hpricot'
