@@ -2,7 +2,6 @@
 
 require Webby.libpath(*%w[webby stelan mktemp])
 require 'fileutils'
-require 'tempfile'
 
 module Webby::Helpers
 module TexImgHelper
@@ -36,8 +35,6 @@ module TexImgHelper
   #                    TeX color spec, or #aabbcc) [default is black]
   #    :resolution   : the desired resolution in dpi (HxV)
   #                    [default is 150x150]
-  #    :antialias    : if false, disables anti-aliasing in the resulting image
-  #                    [default is true]
   #
   #    the following options are passed as-is to the generated <img /> tag
   #    :style    : CSS styles to apply to the <img />
@@ -60,21 +57,15 @@ module TexImgHelper
       return
     end
 
-    # create a temporary file for holding any error messages
-    # from the graphviz program
-    err = Tempfile.new('graphviz_err')
-    err.close
+    path = opts.getopt(:path)
+    type = opts.getopt(:type, 'png')
+    bg   = opts.getopt(:bg, 'white')
+    fg   = opts.getopt(:fg, 'black')
+    res  = opts.getopt(:resolution, '150x150')
 
-    path  = opts.getopt(:path)
-    type  = opts.getopt(:type, 'png')
-    bg    = opts.getopt(:bg, 'white')
-    fg    = opts.getopt(:fg, 'black')
-    res   = opts.getopt(:resolution, '150x150')
-    aa    = opts.getopt(:antialias, true)
-
-    # fix the color escaping
-    fg = TexImgHelper.tex_color(fg)
-    bg = TexImgHelper.tex_color(bg)
+    # fix color escaping
+    fg = fg =~ %r/^[a-zA-Z]+$/ ? fg : "\"#{fg}\""
+    bg = bg =~ %r/^[a-zA-Z]+$/ ? bg : "\"#{bg}\""
 
     # generate the image filename based on the path, graph name, and type
     # of image to generate
@@ -88,15 +79,21 @@ module TexImgHelper
     FileUtils.mkpath(::File.join(out_dir, path)) unless path.nil?
 
     tex = <<-TEX
-      \\documentclass[12pt]{article}
-      \\usepackage[usenames,dvipsnames]{color}
-      \\usepackage[dvips]{graphicx}
+      \\nonstopmode
+      \\documentclass{article}
+      \\usepackage[T1]{fontenc}
+      \\usepackage{amsmath,amsfonts,amssymb,wasysym,latexsym,marvosym,txfonts}
+      \\usepackage[pdftex]{color}
       \\pagestyle{empty}
-      \\pagecolor#{bg}
       \\begin{document}
-      {\\color#{fg}
+      \\fontsize{12}{24}
+      \\selectfont
+      \\color{white}
+      \\pagecolor{black}
+      \\[
       #{text}
-      }\\end{document}
+      \\]
+      \\end{document}
     TEX
     tex.gsub!(%r/\n\s+/, "\n").strip!
 
@@ -109,9 +106,14 @@ module TexImgHelper
       File.open('out.tex', 'w') {|fd| fd.puts tex}
       dev_null = test(?e, "/dev/null") ? "/dev/null" : "NUL:"
 
-      %x[latex -interaction=batchmode out.tex &> #{dev_null}]
-      %x[dvips -o out.eps -E out.dvi &> #{dev_null}]
-      %x[convert +adjoin #{aa ? '-antialias' : '+antialias'} -density #{res} out.eps #{out_file} &> #{dev_null}]
+      %x[pdflatex -interaction=batchmode out.tex &> #{dev_null}]
+
+      convert =  "\\( -density #{res} out.pdf -trim +repage \\) "
+      convert << "\\( +clone -fuzz 100% -fill #{fg} -opaque black \\) "
+      convert << "+swap -compose copy-opacity -composite "
+      convert << "\\( +clone -fuzz 100% -fill #{bg} -opaque white +matte \\) "
+      convert << "+swap -compose over -composite #{out_file}"
+      %x[convert #{convert} &> #{dev_null}]
     ensure
       Dir.chdir(pwd)
       FileUtils.rm_rf(tmpdir) if test(?e, tmpdir)
@@ -133,42 +135,10 @@ module TexImgHelper
 
     buffer[pos..-1] = out
     return
-  ensure
   end
-
-  # call-seq:
-  #    TexImgHelper.tex_color( string )    => string
-  #
-  # Taken the given color _string_ and convert it to a TeX color spec. The
-  # input string can be either a RGB Hex value, a TeX color spec, or a color
-  # name.
-  #
-  #    tex_color( '#666666' )         #=> [rgb]{0.4,0.4,0.4}
-  #    tex_color( 'Tan' )             #=> {Tan}
-  #    tex_color( '[rgb]{1,0,0}' )    #=> [rgb]{1,0,0}
-  #
-  # This is an example of an invalid Hex RGB color -- they must contain six
-  # hexidecimal characters to be valid.
-  #
-  #    tex_color( '#333' )            #=> {#333}
-  #
-  def self.tex_color( color )
-    case color
-    when %r/^#([A-Fa-f0-9]{6})/o
-      hex = $1
-      rgb = []
-      hex.scan(%r/../) {|n| rgb << Float(n.to_i(16))/255.0}
-      "[rgb]{#{rgb.join(',')}}"
-    when %r/^[\{\[]/o
-      "{#{color}}"
-    else
-      color
-    end
-  end
-
 end  # module TexImgHelper
 
-%x[latex --version 2>&1]
+%x[pdflatex --version 2>&1]
 if 0 == $?.exitstatus
   %x[convert --version 2>&1]
   if 0 == $?.exitstatus

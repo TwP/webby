@@ -86,12 +86,6 @@ module GraphvizHelper
       return
     end
 
-    # ensure the requested graphviz command actually exists
-    %x[#{cmd} -V 2>&1]
-    unless 0 == $?.exitstatus
-      raise NameError, "'#{cmd}' not found on the path"
-    end
-
     # pull the name of the graph|digraph out of the DOT script
     name = text.match(%r/\A\s*(?:strict\s+)?(?:di)?graph\s+([A-Za-z_][A-Za-z0-9_]*)\s+\{/o)[1]
 
