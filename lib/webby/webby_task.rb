@@ -52,22 +52,22 @@ class WebbyTask < TaskLib
       ::Webby.site.base = ENV['BASE'] if ENV.has_key?('BASE')
     end
 
-    desc "build the website"
+    desc "Build the website"
     task :build => :configure_basepath do |t|
       ::Webby::Builder.run
     end
 
-    desc "rebuild the website"
+    desc "Rebuild the website"
     task :rebuild => :configure_basepath do |t|
       ::Webby::Builder.run :rebuild => true
     end
 
-    desc "continuously build the website"
+    desc "Continuously build the website"
     task :autobuild => :configure_basepath do |t|
       ::Webby::AutoBuilder.run
     end
 
-    desc "delete the website"
+    desc "Delete the website"
     task :clobber do |t|
       rm_rf ::Webby.site.output_dir
       mkdir ::Webby.site.output_dir
@@ -86,7 +86,7 @@ class WebbyTask < TaskLib
       # if the file is a partial template
       if name =~ %r/^_(.*)/
         name = $1
-        desc "create a new #{name}"
+        desc "Create a new #{name}"
         task name do |t|
           raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 
@@ -104,7 +104,7 @@ class WebbyTask < TaskLib
 
       # otherwise it's a normal file
       else
-        desc "create a new #{name}"
+        desc "Create a new #{name}"
         task name do |t|
           raise "Usage:  rake #{t.name} path" unless ARGV.length == 2
 

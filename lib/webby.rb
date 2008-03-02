@@ -61,6 +61,9 @@ module Webby
       # Options passed to the 'tidy' program when the tidy filter is used
       :tidy_options => '-indent -wrap 80',
 
+      # List of valid URIs (these automatically pass validation)
+      :valid_uris => [],
+
       # XPath identifiers used by the basepath filter
       :xpaths => %w(
           /html/head//base[@href]
