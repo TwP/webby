@@ -1,12 +1,12 @@
 
 namespace :heel do
 
-  desc 'start the heel server to view website (not for Windows)'
+  desc 'Start the heel server to view website (not for Windows)'
   task :start do
     sh "heel --root #{SITE.output_dir} --port #{SITE.heel_port} --daemonize"
   end
   
-  desc 'stop the heel server'
+  desc 'Stop the heel server'
   task :stop do
     sh "heel --kill"
   end

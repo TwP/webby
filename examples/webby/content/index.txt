@@ -38,4 +38,4 @@ heel --root output --daemonize
 
 Webby is not limited to producing HTML. By no means! Do you ever get tired of repeating the same color code *#D3C4A2* in your CSS files? Webby can help. Need some customized JavaScript for your website. Webby can help. Anytime you find yourself repeating the same bit of text over and over, then you should be using Webby.
 
-Read the "tutorial":/tutorial/index.html section for a quick introduction to Webby, and enjoy the wonders of *ASCII Alchemy*.
+Read the "tutorial":tutorial section for a quick introduction to Webby, and enjoy the wonders of *ASCII Alchemy*.

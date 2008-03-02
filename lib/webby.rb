@@ -1,7 +1,5 @@
 # $Id$
 
-# TODO: add support for inlining background gradients (in the CSS)
-
 # Equivalent to a header guard in C/C++
 # Used to prevent the spec helper from being loaded more than once
 unless defined? ::Webby
@@ -23,7 +21,7 @@ Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
 module Webby
 
   # :stopdoc:
-  VERSION = '0.8.0'   # :nodoc:
+  VERSION = '0.8.1'   # :nodoc:
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
   # :startdoc:

@@ -36,6 +36,7 @@ data/tasks/deploy.rake
 data/tasks/growl.rake
 data/tasks/heel.rake
 data/tasks/setup.rb
+data/tasks/validate.rake
 data/templates/_partial.erb
 data/templates/atom_feed.erb
 data/templates/page.erb
@@ -58,6 +59,7 @@ examples/webby/tasks/deploy.rake
 examples/webby/tasks/growl.rake
 examples/webby/tasks/heel.rake
 examples/webby/tasks/setup.rb
+examples/webby/tasks/validate.rake
 examples/webby/templates/page.erb
 lib/webby.rb
 lib/webby/auto_builder.rb
@@ -77,6 +79,7 @@ lib/webby/helpers/graphviz_helper.rb
 lib/webby/helpers/tag_helper.rb
 lib/webby/helpers/tex_img_helper.rb
 lib/webby/helpers/url_helper.rb
+lib/webby/link_validator.rb
 lib/webby/main.rb
 lib/webby/renderer.rb
 lib/webby/resources.rb

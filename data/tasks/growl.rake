@@ -1,5 +1,5 @@
 
-desc 'send log events to Growl (Mac OS X only)'
+desc 'Send log events to Growl (Mac OS X only)'
 task :growl do
   Logging::Logger['Webby'].add_appenders(Logging::Appenders::Growl.new(
     "Webby",
