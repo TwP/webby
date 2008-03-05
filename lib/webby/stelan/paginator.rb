@@ -77,16 +77,17 @@ class Paginator
     
     include Enumerable
         
-    attr_reader :number, :pager
+    attr_reader :number, :pager, :url
     
     def initialize(pager, number, select) #:nodoc:
       @pager, @number = pager, number
       @offset = (number - 1) * pager.per_page
       @select = select
 
-      @pager.resource.number = number
+      @pager.resource.number = (number == 1 ? nil : number)
+      @url = @pager.resource.url
     end
-    
+
     # Retrieve the items for this page
     # * Caches
     def items

@@ -92,12 +92,14 @@ module UrlHelper
   #
   def link_to( name, *args )
     opts = Hash === args.last ? args.pop : {}
-    url = args.first
+    obj = args.first
     attrs = opts.delete(:attrs)
 
-    url = case url
+    url = case obj
       when String, Webby::Resources::Resource
-        self.url_for(url, opts)
+        self.url_for(obj, opts)
+      when ::Webby::Paginator::Page
+        self.url_for(obj.url, opts)
       when :back
         'javascript:history.back()'
       else

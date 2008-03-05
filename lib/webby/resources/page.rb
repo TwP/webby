@@ -53,7 +53,7 @@ class Page < Resource
   #
   def number=( num )
     @number = num
-    @dest = nil
+    @url = @dest = nil
   end
 
   # call-seq:
