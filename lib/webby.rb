@@ -64,6 +64,13 @@ module Webby
       # List of valid URIs (these automatically pass validation)
       :valid_uris => [],
 
+      # Options for ultraviolet syntax highlighting
+      :uv => {
+        :lang => 'ruby',
+        :line_numbers => false,
+        :theme => 'mac_classic'
+      },
+
       # XPath identifiers used by the basepath filter
       :xpaths => %w(
           /html/head//base[@href]

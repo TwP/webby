@@ -25,7 +25,7 @@ content/
 layouts/
 lib/
 output/
-rakelib/
+tasks/
 templates/
 </pre> 
 
@@ -49,7 +49,8 @@ Of course "Lorem Ipsum" is some great content, but if everyone posted their site
 
 <pre class="code">
 --- 
-title:  Home Page
+title:      Home Page
+created_at: Tue Aug 21 17:02:40 -0600 2007
 filter:
   - erb
   - textile
@@ -97,7 +98,7 @@ The output from the command tells you that a new file has been created - @conten
 
 h2. Change the Layout
 
-The next step is to change how the page looks. In fact, we want to change the appearance of all the pages in our website. This is easily by done by changing the website layout file in the _layouts_ folder. Open the *layouts/default.rhtml* file in your favorite editor.
+The next step is to change how the page looks. In fact, we want to change the appearance of all the pages in our website. This is easily done by changing the website layout file in the _layouts_ folder. Open the *layouts/default.rhtml* file in your favorite editor.
 
 <pre class="code">
 --- 
@@ -121,7 +122,7 @@ You'll notice that the layout file has meta-data just like the content files we'
 
 The meta-data of the layout is not made available in the layout itself - just the meta-data of the content file being rendered.
 
-Let's change the layout by removing the sidebar from every page. Find the sidebar div @<div class="column span-3 last">@. Delete that div, run rake to build the website again, and take a look at the site in your browser. You'll notice that both pages have been updated since both depend upon the default layout.
+Let's change the layout by removing the sidebar from every page. Find the sidebar div <notextile><code>&lt;div&nbsp;class="column&nbsp;span-5&nbsp;append-2&nbsp;last"&gt;</code></notextile>. Delete that div, run rake to build the website again, and take a look at the site in your browser. You'll notice that both pages have been updated since both depend upon the default layout.
 
 h2. What Now?
 

@@ -1,5 +1,8 @@
 == 0.8.1 / 2008-
 
+* 1 major enhancement
+  - Added support for UltraViolet syntas highlighting
+    (code provided by Guillaume Carbonneau)
 * 1 minor enhancement
   - Added rake tasks to validate the hyperlinks for the HTML files
     in the output directory

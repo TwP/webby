@@ -1,0 +1,33 @@
+---
+title:      Reference
+created_at: 2008-03-04 22:00:08.439182 -07:00
+filter:
+  - erb
+  - textile
+  - outline
+---
+<div class="toc push-1">
+
+p(title). Table of Contents
+
+<toc />
+</div>
+
+h3{clear:none}. Resources
+
+Resources are the files that are found in the _content_ and _layouts_ folders of a webby site. They come in the following four flavors:
+
+* Files
+* Pages
+* Partials
+* Layouts
+
+h3. Attributes
+
+h3. Filters
+
+h3. ERB Variables & Methods
+
+h3. Rake Tasks
+
+h3. Site Defaults

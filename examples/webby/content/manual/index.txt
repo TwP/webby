@@ -50,7 +50,7 @@ Webby is written in the Ruby programming language. To install and run Webby you 
 
 h3{clear:none}. Installation
 
-Webby is easily installed as a Ruby gem. From a command prompt, type in the following:
+Webby is easily installed as a Ruby gem. From a command prompt type in the following:
 
 <pre>
 sudo gem install -y webby
@@ -63,16 +63,18 @@ bq. For those users installing Webby on the Windows platform, please omit the @s
 To make use of all the features Webby has to offer, the following gems should also be installed. These gems provide different ways to transform text into HTML or CSS.
 
 <pre>
+sudo gem install -y RedCloth
 sudo gem install -y BlueCloth
 sudo gem install -y haml
 sudo gem install -y coderay
+sudo gem install -y ultraviolet
 </pre>
 
-Webby can also use a few other programs to clean up generated HTML and to created pretty graphs. You can read more about these programs and how they are used in the Filters section of this manual  --  specifically, the sections on the "Tidy":#tidy filter and the "Graphviz":#graphviz filter.
+Webby can also use a few other programs to clean up generated HTML and to created pretty graphs and pictures. Where external programs are required, they will be duly noted in the manual.
 
 h3. Running Webby
 
-When the Webby gem is installed it also installs a @webby@ executable program. This program is used to create a new website and to update the associated rake tasks when a new version of Webby is released. Typing in @webby --help@ will show you the options this program supports. After you create a webiste, though, the webby command will not be needed. 
+When the Webby gem is installed it also installs a @webby@ executable program. This program is used to create a new website and to update the associated rake tasks when a new version of Webby is released. Typing in @webby --help@ will show you the options this program supports. After you create a website, though, the webby command will not be needed. 
 
 <pre>
 $ webby --help
@@ -86,21 +88,27 @@ common options:
         --version                    show version
 </pre>
 
-The tasks of building the webiste and deploying it to the destination server are handled by "Rake":http://docs.rubyrake.org/, a Ruby version of the more famous *make* program. Several rake tasks are provided by default. You are free to create others to make developing and deploying your webiste easier. To see the current list of rake tasks type in @rake -T@.
+
+The day to day tasks of working with a webiste - creating pages, building the website, deploying changes to the server - are handled by the "Rake":http://docs.rubyrake.org/ application, a Ruby version of the more famous *make* program. Several rake tasks are provided by default. You are free to create others to make developing and deploying your website easier. To see the current list of rake tasks type in @rake -T@.
 
 <pre>
 $ rake -T
 
-rake autobuild     # continuously build the website
-rake build         # build the website
-rake clobber       # delete the website
-rake create:page   # create a new page
-rake deploy        # deploy the site to the webserver
-rake deploy:rsync  # deploy to the server using rsync
-rake deploy:ssh    # deploy to the server using ssh
-rake heel:start    # start the heel server to view website (not for Windows)
-rake heel:stop     # stop the heel server
-rake rebuild       # rebuild the website
+rake autobuild          # Continuously build the website
+rake build              # Build the website
+rake clobber            # Delete the website
+rake create:page        # Create a new page
+rake create:partial     # Create a new partial
+rake deploy             # deploy the website to Rubyforge
+rake deploy:rsync       # Deploy to the server using rsync
+rake deploy:ssh         # Deploy to the server using ssh
+rake growl              # Send log events to Growl (Mac OS X only)
+rake heel:start         # Start the heel server to view website (not for Windows)
+rake heel:stop          # Stop the heel server
+rake rebuild            # Rebuild the website
+rake validate           # Alias to validate:internal
+rake validate:external  # Validate hyperlinks (include external sites)
+rake validate:internal  # Validate hyperlinks (exclude exteranl sites)
 </pre>
 
 h2. Working With Resources

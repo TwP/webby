@@ -7,29 +7,28 @@ filter:     textile
 
 h4. Table of Contents
 
-* "CodeRay":#toc_cr
+* "CodeRay":#coderay
 
 </div>
 
-h2(#toc_cr){clear:none}. CodeRay
+h2(#coderay){clear:none}. CodeRay
 
 To include "CodeRay":http://coderay.rubychan.de/ syntax highlighting support in a page you need to have the @coderay@ gem installed, and you need to include the CodeRay stylesheet in your layout. The following example shows a page that uses CodeRay syntax highlighting combined with Textile markup.
 
-<pre class="code">
+<pre>
 ---
 title:  CodeRay Example
 filter:
-  - erb
-  - coderay
-  - textile
+- erb
+- textile
 --- 
 h2. <%= h(@page.title) %>
 
 This is the @render_page@ function from the Webby static website generation
 system. It is used to render a page by applying the specified filters in
 succession to the page contents.
-<notextile>
-&lt;coderay lang="ruby" line_numbers="inline"&gt;</notextile>
+
+<% coderay(:lang => "ruby", :line_numbers => "inline") do -%>
 # call-seq:
 #    render_page    => string
 #
@@ -46,7 +45,7 @@ def render_page
 
   str
 end
-<notextile>&lt;/coderay&gt;
-</notextile></pre>
+<% end -%>
+</pre>
 
-There are more options that can be passed to the CodeRay syntax highlighter than those shown in the example above. Take a look at the RDoc documentation for the "CodeRay Filter":http://webby.rubyforge.org/rdoc/classes/Webby/CodeRayFilter.html class for more information.
+There are more options that can be passed to the CodeRay syntax highlighter than those shown in the example above. Take a look at the RDoc documentation for the "CodeRay Helper":/rdoc/classes/Webby/Helpers/CodeRayHelper.html class for more information.
