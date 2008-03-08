@@ -6,10 +6,6 @@ require 'fileutils'
 module Webby::Helpers
 module TexImgHelper
 
-  # :stopdoc:
-  class Error < StandardError; end
-  # :startdoc:
-
   # The +tex2img+ method converts a a section of mathematical TeX script
   # into an image and embeds the resulting image into the page. The TeX
   # engine must be installed on your system along with the ImageMagick

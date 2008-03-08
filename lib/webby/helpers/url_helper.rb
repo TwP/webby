@@ -215,7 +215,8 @@ module UrlHelper
     if Webby::Resources::Resource === name
       p, name = name, nil
     elsif opts.empty? && name
-      p = @pages.find(Webby.site.find_by.to_sym => name)
+      opts[Webby.site.find_by.to_sym] = name
+      p = @pages.find(opts)
     else
       p = @pages.find(opts)
     end

@@ -27,10 +27,6 @@ module Filters
 class Outline
   include ERB::Util
 
-  # :stopdoc:
-  class Error < StandardError; end
-  # :startdoc:
-
   # call-seq:
   #    Outline.new( html )
   #
@@ -159,7 +155,7 @@ class Outline
     end
 
     if level < @base_level
-      raise Error, "heading tags are not in order, cannot outline"
+      raise ::Webby::Error, "heading tags are not in order, cannot outline"
     end
 
     if level == @cur_level

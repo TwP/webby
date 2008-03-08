@@ -24,7 +24,6 @@ class Renderer
   include ERB::Util
 
   # :stopdoc:
-  class Error < StandardError; end
   @@stack = []
   # :startdoc:
 
@@ -40,7 +39,7 @@ class Renderer
 
     loop {
       ::File.open(page.destination, 'w') do |fd|
-        fd.write renderer.layout_page
+        fd.write(renderer.__send__(:_layout_page))
       end
       break unless renderer.__send__(:_next_page)
     }
@@ -66,40 +65,6 @@ class Renderer
     @config = ::Webby.site
 
     @log = Logging::Logger[self]
-  end
-
-  # call-seq:
-  #    layout_page    => string
-  #
-  # Apply the desired filters to the page and then render the filtered page
-  # into the desired layout. The filters to apply to the page are determined
-  # from the page's meta-data. The layout to use is also determined from the
-  # page's meta-data.
-  #
-  def layout_page
-    layouts = Resources.layouts
-    obj = @page
-    str = @page.render(self)
-
-    @@stack << @page.path
-    loop do
-      lyt = layouts.find :filename => obj.layout
-      break if lyt.nil?
-
-      @content, str = str, ::Webby::Resources::File.read(lyt.path)
-      str = _track_rendering(lyt.path) {
-        Filters.process(self, lyt, str)
-      }
-      @content, obj = nil, lyt
-    end
-
-    @@stack.pop if @page.path == @@stack.last
-    raise Error, "rendering stack corrupted" unless @@stack.empty?
-
-    str
-  rescue => err
-    @log.error "while rendering page '#{@page.path}'"
-    @log.error err
   end
 
   # call-seq:
@@ -136,11 +101,11 @@ class Renderer
         p = Resources.partials.find(
             :filename => fn, :in_directory => @page.dir ) rescue nil
         p ||= Resources.partials.find(:filename => fn)
-        raise Error, "could not find partial '#{part}'" if p.nil?
+        raise ::Webby::Error, "could not find partial '#{part}'" if p.nil?
         p
       when ::Webby::Resources::Partial
         part
-      else raise Error, "expecting a partial or a partial name" end
+      else raise ::Webby::Error, "expecting a partial or a partial name" end
 
     _track_rendering(part.path) {
       Filters.process(self, part, ::Webby::Resources::File.read(part.path))
@@ -180,6 +145,52 @@ class Renderer
 
 
   private
+
+  # call-seq:
+  #    _layout_page    => string
+  #
+  # Apply the desired filters to the page and then render the filtered page
+  # into the desired layout. The filters to apply to the page are determined
+  # from the page's meta-data. The layout to use is also determined from the
+  # page's meta-data.
+  #
+  def _layout_page
+    @content = @page.render(self)
+
+    _track_rendering(@page.path) {
+      _render_layout_for(@page)
+    }
+    raise ::Webby::Error, "rendering stack corrupted" unless @@stack.empty?
+
+    @content
+  rescue ::Webby::Error => err
+    @log.error "while rendering page '#{@page.path}'"
+    @log.error err.message
+  rescue => err
+    @log.error "while rendering page '#{@page.path}'"
+    @log.fatal err
+    exit 1
+  ensure
+    @content = nil
+    @@stack.clear
+  end
+
+  # call-seq:
+  #    _render_layout_for( resource )
+  #
+  # Render the layout for the given resource. If the resource does not have
+  # a layout, then this method returns immediately.
+  #
+  def _render_layout_for( res )
+    lyt = Resources.layouts.find :filename => res.layout
+    return if lyt.nil?
+
+    _track_rendering(lyt.path) {
+      @content = Filters.process(
+          self, lyt, ::Webby::Resources::File.read(lyt.path))
+      _render_layout_for(lyt)
+    }
+  end
 
   # call-seq:
   #    _next_page    => true or false
@@ -222,7 +233,7 @@ class Renderer
       msg = "rendering loop detected for '#{path}'\n"
       msg << "    current rendering stack\n\t"
       msg << @@stack.join("\n\t")
-      raise Error, msg
+      raise ::Webby::Error, msg
     end
 
     yield

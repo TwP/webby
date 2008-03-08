@@ -1,11 +1,12 @@
-== 0.8.1 / 2008-
+== 0.8.1 / 2008-03-
 
 * 1 major enhancement
   - Added support for UltraViolet syntas highlighting
     (code provided by Guillaume Carbonneau)
-* 1 minor enhancement
+* 2 minor enhancements
   - Added rake tasks to validate the hyperlinks for the HTML files
     in the output directory
+  - Improved error handling and reporting during the build process
 * 1 bug fix
   - Fixed an error with the prev / next calls in the paginator and
     rendering links to those pages

@@ -6,10 +6,6 @@ require 'tempfile'
 module Webby::Helpers
 module GraphvizHelper
 
-  # :stopdoc:
-  class Error < StandardError; end
-  # :startdoc:
-
   # call-seq:
   #    GraphvizHelper.error_check( file )
   #
@@ -20,7 +16,7 @@ module GraphvizHelper
   def self.error_check( file )
     if ::File.size(file.path) != 0
       msg = "\n" << ::File.read(file.path).strip
-      raise Error, msg
+      raise ::Webby::Error, msg
     end
   end
 

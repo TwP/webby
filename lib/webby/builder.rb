@@ -88,7 +88,6 @@ class Builder
     end
 
     load_files if opts[:load_files]
-    loop_check
 
     Resources.pages.each do |page|
       next unless page.dirty? or opts[:rebuild]
@@ -126,27 +125,6 @@ class Builder
       next if path =~ ::Webby.exclude
       Resources.new path
     end
-  end
-
-  # Loop over all the layout resources looking for circular reference -- a
-  # layout that eventually refers back to itself. These are bad. Raise an
-  # error if one is detected.
-  #
-  def loop_check
-    layouts = Resources.layouts
-
-    layouts.each do |lyt|
-      stack = []
-      while lyt
-        if stack.include? lyt.filename
-          stack << lyt.filename
-          raise Error,
-                "loop detected in layout references: #{stack.join(' > ')}"
-        end
-        stack << lyt.filename
-        lyt = layouts.find :filename => lyt.layout
-      end  # while
-    end  # each
   end
 
   %w(output_dir layout_dir content_dir).each do |key|

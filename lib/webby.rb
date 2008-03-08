@@ -17,6 +17,9 @@ Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
     :date_pattern => "%H:%M:%S"           # date == HH:MM:SS
 )
 
+# TODO: send rendered page text to a temporary location?
+#       this might be useful for parsing through all the rendered pages
+#       looking for links to other pages
 
 module Webby
 
@@ -53,7 +56,7 @@ module Webby
       # Items for running the heel webserver
       :heel_port => 4331,
 
-      # Items used to deploy the webiste
+      # Items used to deploy the website
       :host       => 'user@hostname.tld',
       :remote_dir => '/not/a/valid/dir',
       :rsync_args => %w(-av --delete),
