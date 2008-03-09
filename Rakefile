@@ -19,12 +19,8 @@ PROJ.rdoc_remote_dir = 'rdoc'
 PROJ.version = Webby::VERSION
 PROJ.release_name = 'Apocalypse Cow'
 
-PROJ.exclude << '^examples/[^/]+/output'
-PROJ.exclude << '^tasks/archive'
-PROJ.exclude << '^tags$'
-
-PROJ.rdoc_exclude << '^data'
-PROJ.rdoc_exclude << '^examples'
+PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$)
+PROJ.rdoc_exclude << %w(^data ^examples)
 
 PROJ.svn = true
 PROJ.spec_opts << '--color'

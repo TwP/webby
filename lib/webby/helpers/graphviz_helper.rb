@@ -73,9 +73,10 @@ module GraphvizHelper
     pos = buffer.length
     block.call(*args)
 
-    path = opts.getopt(:path)
-    cmd  = opts.getopt(:cmd, 'dot')
-    type = opts.getopt(:type, 'png')
+    defaults = ::Webby.site.graphviz
+    path = opts.getopt(:path, defaults[:path])
+    cmd  = opts.getopt(:cmd, defaults[:cmd])
+    type = opts.getopt(:type, defaults[:type])
     text = buffer[pos..-1].strip
     if text.empty?
       buffer[pos..-1] = ''

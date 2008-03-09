@@ -43,16 +43,18 @@ module CodeRayHelper
       return
     end
 
-    lang = opts.getopt(:lang, :ruby).to_sym
+    defaults = ::Webby.site.coderay
+    lang = opts.getopt(:lang, defaults[:lang]).to_sym
 
     cr_opts = {}
     %w(line_numbers       to_sym
        line_number_start  to_i
        bold_every         to_i
        tab_width          to_i).each_slice(2) do |key,convert|
-      val = opts.getopt(key)
+      key = key.to_sym
+      val = opts.getopt(key, defaults[key])
       next if val.nil?
-      cr_opts[key.to_sym] = val.send(convert)
+      cr_opts[key] = val.send(convert)
     end
 
     #cr.swap(CodeRay.scan(text, lang).html(opts).div)

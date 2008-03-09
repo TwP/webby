@@ -53,11 +53,12 @@ module TexImgHelper
       return
     end
 
-    path = opts.getopt(:path)
-    type = opts.getopt(:type, 'png')
-    bg   = opts.getopt(:bg, 'white')
-    fg   = opts.getopt(:fg, 'black')
-    res  = opts.getopt(:resolution, '150x150')
+    defaults = ::Webby.site.tex2img
+    path = opts.getopt(:path, defaults[:path])
+    type = opts.getopt(:type, defaults[:type])
+    bg   = opts.getopt(:bg, defaults[:bg])
+    fg   = opts.getopt(:fg, defaults[:fg])
+    res  = opts.getopt(:resolution, defaults[:resolution])
 
     # fix color escaping
     fg = fg =~ %r/^[a-zA-Z]+$/ ? fg : "\"#{fg}\""

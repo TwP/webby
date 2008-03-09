@@ -67,6 +67,31 @@ module Webby
       # List of valid URIs (these automatically pass validation)
       :valid_uris => [],
 
+      # Options for coderay processing
+      :coderay => {
+        :lang => :ruby,
+        :line_numbers => nil,
+        :line_number_start => 1,
+        :bold_every => 10,
+        :tab_width => 8
+      },
+
+      # Options for graphviz processing
+      :graphviz => {
+        :path => nil,
+        :cmd => 'dot',
+        :type => 'png'
+      },
+
+      # Options for tex2img processing
+      :tex2img => {
+        :path => nil,
+        :type => 'png',
+        :bg => 'white',
+        :fg => 'black',
+        :resolution => '150x150'
+      },
+
       # Options for ultraviolet syntax highlighting
       :uv => {
         :lang => 'ruby',
