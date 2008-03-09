@@ -13,16 +13,40 @@ p(title). Table of Contents
 <toc />
 </div>
 
-h3{clear:none}. Resources
+h3. Resources
 
 Resources are the files that are found in the _content_ and _layouts_ folders of a webby site. They come in the following four flavors:
 
-* Files
-* Pages
-* Partials
-* Layouts
+* *Pages*  --  contain meta-data at the top of the file, are found in the content folder, and are processed by the Webby filter engine
+* *Files*  --  are found in the content folder and copied "as is" to the output folder
+* *Partials*  --  contain snippets of text that can be used in multiple locations; partial filenames begin with an underscore are are _not_ copied to the output folder
+* *Layouts*  --  are found in the layout folder and provide the basic framework of the webpage - the header, the footer, the navigation
 
 h3. Attributes
+
+Attributes are defined in the meta-data section of pages and layouts.
+
+table(reference).
+| *destination* | Defines the path in the output directory where the rendered page should be stored. |
+| *dirty* | The dirty flag is used to determine whether the page should rendered or not. Normally this is automatically determined by the filter engine, but it can be overridden by setting this attribute. If the dirty flag is set to _true_ then the page will always be rendered. If the dirty flag is set to _false_ then the page will never be rendered. |
+| *extension* | Defines the extension that will be appended to the filename of the rendered page in the output folder. The extension is determined by looking at the following:
+* the meta-data of the current page for an @extension@ attribute
+* the meta-data of layout file of the current page for an @extension@ attribute
+* the extension of this page file in the _content_ folder |
+| *filter* | Defines the list of filters that will be applied to the contents of this page. If left blank, then the default filter will be applied to the page contents. |
+| *layout* | Defines the layout that the page contents will be rendered into. The default layout will be used if this attribute is not defined. The value of @nil@ should be specified if the page should not be rendered into any layout. |
+
+The following attributes are defined for each page in the content folder. These attributes cannot be changed in the page's meta-data section. However, they are available to the ERB filter when rendering the contents of a page.
+
+table(reference).
+| *path* | The full path to the file in the _content_ folder |
+| *dir* | The relative directory in the output folder where the page will be rendered |
+| *filename* | The name of the file in the _content_ folder excluding any path information |
+| *ext* | The extension of the file in the _content_ folder |
+| *mtime* | The modification time of the file in the _content_ folder |
+| *number* | Reserved variable used for multi-page content |
+| *url* | A URL suitable for creating a link to the page |
+| *render* | Returns the contents of the page as rendered by the Webby filter engine |
 
 h3. Filters
 

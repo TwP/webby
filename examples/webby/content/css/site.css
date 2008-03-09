@@ -133,6 +133,13 @@ ul
   ul
     :margin-bottom    0
 
+table.reference
+  :width  100%
+  td
+    :padding  2px 5px
+    ul
+      :margin-bottom 0
+
 span.heading-num
   :margin-right  10px
 

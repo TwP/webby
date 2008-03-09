@@ -25,6 +25,7 @@ PROJ.rdoc_exclude << %w(^data ^examples)
 PROJ.svn = true
 PROJ.spec_opts << '--color'
 
+PROJ.ann_email[:to] << 'webby-forum@googlegroups.com'
 PROJ.ann_email[:server] = 'smtp.gmail.com'
 PROJ.ann_email[:port] = 587
 
