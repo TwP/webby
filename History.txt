@@ -1,11 +1,11 @@
-== 0.8.1 / 2008-03-
+== 0.8.1 / 2008-03-09
 
-* 1 major enhancement
+* 2 major enhancement
   - Added support for UltraViolet syntax highlighting
     (code provided by Guillaume Carbonneau)
-* 3 minor enhancements
   - Added rake tasks to validate the hyperlinks for the HTML files
     in the output directory
+* 2 minor enhancements
   - Improved error handling and reporting during the build process
   - Added site defaults for the helpers (coderay, graphviv, latex,
     etc.)

@@ -1,17 +1,60 @@
 --- 
 title:      Tips & Tricks
 created_at: Wed Aug 29 08:57:11 -0600 2007
-filter:     textile
+filter:
+- textile
+- outline
 --- 
 <div class="toc push-1">
 
-h4. Table of Contents
+p(title). Table of Contents
 
-* "CodeRay":#coderay
-
+<toc />
 </div>
 
-h2(#coderay){clear:none}. CodeRay
+h2. Pagination
+
+Pagination is the process of organizing information onto a page such that a fixed number of items appear on each page. Webby provides some methods for paginating information.
+
+Let's assume that your website has a collection of articles in a folder called "articles" in the content directory. The goal is to display these articles ten at a time in reverse chronological order.
+
+<pre>
+---
+title: Articles
+filter: erb
+---
+h2. <%= h(@page.title) %>
+
+<%
+  articles = @pages.find(:limit => :all, :in_directory => "articles",
+                         :sort_by => "mtime", :reverse => true)
+  paginate(articles, 10) do |page|
+%>
+<%= page.render %>
+<hr />
+<% end %>
+
+<%= link_to("Prev", @pager.prev) if @pager.prev? %>
+<%= link_to("Next", @pager.next) if @pager.next? %>
+</pre>
+
+In the example page above, the first step is get the collection of articles we are interested in the paginating. This is done using the <code>@pages.find</code> method to retrieve all the pages from the articles folder sorted in reverse order by modification time. When we have the collection of articles, we pass them to the @paginate@ method along with the desired number of articles per page. The @paginate@ method will pass each page in the @articles@ collection to the supplied block of code, but for each ten pages passed to the block, a new webpage will be created.
+
+Inside the block of code we simple render each page and separate the rendered pages using a horizontal rule. Finally, at the end of each page we generate _Prev_ and _Next_ links to supply navigation.
+
+The <code>@pager</code> object provides a few other useful methods:
+
+* *number*  --  the current page number
+* *number_of_pages*  --  the total number of pages that will be generated
+* *first_item_number*  --  the "item number" of the first item on this page
+* *last_item_number*  --  the "item number" of the last item on this page
+* *first*  --  a reference to the first pager (useful for @link_to@ methods)
+* *last*  --  a reference to the last pager (useful for @link_to@ methods)
+* *page( number )*  --  a reference to the pager for page _number_ (useful for @link_to@ methods)
+
+bq. *NOTE*: the <code>@pager</code> is not instantiated until _after_ the @paginate@ method has been called. Therefore, references to other pages and item numbers cannot be made before the @paginate@ method is called in the page.
+
+h2. CodeRay
 
 To include "CodeRay":http://coderay.rubychan.de/ syntax highlighting support in a page you need to have the @coderay@ gem installed, and you need to include the CodeRay stylesheet in your layout. The following example shows a page that uses CodeRay syntax highlighting combined with Textile markup.
 

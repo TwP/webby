@@ -13,7 +13,7 @@ p(title). Table of Contents
 <toc />
 </div>
 
-h2{clear:none}. Introduction
+h2. Introduction
 
 Webby was created out of the need for a simple way to build and manage small websites. The desire was for a system that could take files written in plain text, combine them with a layout file and produce web pages. In this system, a single page can be written quickly without the need for HTML markup; the look and feel of the entire site can be changed by modifying the site layout file.
 
@@ -41,14 +41,14 @@ The diagram above shows the basic concept of how Webby works. Changing the layou
 
 Webby does not limit the output to HTML. Webby can be used to generate XML files for RSS or Atom news feeds, CSS files for styling web pages, or any other type of text file that you can think of.
 
-h3{clear:none}. Requirements
+h3. Requirements
 
 Webby is written in the Ruby programming language. To install and run Webby you will need the following applications installed on your system:
 
 * "Ruby":http://ruby-lang.org
 * "RubyGems":http://rubygems.org/read/chapter/3
 
-h3{clear:none}. Installation
+h3. Installation
 
 Webby is easily installed as a Ruby gem. From a command prompt type in the following:
 

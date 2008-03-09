@@ -17,7 +17,7 @@ PROJ.rubyforge_name = 'webby'
 PROJ.rdoc_dir = 'doc/rdoc'
 PROJ.rdoc_remote_dir = 'rdoc'
 PROJ.version = Webby::VERSION
-PROJ.release_name = 'Apocalypse Cow'
+PROJ.release_name = 'Wandering Wookie'
 
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$)
 PROJ.rdoc_exclude << %w(^data ^examples)
@@ -28,6 +28,17 @@ PROJ.spec_opts << '--color'
 PROJ.ann_email[:to] << 'webby-forum@googlegroups.com'
 PROJ.ann_email[:server] = 'smtp.gmail.com'
 PROJ.ann_email[:port] = 587
+
+PROJ.ann_text = <<-ANN
+== FUN FACT
+
+A Boeing 747's wingspan is longer than the Wright brothers first flight.
+
+== POST SCRIPT
+
+Blessings,
+TwP
+ANN
 
 depend_on 'directory_watcher'
 depend_on 'heel'
