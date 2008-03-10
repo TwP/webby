@@ -44,6 +44,20 @@ class Page < Resource
     renderer.render_page
   end
 
+  # call-seq
+  #    url    => string or nil
+  #
+  # Returns a string suitable for use as a URL linking to this page. Nil
+  # is returned for layouts.
+  #
+  def url
+    return @url if defined? @url and @url
+
+    @url = destination.sub(::Webby.site.output_dir, '')
+    @url = File.dirname(@url) if filename == 'index' and number.nil?
+    @url
+  end
+
   # call-seq:
   #    page.number = Integer
   #

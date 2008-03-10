@@ -20,7 +20,7 @@ Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
 module Webby
 
   # :stopdoc:
-  VERSION = '0.8.1'   # :nodoc:
+  VERSION = '0.8.2'   # :nodoc:
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
   # :startdoc:

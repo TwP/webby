@@ -1,3 +1,8 @@
+== 0.8.2 / 2008-03-
+
+* 1 bug fix
+  - Fixed an error when paginating on an index page
+
 == 0.8.1 / 2008-03-09
 
 * 2 major enhancement
