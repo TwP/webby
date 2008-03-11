@@ -37,7 +37,7 @@ module CodeRayHelper
     pos = buffer.length
     block.call(*args)
 
-    text = buffer[pos..-1].strip
+    text = buffer[pos..-1]
     if text.empty?
       buffer[pos..-1] = ''
       return

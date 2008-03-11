@@ -1,7 +1,9 @@
 == 0.8.2 / 2008-03-
 
-* 1 bug fix
+* 2 bug fixes
   - Fixed an error when paginating on an index page
+  - Fixed an error where leading and trailing whitespace was being
+    stripped from syntax highlighted code blocks
 
 == 0.8.1 / 2008-03-09
 

@@ -21,7 +21,9 @@ Let's assume that your website has a collection of articles in a folder called "
 <pre>
 ---
 title: Articles
-filter: erb
+filter:
+- erb
+- textile
 ---
 h2. <%= h(@page.title) %>
 
@@ -30,7 +32,9 @@ h2. <%= h(@page.title) %>
                          :sort_by => "mtime", :reverse => true)
   paginate(articles, 10) do |page|
 %>
+<notextile>
 <%= page.render %>
+</notextile>
 <hr />
 <% end %>
 
