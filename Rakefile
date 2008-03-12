@@ -15,7 +15,7 @@ PROJ.url = 'http://webby.rubyforge.org/'
 PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
 PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
-PROJ.release_name = 'Wandering Wookie'
+PROJ.release_name = 'Little Bugger'
 
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$)
 
@@ -33,9 +33,13 @@ PROJ.ann.email[:port] = 587
 PROJ.ann.text = <<-ANN
 == FUN FACT
 
-A Boeing 747's wingspan is longer than the Wright brothers first flight.
-
+La Paz, the capital city of Bolivia, is the highest capital in the
+world at over 17,000 feet (5,181 m).
+ 
 == POST SCRIPT
+
+Visit the Webby forum to chat with other Webby-Heads:
+http://groups.google.com/group/webby-forum
 
 Blessings,
 TwP
