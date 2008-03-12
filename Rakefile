@@ -13,23 +13,24 @@ PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://webby.rubyforge.org/'
 PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
-PROJ.rubyforge_name = 'webby'
-PROJ.rdoc_dir = 'doc/rdoc'
-PROJ.rdoc_remote_dir = 'rdoc'
+PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
 PROJ.release_name = 'Wandering Wookie'
 
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$)
-PROJ.rdoc_exclude << %w(^data ^examples)
 
-PROJ.svn = true
-PROJ.spec_opts << '--color'
+PROJ.rdoc.dir = 'doc/rdoc'
+PROJ.rdoc.remote_dir = 'rdoc'
+PROJ.rdoc.exclude << %w(^data ^examples)
 
-PROJ.ann_email[:to] << 'webby-forum@googlegroups.com'
-PROJ.ann_email[:server] = 'smtp.gmail.com'
-PROJ.ann_email[:port] = 587
+PROJ.svn.path = ''
+PROJ.spec.opts << '--color'
 
-PROJ.ann_text = <<-ANN
+PROJ.ann.email[:to] << 'webby-forum@googlegroups.com'
+PROJ.ann.email[:server] = 'smtp.gmail.com'
+PROJ.ann.email[:port] = 587
+
+PROJ.ann.text = <<-ANN
 == FUN FACT
 
 A Boeing 747's wingspan is longer than the Wright brothers first flight.

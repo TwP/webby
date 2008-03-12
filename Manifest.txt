@@ -100,12 +100,12 @@ spec/spec.opts
 spec/spec_helper.rb
 spec/webby/resources/file_spec.rb
 tasks/ann.rake
-tasks/annotations.rake
 tasks/bones.rake
-tasks/doc.rake
 tasks/gem.rake
 tasks/manifest.rake
+tasks/notes.rake
 tasks/post_load.rake
+tasks/rdoc.rake
 tasks/rubyforge.rake
 tasks/setup.rb
 tasks/spec.rake
