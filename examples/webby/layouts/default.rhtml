@@ -14,18 +14,13 @@ filter:
    <title>Webby :: <%= h(@page.title) %></title>
    <meta name="author" content="<%= h(@page.author) %>" />
 
-   <!--- Blueprint CSS Framework -->
-   <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection" />
    <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print" />
-
-   <!-- Coderay -->
-   <link rel="stylesheet" href="/css/coderay.css" type="text/css" media="screen, projection" />
-
-   <!-- Homepage CSS -->
    <link rel="stylesheet" href="/css/site.css" type="text/css" media="screen, projection" />
 
    <script type="text/javascript" src="/script/jquery.js"></script>
    <script type="text/javascript" src="/script/jquery.corner.js"></script>
+
+   <%= @page.content_for_head %>
 </head>
 <body>
 

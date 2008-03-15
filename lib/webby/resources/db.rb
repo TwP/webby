@@ -60,10 +60,15 @@ class DB
   end
 
   # call-seq:
-  #    find( opts = {} )                       => resource or nil
-  #    find( opts = {} ) {|resource| block}    => resource or nil
+  #    find( limit = nil, opts = {} )                       => resource or nil
+  #    find( limit = nil, opts = {} ) {|resource| block}    => resource or nil
   #
   # Find a specific resource or collection of resources in the pages database.
+  # The first resource found will be returned if the _limit_ is nil. If the
+  # _limit_ is an integer, then up to that number of resources will be
+  # returned as an array. If the limit is :all, then all resources matching
+  # the given attributes will be returned.
+  #
   # Resources can be found using any combination of attributes by passing them
   # in as options to the +find+ method. This will used simple equality
   # comparison to find the resource or resources.
@@ -81,7 +86,6 @@ class DB
   # resources, respectively, for which the block returns true.
   # 
   # Options:
-  #    :limit        => :all, integer or nil
   #    :in_directory => directory
   #    :recursive    => true or false
   #    :sort_by      => attribute
@@ -93,20 +97,21 @@ class DB
   #    @pages.find( :filename => 'index', :in_directory => 'foo/bar' )
   #
   #    # find all resources under the "foo/bar" directory recursively
-  #    @pages.find( :limit => :all, :in_directory => 'foo/bar', :recursive => true )
+  #    @pages.find( :all, :in_directory => 'foo/bar', :recursive => true )
   #
   #    # find the resource named "widgets" whose color is "blue"
   #    @pages.find( :name => 'widgets', :color => 'blue' )
   #
   #    # find all resources created in the past week
-  #    @pages.find( :limit => :all ) do |resource|
+  #    @pages.find( :all ) do |resource|
   #      resource.created_at > Time.now - (7 * 24 * 3600)
   #    end
   #
   def find( *args, &block )
     opts = Hash === args.last ? args.pop : {}
 
-    limit = opts.delete(:limit)
+    limit = args.shift
+    limit = opts.delete(:limit) if opts.has_key?(:limit)
     sort_by = opts.delete(:sort_by)
     reverse = opts.delete(:reverse)
 

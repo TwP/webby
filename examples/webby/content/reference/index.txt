@@ -5,6 +5,9 @@ filter:
   - erb
   - textile
   - outline
+content_for_head: |
+ <link rel="stylesheet" href="/css/coderay.css" type="text/css" media="screen, projection" />
+ <link rel="stylesheet" href="/css/uv/twilight.css" type="text/css" media="screen, projection" />
 ---
 <div class="toc push-1">
 
@@ -26,31 +29,173 @@ h3. Attributes
 
 Attributes are defined in the meta-data section of pages and layouts.
 
-table(reference).
-| *destination* | Defines the path in the output directory where the rendered page should be stored. |
-| *dirty* | The dirty flag is used to determine whether the page should rendered or not. Normally this is automatically determined by the filter engine, but it can be overridden by setting this attribute. If the dirty flag is set to _true_ then the page will always be rendered. If the dirty flag is set to _false_ then the page will never be rendered. |
-| *extension* | Defines the extension that will be appended to the filename of the rendered page in the output folder. The extension is determined by looking at the following:
+<div class="label">destination</div>
+<div class="desc">
+Defines the path in the output directory where the rendered page should be stored.
+</div>
+
+<div class="label">dirty</div>
+<div class="desc">
+The dirty flag is used to determine whether the page should rendered or not. Normally this is automatically determined by the filter engine, but it can be overridden by setting this attribute. If the dirty flag is set to _true_ then the page will always be rendered. If the dirty flag is set to _false_ then the page will never be rendered.
+</div> 
+
+<div class="label">extension</div>
+<div class="desc">
+Defines the extension that will be appended to the filename of the rendered page in the output folder. The extension is determined by looking at the following:
+
 * the meta-data of the current page for an @extension@ attribute
 * the meta-data of layout file of the current page for an @extension@ attribute
-* the extension of this page file in the _content_ folder |
-| *filter* | Defines the list of filters that will be applied to the contents of this page. If left blank, then the default filter will be applied to the page contents. |
-| *layout* | Defines the layout that the page contents will be rendered into. The default layout will be used if this attribute is not defined. The value of @nil@ should be specified if the page should not be rendered into any layout. |
+* the extension of this page file in the _content_ folder
+
+</div>
+
+<div class="label">filter</div>
+<div class="desc">
+Defines the list of filters that will be applied to the contents of this page. If left blank, then the default filter will be applied to the page contents.
+</div>
+
+<div class="label">layout</div>
+<div class="desc">
+Defines the layout that the page contents will be rendered into. The default layout will be used if this attribute is not defined. The value of @nil@ should be specified if the page should not be rendered into any layout.
+</div>
 
 The following attributes are defined for each page in the content folder. These attributes cannot be changed in the page's meta-data section. However, they are available to the ERB filter when rendering the contents of a page.
 
-table(reference).
-| *path* | The full path to the file in the _content_ folder |
-| *dir* | The relative directory in the output folder where the page will be rendered |
-| *filename* | The name of the file in the _content_ folder excluding any path information |
-| *ext* | The extension of the file in the _content_ folder |
-| *mtime* | The modification time of the file in the _content_ folder |
-| *number* | Reserved variable used for multi-page content |
-| *url* | A URL suitable for creating a link to the page |
-| *render* | Returns the contents of the page as rendered by the Webby filter engine |
+<div class="label">path</div>
+<div class="desc">
+The full path to the file in the _content_ folder
+</div>
+
+<div class="label">dir</div>
+<div class="desc">
+The relative directory in the output folder where the page will be rendered
+</div>
+
+<div class="label">filename </div>
+<div class="desc">
+The name of the file in the _content_ folder excluding any path information
+</div>
+
+<div class="label">ext</div>
+<div class="desc">
+The extension of the file in the _content_ folder
+</div>
+
+<div class="label">mtime</div>
+<div class="desc">
+The modification time of the file in the _content_ folder
+</div>
+
+<div class="label">number</div>
+<div class="desc">
+Reserved variable used for multi-page content
+</div>
+
+<div class="label">url</div>
+<div class="desc">
+A URL suitable for creating a link to the page
+</div>
+
+<div class="label">render</div>
+<div class="desc">
+Returns the contents of the page as rendered by the Webby filter engine
+</div>
 
 h3. Filters
 
 h3. ERB Variables & Methods
+
+h4. coderay
+
+The coderay method is used to generate syntax highlighting on a block of code. You will need to have the coderay gem installed on your system, and you will need to include the coderay CSS stylesheet in your pages for the syntax highlighting markup to take effect.
+
+The full list of "coderay options":/rdoc/classes/Webby/Helpers/CodeRayHelper.html can be found in the source documentation.
+
+<pre>
+<%% coderay :lang => 'ruby', :line_numbers => 'inline' do -%>
+class Object
+  def returning( r )
+    yield r if block_given?
+    r
+  end
+end
+<%% end -%>
+</pre>
+
+<% coderay :lang => "ruby", :line_numbers => "inline" do -%>
+class Object
+  def returning( r )
+    yield r if block_given?
+    r
+  end
+end
+<% end -%>
+
+
+h4. graphviz
+
+The graphviz method is used to convert a DOT script into an image and insert the image into the page. If the DOT script contains URL references, then an image map will also be generated. The resulting image will then have "clickable" regions that link to the URLs specified.
+
+"Graphviz":http://www.graphviz.org/ needs to be installed on your system in order to use the graphviz method. The full list of "graphviz options":/rdoc/classes/Webby/Helpers/GraphvizHelper.html can be found in the source documentation.
+
+<pre>
+<%% graphviz :path => 'images', :alt => 'hello world graph' do -%>
+digraph hello_world {
+  rankdir = LR;
+  Hello -> World;
+}
+<%% end -%>
+</pre>
+
+<% graphviz :path => "images", :alt => "hello world graph" do -%>
+digraph hello_world {
+  rankdir = LR;
+  Hello -> World;
+}
+<% end -%>
+
+
+h4. tex2img
+
+The tex2img method is used to convert a LaTeX script into an image and insert the image into the page. "LaTeX":http://www.latex-project.org/ and "ImageMagick":http://www.imagemagick.org/script/index.php need to be instaled on your system in order to use the tex2img maethod.
+
+The full list of "tex2img options":/rdoc/classes/Webby/Helpers/TexImgHelper.html can be found in the source documentation.
+
+<pre>
+<%% tex2img 'wave_eq', :path => 'images', :alt => 'wave equation' do -%>
+$\psi_{tot}(x,-t_0,r) = \frac{1}{(2\pi)^2} \int\!\!\!\int
+\tilde\Psi_{tot}\left(k_x,\frac{c}{2}\sqrt{k_x^2 + k_r^2},r=0\right)$
+<%% end -%>
+</pre>
+
+<% tex2img 'wave_eq', :path => 'images', :alt => 'wave equation' do -%>
+$\psi_{tot}(x,-t_0,r) = \frac{1}{(2\pi)^2} \int\!\!\!\int
+\tilde\Psi_{tot}\left(k_x,\frac{c}{2}\sqrt{k_x^2 + k_r^2},r=0\right)$
+<% end -%>
+
+
+h4. uv
+
+The uv method is used to generate syntax highlighting on a block of code. You will need to have the "Ultraviolet":http://ultraviolet.rubyforge.org/ gem installed on your system, and you will need to include the desired CSS stylesheet in your pages for the syntax highlighting markup to take effect.
+
+The full list of "ultraviolet options":/rdoc/classes/Webby/Helpers/UltraVioletHelper.html can be found in the source documentation.
+
+<pre>
+<%% uv :lang => "ruby", :line_numbers => true do -%>
+# Initializer for the class.
+def initialize( string )
+  @str = string
+end
+<%% end -%>
+</pre>
+
+<% uv :lang => 'ruby', :line_numbers => true, :theme => 'twilight' do -%>
+# Initializer for the class.
+def initialize( string )
+  @str = string
+end
+<% end -%>
+
 
 h3. Rake Tasks
 

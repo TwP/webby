@@ -17,6 +17,8 @@ sass_options:
 !quiet       = #666
 !alt         = #666
 
+@import blueprint/screen.css
+
 body
   :color =      !text
   :font-family  Verdana, sans-serif
@@ -103,12 +105,6 @@ p.quiet
     :text-align      right
 
 .CodeRay
-  :margin-left        18px
-  :padding            8px
-  :border =           1px solid !border
-  :border-left =      7px solid !border
-  :background =       !box_bg
-  :color =            !code
   pre
     :font             12px monospace, courier
 
@@ -133,13 +129,6 @@ ul
   ul
     :margin-bottom    0
 
-table.reference
-  :width  100%
-  td
-    :padding  2px 5px
-    ul
-      :margin-bottom 0
-
 span.heading-num
   :margin-right  10px
 
@@ -155,5 +144,21 @@ pre.option
   :margin-left   80px
   :width         500px
   :clear         both
+
+div.label
+  :float         left
+  :clear         left
+  :margin-right  10px
+  :width         110px
+  :font-weight   bold
+
+div.desc
+  :float         left
+  :margin
+    :right       0
+    :bottom      1.5em
+  :width         510px
+  ul
+    :margin-bottom 0
 
 // EOF

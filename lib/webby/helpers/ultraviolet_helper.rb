@@ -19,17 +19,17 @@ module UltraVioletHelper
   #    <% uv( :lang => "ruby", :line_numbers => true ) do -%>
   #    # Initializer for the class.
   #    def initialize( string )
-  #      @str = stirng
+  #      @str = string
   #    end
   #    <% end -%>
   #    
   # The supported UltraViolet options are the following:
   #
-  #    :lang               : the language to highlight (ruby, c, html, ...)
-  #                          [defaults to 'ruby']
-  #    :line_numbers       : true or false [defaults to false]
-  #    :theme              : see list of available themes in ultraviolet
-  #                          [defaults to 'mac_classic']
+  #    :lang           : the language to highlight (ruby, c, html, ...)
+  #                      [defaults to 'ruby']
+  #    :line_numbers   : true or false [defaults to false]
+  #    :theme          : see list of available themes in ultraviolet
+  #                      [defaults to 'mac_classic']
   #
   # The defaults can be overridden for an entire site by changing the SITE.uv
   # options hash in the Rakefile.

@@ -28,7 +28,7 @@ filter:
 h2. <%= h(@page.title) %>
 
 <%
-  articles = @pages.find(:limit => :all, :in_directory => "articles",
+  articles = @pages.find(:all, :in_directory => "articles",
                          :sort_by => "mtime", :reverse => true)
   paginate(articles, 10) do |page|
 %>
