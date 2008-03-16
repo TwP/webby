@@ -2,6 +2,8 @@
 
 * 1 minor enhancement
   - Changed the arguments to the DB#find method
+* 1 bug fix
+  - Fixed reference to an non-existent Error class
 
 == 0.8.2 / 2008-03-12
 

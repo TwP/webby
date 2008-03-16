@@ -67,7 +67,7 @@ module UrlHelper
     url_opts = opts.delete(:url)
 
     p = @pages.find(opts)
-    raise Webby::Renderer::Error,
+    raise ::Webby::Error,
           "could not find requested page: #{opts.inspect}" if p.nil?
 
     self.url_for(p, url_opts)
@@ -221,7 +221,7 @@ module UrlHelper
       p = @pages.find(opts)
     end
 
-    raise Webby::Renderer::Error,
+    raise ::Webby::Error,
           "could not find requested page: #{opts.inspect}" if p.nil?
 
     name = p.title || p.filename if name.nil?
