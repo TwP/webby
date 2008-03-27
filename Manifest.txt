@@ -31,6 +31,8 @@ data/content/css/site.css
 data/content/index.txt
 data/layouts/default.rhtml
 data/lib/breadcrumbs.rb
+data/tasks/blog.rake
+data/tasks/build.rake
 data/tasks/create.rake
 data/tasks/deploy.rake
 data/tasks/growl.rake
@@ -55,6 +57,8 @@ examples/webby/content/script/jquery.js
 examples/webby/content/tips_and_tricks/index.txt
 examples/webby/content/tutorial/index.txt
 examples/webby/layouts/default.rhtml
+examples/webby/tasks/blog.rake
+examples/webby/tasks/build.rake
 examples/webby/tasks/create.rake
 examples/webby/tasks/deploy.rake
 examples/webby/tasks/growl.rake
@@ -96,7 +100,6 @@ lib/webby/stelan/mktemp.rb
 lib/webby/stelan/paginator.rb
 lib/webby/stelan/spawner.rb
 lib/webby/utils.rb
-lib/webby/webby_task.rb
 spec/spec.opts
 spec/spec_helper.rb
 spec/webby/resources/file_spec.rb
