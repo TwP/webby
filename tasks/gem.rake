@@ -4,7 +4,7 @@ require 'rake/gempackagetask'
 
 namespace :gem do
 
-  PROJ.gem.spec = Gem::Specification.new do |s|
+  PROJ.gem._spec = Gem::Specification.new do |s|
     s.name = PROJ.name
     s.version = PROJ.version
     s.summary = PROJ.summary
@@ -48,30 +48,33 @@ namespace :gem do
     end
   end
 
+  # A prerequisites task that all other tasks depend upon
+  task :prereqs
+
   desc 'Show information about the gem'
-  task :debug do
-    puts PROJ.gem.spec.to_ruby
+  task :debug => :prereqs do
+    puts PROJ.gem._spec.to_ruby
   end
 
   pkg = Rake::PackageTask.new(PROJ.name, PROJ.version) do |pkg|
     pkg.need_tar = PROJ.gem.need_tar
     pkg.need_zip = PROJ.gem.need_zip
-    pkg.package_files += PROJ.gem.spec.files
+    pkg.package_files += PROJ.gem._spec.files
   end
   Rake::Task['gem:package'].instance_variable_set(:@full_comment, nil)
 
-  gem_file = if PROJ.gem.spec.platform == Gem::Platform::RUBY
+  gem_file = if PROJ.gem._spec.platform == Gem::Platform::RUBY
       "#{pkg.package_name}.gem"
     else
-      "#{pkg.package_name}-#{PROJ.gem.spec.platform}.gem"
+      "#{pkg.package_name}-#{PROJ.gem._spec.platform}.gem"
     end
 
   desc "Build the gem file #{gem_file}"
   task :package => "#{pkg.package_dir}/#{gem_file}"
 
-  file "#{pkg.package_dir}/#{gem_file}" => [pkg.package_dir] + PROJ.gem.spec.files do
+  file "#{pkg.package_dir}/#{gem_file}" => [:prereqs, pkg.package_dir] + PROJ.gem._spec.files do
     when_writing("Creating GEM") {
-      Gem::Builder.new(PROJ.gem.spec).build
+      Gem::Builder.new(PROJ.gem._spec).build
       verbose(true) {
         mv gem_file, "#{pkg.package_dir}/#{gem_file}"
       }
@@ -80,7 +83,7 @@ namespace :gem do
 
   desc 'Install the gem'
   task :install => [:clobber, :package] do
-    sh "#{SUDO} #{GEM} install pkg/#{PROJ.gem.spec.full_name}"
+    sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{PROJ.gem._spec.full_name}"
   end
 
   desc 'Uninstall the gem'

@@ -26,25 +26,139 @@ class Builder
     end
 
     # call-seq:
-    #    Builder.create( page, :from => template )
+    #    Builder.create( type, opts = {} )
+    #
+    # Create a new page type where type can be one of :page, :partial,
+    # :blog. The options hash should include the Rake task object being used
+    # to create the page and the template from which the page is to be
+    # created.
+    #
+    #    create( :page, :from => template, :task => rake_task )
+    #
+    def create( type, opts = {} )
+      task = opts.delete(:task)
+      raise "rake task must be given in the options hash" if task.nil?
+      raise "Usage:  rake #{task.name} path" unless ARGV.length > 1
+
+      page = task.application.top_level_tasks.slice!(1..-1).join('-')
+      name = ::Webby::Resources::File.basename(page)
+      ext  = ::Webby::Resources::File.extname(page)
+      dir  = ::File.dirname(page)
+      dir  = '' if dir == '.'
+
+      locals = opts[:locals] || {}
+      locals[:title] = name.split('-').map {|w| w.capitalize}.join(' ')
+      opts[:locals] = locals
+
+      case type
+      when :partial
+        name = '_' + name
+        page = ::File.join(::Webby.site.content_dir, dir, name)
+        page << '.' << (ext.empty? ? 'txt' : ext)
+
+      when :page
+        if ::Webby.site.create_mode == 'directory'
+          page = ::File.join(::Webby.site.content_dir, dir, name, 'index')
+          page << '.' << (ext.empty? ? 'txt' : ext)
+        else
+          page = ::File.join(::Webby.site.content_dir, page)
+          page << '.txt' if ext.empty?
+        end
+
+      when :blog
+        dir = create_blog_directory(dir)
+        if ::Webby.site.create_mode == 'directory'
+          page = ::File.join(dir, name, 'index')
+          page << '.' << (ext.empty? ? 'txt' : ext)
+        else
+          page = ::File.join(dir, name)
+          page << '.txt' if ext.empty?
+        end
+
+      else raise "cannot create unknown type #{type.inspect}" end
+
+      create_page(page, opts)
+      exec(::Webby.editor, page) unless ::Webby.editor.nil?
+    end
+
+    # call-seq:
+    #    Builder.create_page( page, :from => template, :locals => {} )
     #
     # This mehod is used to create a new _page_ in the content folder based
     # on the specified template. _page_ is the relative path to the new page
     # from the <code>content/</code> folder. The _template_ is the name of
     # the template to use from the <code>templates/</code> folder.
     #
-    def create( page, opts = {} )
+    def create_page( page, opts = {} )
       tmpl = opts[:from]
       raise Error, "template not given" unless tmpl
       raise Error, "#{page} already exists" if test ?e, page
 
       Logging::Logger[self].info "creating #{page}"
       FileUtils.mkdir_p ::File.dirname(page)
-      str = ERB.new(::File.read(tmpl), nil, '-').result
+
+      context = scope
+      opts[:locals].each do |k,v|
+        Thread.current[:value] = v
+        definition = "#{k} = Thread.current[:value]"
+        eval(definition, context)
+      end if opts.has_key?(:locals)
+
+      str = ERB.new(::File.read(tmpl), nil, '-').result(context)
       ::File.open(page, 'w') {|fd| fd.write str}
 
       return nil
     end
+
+    # call-seq:
+    #    Builder.create_blog_directory( dir )    => string
+    #
+    # Takes the given directory, converts it to a date based blog directory,
+    # and ensures that index files exist for the year and month directories.
+    # The default blog directory looks like the following:
+    #
+    #    articles/2008/03/27/your-blog-post
+    #
+    # The default "articles" directory can be changed by setting the
+    # "SITE.blog_dir" entry in the website Rakefile.
+    #
+    def create_blog_directory( dir )
+      now   = Time.now
+      year  = now.strftime '%Y'
+      month = now.strftime '%m'
+      day   = now.strftime '%d'
+
+      # if no directory was given use the default blog directory (underneath
+      # the content directory)
+      dir = ::Webby.site.blog_dir if dir.empty?
+
+      # create the index file for the current month directory
+      fn = ::File.join(::Webby.site.content_dir, dir, year, month, 'index.txt')
+      tmpl = Dir.glob(::File.join(::Webby.site.template_dir, 'blog_month.*')).first.to_s
+      if test(?f, tmpl) and not test(?f, fn)
+        create_page(fn, :from => tmpl,
+            :locals => {:title => now.strftime('%B %Y')})
+      end
+
+      # create the index file for the current year directory
+      fn = ::File.join(::Webby.site.content_dir, dir, year, 'index.txt')
+      tmpl = Dir.glob(::File.join(::Webby.site.template_dir, 'blog_year.*')).first.to_s
+      if test(?f, tmpl) and not test(?f, fn)
+        create_page(fn, :from => tmpl,
+            :locals => {:title => now.strftime('%Y')})
+      end
+
+      # return the directory where this blog post should be created
+      ::File.join(::Webby.site.content_dir, dir, year, month, day)
+    end
+
+
+    private
+
+    # Returns the binding in the scope of the Builder class object.
+    #   
+    def scope() binding end
+
   end  # class << self
 
   # call-seq:

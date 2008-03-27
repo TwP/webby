@@ -1,6 +1,6 @@
 # $Id$
 
-if PROJ.svn.path and system("svn --version 2>&1 > #{DEV_NULL}")
+if HAVE_SVN
 
 unless PROJ.svn.root
   info = %x/svn info ./
@@ -11,8 +11,11 @@ PROJ.svn.root = File.join(PROJ.svn.root, PROJ.svn.path) unless PROJ.svn.path.emp
 
 namespace :svn do
 
+  # A prerequisites task that all other tasks depend upon
+  task :prereqs
+
   desc 'Show tags from the SVN repository'
-  task :show_tags do |t|
+  task :show_tags => :prereqs do |t|
     tags = %x/svn list #{File.join(PROJ.svn.root, PROJ.svn.tags)}/
     tags.gsub!(%r/\/$/, '')
     tags = tags.split("\n").sort {|a,b| b <=> a}
@@ -20,7 +23,7 @@ namespace :svn do
   end
 
   desc 'Create a new tag in the SVN repository'
-  task :create_tag do |t|
+  task :create_tag => :prereqs do |t|
     v = ENV['VERSION'] or abort 'Must supply VERSION=x.y.z'
     abort "Versions don't match #{v} vs #{PROJ.version}" if v != PROJ.version
 

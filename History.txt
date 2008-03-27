@@ -1,5 +1,7 @@
 == 0.8.3 / 2008-03-
 
+* 1 major enhancement
+  - Added blogging support
 * 1 minor enhancement
   - Changed the arguments to the DB#find method
 * 1 bug fix

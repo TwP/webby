@@ -95,7 +95,7 @@ PROJ = OpenStruct.new(
   # Subversion Repository
   :svn => OpenStruct.new(
     :root => nil,
-    :path => nil,
+    :path => '',
     :trunk => 'trunk',
     :tags => 'tags',
     :branches => 'branches'
@@ -156,6 +156,8 @@ GEM  = WIN32 ? 'gem.bat'  : 'gem'
     Object.instance_eval {const_set "HAVE_#{lib.tr('/','_').upcase}", false}
   end
 end
+HAVE_SVN = (Dir.entries(Dir.pwd).include?('.svn') and
+            system("svn --version 2>&1 > #{DEV_NULL}"))
 
 # Reads a file at +path+ and spits out an array of the +paragraphs+
 # specified.

@@ -20,7 +20,7 @@ Logging::Appender.stdout.layout = Logging::Layouts::Pattern.new(
 module Webby
 
   # :stopdoc:
-  VERSION = '0.8.2'   # :nodoc:
+  VERSION = '0.8.3'   # :nodoc:
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
   # :startdoc:
@@ -48,6 +48,7 @@ module Webby
       :find_by       => 'title',
       :base          => nil,
       :create_mode   => 'page',
+      :blog_dir      => 'articles',
 
       # Items for running the heel webserver
       :heel_port => 4331,
@@ -124,6 +125,19 @@ module Webby
   #
   def self.exclude
     @exclude ||= Regexp.new(site.exclude.join('|'))
+  end
+
+  # call-seq:
+  #    Webby.editor    => string or nil
+  #
+  # Returns the default editor to use when creating new pages. This editor
+  # will be spawned to allow the user to edit the newly created page.
+  #
+  def self.editor
+    return @editor if defined? @editor
+
+    @editor = if ENV['EDITOR'].nil? or ENV['EDITOR'].empty? then nil
+              else ENV['EDITOR'] end
   end
 
   # call-seq:

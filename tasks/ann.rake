@@ -9,7 +9,10 @@ require 'time'
 
 namespace :ann do
 
-  file PROJ.ann.file do
+  # A prerequisites task that all other tasks depend upon
+  task :prereqs
+
+  file PROJ.ann.file => :prereqs do
     ann = PROJ.ann
     puts "Generating #{ann.file}"
     File.open(ann.file,'w') do |fd|
