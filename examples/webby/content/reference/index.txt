@@ -73,7 +73,7 @@ The relative directory in the output folder where the page will be rendered
 
 <div class="label">filename </div>
 <div class="desc">
-The name of the file in the _content_ folder excluding any path information
+The name of the file in the _content_ folder excluding any path information and extension
 </div>
 
 <div class="label">ext</div>

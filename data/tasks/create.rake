@@ -2,23 +2,18 @@
 namespace :create do
 
   FileList["#{Webby.site.template_dir}/*"].each do |template|
+    next unless test(?f, template)
     name = template.pathmap '%n'
-    next if name =~ %r/^blog_/  # skip blog entries
 
     # if the file is a partial template
-    if name =~ %r/^_(.*)/
-      name = $1
-      desc "Create a new #{name}"
-      task name do |t|
-        Webby::Builder.create(:partial, :from => template, :task => t)
-      end
+    name = $1 if name =~ %r/^_(.*)/
 
-    # otherwise it's a normal file
-    else
-      desc "Create a new #{name}"
-      task name do |t|
-        Webby::Builder.create(:page, :from => template, :task => t)
-      end
+    desc "Create a new #{name}"
+    task name do |t|
+      page, title, dir = Webby::Builder.new_page_info(t)
+      page = Webby::Builder.create(page,
+                 :from => template, :locals => {:title => title})
+      exec(::Webby.editor, page) unless ::Webby.editor.nil?
     end
   end  # each
 

@@ -48,7 +48,7 @@ module Webby
       :find_by       => 'title',
       :base          => nil,
       :create_mode   => 'page',
-      :blog_dir      => 'articles',
+      :blog_dir      => 'blog',
 
       # Items for running the heel webserver
       :heel_port => 4331,
