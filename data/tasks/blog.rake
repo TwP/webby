@@ -2,6 +2,7 @@
 namespace :blog do
 
   FileList["#{Webby.site.template_dir}/blog/*"].each do |template|
+    next unless test(?f, template)
     name = template.pathmap('%n')
     next if name =~ %r/^(month|year)$/  # skip month/year blog entries
 
