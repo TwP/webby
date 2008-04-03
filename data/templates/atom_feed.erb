@@ -1,6 +1,11 @@
 ---
+title: A New Atom Feed
+subtitle: A really swell blog built with Webby
+site: fake-n-site.org
+author: Author's Name
+email: author@fake-n-site.org
 extension: xml
-layout: false
+layout: nil
 dirty: true
 filter:
 - erb
@@ -8,25 +13,25 @@ filter:
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
-  <title>A New Atom Feed</title>
-  <subtitle>a really swell blog</subtitle>
-  <link href="http://fakesite.nil/feed/" rel="self"/>
-  <link href="http://fakesite.nil/"/>
+  <title><%%= h(@page.title) %></title>
+  <subtitle><%%= h(@page.subtitle) %></subtitle>
+  <link href="http://<%%= @page.site %>/<%= directory %>/" rel="self" />
+  <link href="http://<%%= @page.site %>/" />
   <updated><%%= Time.now.xmlschema %></updated>
   <author>
-    <name>Author's Name</name>
-    <email>author@fakesite.nil</email>
+    <name><%%= h(@page.author) %></name>
+    <email><%%= h(@page.email) %></email>
   </author>
-  <id>http://fakesite.nil/</id>
+  <id>http://<%%= @page.site %>/</id>
   <%% @pages.find(:limit => 10,
-                 :in_directory => 'articles',
+                 :in_directory => 'blog',
                  :recursive => true,
-                 :sort_by => 'created_at',
+                 :sort_by => 'mtime',
                  :reverse => true).each do |article| %>
   <entry>
     <title><%%= h(article.title) %></title>
-    <link href="<%%= article.url %>"/>
-    <id>tag:fakesite.nil,<%%= article.created_at.strftime('%Y-%m-%d') %>:<%%= article.created_at.to_i %></id>
+    <link href="<%%= article.url %>" />
+    <id>tag:<%%= @page.site %>,<%%= article.created_at.strftime('%Y-%m-%d') %>:<%%= article.created_at.to_i %></id>
     <updated><%%= article.created_at.xmlschema %></updated>
     <content type="html"><%%= h(article.render) %></content>
   </entry>

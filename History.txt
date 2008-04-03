@@ -2,8 +2,10 @@
 
 * 1 major enhancement
   - Added blogging support
-* 1 minor enhancement
+* 3 minor enhancements
   - Changed the arguments to the DB#find method
+  - Added locals support for page templates
+  - Updated atom feed generation template
 * 1 bug fix
   - Fixed reference to an non-existent Error class
 

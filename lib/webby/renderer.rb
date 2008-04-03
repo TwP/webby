@@ -182,6 +182,7 @@ class Renderer
   # a layout, then this method returns immediately.
   #
   def _render_layout_for( res )
+    return unless res.layout
     lyt = Resources.layouts.find :filename => res.layout
     return if lyt.nil?
 

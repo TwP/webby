@@ -13,10 +13,11 @@ namespace :blog do
       # if no directory was given use the default blog directory (underneath
       # the content directory)
       dir = Webby.site.blog_dir if dir.empty?
+      dir = File.join(dir, Time.now.strftime('%Y/%m/%d'))
 
-      page = File.join(dir, Time.now.strftime('%Y/%m/%d'), File.basename(page))
-      page = Webby::Builder.create(page,
-                 :from => template, :locals => {:title => title})
+      page = File.join(dir, File.basename(page))
+      page = Webby::Builder.create(page, :from => template,
+                 :locals => {:title => title, :directory => dir})
       exec(::Webby.editor, page) unless ::Webby.editor.nil?
     end
   end  # each
@@ -29,13 +30,15 @@ namespace :blog do
     # if no directory was given use the default blog directory (underneath
     # the content directory)
     dir = Webby.site.blog_dir if dir.empty?
+    dir = File.join(dir, year)
 
     # determine the filename and template name
-    fn = File.join(dir, year, 'index.txt')
+    fn = File.join(dir, 'index.txt')
     tmpl = Dir.glob(File.join(Webby.site.template_dir, 'blog/year.*')).first.to_s
 
     if test(?f, tmpl) and not test(?f, File.join(Webby.site.content_dir, fn))
-      Webby::Builder.create(fn, :from => tmpl, :locals => {:title => year})
+      Webby::Builder.create(fn, :from => tmpl,
+          :locals => {:title => year, :directory => dir})
     end
   end
 
@@ -47,14 +50,15 @@ namespace :blog do
     # if no directory was given use the default blog directory (underneath
     # the content directory)
     dir = Webby.site.blog_dir if dir.empty?
+    dir = File.join(dir, now.strftime('%Y/%m'))
 
     # determine the filename and template name
-    fn = File.join(dir, now.strftime('%Y/%m'), 'index.txt')
+    fn = File.join(dir, 'index.txt')
     tmpl = Dir.glob(File.join(Webby.site.template_dir, 'blog/month.*')).first.to_s
 
     if test(?f, tmpl) and not test(?f, File.join(Webby.site.content_dir, fn))
-      Webby::Builder.create(fn,
-          :from => tmpl, :locals => {:title => now.strftime('%B %Y')})
+      Webby::Builder.create(fn, :from => tmpl,
+          :locals => {:title => year, :directory => dir})
     end
   end
 
