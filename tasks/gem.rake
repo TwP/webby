@@ -12,7 +12,6 @@ namespace :gem do
     s.email = PROJ.email
     s.homepage = Array(PROJ.url).first
     s.rubyforge_project = PROJ.rubyforge.name
-    s.post_install_message = PROJ.gem.post_install_message
 
     s.description = PROJ.description
 
@@ -46,13 +45,23 @@ namespace :gem do
     else
       s.test_files = PROJ.test.files.to_a
     end
-  end
+
+    # Do any extra stuff the user wants
+    PROJ.gem.extras.each do |msg, val|
+      case val
+      when Proc
+        val.call(s.send(msg))
+      else
+        s.send "#{msg}=", val
+      end
+    end
+  end  # Gem::Specification.new
 
   # A prerequisites task that all other tasks depend upon
   task :prereqs
 
   desc 'Show information about the gem'
-  task :debug => :prereqs do
+  task :debug => 'gem:prereqs' do
     puts PROJ.gem._spec.to_ruby
   end
 
@@ -70,9 +79,9 @@ namespace :gem do
     end
 
   desc "Build the gem file #{gem_file}"
-  task :package => "#{pkg.package_dir}/#{gem_file}"
+  task :package => ['gem:prereqs', "#{pkg.package_dir}/#{gem_file}"]
 
-  file "#{pkg.package_dir}/#{gem_file}" => [:prereqs, pkg.package_dir] + PROJ.gem._spec.files do
+  file "#{pkg.package_dir}/#{gem_file}" => [pkg.package_dir] + PROJ.gem._spec.files do
     when_writing("Creating GEM") {
       Gem::Builder.new(PROJ.gem._spec).build
       verbose(true) {
@@ -90,7 +99,7 @@ namespace :gem do
   task :uninstall do
     installed_list = Gem.source_index.find_name(PROJ.name)
     if installed_list and installed_list.collect { |s| s.version.to_s}.include?(PROJ.version) then
-      sh "#{SUDO} #{GEM} uninstall -v '#{PROJ.version}' -i -x #{PROJ.name}"
+      sh "#{SUDO} #{GEM} uninstall -v '#{PROJ.version}' -I -x #{PROJ.name}"
     end
   end
 

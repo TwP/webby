@@ -15,7 +15,7 @@ namespace :svn do
   task :prereqs
 
   desc 'Show tags from the SVN repository'
-  task :show_tags => :prereqs do |t|
+  task :show_tags => 'svn:prereqs' do |t|
     tags = %x/svn list #{File.join(PROJ.svn.root, PROJ.svn.tags)}/
     tags.gsub!(%r/\/$/, '')
     tags = tags.split("\n").sort {|a,b| b <=> a}
@@ -23,7 +23,7 @@ namespace :svn do
   end
 
   desc 'Create a new tag in the SVN repository'
-  task :create_tag => :prereqs do |t|
+  task :create_tag => 'svn:prereqs' do |t|
     v = ENV['VERSION'] or abort 'Must supply VERSION=x.y.z'
     abort "Versions don't match #{v} vs #{PROJ.version}" if v != PROJ.version
 

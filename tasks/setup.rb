@@ -16,7 +16,7 @@ PROJ = OpenStruct.new(
   :changes => nil,
   :authors => nil,
   :email => nil,
-  :url => nil,
+  :url => "\000",
   :version => ENV['VERSION'] || '0.0.0',
   :exclude => %w(tmp$ bak$ ~$ CVS .svn/ ^pkg/ ^doc/),
   :release_name => ENV['RELEASE'],
@@ -53,7 +53,7 @@ PROJ = OpenStruct.new(
     :files => nil,
     :need_tar => true,
     :need_zip => false,
-    :post_install_message => nil
+    :extras => {}
   ),
 
   # File Annotations
@@ -83,7 +83,7 @@ PROJ = OpenStruct.new(
 
   # Rubyforge
   :rubyforge => OpenStruct.new(
-    :name => nil
+    :name => "\000"
   ),
 
   # Rspec
@@ -130,6 +130,7 @@ def quiet( &block )
 ensure
   STDOUT.reopen io.first
   STDERR.reopen io.last
+  $stdout, $stderr = STDOUT, STDERR
 end
 
 DIFF = if WIN32 then 'diff.exe'
@@ -250,6 +251,16 @@ def manifest_files
     files << path
   end
   files.sort!
+end
+
+# We need a "valid" method thtat determines if a string is suitable for use
+# in the gem specification.
+#
+class Object
+  def valid?
+    return !(self.empty? or self == "\000") if self.respond_to?(:to_str)
+    return false
+  end
 end
 
 # EOF
