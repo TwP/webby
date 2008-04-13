@@ -64,6 +64,7 @@ class Renderer
     @content = nil
     @config = ::Webby.site
 
+    @_bindings = []
     @log = Logging::Logger[self]
   end
 
@@ -80,7 +81,7 @@ class Renderer
   end
 
   # call-seq:
-  #    render_partial( partial )    => string
+  #    render_partial( partial, :locals => {} )    => string
   #
   # Render the given _partial_ into the current page. The _partial_ can
   # either be the name of the partial to render or a Partial object.
@@ -108,6 +109,7 @@ class Renderer
       else raise ::Webby::Error, "expecting a partial or a partial name" end
 
     _track_rendering(part.path) {
+      _configure_locals(opts[:locals])
       Filters.process(self, part, ::Webby::Resources::File.read(part.path))
     }
   end
@@ -140,7 +142,7 @@ class Renderer
   # Returns the current binding for the renderer.
   #
   def get_binding
-    binding
+    @_bindings.last
   end
 
 
@@ -229,6 +231,7 @@ class Renderer
   def _track_rendering( path )
     loop_error = @@stack.include? path
     @@stack << path
+    @_bindings << _binding
 
     if loop_error
       msg = "rendering loop detected for '#{path}'\n"
@@ -240,7 +243,29 @@ class Renderer
     yield
   ensure
     @@stack.pop if path == @@stack.last
+    @_bindings.pop
   end
+
+  # call-seq:
+  #    _configure_locals( locals )
+  #
+  # Configure local variables in the scope of the current binding returned
+  # by the +get_binding+ method. The _locals_ should be given as a hash of
+  # name / value pairs.
+  #
+  def _configure_locals( locals )
+    return if locals.nil?
+
+    locals.each do |k,v|
+      Thread.current[:value] = v
+      definition = "#{k} = Thread.current[:value]"
+      eval(definition, get_binding)
+    end
+  end
+
+  # Returns the binding in the scope of this Renderer object.
+  #   
+  def _binding() binding end
 
 end  # class Renderer
 end  # module Webby

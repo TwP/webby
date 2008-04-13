@@ -2,12 +2,14 @@
 
 * 1 major enhancement
   - Added blogging support
-* 3 minor enhancements
+* 4 minor enhancements
   - Changed the arguments to the DB#find method
   - Added locals support for page templates
   - Updated atom feed generation template
-* 1 bug fix
+  - Partials now support local variables when rendering
+* 2 bug fix
   - Fixed reference to an non-existent Error class
+  - Basepath filter now handles XML files properly
 
 == 0.8.2 / 2008-03-12
 
