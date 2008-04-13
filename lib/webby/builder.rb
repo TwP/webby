@@ -42,8 +42,8 @@ class Builder
       dir  = ::File.dirname(page)
       dir  = '' if dir == '.'
 
-      if name =~ %r/^_/
-        page = ::File.join(::Webby.site.content_dir, dir, name)
+      if tmpl.pathmap('%n') =~ %r/^_/
+        page = ::File.join(::Webby.site.content_dir, dir, '_'+name)
         page << '.' << (ext.empty? ? 'txt' : ext)
       elsif ::Webby.site.create_mode == 'directory' and name != 'index'
         page = ::File.join(::Webby.site.content_dir, dir, name, 'index')
