@@ -27,7 +27,9 @@ filter:
                  :in_directory => 'blog',
                  :recursive => true,
                  :sort_by => 'mtime',
-                 :reverse => true).each do |article| %>
+                 :reverse => true).each do |article|
+    next if article == @page
+  %>
   <entry>
     <title><%%= h(article.title) %></title>
     <link href="<%%= article.url %>" />
