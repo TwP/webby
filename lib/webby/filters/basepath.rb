@@ -37,13 +37,15 @@ module Filters
 class BasePath
 
   # call-seq:
-  #    BasePath.new( html )
+  #    BasePath.new( html, mode )
   #
   # Creates a new BasePath filter that will operate on the given _html_
-  # string.
+  # string. The _mode_ is either 'xml' or 'html' and determines how Hpricot
+  # will handle the parsing of the input string.
   #
-  def initialize( str )
+  def initialize( str, mode )
     @str = str
+    @mode = mode.downcase.to_sym
   end
 
   # call-seq:
@@ -64,7 +66,7 @@ class BasePath
   #     <a href="/some/other/directory/link/to/another/page.html">Page</a>
   #
   def filter
-    doc = Hpricot(@str)
+    doc = @mode == :xml ? Hpricot.XML(@str) : Hpricot(@str)
     base_path = ::Webby.site.base
     attr_rgxp = %r/\[@(\w+)\]$/o
     sub_rgxp = %r/\A(?=\/)/o
@@ -87,7 +89,7 @@ end  # class BasePath
 # Rewrite base URIs in the input HTML text.
 #
 register :basepath do |input, cursor|
-  if ::Webby.site.base then BasePath.new(input).filter
+  if ::Webby.site.base then BasePath.new(input, cursor.page.extension).filter
   else input end
 end
 
