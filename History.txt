@@ -1,4 +1,4 @@
-== 0.8.3 / 2008-03-
+== 0.8.3 / 2008-04-
 
 * 1 major enhancement
   - Added blogging support
@@ -7,7 +7,7 @@
   - Added locals support for page templates
   - Updated atom feed generation template
   - Partials now support local variables when rendering
-* 2 bug fix
+* 2 bug fixes
   - Fixed reference to an non-existent Error class
   - Basepath filter now handles XML files properly
 

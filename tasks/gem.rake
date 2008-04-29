@@ -99,7 +99,7 @@ namespace :gem do
   task :uninstall do
     installed_list = Gem.source_index.find_name(PROJ.name)
     if installed_list and installed_list.collect { |s| s.version.to_s}.include?(PROJ.version) then
-      sh "#{SUDO} #{GEM} uninstall -v '#{PROJ.version}' -I -x #{PROJ.name}"
+      sh "#{SUDO} #{GEM} uninstall --version '#{PROJ.version}' --ignore-dependencies --executables #{PROJ.name}"
     end
   end
 

@@ -54,7 +54,8 @@ module Webby
       :heel_port => 4331,
 
       # Items used to deploy the website
-      :host       => 'user@hostname.tld',
+      :user       => ENV['USER'] || ENV['USERNAME'],
+      :host       => 'example.com',
       :remote_dir => '/not/a/valid/dir',
       :rsync_args => %w(-av --delete),
 

@@ -1,6 +1,8 @@
 
 namespace :blog do
 
+  # iterate over all the files in the "templates/blog" folder and create a
+  # rake task corresponding to each file found
   FileList["#{Webby.site.template_dir}/blog/*"].each do |template|
     next unless test(?f, template)
     name = template.pathmap('%n')
@@ -22,6 +24,7 @@ namespace :blog do
     end
   end  # each
 
+  # this task is used to create the year index file (blog/2008/index.txt)
   task :create_year_index do |t|
     # parse out information about the page to create
     _, _, dir = Webby::Builder.new_page_info(t)
@@ -42,6 +45,7 @@ namespace :blog do
     end
   end
 
+  # this task is used to create the month index file (blog/2008/04/index.txt)
   task :create_month_index do |t|
     # parse out information about the page to create
     _, _, dir = Webby::Builder.new_page_info(t)

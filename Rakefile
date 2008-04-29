@@ -15,7 +15,7 @@ PROJ.url = 'http://webby.rubyforge.org/'
 PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
 PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
-PROJ.release_name = 'Little Bugger'
+PROJ.release_name = 'Teetering Toddler'
 
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$)
 

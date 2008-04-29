@@ -4,7 +4,7 @@ if HAVE_BONES
 
 desc "Enumerate all annotations"
 task :notes do |t|
-  id = if ARGV.length > 1
+  id = if t.application.top_level_tasks.length > 1
     t.application.top_level_tasks.slice!(1..-1).join(' ')
   end
   Bones::AnnotationExtractor.enumerate(
@@ -15,7 +15,7 @@ namespace :notes do
   PROJ.notes.tags.each do |tag|
     desc "Enumerate all #{tag} annotations"
     task tag.downcase.to_sym do |t|
-      id = if ARGV.length > 1
+      id = if t.application.top_level_tasks.length > 1
         t.application.top_level_tasks.slice!(1..-1).join(' ')
       end
       Bones::AnnotationExtractor.enumerate(PROJ, tag, id)
