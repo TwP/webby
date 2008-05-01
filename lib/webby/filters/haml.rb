@@ -1,5 +1,3 @@
-# $Id$
-
 try_require 'haml'
 
 # Render text via the Haml library

@@ -1,4 +1,3 @@
-# $Id$
 
 load 'tasks/setup.rb'
 

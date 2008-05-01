@@ -1,5 +1,3 @@
-# $Id$
-
 require 'yaml'
 
 module Webby::Resources

@@ -1,5 +1,3 @@
-# $Id$
-
 require 'fileutils'
 require 'tempfile'
 

@@ -1,5 +1,3 @@
-# $Id$
-
 require 'find'
 require 'fileutils'
 require 'erb'

@@ -1,5 +1,3 @@
-# $Id$
-
 require 'erb'
 
 # Render text via ERB using the built in ERB library.

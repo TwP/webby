@@ -1,5 +1,3 @@
-# $Id$
-
 try_require 'redcloth'
 
 # Render text via textile using the RedCloth library.

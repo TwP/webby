@@ -1,5 +1,3 @@
-# $Id$
-
 # :stopdoc:
 # Skeleton module for the 'mktemp' routine.
 #

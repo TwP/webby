@@ -1,5 +1,3 @@
-# $Id$
-
 if try_require 'coderay'
 require 'enumerator'
 

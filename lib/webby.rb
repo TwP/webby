@@ -1,5 +1,3 @@
-# $Id$
-
 # Equivalent to a header guard in C/C++
 # Used to prevent the spec helper from being loaded more than once
 unless defined? ::Webby

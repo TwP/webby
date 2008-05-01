@@ -1,5 +1,3 @@
-# $Id$
-
 try_require 'sass'
 
 # Render text via the Sass library (part of Haml)

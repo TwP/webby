@@ -1,5 +1,3 @@
-# $Id$
-
 unless defined? Webby::Resources::Resource
 
 module Webby::Resources

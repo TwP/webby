@@ -1,5 +1,3 @@
-# $Id$
-
 try_require 'bluecloth'
 
 # Render text via markdown using the BlueCloth library.

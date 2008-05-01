@@ -1,5 +1,3 @@
-# $Id$
-
 # Equivalent to a header guard in C/C++
 # Used to prevent the spec helper from being loaded more than once
 unless defined? WEBBY_SPEC_HELPER
@@ -9,8 +7,7 @@ require 'rubygems'
 require 'fileutils'
 
 require File.expand_path(
-    File.join(File.dirname(__FILE__), '..', 'lib', 'webby'))
-
+    File.join(File.dirname(__FILE__), %w[.. lib webby]))
 
 end  # unless defined?
 

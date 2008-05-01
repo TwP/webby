@@ -1,5 +1,3 @@
-# $Id$
-
 module Webby::Resources
 
   class << self

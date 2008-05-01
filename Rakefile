@@ -5,7 +5,7 @@ load 'tasks/setup.rb'
 ensure_in_path 'lib'
 require 'webby'
 
-task :default => 'spec:run'
+task :default => 'spec:specdoc'
 
 PROJ.name = 'webby'
 PROJ.summary = 'static website creation and management'
@@ -17,6 +17,7 @@ PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
 PROJ.release_name = 'Teetering Toddler'
 
+PROJ.ruby_opts = %w[-W0]
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$)
 
 PROJ.rdoc.dir = 'doc/rdoc'

@@ -1,5 +1,3 @@
-# $Id$
-
 module Webby::Resources
 
 # A rudimentary "database" for holding resource objects and finding them.

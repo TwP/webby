@@ -1,5 +1,3 @@
-# $Id$
-
 require Webby.libpath(*%w[webby renderer])
 
 module Webby

@@ -1,5 +1,3 @@
-# $Id$
-
 require 'rbconfig'
 require 'thread'
 require 'tempfile'

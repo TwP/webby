@@ -13,7 +13,7 @@ namespace :deploy do
   desc 'Deploy to the server using ssh'
   task :ssh do
     Rake::SshDirPublisher.new(
-        SITE.host, SITE.remote_dir, SITE.output_dir
+        "#{SITE.user}@#{SITE.host}", SITE.remote_dir, SITE.output_dir
     ).upload
   end
 

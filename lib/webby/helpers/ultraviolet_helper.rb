@@ -1,5 +1,3 @@
-# $Id$
-
 # This code was provided by Guillaume Carbonneau -- http://radr.ca/
 # Many thanks for his support of Webby!
 

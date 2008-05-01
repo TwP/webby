@@ -1,5 +1,3 @@
-# $Id$
-
 # :stopdoc:
 module Enumerable
   def injecting( initial )

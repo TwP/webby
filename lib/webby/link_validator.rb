@@ -1,5 +1,3 @@
-# $Id$
-
 require 'hpricot'
 require 'open-uri'
 

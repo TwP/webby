@@ -1,5 +1,3 @@
-# $Id$
-
 require 'erb'
 require 'set'
 

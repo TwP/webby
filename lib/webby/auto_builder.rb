@@ -1,5 +1,3 @@
-# $Id$
-
 require 'directory_watcher'
 
 module Webby
