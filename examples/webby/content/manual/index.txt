@@ -338,6 +338,20 @@ p(last). Options are passed to the sass filter by setting the "sass_options" in 
 The @haml@ gem must be installed on your system in order to use the haml filter or the sass filter.
 </div>
 
+h3. Outline
+
+The Outline filter is used to insert outline numbering into HTML heading tags (h1, h2, h3, etc.) and to generate a table of contents based on the heading tags. The table of contents is inserted into the page at the location of the @<toc />@ tag. If there is no @<toc />@ tag, then a table of contents will not be created but outline numbering will still take place.
+
+If a table of contents is desired without outline numbers being inserted into the heading tags, this can be specified in the attibutes of the @<toc />@ tag itself.
+
+<pre>
+<toc numbering="off" />
+</pre>
+
+This will generate a table of contents, but not insert outline numbering into the heading tags. The full list of "TOC attributes":/rdoc/classes/Webby/Filters/Outline.html can be found in the source documentation.
+
+The Outline filter will only work on valid HTML or XHTML pages. Therefore it should be used after any markup langauge filters (textile, markdown, etc.).
+
 h3. BasePath
 
 The basepath filter is used to rewrite the base path location for all URLs in a page. This is useful for the times when the publish location of the website is no at the root of the web server  --  @http://your.website.com/path/to/your/site@ for example. This allows pages and resources (images, javascript, stylesheets, etc.) to be referenced from the root of the Webby web server for easy development, but the paths of these resources can easily be changed by the basepath filter when the website is being deployed.

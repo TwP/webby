@@ -22,6 +22,49 @@ module Filters
 # it should be used after any markup langauge filters (textile, markdown,
 # etc.).
 #
+# The following attributes can be specified in the <toc /> tag itself to
+# control how outline numbering is performed by the filter. The attributes
+# can be used in combination with one another.
+#
+# === numbering
+#
+# If set to "off", this will prevent numbers from being inserted into the
+# page. The default is "on".
+#
+#    <toc numbering="off" />
+#
+# === numbering_start
+#
+# This is the number to start with when inserting outline numbers into a
+# page. The default is 1.
+#
+#    <toc numbering_start="3" />
+#
+# === toc_style
+#
+# The style of the Table of Contents list to generated. This will be
+# either "ol" for an ordered list or "ul" for an unordered list. The
+# default is an ordered list.
+#
+#    <toc toc_style="ul" />
+#
+# === toc_range
+#
+# This limits the numbering to only a subset of the HTML heading tags. The
+# defaul is to number all the heading tags.
+#
+#    <toc toc_range="h1-h3" />
+#
+# In this example, only the heading tags h1, h2, and h3 will be numbered
+# and included in the table of contents listing.
+#
+# ==== Example
+#
+# Generate a table of contents using an unordered list, starting with the
+# number 2, and only numbering heading levels 2, 3, and 4.
+#
+#    <toc numbering_start="2" toc_style="ul" toc_range="h2-h4" />
+#
 class Outline
   include ERB::Util
 
