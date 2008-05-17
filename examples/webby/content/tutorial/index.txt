@@ -72,7 +72,7 @@ The content of this page is not HTML, but it ends up that way. How? Webby uses _
 
 The erb filter (erb stands for "embedded Ruby") allows Webby to process Ruby statements found in the page text and to substitute the output of those Ruby statements back into the page text. The Ruby statements appear between @<%= ruby_code %>@ delimiters. The meta-data found at the top of the page is made available through the @@page@ object. You can see from the index.txt file that the page title, "Home Page", will be substituted on the first line.
 
-The textile filter operates on all page text. It is a human readable markup that gets converted into HTML. For example, the line <notextile><code>h3.&nbsp;Litora&nbsp;Sociis</code></notextile> will be converted into @<h3>Litora Sociis</h3>@ by the textile filter. It is a powerful markup language that simplifies web publishing. 
+The textile filter operates on all page text. It is a human readable markup that gets converted into HTML. For example, the line <notextile><code>h2.&nbsp;Litora&nbsp;Sociis</code></notextile> will be converted into @<h2>Litora Sociis</h2>@ by the textile filter. It is a powerful markup language that simplifies web publishing. 
 
 Okay, back to our regularly scheduled page changes. Go ahead and change the title of the page in the meta-data. Then run rake again.
 
