@@ -49,6 +49,7 @@ ANN
 depend_on 'directory_watcher'
 depend_on 'heel'
 depend_on 'hpricot'
+depend_on 'htmlentities'
 depend_on 'logging'
 depend_on 'rake'
 depend_on 'rspec'

@@ -9,9 +9,7 @@ Webby works by combining the contents of a *page* with a *layout* to produce HTM
 
 Install Webby and try it out!
 
-<pre>
-sudo gem install webby
-</pre>
+  sudo gem install webby
 
 h2. Features
 
@@ -29,13 +27,11 @@ h2. But Wait! There's More!
 
 Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via "heel":http://copiousfreetime.rubyforge.org/heel/, a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
 
-<pre>
-$ rake autobuild
-heel --root output --daemonize
-[10:21:26]  INFO: starting autobuild (Ctrl-C to stop)
-[10:21:26]  INFO: creating output/index.html
-[10:22:57]  INFO: creating output/index.html
-</pre>
+  $ rake autobuild
+  heel --root output --daemonize
+  [10:21:26]  INFO: starting autobuild (Ctrl-C to stop)
+  [10:21:26]  INFO: creating output/index.html
+  [10:22:57]  INFO: creating output/index.html
 
 Webby is not limited to producing HTML. By no means! Do you ever get tired of repeating the same color code *#D3C4A2* in your CSS files? Webby can help. Need some customized JavaScript for your website. Webby can help. Anytime you find yourself repeating the same bit of text over and over, then you should be using Webby.
 
