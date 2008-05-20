@@ -31,15 +31,8 @@ module CodeRayHelper
   def coderay( *args, &block )
     opts = args.last.instance_of?(Hash) ? args.pop : {}
 
-    buffer = eval('_erbout', block.binding)
-    pos = buffer.length
-    block.call(*args)
-
-    text = buffer[pos..-1]
-    if text.empty?
-      buffer[pos..-1] = ''
-      return
-    end
+    text = capture_erb(&block)
+    return if text.empty?
 
     defaults = ::Webby.site.coderay
     lang = opts.getopt(:lang, defaults[:lang]).to_sym
@@ -65,7 +58,7 @@ module CodeRayHelper
       out << "\n</notextile>"
     end
 
-    buffer[pos..-1] = out
+    concat_erb(out, block.binding)
     return
   end
 end  # module CodeRayHelper

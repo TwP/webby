@@ -2,7 +2,7 @@
 require ::File.join(::File.dirname(__FILE__), %w[.. .. spec_helper])
 
 # ---------------------------------------------------------------------------
-describe CaptureHelper do
+describe Webby::Helpers::CaptureHelper do
   CFN = ::File.expand_path(::File.join(::File.dirname(__FILE__), '..', '..', 'capture_for_yaml.txt'))
   CLINES = [
     "--- ",

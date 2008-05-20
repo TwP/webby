@@ -41,15 +41,8 @@ module TexImgHelper
     name = args.first
     raise 'TeX graphics must have a name' if name.nil?
 
-    buffer = eval('_erbout', block.binding)
-    pos = buffer.length
-    block.call(*args)
-
-    text = buffer[pos..-1].strip
-    if text.empty?
-      buffer[pos..-1] = ''
-      return
-    end
+    text = capture_erb(&block)
+    return if text.empty?
 
     defaults = ::Webby.site.tex2img
     path = opts.getopt(:path, defaults[:path])
@@ -128,7 +121,7 @@ module TexImgHelper
       out << "\n</notextile>"
     end
 
-    buffer[pos..-1] = out
+    concat_erb(out, block.binding)
     return
   end
 end  # module TexImgHelper

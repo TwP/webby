@@ -62,24 +62,18 @@ module GraphvizHelper
   def graphviz( *args, &block )
     opts = args.last.instance_of?(Hash) ? args.pop : {}
 
+    text = capture_erb(&block)
+    return if text.empty?
+
     # create a temporary file for holding any error messages
     # from the graphviz program
     err = Tempfile.new('graphviz_err')
     err.close
 
-    buffer = eval('_erbout', block.binding)
-    pos = buffer.length
-    block.call(*args)
-
     defaults = ::Webby.site.graphviz
     path = opts.getopt(:path, defaults[:path])
     cmd  = opts.getopt(:cmd, defaults[:cmd])
     type = opts.getopt(:type, defaults[:type])
-    text = buffer[pos..-1].strip
-    if text.empty?
-      buffer[pos..-1] = ''
-      return
-    end
 
     # pull the name of the graph|digraph out of the DOT script
     name = text.match(%r/\A\s*(?:strict\s+)?(?:di)?graph\s+([A-Za-z_][A-Za-z0-9_]*)\s+\{/o)[1]
@@ -132,7 +126,7 @@ module GraphvizHelper
       out << "\n</notextile>"
     end
 
-    buffer[pos..-1] = out
+    concat_erb(out, block.binding)
     return
   end
 end  # module GraphvizHelper
