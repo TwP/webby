@@ -55,7 +55,7 @@ module Webby
       :user       => ENV['USER'] || ENV['USERNAME'],
       :host       => 'example.com',
       :remote_dir => '/not/a/valid/dir',
-      :rsync_args => %w(-av --delete),
+      :rsync_args => %w(-av),
 
       # Options passed to the 'tidy' program when the tidy filter is used
       :tidy_options => '-indent -wrap 80',

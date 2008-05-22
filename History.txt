@@ -1,15 +1,18 @@
-== 0.8.3 / 2008-04-
+== 0.8.3 / 2008-05-
 
-* 1 major enhancement
+* 2 major enhancements
   - Added blogging support
-* 4 minor enhancements
+  - Added S5 slide presentation support
+* 5 minor enhancements
   - Changed the arguments to the DB#find method
   - Added locals support for page templates
   - Updated atom feed generation template
   - Partials now support local variables when rendering
-* 2 bug fixes
+  - Added a custom Textile tag for syntax highlighting of source code
+* 3 bug fixes
   - Fixed reference to an non-existent Error class
   - Basepath filter now handles XML files properly
+  - Removed the "--delete" flag from the rsync options [Denis Defreyne]
 
 == 0.8.2 / 2008-03-12
 
