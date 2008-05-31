@@ -94,17 +94,7 @@ class Renderer
   # Webby::Resources::DB#find method for more information.
   #
   def render_partial( part, opts = {} )
-    part = case part
-      when String
-        fn = '_' + part
-        p = Resources.partials.find(
-            :filename => fn, :in_directory => @page.dir ) rescue nil
-        p ||= Resources.partials.find(:filename => fn)
-        raise ::Webby::Error, "could not find partial '#{part}'" if p.nil?
-        p
-      when ::Webby::Resources::Partial
-        part
-      else raise ::Webby::Error, "expecting a partial or a partial name" end
+    part = _find_partial(part)
 
     _track_rendering(part.path) {
       _configure_locals(opts[:locals])
@@ -142,9 +132,6 @@ class Renderer
   def get_binding
     @_bindings.last
   end
-
-
-  private
 
   # call-seq:
   #    _layout_page    => string
@@ -259,6 +246,43 @@ class Renderer
       definition = "#{k} = Thread.current[:value]"
       eval(definition, get_binding)
     end
+  end
+
+  # Attempts to locate a partial by name. The search starts in the directory
+  # of the current page being rendered. If the partial is not found in the
+  # current directory, the search starts again at the root of the content
+  # folder.
+  #
+  # Raies a Webby::Error if the partial could not be found.
+  #
+  def _find_partial( part )
+    case part
+    when String
+      fn = '_' + part
+      p = Resources.partials.find(
+          :filename => fn, :in_directory => @page.dir ) rescue nil
+      p ||= Resources.partials.find(:filename => fn)
+      raise ::Webby::Error, "could not find partial '#{part}'" if p.nil?
+      p
+    when ::Webby::Resources::Partial
+      part
+    else raise ::Webby::Error, "expecting a partial or a partial name" end
+  end
+
+  # This method will put filter guards around the given input string. This
+  # will protect the string from being processed by any remaining filters
+  # (specifically the textile filter).
+  #
+  # The string is returned unchanged if there are no remaining filters to
+  # guard against.
+  #
+  def _guard( str )
+    return str unless @_cursor
+
+    if @_cursor.remaining_filters.include? 'textile'
+      str = "<notextile>\n%s\n</notextile>" % str
+    end
+    str
   end
 
   # Returns the binding in the scope of this Renderer object.

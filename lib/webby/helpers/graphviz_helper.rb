@@ -119,12 +119,8 @@ module GraphvizHelper
     IO.popen(cmd, 'w') {|io| io.write text}
     GraphvizHelper.error_check(err)
 
-    # see if we need to put some guards around the output
-    # (specifically for textile)
-    if @_cursor.remaining_filters.include? 'textile'
-      out.insert 0, "<notextile>\n"
-      out << "\n</notextile>"
-    end
+    # put some guards around the output (specifically for textile)
+    out = _guard(out)
 
     concat_erb(out, block.binding)
     return
