@@ -189,11 +189,12 @@ end
 <%% end -%>
 </pre>
 
-code. {:lang => 'ruby', :line_numbers => true, :theme => 'twilight'}
-  # Initializer for the class.
-  def initialize( string )
-    @str = string
-  end
+<% uv :lang => "ruby", :line_numbers => true, :theme => 'twilight' do -%>
+# Initializer for the class.
+def initialize( string )
+  @str = string
+end
+<% end -%>
 
 
 h3. Rake Tasks
