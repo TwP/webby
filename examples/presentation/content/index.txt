@@ -44,7 +44,7 @@ h1. Title of the Third Slide
 
 This code comes from a partial
 
-<%= render_partial('sample_code') %>
+<%= render_partial 'sample_code', :guard => true %>
 
 
 h1. Title of the Fourth Slide

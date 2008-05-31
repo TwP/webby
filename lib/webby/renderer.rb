@@ -96,10 +96,15 @@ class Renderer
   def render_partial( part, opts = {} )
     part = _find_partial(part)
 
-    _track_rendering(part.path) {
+    str = _track_rendering(part.path) {
       _configure_locals(opts[:locals])
       Filters.process(self, part, ::Webby::Resources::File.read(part.path))
     }
+
+    # TODO: add documentation / examples for the guard option
+
+    str = _guard(str) if opts[:guard]
+    str
   end
 
   # call-seq:
@@ -256,6 +261,9 @@ class Renderer
   # Raies a Webby::Error if the partial could not be found.
   #
   def _find_partial( part )
+
+    # FIXME: this won't work for partial names with paths
+
     case part
     when String
       fn = '_' + part
