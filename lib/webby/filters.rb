@@ -42,9 +42,11 @@ module Filters
         @filters = Array(page.filter)
         @log = Logging::Logger[Webby::Renderer]
         @processed = 0
+        @prev_cursor = nil
       end
       
       def start_for(input)
+        @prev_cursor = @renderer.instance_variable_get(:@_cursor)
         @renderer.instance_variable_set(:@_cursor, self)
         filters.inject(input) do |result, filter|
           handler = Filters[filter]
@@ -52,7 +54,7 @@ module Filters
           handle(filter, handler, *args)
         end
       ensure
-        @renderer.instance_variable_set(:@_cursor, nil)
+        @renderer.instance_variable_set(:@_cursor, @prev_cursor)
       end
       
       # The list of filters yet to be processed
