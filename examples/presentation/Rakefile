@@ -1,0 +1,14 @@
+
+load 'tasks/setup.rb'
+
+task :default => :build
+
+desc 'deploy the site to the webserver'
+task :deploy => [:build, 'deploy:rsync']
+
+task :autobuild => :growl
+
+SITE.uv[:theme] = 'twilight'
+SITE.uv[:line_numbers] = false
+
+# EOF
