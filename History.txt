@@ -9,10 +9,11 @@
   - Updated atom feed generation template
   - Partials now support local variables when rendering
   - Added a custom Textile tag for syntax highlighting of source code
-* 3 bug fixes
+* 4 bug fixes
   - Fixed reference to an non-existent Error class
   - Basepath filter now handles XML files properly
   - Removed the "--delete" flag from the rsync options [Denis Defreyne]
+  - Fixed a nil cursor bug in the rendering filter stack
 
 == 0.8.2 / 2008-03-12
 
