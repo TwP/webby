@@ -63,6 +63,7 @@ class Renderer
     @config = ::Webby.site
 
     @_bindings = []
+    @_content_for = {}
     @log = Logging::Logger[self]
   end
 
