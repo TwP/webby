@@ -116,8 +116,10 @@ class DB
     # figure out which directories to search through and whether to recurse
     # into directories or not
     search = if (dir = opts.delete(:in_directory))
+      dir = dir.sub(%r/^\//, '')
       strategy = if opts.delete(:recursive)
-        lambda { |key| key =~ %r/^#{Regexp.escape(dir)}(?:\/|$)/ }
+        rgxp = dir.empty? ? '.*' : Regexp.escape(dir)
+        lambda { |key| key =~ %r/^#{rgxp}(\/.*)?$/ }
       else
         lambda { |key| key == dir }
       end
