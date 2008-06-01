@@ -253,23 +253,24 @@ class Renderer
     end
   end
 
-  # Attempts to locate a partial by name. The search starts in the directory
-  # of the current page being rendered. If the partial is not found in the
-  # current directory, the search starts again at the root of the content
-  # folder.
+  # Attempts to locate a partial by name. If only the partial name is given,
+  # then the current directory of the page being rendered is searched for
+  # the partial. If a full path is given, then the partial is searched for
+  # in that directory.
   #
   # Raies a Webby::Error if the partial could not be found.
   #
   def _find_partial( part )
-
-    # FIXME: this won't work for partial names with paths
-
     case part
     when String
-      fn = '_' + part
+      part_dir = ::File.dirname(part)
+      part_dir = @page.dir if part_dir == '.'
+
+      part_fn = ::File.basename(part)
+      part_fn = '_' + part_fn unless part_fn =~ %r/^_/
+
       p = Resources.partials.find(
-          :filename => fn, :in_directory => @page.dir ) rescue nil
-      p ||= Resources.partials.find(:filename => fn)
+          :filename => part_fn, :in_directory => part_dir ) rescue nil
       raise ::Webby::Error, "could not find partial '#{part}'" if p.nil?
       p
     when ::Webby::Resources::Partial
