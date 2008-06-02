@@ -1,0 +1,40 @@
+---
+title:      <%= title %>
+created_at: <%= Time.now.to_y %>
+author:     You
+company:    Company
+copyright:  Creative Commons
+filter:
+  - erb
+  - textile
+  - slides
+layout: presentation
+---
+h1. Presentation Title
+
+Clever introductory text that will grab the audience's attention.
+
+
+h1. Title of the First Slide
+
+A little more build up before really getting into the meat of it.
+
+
+h1. Title of the Second Slide
+
+Finally, some code!
+
+<%% uv :lang => 'ruby', :line_numbers => false do -%>
+class EnglishMajor
+  def supercilious
+    'behaving or looking as though one thinks one is superior to others'
+  end
+end
+<%% end -%>
+
+
+h1. The Final Slide
+
+And that about sums it up!
+
+Thanks for visiting

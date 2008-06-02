@@ -49,7 +49,7 @@ This code comes from a partial
 
 h1. Title of the Fourth Slide
 
-The quadratic equation is used to solve for the two roots of the quadratic formula.
+A quadratic equation with real or complex coefficients has two (not necessarily distinct) solutions, called roots, which may or may not be real, given by the quadratic formula:
 
 <% tex2img 'quadratic', :path => 'images', :alt => 'quadratic', :resolution => '300x300' do -%>
 x = \frac{-b\pm\sqrt[]{b^2-4ac}}{2a}

@@ -68,21 +68,22 @@ class Renderer
   end
 
   # call-seq:
-  #    render( resource, opts = {} )    => string
+  #    render( resource = nil, opts = {} )    => string
   #
-  # TODO: finish documenting this
+  # Render the given resource (a page or a partial) and return the results
+  # as a string. If a resource is not given, then the options hash should
+  # contain the name of a partial to render (:partial => 'name').
   #
-  # Render the given _partial_ into the current page. The _partial_ can
-  # either be the name of the partial to render or a Partial object.
+  # When a partial name is given, the partial is found by looking in the
+  # directory of the current page being rendered. Otherwise, the full path
+  # to the partial can be given.
   #
-  # In the former case, the partial is found by first looking in the
-  # directory of the current for a partial of the same name. Failing that,
-  # the search is expanded to include all directories in the site. The first
-  # partial with a matching name is returned.
+  # If a :guard option is given as true, then the resulting string will be
+  # protected from processing by subsequent filters. Currently this only
+  # protects against the textile filter.
   #
-  # In the latter case, Partial objects can be found by using the +find+
-  # method of the <tt>@partials</tt> database hash. Please refer to
-  # Webby::Resources::DB#find method for more information.
+  # When rendering partials, local variables can be passed to the partial by
+  # setting them in hash passed as the :locals option.
   #
   # ==== Options
   # :partial<String>::
@@ -95,6 +96,19 @@ class Renderer
   # 
   # ==== Returns
   # A string that is the rendered page or partial.
+  #
+  # ==== Examples
+  #    # render the partial "foo" using the given local variables
+  #    render( :partial => "foo", :locals => {:bar => "value for bar"} )
+  #
+  #    # find another page and render it into this page and protect the
+  #    # resulting contents from further filters
+  #    page = @pages.find( :title => "Chicken Coop" )
+  #    render( page, :guard => true )
+  #
+  #    # find a partial and render it using the given local variables
+  #    partial = @partials.find( :filename => "foo", :in_directory => "/path" )
+  #    render( partial, :locals => {:baz => "baztastic"} )
   #
   def render( *args )
     opts = Hash === args.last ? args.pop : {}
