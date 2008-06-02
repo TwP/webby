@@ -68,19 +68,9 @@ class Renderer
   end
 
   # call-seq:
-  #    render_page    => string
+  #    render( resource, opts = {} )    => string
   #
-  # Apply the desired filters to the page. The filters to apply are
-  # determined from the page's meta-data.
-  #
-  def render_page
-    _track_rendering(@page.path) {
-      Filters.process(self, @page, ::Webby::Resources::File.read(@page.path))
-    }
-  end
-
-  # call-seq:
-  #    render_partial( partial, :locals => {} )    => string
+  # TODO: finish documenting this
   #
   # Render the given _partial_ into the current page. The _partial_ can
   # either be the name of the partial to render or a Partial object.
@@ -94,18 +84,56 @@ class Renderer
   # method of the <tt>@partials</tt> database hash. Please refer to
   # Webby::Resources::DB#find method for more information.
   #
-  def render_partial( part, opts = {} )
-    part = _find_partial(part)
+  # ==== Options
+  # :partial<String>::
+  #   The partial to render
+  # :locals<Hash>::
+  #   Locals values to define when rendering a partial
+  # :guard<Boolean>::
+  #   Prevents the resulting string from being processed by subsequent
+  #   filters (only textile for now)
+  # 
+  # ==== Returns
+  # A string that is the rendered page or partial.
+  #
+  def render( *args )
+    opts = Hash === args.last ? args.pop : {}
+    resource = args.first
+    resource = _find_partial(opts[:partial]) if resource.nil?
 
-    str = _track_rendering(part.path) {
-      _configure_locals(opts[:locals])
-      Filters.process(self, part, ::Webby::Resources::File.read(part.path))
-    }
-
-    # TODO: add documentation / examples for the guard option
+    str = case resource
+      when Resources::Page
+        ::Webby::Renderer.new(resource)._render_page
+      when Resources::Partial
+        _render_partial(resource, opts)
+      else
+        raise ::Webby::Error, "expecting a page or a partial but got '#{resource.class.name}'"
+      end
 
     str = _guard(str) if opts[:guard]
     str
+  end
+
+  # call-seq:
+  #    render_page    => string
+  #
+  # This method is being deprecated. It is being made internal to the
+  # framework and really shouldn't be used anymore.
+  #
+  def render_page
+    Webby.deprecated "render_page", "this method is being made internal to the framework"
+    _render_page
+  end
+
+  # call-seq:
+  #    render_partial( partial, :locals => {} )    => string
+  #
+  # This method is being deprecated. Please use the +render+ method instead.
+  #
+  def render_partial( part, opts = {} )
+    Webby.deprecated "render_partial", "it is being replaced by the Renderer#render() method"
+    opts[:partial] = part
+    render opts
   end
 
   # call-seq:
@@ -140,6 +168,32 @@ class Renderer
   end
 
   # call-seq:
+  #    _render_page    => string
+  #
+  # Apply the desired filters to the page. The filters to apply are
+  # determined from the page's meta-data.
+  #
+  def _render_page
+    _track_rendering(@page.path) {
+      Filters.process(self, @page, ::Webby::Resources::File.read(@page.path))
+    }
+  end
+
+  # call-seq:
+  #    _render_partial( partial, :locals => {} )    => string
+  #
+  # Render the given _partial_ into the current page. The :locals are a hash
+  # of key / value pairs that will be set as local variables in the scope of
+  # the partial when it is rendered.
+  #
+  def _render_partial( part, opts = {} )
+    _track_rendering(part.path) {
+      _configure_locals(opts[:locals])
+      Filters.process(self, part, ::Webby::Resources::File.read(part.path))
+    }
+  end
+
+  # call-seq:
   #    _layout_page    => string
   #
   # Apply the desired filters to the page and then render the filtered page
@@ -148,7 +202,7 @@ class Renderer
   # page's meta-data.
   #
   def _layout_page
-    @content = @page.render(self)
+    @content = _render_page
 
     _track_rendering(@page.path) {
       _render_layout_for(@page)

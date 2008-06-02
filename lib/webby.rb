@@ -181,6 +181,18 @@ module Webby
 
     Dir.glob(search_me).sort.each {|rb| require rb}
   end
+
+  # Prints a deprecation warning using the logger. The message states that
+  # the given method is being deprecated. An optional message can be give to
+  # -- somthing nice and fuzzy about a new method or why this one has to go
+  # away; sniff, we'll miss you little buddy.
+  #
+  def self.deprecated( method, message = nil )
+    msg = "'#{method}' has been deprecated"
+    msg << "\n\t#{message}" unless message.nil?
+    Logging::Logger['Webby'].warn msg
+  end
+
 end  # module Webby
 
 

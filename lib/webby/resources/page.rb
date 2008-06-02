@@ -30,16 +30,13 @@ class Page < Resource
   # call-seq:
   #    render   => string
   #
-  # Creates a new Webby::Renderer instance and uses that instance to render
-  # the page contents using the configured filter(s). The filter(s) to
-  # use is defined in the page's meta-data as the 'filter' key.
-  #
-  # Note, this only renders this page. The returned string does not include
-  # any layout rendering.
+  # This method is being deprecated. Please use the +Renderer#render+ method
+  # instead.
   #
   def render( renderer = nil )
+    Webby.deprecated "render", "it is being replaced by the Renderer#render() method"
     renderer ||= ::Webby::Renderer.new(self)
-    renderer.render_page
+    renderer._render_page
   end
 
   # call-seq
