@@ -57,6 +57,10 @@ module Webby
       :remote_dir => '/not/a/valid/dir',
       :rsync_args => %w(-av),
 
+      # Global options for HAML and SASS
+      :haml_options => {},
+      :sass_options => {},
+
       # Options passed to the 'tidy' program when the tidy filter is used
       :tidy_options => '-indent -wrap 80',
 
