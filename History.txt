@@ -1,19 +1,22 @@
-== 0.8.3 / 2008-05-
+== 0.8.3 / 2008-06-02
 
 * 2 major enhancements
   - Added blogging support
   - Added S5 slide presentation support
-* 5 minor enhancements
+* 6 minor enhancements
   - Changed the arguments to the DB#find method
   - Added locals support for page templates
   - Updated atom feed generation template
   - Partials now support local variables when rendering
-  - Added a custom Textile tag for syntax highlighting of source code
-* 4 bug fixes
+  - Can guard rendering results from processing by subsequent filters
+    (useful when rendering partials or embedding other pages)
+  - Support for "content_for" style captures [M@ McCray]
+* 5 bug fixes
   - Fixed reference to an non-existent Error class
   - Basepath filter now handles XML files properly
   - Removed the "--delete" flag from the rsync options [Denis Defreyne]
   - Fixed a nil cursor bug in the rendering filter stack
+  - Recursive find now works from the root content folder (bug 20281)
 
 == 0.8.2 / 2008-03-12
 

@@ -29,6 +29,17 @@ data/content/css/blueprint/screen.css
 data/content/css/coderay.css
 data/content/css/site.css
 data/content/index.txt
+data/content/s5/blank.gif
+data/content/s5/bodybg.gif
+data/content/s5/framing.css
+data/content/s5/iepngfix.htc
+data/content/s5/opera.css
+data/content/s5/outline.css
+data/content/s5/pretty.css
+data/content/s5/print.css
+data/content/s5/s5-core.css
+data/content/s5/slides.css
+data/content/s5/slides.js
 data/layouts/default.rhtml
 data/lib/breadcrumbs.rb
 data/tasks/blog.rake
@@ -42,6 +53,7 @@ data/tasks/validate.rake
 data/templates/_partial.erb
 data/templates/atom_feed.erb
 data/templates/page.erb
+data/templates/presentation.erb
 examples/presentation/Rakefile
 examples/presentation/content/_sample_code.txt
 examples/presentation/content/css/uv/twilight.css
