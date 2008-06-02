@@ -1,0 +1,13 @@
+---
+filter: erb
+---
+<%% uv :lang => 'ruby', :line_numbers => false, :theme => 'twilight' do -%>
+# This is a sample of Ruby code
+#
+class Object
+  def returning( obj, &block )
+    block.call obj
+    return obj
+  end
+end
+<%% end -%>

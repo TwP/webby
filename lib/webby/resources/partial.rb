@@ -8,7 +8,7 @@ module Webby::Resources
 # correspond directly to an output file.
 #
 # Partials can contain YAML meta-data at the top of the file. This
-# information is only used to determin the filters to apply to the
+# information is only used to determine the filters to apply to the
 # partial. If there is no meta-data, then the partial text is used "as is"
 # without any processing by the Webby rendering engine.
 #

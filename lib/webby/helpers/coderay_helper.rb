@@ -53,10 +53,8 @@ module CodeRayHelper
     out << ::CodeRay.scan(text, lang).html(cr_opts)
     out << '</pre></div>'
 
-    if @_cursor.remaining_filters.include? 'textile'
-      out.insert 0, "<notextile>\n"
-      out << "\n</notextile>"
-    end
+    # put some guards around the output (specifically for textile)
+    out = _guard(out)
 
     concat_erb(out, block.binding)
     return

@@ -69,6 +69,16 @@ class Resource
   end
 
   # call-seq:
+  #    resource[key]    => value or nil
+  #
+  # Returns the value associated with the given meta-data key. Key is
+  # usually a string.
+  #
+  def []( key )
+    @mdata[key]
+  end
+
+  # call-seq:
   #    method_missing( symbol [, *args, &block] )    => result
   #
   # Invoked by Ruby when a message is sent to the resource that it cannot

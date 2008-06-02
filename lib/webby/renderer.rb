@@ -63,53 +63,91 @@ class Renderer
     @config = ::Webby.site
 
     @_bindings = []
+    @_content_for = {}
     @log = Logging::Logger[self]
+  end
+
+  # call-seq:
+  #    render( resource = nil, opts = {} )    => string
+  #
+  # Render the given resource (a page or a partial) and return the results
+  # as a string. If a resource is not given, then the options hash should
+  # contain the name of a partial to render (:partial => 'name').
+  #
+  # When a partial name is given, the partial is found by looking in the
+  # directory of the current page being rendered. Otherwise, the full path
+  # to the partial can be given.
+  #
+  # If a :guard option is given as true, then the resulting string will be
+  # protected from processing by subsequent filters. Currently this only
+  # protects against the textile filter.
+  #
+  # When rendering partials, local variables can be passed to the partial by
+  # setting them in hash passed as the :locals option.
+  #
+  # ==== Options
+  # :partial<String>::
+  #   The partial to render
+  # :locals<Hash>::
+  #   Locals values to define when rendering a partial
+  # :guard<Boolean>::
+  #   Prevents the resulting string from being processed by subsequent
+  #   filters (only textile for now)
+  # 
+  # ==== Returns
+  # A string that is the rendered page or partial.
+  #
+  # ==== Examples
+  #    # render the partial "foo" using the given local variables
+  #    render( :partial => "foo", :locals => {:bar => "value for bar"} )
+  #
+  #    # find another page and render it into this page and protect the
+  #    # resulting contents from further filters
+  #    page = @pages.find( :title => "Chicken Coop" )
+  #    render( page, :guard => true )
+  #
+  #    # find a partial and render it using the given local variables
+  #    partial = @partials.find( :filename => "foo", :in_directory => "/path" )
+  #    render( partial, :locals => {:baz => "baztastic"} )
+  #
+  def render( *args )
+    opts = Hash === args.last ? args.pop : {}
+    resource = args.first
+    resource = _find_partial(opts[:partial]) if resource.nil?
+
+    str = case resource
+      when Resources::Page
+        ::Webby::Renderer.new(resource)._render_page
+      when Resources::Partial
+        _render_partial(resource, opts)
+      else
+        raise ::Webby::Error, "expecting a page or a partial but got '#{resource.class.name}'"
+      end
+
+    str = _guard(str) if opts[:guard]
+    str
   end
 
   # call-seq:
   #    render_page    => string
   #
-  # Apply the desired filters to the page. The filters to apply are
-  # determined from the page's meta-data.
+  # This method is being deprecated. It is being made internal to the
+  # framework and really shouldn't be used anymore.
   #
   def render_page
-    _track_rendering(@page.path) {
-      Filters.process(self, @page, ::Webby::Resources::File.read(@page.path))
-    }
+    Webby.deprecated "render_page", "this method is being made internal to the framework"
+    _render_page
   end
 
   # call-seq:
   #    render_partial( partial, :locals => {} )    => string
   #
-  # Render the given _partial_ into the current page. The _partial_ can
-  # either be the name of the partial to render or a Partial object.
-  #
-  # In the former case, the partial is found by first looking in the
-  # directory of the current for a partial of the same name. Failing that,
-  # the search is expanded to include all directories in the site. The first
-  # partial with a matching name is returned.
-  #
-  # In the latter case, Partial objects can be found by using the +find+
-  # method of the <tt>@partials</tt> database hash. Please refer to
-  # Webby::Resources::DB#find method for more information.
+  # This method is being deprecated. Please use the +render+ method instead.
   #
   def render_partial( part, opts = {} )
-    part = case part
-      when String
-        fn = '_' + part
-        p = Resources.partials.find(
-            :filename => fn, :in_directory => @page.dir ) rescue nil
-        p ||= Resources.partials.find(:filename => fn)
-        raise ::Webby::Error, "could not find partial '#{part}'" if p.nil?
-        p
-      when ::Webby::Resources::Partial
-        part
-      else raise ::Webby::Error, "expecting a partial or a partial name" end
-
-    _track_rendering(part.path) {
-      _configure_locals(opts[:locals])
-      Filters.process(self, part, ::Webby::Resources::File.read(part.path))
-    }
+    Webby.deprecated "render_partial", "it is being replaced by the Renderer#render() method"
+    opts[:partial] = part
+    render opts
   end
 
   # call-seq:
@@ -143,8 +181,31 @@ class Renderer
     @_bindings.last
   end
 
+  # call-seq:
+  #    _render_page    => string
+  #
+  # Apply the desired filters to the page. The filters to apply are
+  # determined from the page's meta-data.
+  #
+  def _render_page
+    _track_rendering(@page.path) {
+      Filters.process(self, @page, ::Webby::Resources::File.read(@page.path))
+    }
+  end
 
-  private
+  # call-seq:
+  #    _render_partial( partial, :locals => {} )    => string
+  #
+  # Render the given _partial_ into the current page. The :locals are a hash
+  # of key / value pairs that will be set as local variables in the scope of
+  # the partial when it is rendered.
+  #
+  def _render_partial( part, opts = {} )
+    _track_rendering(part.path) {
+      _configure_locals(opts[:locals])
+      Filters.process(self, part, ::Webby::Resources::File.read(part.path))
+    }
+  end
 
   # call-seq:
   #    _layout_page    => string
@@ -155,7 +216,7 @@ class Renderer
   # page's meta-data.
   #
   def _layout_page
-    @content = @page.render(self)
+    @content = _render_page
 
     _track_rendering(@page.path) {
       _render_layout_for(@page)
@@ -259,6 +320,47 @@ class Renderer
       definition = "#{k} = Thread.current[:value]"
       eval(definition, get_binding)
     end
+  end
+
+  # Attempts to locate a partial by name. If only the partial name is given,
+  # then the current directory of the page being rendered is searched for
+  # the partial. If a full path is given, then the partial is searched for
+  # in that directory.
+  #
+  # Raies a Webby::Error if the partial could not be found.
+  #
+  def _find_partial( part )
+    case part
+    when String
+      part_dir = ::File.dirname(part)
+      part_dir = @page.dir if part_dir == '.'
+
+      part_fn = ::File.basename(part)
+      part_fn = '_' + part_fn unless part_fn =~ %r/^_/
+
+      p = Resources.partials.find(
+          :filename => part_fn, :in_directory => part_dir ) rescue nil
+      raise ::Webby::Error, "could not find partial '#{part}'" if p.nil?
+      p
+    when ::Webby::Resources::Partial
+      part
+    else raise ::Webby::Error, "expecting a partial or a partial name" end
+  end
+
+  # This method will put filter guards around the given input string. This
+  # will protect the string from being processed by any remaining filters
+  # (specifically the textile filter).
+  #
+  # The string is returned unchanged if there are no remaining filters to
+  # guard against.
+  #
+  def _guard( str )
+    return str unless @_cursor
+
+    if @_cursor.remaining_filters.include? 'textile'
+      str = "<notextile>\n%s\n</notextile>" % str
+    end
+    str
   end
 
   # Returns the binding in the scope of this Renderer object.

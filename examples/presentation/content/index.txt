@@ -1,0 +1,63 @@
+---
+title:      Webby S5
+created_at: 2008-05-18 22:10:21.995012 -06:00
+author:     You
+company:    Company
+copyright:  Creative Commons
+filter:
+  - erb
+  - textile
+  - slides
+layout: presentation
+---
+h1. Webby S5 Generator
+
+Clever introductory text that will grab the audience's attention.
+
+
+h1. Title of the First Slide
+
+A little more build up before really getting into the meat of it.
+
+
+h1. Title of the Second Slide
+
+Finally, some code!
+
+<% uv :lang => "ragel", :theme => 'twilight' do -%>
+action dgt      { printf("DGT: %c\n", fc); }
+action dec      { printf("DEC: .\n"); }
+action exp      { printf("EXP: %c\n", fc); }
+action exp_sign { printf("SGN: %c\n", fc); }
+action number   { /*NUMBER*/ }
+
+number = (
+    [0-9]+ $dgt ( '.' @dec [0-9]+ $dgt )?
+    ( [eE] ( [+\-] $exp_sign )? [0-9]+ $exp )?
+) %number;
+
+main := ( number '\n' )*;
+<% end -%>
+
+
+h1. Title of the Third Slide
+
+This code comes from a partial
+
+<%= render :partial => 'sample_code', :guard => true %>
+
+
+h1. Title of the Fourth Slide
+
+A quadratic equation with real or complex coefficients has two (not necessarily distinct) solutions, called roots, which may or may not be real, given by the quadratic formula:
+
+<% tex2img 'quadratic', :path => 'images', :alt => 'quadratic', :resolution => '300x300' do -%>
+x = \frac{-b\pm\sqrt[]{b^2-4ac}}{2a}
+<% end -%>
+
+
+h1. The Final Slide
+
+And that about sums it up!
+
+Thanks for visiting

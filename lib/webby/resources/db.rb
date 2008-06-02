@@ -49,10 +49,10 @@ class DB
   # Iterate over each resource in the database and pass it to the given
   # block.
   #
-  def each( &b )
+  def each( &block )
     keys = @db.keys.sort
     keys.each do |k|
-      @db[k].sort.each(&b)
+      @db[k].sort.each(&block)
     end
     self
   end
@@ -83,14 +83,17 @@ class DB
   # on the limit. The method will return the first resource or all
   # resources, respectively, for which the block returns true.
   # 
-  # Options:
-  #    :in_directory => directory
-  #    :recursive    => true or false
-  #    :sort_by      => attribute
-  #    :reverse      => true or false
+  # ==== Options
+  # :in_directory<String>::
+  #   The directory to search.
+  # :recursive<Boolean>::
+  #   Whether or not to recurse into subdirectories
+  # :sort_by<Symbol>::
+  #   Sort results using the given attribute
+  # :reverse<Boolean>::
+  #   Reverse the order of the search results
   #
-  # Examples:
-  #
+  # ==== Examples
   #    # find the "index" resource in the "foo/bar" directory
   #    @pages.find( :filename => 'index', :in_directory => 'foo/bar' )
   #
@@ -116,8 +119,10 @@ class DB
     # figure out which directories to search through and whether to recurse
     # into directories or not
     search = if (dir = opts.delete(:in_directory))
+      dir = dir.sub(%r/^\//, '')
       strategy = if opts.delete(:recursive)
-        lambda { |key| key =~ %r/^#{Regexp.escape(dir)}(?:\/|$)/ }
+        rgxp = dir.empty? ? '.*' : Regexp.escape(dir)
+        lambda { |key| key =~ %r/^#{rgxp}(\/.*)?$/ }
       else
         lambda { |key| key == dir }
       end
@@ -171,10 +176,11 @@ class DB
   # resource. A sibling is any resource that is in the same directory as the
   # _page_.
   #
-  # Options include:
-  #
-  #    :sorty_by => 'attribute'
-  #    :reverse  => true
+  # ==== Options
+  # :sorty_by<Symbol>::
+  #   The attribute to sort by
+  # :reverse<Boolean>::
+  #   Reverse the order of the results
   #
   def siblings( page, opts = {} )
     ary = @db[page.dir].dup
@@ -194,10 +200,11 @@ class DB
   # resource. A child is any resource that exists in a subdirectory of the
   # page's directory.
   #
-  # Options include:
-  #
-  #    :sorty_by => 'attribute'
-  #    :reverse  => true
+  # ==== Options
+  # :sorty_by<Symbol>::
+  #   The attribute to sort by
+  # :reverse<Boolean>::
+  #   Reverse the order of the results
   #
   def children( page, opts = {} )
     rgxp = Regexp.new "\\A#{page.dir}/[^/]+"

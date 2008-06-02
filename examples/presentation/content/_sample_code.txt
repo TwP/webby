@@ -1,0 +1,10 @@
+---
+filter: erb
+---
+<% uv :lang => "ruby", :theme => 'twilight' do -%>
+class A
+  def method()
+    puts "in class #{self.class.name}"
+  end
+end
+<% end -%>
