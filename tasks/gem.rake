@@ -91,8 +91,11 @@ namespace :gem do
   end
 
   desc 'Install the gem'
-  task :install => [:clobber, :package] do
-    sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{PROJ.gem._spec.full_name}"
+  task :install => [:clobber, 'gem:package'] do
+    sh "#{SUDO} #{GEM} install --local pkg/#{PROJ.gem._spec.full_name}"
+
+    # use this version of the command for rubygems > 1.0.0
+    #sh "#{SUDO} #{GEM} install --no-update-sources pkg/#{PROJ.gem._spec.full_name}"
   end
 
   desc 'Uninstall the gem'
@@ -105,6 +108,11 @@ namespace :gem do
 
   desc 'Reinstall the gem'
   task :reinstall => [:uninstall, :install]
+
+  desc 'Cleanup the gem'
+  task :cleanup do
+    sh "#{SUDO} #{GEM} cleanup #{PROJ.gem._spec.name}"
+  end
 
 end  # namespace :gem
 
