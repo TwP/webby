@@ -15,7 +15,7 @@ PROJ.url = 'http://webby.rubyforge.org/'
 PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
 PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
-PROJ.release_name = 'TODO'
+PROJ.release_name = 'Forgetful Foobar'
 
 PROJ.ruby_opts = %w[-W0]
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$)
@@ -32,10 +32,6 @@ PROJ.ann.email[:server] = 'smtp.gmail.com'
 PROJ.ann.email[:port] = 587
 
 PROJ.ann.text = <<-ANN
-== FUN FACT
-
-TODO
-
 == POST SCRIPT
 
 Visit the Webby forum to chat with other Webby-Heads:

@@ -52,6 +52,9 @@ data/tasks/setup.rb
 data/tasks/validate.rake
 data/templates/_partial.erb
 data/templates/atom_feed.erb
+data/templates/blog/month.erb
+data/templates/blog/post.erb
+data/templates/blog/year.erb
 data/templates/page.erb
 data/templates/presentation.erb
 examples/presentation/Rakefile
