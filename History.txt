@@ -1,5 +1,8 @@
 == 0.9.0 / 2008-06-
 
+* 1 bug fix
+  - Better error message when an unkonwn filter is given
+
 == 0.8.4 / 2008-06-03
 
 * 1 minor improvement

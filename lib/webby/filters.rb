@@ -50,6 +50,8 @@ module Filters
         @renderer.instance_variable_set(:@_cursor, self)
         filters.inject(input) do |result, filter|
           handler = Filters[filter]
+          raise ::Webby::Error, "unknown filter '#{filter}'" if handler.nil?
+
           args = [result, self][0, handler.arity]
           handle(filter, handler, *args)
         end
