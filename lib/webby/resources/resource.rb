@@ -72,10 +72,20 @@ class Resource
   #    resource[key]    => value or nil
   #
   # Returns the value associated with the given meta-data key. Key is
-  # usually a string.
+  # converted into a string.
   #
   def []( key )
-    @mdata[key]
+    @mdata[key.to_s]
+  end
+
+  # call-seq:
+  #    resource[key] = value
+  #
+  # Sets the given meta-data key to the value. Key is converted into a
+  # string.
+  #
+  def []=( key, value )
+    @mdata[key.to_s] = value
   end
 
   # call-seq:
