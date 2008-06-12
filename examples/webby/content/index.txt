@@ -1,6 +1,6 @@
 --- 
 title:      Home
-created_at: Tue Aug 21 11:25:06 -0600 2007
+created_at: 2007-08-21 11:25:06.000000 -06:00
 filter:     textile
 --- 
 *Webby* is a fantastic little website management system. It would be called a _content management system_ if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.

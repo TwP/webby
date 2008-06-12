@@ -1,6 +1,6 @@
 --- 
 title:      Tutorial
-created_at: Tue Aug 21 17:02:40 -0600 2007
+created_at: 2007-08-21 17:02:40.000000 -06:00
 filter:     textile
 --- 
 h2. Require
