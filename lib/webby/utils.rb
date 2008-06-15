@@ -40,6 +40,10 @@ class String
       tr(" -", "__").
       downcase
   end
+
+  def /( path )
+    ::File.join(self, path)
+  end
 end
 
 class Time

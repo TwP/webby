@@ -159,7 +159,7 @@ module Webby
   # <tt>File.join</tt>.
   #
   def self.libpath( *args )
-    args.empty? ? LIBPATH : ::File.join(LIBPATH, *args)
+    args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
   end
 
   # Returns the path for Webby. If any arguments are given,
@@ -167,7 +167,7 @@ module Webby
   # <tt>File.join</tt>.
   #
   def self.path( *args )
-    args.empty? ? PATH : ::File.join(PATH, *args)
+    args.empty? ? PATH : ::File.join(PATH, args.flatten)
   end
 
   # call-seq:

@@ -142,7 +142,7 @@ class Main
     src = ::File.join(data, file)
     dst = ::File.join(site, file)
     test(?e, dst) ? updating(dst) : creating(dst)
-#    FileUtils.cp(src, dst)
+
     if WINDOWS then win_line_endings(src, dst)
     else FileUtils.cp(src, dst) end
   end
