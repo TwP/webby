@@ -72,6 +72,7 @@ class Builder
     #    Builder.new_page_info( task )    => [page, title, directory]
     #
     def new_page_info( task )
+      # TODO: modify this method to use the Webby.site struct
       return @new_page_info if defined? @new_page_info
 
       raise "Usage:  rake #{ARGV.first} path" unless ARGV.length > 1
