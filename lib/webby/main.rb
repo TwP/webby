@@ -72,6 +72,12 @@ class Main
       abort
     end
 
+    # Load the website tasks from the tasks folder
+    Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
+
+    # Load all the ruby files in the lib folder
+    Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require fn}
+
     # Capture the command line args for use by the Rake tasks
     args = Webby.site.args = OpenStruct.new(
       :raw => args,
@@ -79,16 +85,12 @@ class Main
     )
     args.dir = ::File.dirname(args.page)
     args.slug = ::File.basename(args.page)
-    # TODO: use Gruber's titlecase script here
-    args.title = args.slug
+
+    title = ::File.basename(args.raw.join(' '))
+    args.title = title.titlecase
 
     Object.const_set(:SITE, Webby.site)
 
-    # Load the website tasks from the tasks folder
-    Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
-
-    # Load all the ruby files in the lib folder
-    Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require fn}
   end
 
   def rake
@@ -115,6 +117,10 @@ class Main
 end  # class Main
 end  # module Webby
 
+# :stopdoc:
+# Monkey patches so that rake displays the correct application name in the
+# help messages.
+#
 class Rake::Application
   def display_prerequisites
     tasks.each do |t|
@@ -145,5 +151,6 @@ class Rake::Application
     end
   end
 end
+# :startdoc:
 
 # EOF

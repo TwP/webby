@@ -44,6 +44,11 @@ class String
   def /( path )
     ::File.join(self, path)
   end
+
+  def titlecase
+    # TODO: implement titlecase algorithm here
+    self
+  end
 end
 
 class Time
