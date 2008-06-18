@@ -112,7 +112,7 @@ class Outline
   # the table of contents -- "Get Fuzzy" in this example.
   #
   def filter
-    doc = Hpricot(@str)
+    doc = Hpricot.XML(@str)
 
     # extract directives from the "toc" tag
     toc_elem = doc.search('toc').first
