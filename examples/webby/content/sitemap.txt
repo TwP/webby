@@ -1,0 +1,31 @@
+---
+#
+# Define the following in your Rakefile or some
+# other location which will be accessed by tasks/setup.rb
+#
+# SITE.site_root = "http://webby.rubyforge.org"
+#
+extension: xml
+layout: nil
+index: false
+dirty: true
+filter:
+- erb
+---
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<% @pages.find(:in_directory => "/", :recursive => true) do |p|
+      next if p.created_at.nil?
+      next unless p['index'] || p['index'].nil?  -%>
+  <url>
+    <loc><%= SITE.site_root %><%= p.url %></loc>
+    <lastmod><%= p.mtime.xmlschema %></lastmod>
+<% if p['changefreq'] || SITE.changefreq -%>
+    <changefreq><%= p['changefreq'] || SITE.changefreq %></changefreq>
+<% end -%>
+<% if p['priority'] || SITE.priority -%>
+    <priority><%= p['priority'] || SITE.priority %></priority>
+<% end -%>
+  </url>
+<% end -%>
+</urlset>
