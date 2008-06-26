@@ -32,25 +32,6 @@ class Hash
   end
 end
 
-class String
-  def underscore
-    self.
-      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-      gsub(/([a-z\d])([A-Z])/,'\1_\2').
-      tr(" -", "__").
-      downcase
-  end
-
-  def /( path )
-    ::File.join(self, path)
-  end
-
-  def titlecase
-    # TODO: implement titlecase algorithm here
-    self
-  end
-end
-
 class Time
   def to_y
     self.to_yaml.slice(4..-1).strip

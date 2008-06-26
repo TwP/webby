@@ -23,7 +23,7 @@ describe Webby::Helpers::CaptureHelper do
   before :each do
     @renderman = Webby::Renderer.new(
                  Webby::Resources::Page.new(CFN))
-    @page_content = @renderman.render_page
+    @page_content = @renderman._render_page
   end
 
   after :all do

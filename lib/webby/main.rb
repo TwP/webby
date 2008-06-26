@@ -81,16 +81,13 @@ class Main
     # Capture the command line args for use by the Rake tasks
     args = Webby.site.args = OpenStruct.new(
       :raw => args,
-      :page => args.join('-')
+      :page => args.join('-').downcase
     )
     args.dir = ::File.dirname(args.page)
     args.slug = ::File.basename(args.page)
-
-    title = ::File.basename(args.raw.join(' '))
-    args.title = title.titlecase
+    args.title = ::File.basename(args.raw.join(' ')).titlecase
 
     Object.const_set(:SITE, Webby.site)
-
   end
 
   def rake

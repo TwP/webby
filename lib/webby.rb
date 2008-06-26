@@ -214,6 +214,7 @@ rescue LoadError
   false
 end
 
+Webby.require_all_libs_relative_to(__FILE__, ::File.join(%w[webby core_ext]))
 Webby.require_all_libs_relative_to(__FILE__)
 
 end  # unless defined?

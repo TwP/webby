@@ -110,6 +110,7 @@ examples/webby/templates/page.erb
 lib/webby.rb
 lib/webby/auto_builder.rb
 lib/webby/builder.rb
+lib/webby/core_ext/string.rb
 lib/webby/filters.rb
 lib/webby/filters/basepath.rb
 lib/webby/filters/erb.rb
@@ -120,6 +121,7 @@ lib/webby/filters/sass.rb
 lib/webby/filters/slides.rb
 lib/webby/filters/textile.rb
 lib/webby/filters/tidy.rb
+lib/webby/generator.rb
 lib/webby/helpers.rb
 lib/webby/helpers/capture_helper.rb
 lib/webby/helpers/coderay_helper.rb
@@ -145,11 +147,13 @@ lib/webby/stelan/spawner.rb
 lib/webby/utils.rb
 spec/spec.opts
 spec/spec_helper.rb
+spec/string_spec.rb
 spec/webby/helpers/capture_helper_spec.rb
 spec/webby/resources/file_spec.rb
 tasks/ann.rake
 tasks/bones.rake
 tasks/gem.rake
+tasks/git.rake
 tasks/manifest.rake
 tasks/notes.rake
 tasks/post_load.rake
