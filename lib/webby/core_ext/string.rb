@@ -9,8 +9,6 @@ class String
     ::File.join(self, path)
   end
 
-  # FIXME: doesn't work for iTunes or 'quoted strings'
-  #        and it probably doesn't work for possesives "SEC's"
   def titlecase
     swrgxp = self.class.small_words.join('|')
 

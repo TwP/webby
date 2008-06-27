@@ -1,13 +1,6 @@
-# :stopdoc:
-module Enumerable
-  def injecting( initial )
-    inject(initial) do |memo, obj|
-      yield(memo, obj); memo
-    end
-  end
-end
 
 class Hash
+
   def sanitize!
     h = self.injecting({}) do |h, (k, v)|
           h[k] = case v
@@ -30,13 +23,6 @@ class Hash
     self.each {|k,v| h[k.to_sym] = v}
     return h
   end
-end
-
-class Time
-  def to_y
-    self.to_yaml.slice(4..-1).strip
-  end
-end
-# :startdoc:
+end  # class Hash
 
 # EOF

@@ -1,6 +1,6 @@
 
 require ::File.expand_path(
-    ::File.join(::File.dirname(__FILE__), 'spec_helper'))
+    ::File.join(::File.dirname(__FILE__), %w[.. spec_helper]))
 
 describe String do
 
@@ -27,7 +27,12 @@ describe String do
           should == 'The Website example.com Is Used in Documentation'
     end
 
-    it "should always capitlize the first and last words of the title"
+    it "should always capitlize the first and last words of the title" do
+      'a little bit of'.titlecase.should == 'A Little Bit Of'
+      'iTunes is being released'.titlecase.should == 'iTunes Is Being Released'
+      %q("a quoted title if").titlecase.should == %q("A Quoted Title If")
+      %q(and if you do via?).titlecase.should == %q(And if You Do Via?)
+    end
 
     it "should caplitalize a small word after a colon" do
       %q(starting sub-phrase with a small word: a trick, perhaps?).titlecase.
@@ -40,8 +45,19 @@ describe String do
           should == %q(Sub-Phrase With a Small Word in Quotes: "A Trick, Perhaps?")
     end
 
-    it "should properly handle possesives and contractions"
-    it "should capitalize phrases inside quotations"
+    it "should properly handle contractions" do
+      %q(this isn't going to work).titlecase.
+          should == %q(This Isn't Going to Work)
+
+      %q(MicroSoft won't go down that route).titlecase.
+          should == %q(MicroSoft Won't Go Down That Route)
+    end
+
+    it "should capitalize phrases inside quotations" do
+      %q(Q&A with steve jobs: 'that's what happens in technology').titlecase.
+          should == %q(Q&A With Steve Jobs: 'That's What Happens in Technology')
+    end
+
   end
 end
 
