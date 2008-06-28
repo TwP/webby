@@ -22,7 +22,8 @@ class Main
   end
 
   def run( args )
-    if 'gen' == args[0]
+    case args[0]
+    when 'gen', 'generate'
       args.shift
       gen = Generator.new
       gen.run args
