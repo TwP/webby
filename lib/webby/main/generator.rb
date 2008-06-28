@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'optparse'
 
-module Webby
+class Webby::Main
 
 # webby gen template site  => creates the tmplate
 # webby gen -h / --help
@@ -261,6 +261,6 @@ class Generator
   end
 
 end  # class Generator
-end  # module Webby
+end  # class Webby::Main
 
 # EOF

@@ -74,6 +74,8 @@ class Main
     end
 
     # Load the website tasks from the tasks folder
+    # FIXME: change these files to be *.rb (instead of *.rake)
+    #        add this to the converter class
     Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
 
     # Load all the ruby files in the lib folder
@@ -150,5 +152,7 @@ class Rake::Application
   end
 end
 # :startdoc:
+
+Webby.require_all_libs_relative_to(__FILE__)
 
 # EOF
