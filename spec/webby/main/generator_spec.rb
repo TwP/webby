@@ -59,6 +59,15 @@ describe Webby::Main::Generator do
       @strio = StringIO.new
       @generator = Webby::Main::Generator.new
       @generator.instance_variable_set(:@stdout, @strio)
+
+      class << @strio
+        def to_s
+          seek 0
+          str = read
+          truncate 0
+          return str
+        end
+      end
     end
 
     it "should force the overwriting of files on collision" do
@@ -85,8 +94,19 @@ describe Webby::Main::Generator do
       @generator.options[:pretend].should == true
     end
 
-    it "should exit if a site is not specified"
-    it "should exit if an unknown template is given"
+    it "should exit if a site is not specified" do
+      lambda{@generator.parse %w[website]}.
+          should raise_error(SystemExit, 'exit')
+      @strio.to_s.split("\n").first.
+          should == 'Usage: webby gen [options] template site'
+    end
+
+    it "should exit if an unknown template is given" do
+      lambda{@generator.parse %w[foo bar]}.
+          should raise_error(SystemExit, 'exit')
+      @strio.to_s.split("\n").last.
+          should == "    Could not find template 'foo'"
+    end
   end
 end
 
