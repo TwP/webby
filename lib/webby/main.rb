@@ -74,7 +74,7 @@ class Main
     end
 
     # Load the default webby tasks from the library tasks folder
-    Dir.glob(::Webby.libpath %w[webby tasks *.rb]).sort.each {|fn| import fn}
+    Dir.glob(::Webby.libpath(%w[webby tasks *.rb])).sort.each {|fn| import fn}
 
     # Load the website tasks from the tasks folder
     Dir.glob(::File.join(%w[tasks *.rb])).sort.each {|fn| import fn}
