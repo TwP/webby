@@ -1,5 +1,6 @@
 
-desc 'Send log events to Growl (Mac OS X only)'
+unless Webby::Main::Generator::WINDOWS
+
 task :growl do
   Logging::Logger['Webby'].add_appenders(Logging::Appenders::Growl.new(
     "Webby",
@@ -8,5 +9,7 @@ task :growl do
     :separator => "\000"
   ))
 end
+
+end  # unless WINDOWS
 
 # EOF

@@ -110,7 +110,9 @@ class Generator
       mkdir 'tasks'
       files['tasks'].sort.each {|file| cp file}
     else
-      dirs = files.keys.sort
+      dirs = files.keys.concat %w[content layouts lib tasks templates]
+      dirs.sort!
+      dirs.uniq!
 
       # create the directories first
       dirs.each do |dir|

@@ -73,10 +73,11 @@ class Main
       abort
     end
 
+    # Load the default webby tasks from the library tasks folder
+    Dir.glob(::Webby.libpath %w[webby tasks *.rb]).sort.each {|fn| import fn}
+
     # Load the website tasks from the tasks folder
-    # FIXME: change these files to be *.rb (instead of *.rake)
-    #        add this to the converter class
-    Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
+    Dir.glob(::File.join(%w[tasks *.rb])).sort.each {|fn| import fn}
 
     # Load all the ruby files in the lib folder
     Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require fn}

@@ -10,7 +10,7 @@ describe Webby::Main::Generator do
   end
 
   it "should return a list of available templates" do
-    ary = %w[presentation webby website].map {|t| Webby.path('examples', t)}
+    ary = %w[blog presentation webby website].map {|t| Webby.path('examples', t)}
     @generator.templates.should == ary
   end
 
@@ -46,8 +46,7 @@ describe Webby::Main::Generator do
         "layouts",
         "lib",
         "tasks",
-        "templates",
-        "templates/blog"
+        "templates"
     ]
     h["content"].should == %w[content/index.txt]
     h["layouts"].should == %w[layouts/default.rhtml]
