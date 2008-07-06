@@ -1,0 +1,7 @@
+---
+filter: erb
+layout: default
+---
+<h2><%= h(@page.title) %></h2>
+
+<%= @content %>
