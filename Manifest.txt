@@ -4,8 +4,8 @@ README.txt
 Rakefile
 bin/webby
 examples/blog/Sitefile
-examples/blog/tasks/blog.rb
-examples/blog/tasks/deploy.rb
+examples/blog/tasks/blog.rake
+examples/blog/tasks/deploy.rake
 examples/blog/templates/atom_feed.erb
 examples/blog/templates/blog/month.erb
 examples/blog/templates/blog/post.erb
@@ -26,7 +26,7 @@ examples/presentation/content/s5/s5-core.css
 examples/presentation/content/s5/slides.css
 examples/presentation/content/s5/slides.js
 examples/presentation/layouts/presentation.rhtml
-examples/presentation/tasks/deploy.rb
+examples/presentation/tasks/deploy.rake
 examples/presentation/templates/_code_partial.erb
 examples/presentation/templates/presentation.erb
 examples/webby/Sitefile
@@ -44,7 +44,7 @@ examples/webby/content/script/jquery.js
 examples/webby/content/tips_and_tricks/index.txt
 examples/webby/content/tutorial/index.txt
 examples/webby/layouts/default.rhtml
-examples/webby/tasks/deploy.rb
+examples/webby/tasks/deploy.rake
 examples/webby/templates/page.erb
 examples/website/Sitefile
 examples/website/content/css/blueprint/License.txt
@@ -74,7 +74,7 @@ examples/website/content/css/site.css
 examples/website/content/index.txt
 examples/website/layouts/default.rhtml
 examples/website/lib/breadcrumbs.rb
-examples/website/tasks/deploy.rb
+examples/website/tasks/deploy.rake
 examples/website/templates/_partial.erb
 examples/website/templates/page.erb
 examples/website/templates/presentation.erb
@@ -118,11 +118,11 @@ lib/webby/resources/static.rb
 lib/webby/stelan/mktemp.rb
 lib/webby/stelan/paginator.rb
 lib/webby/stelan/spawner.rb
-lib/webby/tasks/build.rb
-lib/webby/tasks/create.rb
-lib/webby/tasks/growl.rb
-lib/webby/tasks/heel.rb
-lib/webby/tasks/validate.rb
+lib/webby/tasks/build.rake
+lib/webby/tasks/create.rake
+lib/webby/tasks/growl.rake
+lib/webby/tasks/heel.rake
+lib/webby/tasks/validate.rake
 spec/core_ext/hash_spec.rb
 spec/core_ext/string_spec.rb
 spec/core_ext/time_spec.rb

@@ -244,7 +244,7 @@ class Renderer
   #
   def _render_layout_for( res )
     return unless res.layout
-    lyt = Resources.layouts.find :filename => res.layout
+    lyt = Resources.find_layout(res.layout)
     return if lyt.nil?
 
     _track_rendering(lyt.path) {

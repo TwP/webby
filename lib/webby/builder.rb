@@ -75,7 +75,7 @@ class Builder
       args = Webby.site.args
 
       if args.raw.empty?
-        task_name = Rake.application.top_level_tasks.first.name
+        task_name = Rake.application.top_level_tasks.first
         raise "Usage:  webby #{task_name} path"
       end
 

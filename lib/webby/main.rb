@@ -22,6 +22,8 @@ class Main
   end
 
   def run( args )
+    args = args.dup
+
     case args[0]
     when 'gen', 'generate'
       args.shift
@@ -87,9 +89,9 @@ class Main
       :raw => args,
       :page => args.join('-').downcase
     )
-    args.dir = ::File.dirname(args.page)
-    args.slug = ::File.basename(args.page)
-    args.title = ::File.basename(args.raw.join(' ')).titlecase
+    args.dir = Resources::File.dirname(args.page)
+    args.slug = Resources::File.basename(args.page)
+    args.title = Resources::File.basename(args.raw.join(' ')).titlecase
 
     Object.const_set(:SITE, Webby.site)
   end
@@ -149,6 +151,30 @@ class Rake::Application
         printf "#{name} %-#{width}s  # %s\n",
           t.name_with_args, truncate(t.comment, max_column)
       end
+    end
+  end
+
+  # Provide standard execption handling for the given block.
+  def standard_exception_handling
+    begin
+      yield
+    rescue SystemExit => ex
+      # Exit silently with current status
+      exit(ex.status)
+    rescue SystemExit, GetoptLong::InvalidOption => ex
+      # Exit silently
+      exit(1)
+    rescue Exception => ex
+      # Exit with error message
+      $stderr.puts "webby aborted!"
+      $stderr.puts ex.message
+      if options.trace
+        $stderr.puts ex.backtrace.join("\n")
+      else
+        $stderr.puts ex.backtrace.find {|str| str =~ /#{@rakefile}/ } || ""
+        $stderr.puts "(See full trace by running task with --trace)"
+      end
+      exit(1)
     end
   end
 end

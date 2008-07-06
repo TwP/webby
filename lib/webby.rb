@@ -47,6 +47,7 @@ module Webby
       :base          => nil,
       :create_mode   => 'page',
       :blog_dir      => 'blog',
+      :tumblog_dir   => 'post',
 
       # Items for running the heel webserver
       :heel_port => 4331,

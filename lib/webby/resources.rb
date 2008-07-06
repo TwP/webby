@@ -71,6 +71,19 @@ module Webby::Resources
       filename.sub(%r/\A(?:\.\/|\/)/o, '').freeze
     end
 
+    # Returns the layout resource corresponding to the given _filename_ or
+    # +nil+ if no layout exists under that filename.
+    #
+    def find_layout( filename )
+      return if filename.nil?
+
+      fn  = ::Webby::Resources::File.basename(filename)
+      dir = ::File.dirname(filename)
+      dir = '.' == dir ? '' : dir
+
+      layouts.find(:filename => fn, :in_directory => dir)
+    end
+
   end  # class << self
 
 end  # module Webby::Resources

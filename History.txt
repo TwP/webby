@@ -1,5 +1,11 @@
-== 0.9.0 / 2008-06-
+== 0.9.0 / 2008-07-
 
+* 1 major enhancement
+  - The "rake" command line tool has been replaced by the "webby"
+    command line tool for day to day site tasks
+* 1 minor enhancement
+  - Layouts can exist in subdirectories of the layouts folder
+  - Addition of a "tumblog" template
 * 2 bug fixes
   - Better error message when an unkonwn filter is given
   - Table of contents generation bug
