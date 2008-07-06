@@ -10,7 +10,7 @@ namespace :blog do
 
     desc "Create a new blog #{name}"
     task name => [:create_year_index, :create_month_index] do |t|
-      page, title, dir = Webby::Builder.new_page_info(t)
+      page, title, dir = Webby::Builder.new_page_info
 
       # if no directory was given use the default blog directory (underneath
       # the content directory)
@@ -27,7 +27,7 @@ namespace :blog do
   # this task is used to create the year index file (blog/2008/index.txt)
   task :create_year_index do |t|
     # parse out information about the page to create
-    _, _, dir = Webby::Builder.new_page_info(t)
+    _, _, dir = Webby::Builder.new_page_info
     year = Time.now.strftime '%Y'
 
     # if no directory was given use the default blog directory (underneath
@@ -48,7 +48,7 @@ namespace :blog do
   # this task is used to create the month index file (blog/2008/04/index.txt)
   task :create_month_index do |t|
     # parse out information about the page to create
-    _, _, dir = Webby::Builder.new_page_info(t)
+    _, _, dir = Webby::Builder.new_page_info
     now = Time.now
 
     # if no directory was given use the default blog directory (underneath
