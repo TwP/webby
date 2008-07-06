@@ -21,6 +21,10 @@ class Main
     @stdout = $stdout
   end
 
+  # Runs the main webby application. The command line arguments are passed
+  # in to this method as an array of strings. The command line arguments are
+  # parsed to figure out which webby sub-command or rake task to invoke.
+  #
   def run( args )
     args = args.dup
 
@@ -36,6 +40,8 @@ class Main
     end
   end
 
+  # Parse the command line _args_ for options and commands to invoke.
+  #
   def parse( args )
     opts = OptionParser.new
     opts.banner = 'Usage: webby [options] target [target args]'
@@ -65,6 +71,11 @@ class Main
     args
   end
 
+  # Initialize the Rake application object and load the core rake tasks, the
+  # site specific rake tasks, and the site specific ruby code. Any extra
+  # command line arguments are converted into a page name and directory that
+  # might get created (depending upon the task invoked).
+  #
   def init( args )
     # Make sure we're in a folder with a Sitefile
     app.do_option('--rakefile', 'Sitefile')
@@ -81,7 +92,7 @@ class Main
     # Load the website tasks from the tasks folder
     Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
 
-    # Load all the ruby files in the lib folder
+    # Load all the ruby files in the lib folder and sub-folders
     Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require fn}
 
     # Capture the command line args for use by the Rake tasks
@@ -96,16 +107,24 @@ class Main
     Object.const_set(:SITE, Webby.site)
   end
 
+  # Execute the rake command.
+  #
   def rake
     app.init 'webby'
     app.load_rakefile
     app.top_level
   end
 
+  # Return the Rake application object.
+  #
   def app
     Rake.application
   end
 
+  # Search for the "Sitefile" starting in the current directory and working
+  # upwards through the filesystem until the root of the filesystem is
+  # reached. If a "Sitefile" is not found, a RuntimeError is raised.
+  #
   def find_sitefile
     here = Dir.pwd
     while ! app.have_rakefile
