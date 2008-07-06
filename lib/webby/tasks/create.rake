@@ -10,7 +10,7 @@ namespace :create do
 
     desc "Create a new #{name}"
     task name do |t|
-      page, title, dir = Webby::Builder.new_page_info(t)
+      page, title, dir = Webby::Builder.new_page_info
       page = Webby::Builder.create(page, :from => template,
                  :locals => {:title => title, :directory => dir})
       exec(::Webby.editor, page) unless ::Webby.editor.nil?
