@@ -82,7 +82,8 @@ module Webby::Resources
       dir = '.' == dir ? '' : dir
 
       layouts.find(:filename => fn, :in_directory => dir)
-    rescue
+
+    rescue RuntimeError
       raise Webby::Error, "could not find layout #{filename.inspect}"
     end
 
