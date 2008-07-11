@@ -6,6 +6,7 @@
 * 1 minor enhancement
   - Layouts can exist in subdirectories of the layouts folder
   - Addition of a "tumblog" template
+  - Addition of a sitemap file (Ana Nelson)
 * 2 bug fixes
   - Better error message when an unkonwn filter is given
   - Table of contents generation bug
