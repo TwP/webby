@@ -50,6 +50,7 @@ namespace :blog do
     # parse out information about the page to create
     _, _, dir = Webby::Builder.new_page_info
     now = Time.now
+    month = now.strftime '%m'
 
     # if no directory was given use the default blog directory (underneath
     # the content directory)
@@ -62,7 +63,7 @@ namespace :blog do
 
     if test(?f, tmpl) and not test(?f, File.join(Webby.site.content_dir, fn))
       Webby::Builder.create(fn, :from => tmpl,
-          :locals => {:title => year, :directory => dir})
+          :locals => {:title => month, :directory => dir})
     end
   end
 
