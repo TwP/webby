@@ -1,0 +1,15 @@
+---
+filter: erb
+layout: tumblog/default
+---
+<div class="post">
+  <%= tumblog_date(@page.created_at) %>
+  <a href="<%= @page.url %>">
+    <img src="/images/tumblog/permalink.gif" class="permalink" alt="permalink" />
+  </a>
+
+  <div class="<%= @page.tumblog_type %>">
+    <h2><%= link_to_page(@page) %></h2>
+    <%= @content %>
+  </div>
+</div>

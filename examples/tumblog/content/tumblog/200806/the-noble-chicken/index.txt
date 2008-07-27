@@ -1,0 +1,12 @@
+---
+title:      The Noble Chicken
+created_at: 2008-06-26 16:09:15.185670 -06:00
+author:     Tim Pease
+filter:
+  - textile
+layout:       tumblog/post
+tumblog_type: regular
+---
+The *chicken* (_Gallus gallus_, sometimes _G. gallus domesticus_) is a domesticated fowl likely descended from the wild Indian and southeast Asian Red Junglefowl (_Gallus gallus_) and the related Grey Junglefowl (_G. sonneratii_). Traditionally it has been widely accepted that the chicken was descended solely from the former, as hybrids of both wild types tended toward sterility; but recent genetic work has revealed that the genotype for yellow skin present in the domestic fowl is not present in what is otherwise its closest kin, the Red Junglefowl. It is deemed most likely, then, that the yellow skin trait in domestic birds originated in the Grey Junglefowl.
+
+The chicken is one of the most common and widespread domestic animals. With a population of more than 24 billion in 2003, there are more chickens in the world than any other bird. Humans keep chickens primarily as a source of food, with both their meat and their eggs consumed.

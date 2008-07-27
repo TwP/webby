@@ -1,0 +1,10 @@
+---
+title:      Mad City Chickens
+created_at: 2008-07-26 16:11:09.306365 -06:00
+author:     Tim Pease
+filter:
+  - textile
+layout:       tumblog/post
+tumblog_type: link
+---
+"(link)Raising chickens in Madison, WI":http://www.madcitychickens.com/
