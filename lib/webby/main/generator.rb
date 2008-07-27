@@ -71,6 +71,13 @@ class Generator
     opts.parse! args
     tmpl, @site = args
 
+    # if no site was given, see if there is a Sitefile in the current
+    # directory
+    if @site.nil?
+      @site = '.' if test(?f, 'Sitefile')
+    end
+
+    # exit if comand line args are missing
     if @site.nil? or tmpl.nil?
       @stdout.puts opts
       exit 1
