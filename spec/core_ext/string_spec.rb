@@ -4,12 +4,14 @@ require ::File.expand_path(
 
 describe String do
 
-  it "should join other strings to form a file path" do
-    path = 'foo' / 'bar' / 'baz'
-    path.should == ::File.join(%w[foo bar baz])
+  describe "#/" do
+    it "should join other strings to form a file path" do
+      path = 'foo' / 'bar' / 'baz'
+      path.should == ::File.join(%w[foo bar baz])
+    end
   end
 
-  describe "when applying title case" do
+  describe "#titlecase" do
     it "should not capitalize small words" do
       'and on the other hand of fate we have a ring'.titlecase.
           should == 'And on the Other Hand of Fate We Have a Ring'
@@ -58,6 +60,50 @@ describe String do
           should == %q(Q&A With Steve Jobs: 'That's What Happens in Technology')
     end
 
+  end
+
+  describe "#to_url" do
+    it "should convert characters to words" do
+      given    = "10% Inspiration & 90% Perspiration"
+      expected = "10-percent-inspiration-and-90-percent-perspiration"
+
+      given.to_url.should == expected
+    end
+
+    it "should convert entities to words" do
+      given    = "Tea   &amp; crumpets &amp; cr&ecirc;pes for me!"
+      expected = "tea-and-crumpets-and-crepes-for-me"
+
+      given.to_url.should == expected
+    end
+
+    it "should remove html tags" do
+      given    = "I Am <strong>Awesome</strong>"
+      expected = "i-am-awesome"
+
+      given.to_url.should == expected
+    end
+
+    it "should convert ellipses" do
+      given    = "The Suspense... Is... Killing Me"
+      expected = "the-suspense-dot-dot-dot-is-dot-dot-dot-killing-me"
+
+      given.to_url.should == expected
+    end
+
+    it "should convert underscores to dashes" do
+      given    = "How to use attr_accessible and attr_protected"
+      expected = "how-to-use-attr-accessible-and-attr-protected"
+
+      given.to_url.should == expected
+    end
+
+    it "should remove punctuation" do
+      given    = "I'm just making sure there's nothing wrong with things!"
+      expected = "im-just-making-sure-theres-nothing-wrong-with-things"
+
+      given.to_url.should == expected
+    end
   end
 end
 

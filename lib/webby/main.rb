@@ -81,30 +81,15 @@ class Main
     app.do_option('--rakefile', 'Sitefile')
     app.do_option('--nosearch', nil)
 
-    if ! app.have_rakefile
-      @stdout.puts "    Sitefile not found"
-      abort
+    unless app.have_rakefile
+      raise RuntimeError, "Sitefile not found"
     end
 
-    # Load the default webby tasks from the library tasks folder
-    Dir.glob(::Webby.libpath(%w[webby tasks *.rake])).sort.each {|fn| import fn}
-
-    # Load the website tasks from the tasks folder
-    Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
-
-    # Load all the ruby files in the lib folder and sub-folders
-    Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require fn}
-
-    # Capture the command line args for use by the Rake tasks
-    args = Webby.site.args = OpenStruct.new(
-      :raw => args,
-      :page => args.join('-').downcase
-    )
-    args.dir = Resources::File.dirname(args.page)
-    args.slug = Resources::File.basename(args.page)
-    args.title = Resources::File.basename(args.raw.join(' ')).titlecase
-
-    Object.const_set(:SITE, Webby.site)
+    import_default_tasks
+    import_website_tasks
+    require_lib_files
+    capture_command_line_args(args)
+    args
   end
 
   # Execute the rake command.
@@ -134,6 +119,40 @@ class Main
       end
       here = Dir.pwd
     end
+  end
+
+  private
+
+  def import_default_tasks
+    Dir.glob(::Webby.libpath(%w[webby tasks *.rake])).sort.each {|fn| import fn}
+  end
+
+  def import_website_tasks
+    Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
+  end
+
+  def require_lib_files
+    Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require fn}
+  end
+
+  def capture_command_line_args(args)
+    args = OpenStruct.new(:raw => args)
+
+    if args.raw.size > 1
+      Webby.deprecated "multiple arguments used for page title",
+                       "please quote the page title"
+    end
+
+    args.dir   = Resources::File.dirname(args.raw.join('-').downcase)
+    args.slug  = Resources::File.basename(args.raw.join('-').downcase).to_url
+    args.title = Resources::File.basename(args.raw.join(' ')).titlecase
+
+    # page should be dir/slug without leading /
+    args.page  = ::File.join(args.dir, args.slug).gsub(/^\//, '')
+
+    Webby.site.args = args
+    Object.const_set(:SITE, Webby.site)
+    args
   end
 
 end  # class Main
