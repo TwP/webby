@@ -1,0 +1,13 @@
+---
+title:      <%= title %>
+created_at: <%= Time.now.to_y %>
+author:     Your Name
+filter:
+  - erb
+  - textile
+layout:       tumblog/post
+tumblog_type: photo
+---
+!http://www.madcitychickens.com/images/bttrcups_tree.jpg(<%%= h(@page.title) %>)!
+
+p(caption). via "Mad City Chickens":http://www.madcitychickens.com/

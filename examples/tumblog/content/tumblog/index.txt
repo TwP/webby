@@ -1,0 +1,37 @@
+---
+title:  A Mother Clucker
+author: Tim Pease
+layout: tumblog/default
+filter: erb
+dirty:  true
+---
+<% prev = nil
+   posts = @pages.find(
+       :all,
+       :layout => 'tumblog/post',
+       :sort_by => :created_at,
+       :reverse => true
+   )
+   paginate(posts, 4) do |p| -%>
+<div class="post">
+  <% if prev != p.created_at.strftime('%Y%m%d') -%>
+  <%= tumblog_date(p.created_at) %>
+  <% prev = p.created_at.strftime('%Y%m%d')
+     end -%>
+  <a href="<%= p.url %>">
+    <img src="/images/tumblog/permalink.gif" class="permalink" alt="permalink" />
+  </a>
+
+  <div class="<%= p.tumblog_type %>">
+    <% if p.title -%>
+    <h2><%= link_to_page(p) %></h2>
+    <% end -%>
+    <%= render(p) %>
+  </div>
+</div>
+<% end -%>
+
+<% content_for :footer do -%>
+<%= link_to("&#171; Prev", @pager.prev) if @pager.prev? %>
+<%= link_to("Next &#187;", @pager.next) if @pager.next? %>
+<% end -%>

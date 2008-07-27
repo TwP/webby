@@ -16,7 +16,7 @@ namespace :tumblog do
       # if no directory was given use the default tumblog directory (underneath
       # the content directory)
       dir = Webby.site.tumblog_dir if dir.empty?
-      dir = File.join(dir, Time.now.strftime('%Y%m%d'))
+      dir = File.join(dir, Time.now.strftime('%Y%m'))
 
       page = File.join(dir, File.basename(page))
       page = Webby::Builder.create(page, :from => template,
