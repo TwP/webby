@@ -4,10 +4,11 @@
   - The "rake" command line tool has been replaced by the "webby"
     command line tool for day to day site tasks
   - Now using the "rdiscount" gem for markdown syntax
-* 1 minor enhancement
+* 4 minor enhancements
   - Layouts can exist in subdirectories of the layouts folder
   - Addition of a "tumblog" template
   - Addition of a sitemap file (Ana Nelson)
+  - Updated to version 6.4.2 of ImageMagick for tex2img conversions
 * 3 bug fixes
   - Better error message when an unkonwn filter is given
   - Table of contents generation bug
