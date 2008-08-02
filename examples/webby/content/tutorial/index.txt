@@ -20,7 +20,7 @@ webby my_site
 This command creates a new folder named _my_site_, and the new Webby based website resides there. Change directories to the _my_site_ folder and do a listing. You will see the following files and folders:
 
 <pre class="code">
-Rakefile
+Sitefile
 content/
 layouts/
 lib/
@@ -33,13 +33,13 @@ h2. Build Your Site
 
 What? Didn't we just do that?
 
-Webby creates a site template - the larval form of your new website. "Rake":http://docs.rubyrake.org/ (another command line tool) is used to generate the HTML files for your site - a unique, beautiful butterfly.
+Webby creates a site template - the larval form of your new website. The _webby_ command line tool is used to generate the HTML files for your site - a unique, beautiful butterfly.
 
 <pre class="code">
-rake
+webby
 </pre>
 
-Again, you will see lots of output scrolling across the screen. This is the rake task copying files from the _content_ folder to the _output_ folder. Some files are copied "as is", while others are compiled into HTML using your markup language of choice.
+Again, you will see lots of output scrolling across the screen. This is Webby copying files from the _content_ folder to the _output_ folder. Some files are copied "as is", while others are compiled into HTML using your markup language of choice.
 
 Point your web browser to *my_site/output/index.html* to see what your new website looks like.
 
@@ -72,33 +72,33 @@ The content of this page is not HTML, but it ends up that way. How? Webby uses _
 
 The erb filter (erb stands for "embedded Ruby") allows Webby to process Ruby statements found in the page text and to substitute the output of those Ruby statements back into the page text. The Ruby statements appear between @<%= ruby_code %>@ delimiters. The meta-data found at the top of the page is made available through the @@page@ object. You can see from the index.txt file that the page title, "Home Page", will be substituted on the first line.
 
-The textile filter operates on all page text. It is a human readable markup that gets converted into HTML. For example, the line <notextile><code>h2.&nbsp;Litora&nbsp;Sociis</code></notextile> will be converted into @<h2>Litora Sociis</h2>@ by the textile filter. It is a powerful markup language that simplifies web publishing. 
+The textile filter operates on all page text. It is a human readable markup that gets converted into HTML. For example, the line <notextile><code>h2.&nbsp;Litora&nbsp;Sociis</code></notextile> will be converted into <notextile><code>&lt;h2&gt;&nbsp;Litora&nbsp;Sociis&lt;/h2&gt;</code></notextile> by the textile filter. It is a powerful markup language that simplifies web publishing. 
 
-Okay, back to our regularly scheduled page changes. Go ahead and change the title of the page in the meta-data. Then run rake again.
+Okay, back to our regularly scheduled page changes. Go ahead and change the title of the page in the meta-data. Then run webby again.
 
 <pre class="code">
-rake
+webby
 </pre>
 
-You'll notice much less output than before. The rake task only builds those pages that you have modified. You'll also notice, after reloading the page in your browser, that the title has now changed.
+You'll notice much less output than before. Webby only builds those pages that you have modified. You'll also notice, after reloading the page in your browser, that the title has now changed.
 
-Play around with making changes, running rake, and seeing your changes show up in the web browser. Done? All right! Let's go on to the next section.
+Play around with making changes, running webby, and seeing your changes show up in the web browser. Done? All right! Let's go on to the next section.
 
-bq. *TIP* You can simplify this whole process - modify content, rake, view in browser - by running <notextile><code>rake&nbsp;autobuild</code></notextile> on the command line. This starts a build loop that compiles the content of your website as files change. All you need to do now is - modify content, view in browser.
+bq. *TIP* You can simplify this whole process - modify content, webby, view in browser - by running <notextile><code>webby&nbsp;autobuild</code></notextile> on the command line. This starts a build loop that compiles the content of your website as files change. All you need to do now is - modify content, view in browser.
 
 h2. Creating a Page
 
 Let's tell the world all about your new website. We'll create a new _about_ page that describes what this website is all about, who you are, and the answer to life, the universe, and everything.
 
 <pre class="code">
-rake create:page about
+webby create:page about
 </pre>
 
-The output from the command tells you that a new file has been created - @content/about.txt@. You can now edit this page, give it a title "About", and somewhere in there include _42_.
+The output from the command tells you that a new file has been created - @content/about.txt@. You can now edit this page, enter some content, and somewhere in there include _42_.
 
 h2. Change the Layout
 
-The next step is to change how the page looks. In fact, we want to change the appearance of all the pages in our website. This is easily done by changing the website layout file in the _layouts_ folder. Open the *layouts/default.rhtml* file in your favorite editor.
+The next step is to change how the page looks. In fact, we want to change the appearance of all the pages in our website. This is easily done by changing the website layout file in the _layouts_ folder. Open the *layouts/default.txt* file in your favorite editor.
 
 <pre class="code">
 --- 
@@ -106,7 +106,7 @@ extension: html
 filter:    erb
 --- 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "DTD/xhtml1-strict.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>

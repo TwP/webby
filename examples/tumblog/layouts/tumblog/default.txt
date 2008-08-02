@@ -18,7 +18,7 @@ filter:    erb
 <body>
 
   <h1>
-    <a href="/">A Mother Clucker</a>
+    <a href="/">Fowl Friends</a>
     <a href="/tumblog/rss.xml"><img src="/images/tumblog/rss.gif" id="rss" alt="RSS" /></a>
   </h1>
 

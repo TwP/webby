@@ -24,11 +24,12 @@ filter:
 </head>
 <body>
 
-<div class="container">
+<div class="column span-20 prepend-1 append-3 first last" id="header">
+  <h1>Webby</h1>
+  <p>ASCII Alchemy</p>
+</div>
 
-   <div class="column span-20 prepend-1 append-3 first last" id="header">
-      <h1>Webby &#9775; <%= h(@page.title) %></h1>
-   </div>
+<div class="container">
 
    <div class="column span-4 prepend-1 first" id="navigation">
       <ul

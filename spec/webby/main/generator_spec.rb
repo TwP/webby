@@ -49,7 +49,7 @@ describe Webby::Main::Generator do
         "templates"
     ]
     h["content"].should == %w[content/index.txt]
-    h["layouts"].should == %w[layouts/default.rhtml]
+    h["layouts"].should == %w[layouts/default.txt]
   end
 
   describe "when parsing command line arguments" do

@@ -20,6 +20,7 @@ sass_options:
 @import blueprint/screen.css
 
 body
+  :margin       0
   :color =      !text
   :font-family  Verdana, sans-serif
 
@@ -78,6 +79,22 @@ p.quiet
 // My Site Stylings
 // ------------------------------------------------------------------------
 #header
+  :margin              0 0 25px 0
+  :padding-top         25px
+  :width               100%
+  :background-color =  !highlight
+  :border-bottom =     5px solid !quiet
+  h1
+    :margin            0 auto
+    :padding           0 120px 0 40px
+    :width             790px
+  p
+    :margin            0 auto 10px auto
+    :padding           0 120px 0 40px
+    :width             790px
+    :font-size         1.2em
+    :font-style        italic
+    :color =           !quiet
 
 #navigation
   ul
