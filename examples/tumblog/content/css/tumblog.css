@@ -1,0 +1,308 @@
+---
+extension: css
+filter:    sass
+layout:    nil   # no layout
+sass_options:
+  :style: :expanded
+---
+!background  = #FFF
+!text        = #000
+!border      = #CCC
+!header      = #6498CC
+!link        = #6498CC
+!link_hover  = #000
+!blockquote  = #666
+!code        = #000
+!box_bg      = #EEE
+!highlight   = #6498CC
+!quiet       = #666
+!alt         = #666
+
+!title       = #444
+!description = #777
+!date        = #CCC
+!date_brick  = #BBD5F1
+
+body
+  :margin                  0px
+  :background-color =      !background
+  :font-family             Verdana, Geneva, Arial, sans-serif
+
+a
+  :color =                 !link
+  :text-decoration         none
+  &:hover
+    :text-decoration       underline
+
+h1
+  :width                   600px
+  :padding                 0px 100px 20px 100px
+  :margin                  50px auto 40px auto
+  :border-bottom =         solid 1px !border
+  :text-align              center
+  :font                    Bold 55px 'Trebuchet MS', Geneva, Arial, sans-serif
+  :letter-spacing          -2px
+  :line-height             50px
+  :position                relative
+
+  a
+    :color =               !title
+    :text-decoration       none
+    &:hover
+      :text-decoration     none
+
+  img
+    :border-width          0px
+    :position              absolute
+    :right                 0px
+    :bottom                10px
+    :width                 43px
+    :height                23px
+
+
+div#content
+  :width                   420px
+  :margin                  auto
+  :position                relative
+
+div#description
+  :position                absolute
+  :right                   -170px
+  :width                   160px
+  :text-align              right
+  :font                    Normal 17px Verdana, Geneva, Arial, sans-serif
+  :line-height             20px
+  :color =                 !description
+
+  a
+    :color =               !description
+    :text-decoration       underline
+
+div.post
+  :position                relative
+  :margin-bottom           40px
+  :padding-right           20px
+
+  div.date
+    :position              absolute
+    :left                  -260px
+    :text-align            right
+    :width                 230px
+    :white-space           nowrap
+    :font                  Normal 34px Verdana, Geneva, Arial, sans-serif
+    :letter-spacing        -2px
+    :color =               !date
+    :text-transform        uppercase
+    :line-height           35px
+
+    div.date_brick
+      :float               right
+      :height              30px
+      :width               45px
+      :background-color =  !highlight
+      :color =             !date_brick
+      :font                Bold 12px Verdana, Geneva, Arial, sans-serif
+      :text-align          center
+      :line-height         12px
+      :margin-left         10px
+      :padding-top         5px
+      :letter-spacing      0px
+      :overflow            hidden
+
+  img.permalink
+    :width                 14px
+    :height                13px
+    :border-width          0px
+    :background-color      #000
+    :display               none
+    :position              absolute
+    :right                 0px
+    :top                   0px
+    :z-index               10
+   
+  &:hover
+    img.permalink
+      :display             inline
+
+  h2
+    :font                  Bold 18px 'Trebuchet MS', Geneva, Arial, sans-serif
+    :color                 #6498CC
+    :letter-spacing        -1px
+    :margin                0px 0px 5px 0px
+
+    a
+      :color               #6498CC
+      :text-decoration     none
+  
+  div.caption
+    :font-size             14px
+    :font-weight           bold
+    :color                 #444
+    :margin-top            10px
+    :padding               0px 20px 0px 20px
+
+    a
+      :color               #444
+
+// Regular Post
+            
+  div.regular
+    :font-size             12px
+    :color                 #444
+    :line-height           17px
+
+    h2
+      :font-size           36px
+      :line-height         34px
+  
+    blockquote
+      :font-style          italic
+      :border-left         solid 2px #444
+      :padding-left        10px
+                        
+// Quote Post
+
+  div.quote
+    h2
+      :font-size           36px
+      :line-height         34px
+      a
+        :color             #6498CC
+
+    p
+      :font                Bold 28px Helvetica, sans-serif
+      :letter-spacing      -1px
+      :color               #666
+
+    a
+      :color               #666
+
+    big
+      :font                Bold 60px Georgia, serif
+      :line-height         8px
+      :vertical-align      -20px
+
+    span.source
+      :font                Bold 16px Verdana, Geneva, Arial, sans-serif
+      :color               #444
+      :letter-spacing      -1px
+
+      a
+        :color             #444
+  
+  div.source
+    :font-size             16px
+    :font-weight           Bold
+    :color                 #555
+    :margin-top            5px
+  
+    a
+      :color               #555
+
+// Link Post
+            
+  div.link
+    h2
+      :font-size           36px
+      :line-height         34px
+
+    a.link
+      :font                Bold 20px Verdana, Geneva, Arial, sans-serif
+      :letter-spacing      -1px
+      :color               #C00
+  
+    span.description
+      :font-size           13px
+      :font-weight         normal
+      :letter-spacing      -1px
+      :color               #444
+            
+// Conversation Post
+                        
+  div.conversation
+    ul
+      :list-style-type     none
+      :margin              0px
+      :padding             0px 0px 0px 1px
+  
+      li
+        :font-size         12px
+        :padding           4px 10px 4px 8px
+        :color             #444
+        :margin-bottom     1px
+  
+        span.label
+          :font-weight     bold
+          
+        span.user_1
+          :color           #C00
+              
+        span.user_2
+          :color           #00C
+              
+        span.user_3
+          :color           #0A0
+          
+      li.odd
+        :background-color  #F4F4F4
+  
+      li.even
+        :background-color  #E8E8E8
+
+    h2
+      :font-size           36px
+      :line-height         34px
+      :position            relative
+      :top                 -4px
+      :margin-top          0px
+      :padding-top         0px
+
+// Photo Post
+
+  div.photo
+    h2
+      :font-size           36px
+      :line-height         34px
+
+    p.caption
+      :font-size           11px
+      :color               #444
+      :margin-top          5px
+      a
+        :color             #444
+
+// Video Post
+            
+  div.video
+    :width                 400px
+    :margin                auto
+
+    h2
+      :font-size           36px
+      :line-height         40px
+      :letter-spacing      -1px
+      :font-weight         Bold
+      :font-family         'Trebuchet MS', Geneva, Arial, sans-serif
+      :margin              0px 0px 5px 0px
+
+// Footer
+            
+div#footer
+  :margin                  40px 0px 30px 0px
+  :text-align              center
+  :font-size               15px
+  :font-weight             bold
+  :color                   #444
+
+  a
+    :text-decoration       none
+    :color                 #444
+
+    &:hover
+      :text-decoration     underline
+    
+  div#credit
+    :font                  Normal 13px Verdana, Geneva, Arial, sans-serif
+    :margin-top            15px
+
+// EOF

@@ -1,0 +1,12 @@
+---
+title:      Historical Perspectives on the Classic Chicken Joke
+created_at: 2008-07-16 16:10:35.789008 -06:00
+author:     Tim Pease
+filter:
+  - textile
+layout:       tumblog/post
+tumblog_type: conversation
+---
+* %(label)me :% Why did the chicken cross the road?
+* %(label)Buddha :% If you ask this question, you deny your own chicken nature.
+* %(label)Darwin :% Chickens, over great periods of time, have been naturally selected in such a way that they are now genetically predisposed to cross roads.

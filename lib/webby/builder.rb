@@ -69,19 +69,17 @@ class Builder
     end
 
     # call-seq:
-    #    Builder.new_page_info( task )    => [page, title, directory]
+    #    Builder.new_page_info    => [page, title, directory]
     #
-    def new_page_info( task )
-      return @new_page_info if defined? @new_page_info
+    def new_page_info
+      args = Webby.site.args
 
-      raise "Usage:  rake #{ARGV.first} path" unless ARGV.length > 1
-      page  = task.application.top_level_tasks.slice!(1..-1).join('-')
-      title = ::Webby::Resources::File.basename(page).
-                  split('-').map {|w| w.capitalize}.join(' ')
-      dir = ::File.dirname(page)
-      dir = '' if dir == '.'
+      if args.raw.empty?
+        task_name = Rake.application.top_level_tasks.first
+        raise "Usage:  webby #{task_name} path"
+      end
 
-      @new_page_info = [page, title, dir]
+      [args.page, args.title, args.dir]
     end
 
 

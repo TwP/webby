@@ -47,6 +47,7 @@ module Webby
       :base          => nil,
       :create_mode   => 'page',
       :blog_dir      => 'blog',
+      :tumblog_dir   => 'tumblog',
 
       # Items for running the heel webserver
       :heel_port => 4331,
@@ -159,7 +160,7 @@ module Webby
   # <tt>File.join</tt>.
   #
   def self.libpath( *args )
-    args.empty? ? LIBPATH : ::File.join(LIBPATH, *args)
+    args.empty? ? LIBPATH : ::File.join(LIBPATH, args.flatten)
   end
 
   # Returns the path for Webby. If any arguments are given,
@@ -167,7 +168,7 @@ module Webby
   # <tt>File.join</tt>.
   #
   def self.path( *args )
-    args.empty? ? PATH : ::File.join(PATH, *args)
+    args.empty? ? PATH : ::File.join(PATH, args.flatten)
   end
 
   # call-seq:
@@ -214,6 +215,7 @@ rescue LoadError
   false
 end
 
+Webby.require_all_libs_relative_to(__FILE__, ::File.join(%w[webby core_ext]))
 Webby.require_all_libs_relative_to(__FILE__)
 
 end  # unless defined?

@@ -97,10 +97,9 @@ module TexImgHelper
       %x[pdflatex -interaction=batchmode out.tex &> #{dev_null}]
 
       convert =  "\\( -density #{res} out.pdf -trim +repage \\) "
-      convert << "\\( +clone -fuzz 100% -fill #{fg} -opaque black \\) "
-      convert << "+swap -compose copy-opacity -composite "
-      convert << "\\( +clone -fuzz 100% -fill #{bg} -opaque white +matte \\) "
-      convert << "+swap -compose over -composite #{out_file}"
+      convert << "\\( -clone 0 -negate -background #{fg} -channel A -combine \\) "
+      convert << "\\( -clone 0 -background #{bg} -channel A -combine \\) "
+      convert << "-delete 0 -compose dst-over -composite #{out_file}"
       %x[convert #{convert} &> #{dev_null}]
     ensure
       Dir.chdir(pwd)
@@ -126,8 +125,8 @@ end  # module TexImgHelper
 
 %x[pdflatex --version 2>&1]
 if 0 == $?.exitstatus
-  %x[convert --version 2>&1]
-  if 0 == $?.exitstatus
+  %x[convert --help 2>&1]
+  if (0..1).include?($?.exitstatus)
     register(TexImgHelper)
   end
 end

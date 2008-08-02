@@ -37,9 +37,9 @@ class Renderer
 
     loop {
       ::File.open(page.destination, 'w') do |fd|
-        fd.write(renderer.__send__(:_layout_page))
+        fd.write(renderer._layout_page)
       end
-      break unless renderer.__send__(:_next_page)
+      break unless renderer._next_page
     }
   end
 
@@ -244,7 +244,7 @@ class Renderer
   #
   def _render_layout_for( res )
     return unless res.layout
-    lyt = Resources.layouts.find :filename => res.layout
+    lyt = Resources.find_layout(res.layout)
     return if lyt.nil?
 
     _track_rendering(lyt.path) {
@@ -267,6 +267,8 @@ class Renderer
     # go to the next page; break out if there is no next page
     if @pager.next?
       @pager = @pager.next
+      @_content_for.clear
+      @_bindings.clear
     else
       @page.number = nil
       return false

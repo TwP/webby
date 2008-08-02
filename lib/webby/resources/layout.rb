@@ -43,7 +43,7 @@ class Layout < Resource
     return @mdata['extension'] if @mdata.has_key? 'extension'
 
     if @mdata.has_key? 'layout'
-      lyt = ::Webby::Resources.layouts.find :filename => @mdata['layout']
+      lyt = ::Webby::Resources.find_layout(@mdata['layout'])
       ext = lyt ? lyt.extension : nil
     end
   end

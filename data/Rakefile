@@ -1,9 +1,0 @@
-
-load 'tasks/setup.rb'
-
-task :default => :build
-
-desc 'deploy the site to the webserver'
-task :deploy => [:build, 'deploy:rsync']
-
-# EOF

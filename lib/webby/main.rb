@@ -1,6 +1,5 @@
-require 'fileutils'
-require 'find'
 require 'optparse'
+require 'rake'
 
 module Webby
 
@@ -9,219 +8,216 @@ module Webby
 #
 class Main
 
-  WINDOWS = %r/djgpp|(cyg|ms|bcc)win|mingw/ =~ RUBY_PLATFORM    # :nodoc:
-
-  # Directory where the Webby website will be created
-  attr_accessor :site
-
-  # Directory where the prototype Webby website can be found
-  attr_accessor :data
-
-  # Flag used to update an existing website
-  attr_accessor :update
-
-  # call-seq:
-  #    Main.run( args )    => nil
-  #
   # Create a new instance of Main, and run the +webby+ application given the
   # command line _args_.
   #
   def self.run( args )
-    m = self.new
-    m.parse args
-
-    if m.update then m.update_site
-                else m.create_site end
+    self.new.run args
   end
 
-  # call-seq:
-  #    Main.new
-  #
   # Create a new Main webby object for building websites.
   #
   def initialize
-    @log = Logging::Logger[self]
+    @stdout = $stdout
   end
 
-  # call-seq:
-  #    parse( args )   => nil
+  # Runs the main webby application. The command line arguments are passed
+  # in to this method as an array of strings. The command line arguments are
+  # parsed to figure out which webby sub-command or rake task to invoke.
   #
-  # Parse the command line arguments and store the values for later use by
-  # the create_site and update_site methods.
+  def run( args )
+    args = args.dup
+
+    case args[0]
+    when 'gen', 'generate'
+      args.shift
+      gen = Generator.new
+      gen.run args
+    else
+      parse args
+      init args
+      rake
+    end
+  end
+
+  # Parse the command line _args_ for options and commands to invoke.
   #
   def parse( args )
-    self.data = File.join(::Webby::PATH, 'data')
-    self.update = false
-
     opts = OptionParser.new
-    opts.banner << ' site'
+    opts.banner = 'Usage: webby [options] target [target args]'
 
     opts.separator ''
-    opts.on('-u', '--update',
-            'update the rake tasks for the site') {self.update = true}
+    opts.on('-D', '--describe [PATTERN]', 'describe the tasks (matching optional PATTERN), then exit') {|pattern| app.do_option('--describe', pattern)}
+    opts.on('-P', '--prereqs', 'display the tasks and dependencies, then exit') {app.do_option('--prereqs', nil)}
+    opts.on('-T', '--tasks [PATTERN]', 'display the tasks (matching optional PATTERN) with descriptions, then exit') {|pattern| app.do_option('--tasks', pattern)}
+    opts.on('-t', '--trace', 'turn on invoke/execute tracing, enable full backtrace') {app.do_option('--trace', nil)}
 
     opts.separator ''
     opts.separator 'common options:'
 
-    opts.on_tail( '-h', '--help', 'show this message' ) {puts opts; exit}
+    opts.on_tail( '-h', '--help', 'show this message' ) do
+      @stdout.puts opts
+      exit
+    end
     opts.on_tail( '--version', 'show version' ) do
-      puts "Webby #{::Webby::VERSION}"
+      @stdout.puts "Webby #{::Webby::VERSION}"
       exit
     end
 
-    # parse the command line arguments
+    opts.parse %[--help] if args.empty?
     opts.parse! args
-    self.site = args.shift
 
-    if site.nil?
-      puts opts
-      ::Kernel.abort
+    ARGV.replace Array(args.shift)
+    args
+  end
+
+  # Initialize the Rake application object and load the core rake tasks, the
+  # site specific rake tasks, and the site specific ruby code. Any extra
+  # command line arguments are converted into a page name and directory that
+  # might get created (depending upon the task invoked).
+  #
+  def init( args )
+    # Make sure we're in a folder with a Sitefile
+    app.do_option('--rakefile', 'Sitefile')
+    app.do_option('--nosearch', nil)
+
+    unless app.have_rakefile
+      raise RuntimeError, "Sitefile not found"
     end
-    nil
+
+    import_default_tasks
+    import_website_tasks
+    require_lib_files
+    capture_command_line_args(args)
+    args
   end
 
-  # call-seq:
-  #    create_site    => nil
+  # Execute the rake command.
   #
-  # Create a new website.
-  #
-  def create_site
-    # see if the site already exists
-    abort "'#{site}' already exists" if test ?e, site
-
-    # copy over files from the data directory
-    files = site_files
-
-    files.keys.sort.each do |dir|
-      mkdir dir
-      files[dir].sort.each {|file| cp file}
-    end
-    nil
+  def rake
+    app.init 'webby'
+    app.load_rakefile
+    app.top_level
   end
 
-  # call-seq:
-  #    update_site    => nil
+  # Return the Rake application object.
   #
-  # Update the rake tasks for an existing website.
-  #
-  def update_site
-    # ensure the site already exists
-    abort "'#{site}' does not exist" unless test ?d, site
-
-    # copy over files from the data/tasks directory
-    files = site_files
-
-    mkdir 'tasks'
-    files['tasks'].sort.each {|file| cp file}
-
-    nil
+  def app
+    Rake.application
   end
 
-  # call-seq:
-  #    mkdir( dir )    => nil
+  # Search for the "Sitefile" starting in the current directory and working
+  # upwards through the filesystem until the root of the filesystem is
+  # reached. If a "Sitefile" is not found, a RuntimeError is raised.
   #
-  # Make a directory in the user specified site location. A message will be
-  # displayed to the screen indicating tha the directory is being created.
-  #
-  def mkdir( dir )
-    dir = dir.empty? ? site : ::File.join(site, dir)
-    unless test ?d, dir
-      creating dir
-      FileUtils.mkdir_p dir
-    end
-  end
-
-  # call-seq:
-  #    cp( file )    => nil
-  #
-  # Copy a file from the Webby prototype website location to the user
-  # specified site location. A message will be displayed to the screen
-  # indicating tha the file is being created.
-  #
-  def cp( file )
-    src = ::File.join(data, file)
-    dst = ::File.join(site, file)
-    test(?e, dst) ? updating(dst) : creating(dst)
-#    FileUtils.cp(src, dst)
-    if WINDOWS then win_line_endings(src, dst)
-    else FileUtils.cp(src, dst) end
-  end
-
-  # call-seq:
-  #    win_line_endings( src, dst )
-  #
-  # Copy the file from the _src_ location to the _dst_ location and
-  # transform the line endings to the windows "\r\n" format.
-  #
-  def win_line_endings( src, dst )
-    case ::File.extname(src)
-    when *%w[.png .gif .jpg .jpeg]
-      FileUtils.cp src, dst
-    else
-      ::File.open(dst,'w') do |fd|
-        ::File.foreach(src, "\n") do |line|
-          line.tr!("\r\n",'')
-          fd.puts line
-        end
+  def find_sitefile
+    here = Dir.pwd
+    while ! app.have_rakefile
+      Dir.chdir("..")
+      if Dir.pwd == here || options.nosearch
+        fail "No Sitefile found"
       end
+      here = Dir.pwd
     end
   end
 
-  # call-seq:
-  #    creating( msg )   => nil
-  #
-  # Prints a "creating _msg_" to the screen.
-  #
-  def creating( msg )
-    @log.info "creating #{msg}"
+  private
+
+  def import_default_tasks
+    Dir.glob(::Webby.libpath(%w[webby tasks *.rake])).sort.each {|fn| import fn}
   end
 
-  # call-seq:
-  #    updating( msg )   => nil
-  #
-  # Prints a "updating _msg_" to the screen.
-  #
-  def updating( msg )
-    @log.info "updating #{msg}"
+  def import_website_tasks
+    Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
   end
 
-  # call-seq:
-  #    abort( msg )   => nil
-  #
-  # Prints an abort _msg_ to the screen and then exits the Ruby interpreter.
-  #
-  def abort( msg )
-    @log.fatal msg
-    exit 1
+  def require_lib_files
+    Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require fn}
   end
 
-  # call-seq:
-  #    site_files   => hash
-  #
-  # Iterates over all the files in the Webby prototype website directory and
-  # stores them in a hash.
-  #
-  def site_files
-    exclude = %r/tmp$|bak$|~$|CVS|\.svn/o
+  def capture_command_line_args(args)
+    args = OpenStruct.new(:raw => args)
 
-    rgxp = %r/\A#{data}\/?/o
-    paths = Hash.new {|h,k| h[k] = []}
-
-    Find.find(data) do |p|
-      next if exclude =~ p
-
-      if test(?d, p)
-        paths[p.sub(rgxp, '')]
-        next
-      end
-      dir = ::File.dirname(p).sub(rgxp, '')
-      paths[dir] << p.sub(rgxp, '')
+    if args.raw.size > 1
+      Webby.deprecated "multiple arguments used for page title",
+                       "please quote the page title"
     end
 
-    paths
+    args.dir   = Resources::File.dirname(args.raw.join('-').downcase)
+    args.slug  = Resources::File.basename(args.raw.join('-').downcase).to_url
+    args.title = Resources::File.basename(args.raw.join(' ')).titlecase
+
+    # page should be dir/slug without leading /
+    args.page  = ::File.join(args.dir, args.slug).gsub(/^\//, '')
+
+    Webby.site.args = args
+    Object.const_set(:SITE, Webby.site)
+    args
   end
 
 end  # class Main
 end  # module Webby
+
+# :stopdoc:
+# Monkey patches so that rake displays the correct application name in the
+# help messages.
+#
+class Rake::Application
+  def display_prerequisites
+    tasks.each do |t|
+      puts "#{name} #{t.name}"
+      t.prerequisites.each { |pre| puts "    #{pre}" }
+    end
+  end
+
+  def display_tasks_and_comments
+    displayable_tasks = tasks.select { |t|
+      t.comment && t.name =~ options.show_task_pattern
+    }
+    if options.full_description
+      displayable_tasks.each do |t|
+        puts "#{name} #{t.name_with_args}"
+        t.full_comment.split("\n").each do |line|
+          puts "    #{line}"
+        end
+        puts
+      end
+    else
+      width = displayable_tasks.collect { |t| t.name_with_args.length }.max || 10
+      max_column = 80 - name.size - width - 7
+      displayable_tasks.each do |t|
+        printf "#{name} %-#{width}s  # %s\n",
+          t.name_with_args, truncate(t.comment, max_column)
+      end
+    end
+  end
+
+  # Provide standard execption handling for the given block.
+  def standard_exception_handling
+    begin
+      yield
+    rescue SystemExit => ex
+      # Exit silently with current status
+      exit(ex.status)
+    rescue SystemExit, GetoptLong::InvalidOption => ex
+      # Exit silently
+      exit(1)
+    rescue Exception => ex
+      # Exit with error message
+      $stderr.puts "webby aborted!"
+      $stderr.puts ex.message
+      if options.trace
+        $stderr.puts ex.backtrace.join("\n")
+      else
+        $stderr.puts ex.backtrace.find {|str| str =~ /#{@rakefile}/ } || ""
+        $stderr.puts "(See full trace by running task with --trace)"
+      end
+      exit(1)
+    end
+  end
+end
+# :startdoc:
+
+Webby.require_all_libs_relative_to(__FILE__)
 
 # EOF

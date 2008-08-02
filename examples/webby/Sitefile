@@ -1,0 +1,19 @@
+
+task :default => :build
+
+desc 'deploy the website to Rubyforge'
+task :deploy => [:build, 'deploy:rsync']
+
+SITE.user = 'tim_pease'
+SITE.host = 'rubyforge.org'
+SITE.remote_dir = '/var/www/gforge-projects/webby/'
+SITE.create_mode = 'directory'
+
+SITE.uv[:theme] = 'twilight'
+SITE.uv[:line_numbers] = true
+
+task :autobuild => :growl
+
+SITE.site_root = "http://webby.rubyforge.org"
+
+# EOF

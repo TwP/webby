@@ -121,7 +121,7 @@ class Resource
     # check to see if the layout is dirty, and if it is then we
     # are dirty, too
     if @mdata.has_key? 'layout'
-      lyt = ::Webby::Resources.layouts.find :filename => @mdata['layout']
+      lyt = ::Webby::Resources.find_layout(@mdata['layout'])
       unless lyt.nil?
         return true if lyt.dirty?
       end
