@@ -15,7 +15,9 @@ p(title). Table of Contents
 
 h2. Introduction
 
-Webby was created out of the need for a simple way to build and manage small websites. The desire was for a system that could take files written in plain text, combine them with a layout file and produce web pages. In this system, a single page can be written quickly without the need for HTML markup; the look and feel of the entire site can be changed by modifying the site layout file.
+Webby was created out of the desire for a simple way to build and manage small websites. The goal was a system that could take files written in plain text, combine them with a layout file and produce web pages. In this system, a single page can be written quickly without the need for HTML markup; the look and feel of the entire site can be changed by modifying the site layout file.
+
+p(TODO). make a better picture using omnigraffle
 
 <% graphviz :path => "images", :alt => "Webby Overview" do %>
 digraph overview {
@@ -52,9 +54,7 @@ h3. Installation
 
 Webby is easily installed as a Ruby gem. From a command prompt type in the following:
 
-<pre>
-sudo gem install webby
-</pre>
+pre. sudo gem install webby
 
 This will install Webby and all its required dependencies.
 
@@ -62,17 +62,18 @@ bq. For those users installing Webby on the Windows platform, please omit the @s
 
 To make use of all the features Webby has to offer, the following gems should also be installed. These gems provide different ways to transform text into HTML or CSS.
 
-<pre>
-sudo gem install RedCloth
-sudo gem install rdiscount
-sudo gem install haml
-sudo gem install coderay
-sudo gem install ultraviolet
-</pre>
+* RedCloth
+* rdiscount
+* haml
+* coderay
+* ultraviolet
 
 Webby can also use a few other programs to clean up generated HTML and to create pretty graphs and pictures. Where external programs are required, they will be duly noted in the manual.
 
 h3. Running Webby
+
+
+
 
 When the Webby gem is installed it also installs a @webby@ executable program. This program is used to create a new website and to update the associated rake tasks when a new version of Webby is released. Typing in @webby --help@ will show you the options this program supports. After you create a website, though, the webby command will not be needed. 
 
