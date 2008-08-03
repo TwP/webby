@@ -80,6 +80,7 @@ class Main
     # Make sure we're in a folder with a Sitefile
     app.do_option('--rakefile', 'Sitefile')
     app.do_option('--nosearch', nil)
+    app.do_option('--silent', nil)
 
     unless app.have_rakefile
       raise RuntimeError, "Sitefile not found"
