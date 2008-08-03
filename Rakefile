@@ -18,7 +18,7 @@ PROJ.version = Webby::VERSION
 PROJ.release_name = 'Forgetful Foobar'
 
 PROJ.ruby_opts = %w[-W0]
-PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$)
+PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$ ^webby.gemspec$)
 
 PROJ.rdoc.dir = 'doc/rdoc'
 PROJ.rdoc.remote_dir = 'rdoc'

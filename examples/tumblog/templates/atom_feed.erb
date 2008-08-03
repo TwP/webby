@@ -34,7 +34,7 @@ filter:    erb
     <link href="<%%= article.url %>" />
     <id>tag:<%%= @page.site %>,<%%= article.created_at.strftime('%Y-%m-%d') %>:<%%= article.created_at.to_i %></id>
     <updated><%%= article.created_at.xmlschema %></updated>
-    <content type="html"><%%= h(article.render) %></content>
+    <content type="html"><%%= h(render(article)) %></content>
   </entry>
   <%% end %>
 </feed>

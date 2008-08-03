@@ -5,7 +5,6 @@ Rakefile
 bin/webby
 examples/blog/Sitefile
 examples/blog/tasks/blog.rake
-examples/blog/tasks/deploy.rake
 examples/blog/templates/atom_feed.erb
 examples/blog/templates/blog/month.erb
 examples/blog/templates/blog/post.erb
@@ -26,7 +25,6 @@ examples/presentation/content/presentation/s5/s5-core.css
 examples/presentation/content/presentation/s5/slides.css
 examples/presentation/content/presentation/s5/slides.js
 examples/presentation/layouts/presentation.txt
-examples/presentation/tasks/deploy.rake
 examples/presentation/templates/_code_partial.erb
 examples/presentation/templates/presentation.erb
 examples/tumblog/Sitefile
@@ -43,7 +41,6 @@ examples/tumblog/content/tumblog/rss.txt
 examples/tumblog/layouts/tumblog/default.txt
 examples/tumblog/layouts/tumblog/post.txt
 examples/tumblog/lib/tumblog_helper.rb
-examples/tumblog/tasks/deploy.rake
 examples/tumblog/tasks/tumblog.rake
 examples/tumblog/templates/atom_feed.erb
 examples/tumblog/templates/tumblog/conversation.erb
@@ -67,7 +64,6 @@ examples/webby/content/sitemap.txt
 examples/webby/content/tips_and_tricks/index.txt
 examples/webby/content/tutorial/index.txt
 examples/webby/layouts/default.txt
-examples/webby/tasks/deploy.rake
 examples/webby/templates/page.erb
 examples/website/Sitefile
 examples/website/content/css/blueprint/License.txt
@@ -97,7 +93,6 @@ examples/website/content/css/site.css
 examples/website/content/index.txt
 examples/website/layouts/default.txt
 examples/website/lib/breadcrumbs.rb
-examples/website/tasks/deploy.rake
 examples/website/templates/_partial.erb
 examples/website/templates/page.erb
 examples/website/templates/presentation.erb
@@ -143,6 +138,7 @@ lib/webby/stelan/paginator.rb
 lib/webby/stelan/spawner.rb
 lib/webby/tasks/build.rake
 lib/webby/tasks/create.rake
+lib/webby/tasks/deploy.rake
 lib/webby/tasks/growl.rake
 lib/webby/tasks/heel.rake
 lib/webby/tasks/validate.rake
