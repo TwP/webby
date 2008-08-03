@@ -53,24 +53,24 @@ h3. Installation
 Webby is easily installed as a Ruby gem. From a command prompt type in the following:
 
 <pre>
-sudo gem install -y webby
+sudo gem install webby
 </pre>
 
 This will install Webby and all its required dependencies.
 
-bq. For those users installing Webby on the Windows platform, please omit the @sudo@ portion of the above command. You will also need to specify the *mswin32* versions of the _mongrel_ and _hpricot_ gems when prompted.
+bq. For those users installing Webby on the Windows platform, please omit the @sudo@ portion of the above command. You will also need to specify the *mswin32* versions of the _hpricot_ gem when prompted.
 
 To make use of all the features Webby has to offer, the following gems should also be installed. These gems provide different ways to transform text into HTML or CSS.
 
 <pre>
-sudo gem install -y RedCloth
-sudo gem install -y BlueCloth
-sudo gem install -y haml
-sudo gem install -y coderay
-sudo gem install -y ultraviolet
+sudo gem install RedCloth
+sudo gem install rdiscount
+sudo gem install haml
+sudo gem install coderay
+sudo gem install ultraviolet
 </pre>
 
-Webby can also use a few other programs to clean up generated HTML and to created pretty graphs and pictures. Where external programs are required, they will be duly noted in the manual.
+Webby can also use a few other programs to clean up generated HTML and to create pretty graphs and pictures. Where external programs are required, they will be duly noted in the manual.
 
 h3. Running Webby
 

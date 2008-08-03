@@ -25,7 +25,7 @@ examples/presentation/content/presentation/s5/print.css
 examples/presentation/content/presentation/s5/s5-core.css
 examples/presentation/content/presentation/s5/slides.css
 examples/presentation/content/presentation/s5/slides.js
-examples/presentation/layouts/presentation.rhtml
+examples/presentation/layouts/presentation.txt
 examples/presentation/tasks/deploy.rake
 examples/presentation/templates/_code_partial.erb
 examples/presentation/templates/presentation.erb
@@ -63,9 +63,10 @@ examples/webby/content/reference/index.txt
 examples/webby/content/robots.txt
 examples/webby/content/script/jquery.corner.js
 examples/webby/content/script/jquery.js
+examples/webby/content/sitemap.txt
 examples/webby/content/tips_and_tricks/index.txt
 examples/webby/content/tutorial/index.txt
-examples/webby/layouts/default.rhtml
+examples/webby/layouts/default.txt
 examples/webby/tasks/deploy.rake
 examples/webby/templates/page.erb
 examples/website/Sitefile
@@ -94,7 +95,7 @@ examples/website/content/css/blueprint/screen.css
 examples/website/content/css/coderay.css
 examples/website/content/css/site.css
 examples/website/content/index.txt
-examples/website/layouts/default.rhtml
+examples/website/layouts/default.txt
 examples/website/lib/breadcrumbs.rb
 examples/website/tasks/deploy.rake
 examples/website/templates/_partial.erb
