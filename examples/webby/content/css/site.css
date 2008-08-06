@@ -23,6 +23,7 @@ body
   :margin       0
   :color =      !text
   :font-family  Verdana, sans-serif
+  :background   white url('background.gif') repeat-x left top
 
 // Headings
 // ------------------------------------------------------------------------
@@ -45,13 +46,13 @@ blockquote
 
 pre
   :margin-left   18px
-  :padding       8px
+  :padding       8px 8px 8px 18px
   :color =       !code
   :font-family   monospace, courier
   :overflow      auto
-  :background =  !box_bg
-  :border =      1px solid !border
-  :border-left = 7px solid !border
+//  :background =  !box_bg
+//  :border =      1px solid !border
+  :border-left = 3px solid !border
 
 hr
   :background = !highlight

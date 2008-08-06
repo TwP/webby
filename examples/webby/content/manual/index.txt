@@ -72,45 +72,56 @@ Webby can also use a few other programs to clean up generated HTML and to create
 
 h3. Running Webby
 
-
-
-
-When the Webby gem is installed it also installs a @webby@ executable program. This program is used to create a new website and to update the associated rake tasks when a new version of Webby is released. Typing in @webby --help@ will show you the options this program supports. After you create a website, though, the webby command will not be needed. 
+When Webby is installed a command line program, @webby@, is installed alongside the gem. This program is used to create a new Webby site folder and files, and it is used within the site folder to generate the final site output from the content and layouts. Type in @webby --help@ on the command line will show you the options this program supports.
 
 <pre>
-$ webby --help
+webby --help
 
-Usage: webby [options] site
+Usage: webby [options] task [task args]
 
-    -u, --update                     update the rake tasks for the site
+    -D, --describe [PATTERN]         describe the tasks (matching optional PATTERN), then exit
+    -P, --prereqs                    display the tasks and dependencies, then exit
+    -T, --tasks [PATTERN]            display the tasks (matching optional PATTERN) with descriptions, then exit
+    -t, --trace                      turn on invoke/execute tracing, enable full backtrace
 
 common options:
     -h, --help                       show this message
         --version                    show version
 </pre>
 
+In this mode the @webby@ command is a smart wrapper around "Rake":http://docs.rubyrake.org/. It is used to run the tasks that will create new pages, build the output products, and deploy the site to a server. The list of available tasks can be seen by typing the following command in a Webby site folder:
 
-The day to day tasks of working with a webiste - creating pages, building the website, deploying changes to the server - are handled by the "Rake":http://docs.rubyrake.org/ application, a Ruby version of the more famous *make* program. Several rake tasks are provided by default. You are free to create others to make developing and deploying your website easier. To see the current list of rake tasks type in @rake -T@.
+pre. webby -T
+
+The second mode of the @webby@ program is used less often but it is no less important. This is the *generate* mode, and it is used to create a new Webby site folder and files. Type in @webby gen --help@ on the command to see how the program is used.
 
 <pre>
-$ rake -T
+webby gen --help
 
-rake autobuild          # Continuously build the website
-rake build              # Build the website
-rake clobber            # Delete the website
-rake create:page        # Create a new page
-rake create:partial     # Create a new partial
-rake deploy             # deploy the website to Rubyforge
-rake deploy:rsync       # Deploy to the server using rsync
-rake deploy:ssh         # Deploy to the server using ssh
-rake growl              # Send log events to Growl (Mac OS X only)
-rake heel:start         # Start the heel server to view website (not for Windows)
-rake heel:stop          # Stop the heel server
-rake rebuild            # Rebuild the website
-rake validate           # Alias to validate:internal
-rake validate:external  # Validate hyperlinks (include external sites)
-rake validate:internal  # Validate hyperlinks (exclude exteranl sites)
+Usage: webby gen [options] template site
+
+    -f, --force                      overwrite files that already exist
+    -s, --skip                       skip files that already exist
+    -u, --update                     update rake tasks for the site
+    -p, --pretend                    run but do not make any changes
+
+    -t, --templates                  list available templates
+
+common options:
+    -h, --help                       show this message
+        --version                    show version
 </pre>
+
+The Webby generate command will create a new site folder (or update an existing site folder) using files from the desired template type. Each template is a collection of files that can be used as the starting point for a Webby project. You can see the list of available templates:
+
+pre. webby gen --templates
+
+h2. Getting Started
+
+p(TODO). have a little box on the left with a list of prerequisites for doing this section ??
+
+p(TODO). start here with a section on creating a new blog, modifying pages, creating pages, new layouts, and provide links to more in depth coverage later in the manual
+
 
 h2. Working With Resources
 
