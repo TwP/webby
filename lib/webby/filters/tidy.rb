@@ -41,11 +41,6 @@ class Tidy
   # created and output Tidy formatted HTML or XHTML.
   #
   def process
-    %x[tidy -v 2>&1]
-    unless 0 == $?.exitstatus
-      raise NameError, "'tidy' not found on the path"
-    end
-
     cmd = "tidy %s -q -f #{@err.path}" % ::Webby.site.tidy_options
     out = IO.popen(cmd, 'r+') do |tidy|
       tidy.write @str
@@ -62,10 +57,18 @@ class Tidy
 
 end  # class Tidy
 
+%x[tidy -v 2>&1]
 # Render html into html/xhtml via the Tidy program
-#
-register :tidy do |input|
-  Filters::Tidy.new(input).process
+if 0 == $?.exitstatus
+  register :tidy do |input|
+    Filters::Tidy.new(input).process
+  end
+
+# Otherwise raise an error if the user tries to use tidy
+else
+  register :tidy do |input|
+    raise Webby::Error, "'tidy' must be installed to use the tidy filter"
+  end
 end
 
 end  # module Filters
