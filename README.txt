@@ -6,50 +6,34 @@ Webby
 
 == DESCRIPTION:
 
-Webby is a super fantastic little website management system. It would be
-called a _content management system_ if it were a bigger kid. But, it's
-just a runt with a special knack for transforming text. And that's really
-all it does - manages the legwork of turning text into something else, an
-*ASCII Alchemist* if you will.
+*Webby* is a fantastic little website management system. It would be called a _content management system_ if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.
 
-Webby works by combining the contents of a *page* with a *layout* to
-produce HTML. The layout contains everything common to all the pages -
-HTML headers, navigation menu, footer, etc. - and the page contains just
-the information for that page. You can use your favorite markup language
-to write your pages; Webby supports quite a few.
+Webby works by combining the contents of a *page* with a *layout* to produce HTML. The layout contains everything common to all the pages - HTML headers, navigation menu, footer, etc. - and the page contains just the information for that page. You can use your favorite markup language to write your pages; Webby supports quite a few.
 
 Install Webby and try it out!
 
 == FEATURES:
 
-* choose your templating language: *eRuby*, *Textile*, *Markdown*, *HAML*
-* support for {CodeRay}[http://coderay.rubychan.de/] syntax highlighting
+* choose your templating language: *ERB*, *Textile*, *Markdown*, *HAML*, *SASS*
+* support for "UltraViolet":http://ultraviolet.rubyforge.org/ and "CodeRay":http://coderay.rubychan.de/ syntax highlighting
+* embeddable DOT scripts for "Graphviz":http://www.graphviz.org/ graphs
+* "LaTeX":http://www.latex-project.org/ snippets for mathematical formulas
+* automatically clean up generated content using "Tidy":http://tidy.sourceforge.net/
 * quick and speedy - only builds pages that have changed
 * deploy anywhere - it's just HTML, no special server stuff required
-* happy {rake}[http://docs.rubyrake.org/] tasks for deploying your website to a server
+* happy "rake":http://docs.rubyrake.org/ tasks for deploying your website to a server
 * build new pages from templates for quicker blog posts and news items
 
 But Wait! There's More!
 
-Webby has a great _autobuild_ feature that continuously generates HTML whenever
-the *pages* or *layouts* change. The HTML is served up via
-{heel}[http://copiousfreetime.rubyforge.org/heel/], a static file webserver
-based on mongrel. Whenever you change a page, you can immediately see those
-changes without having to run any commands.
+Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via "heel":http://copiousfreetime.rubyforge.org/heel/, a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
 
-   $ rake autobuild
-   heel --root output --daemonize
-   -- starting autobuild (Ctrl-C to stop)
-   - started at 10:21:26
-   creating output/index.html
-   - started at 10:22:57
-   creating output/index.html
+   $ webby autobuild
+   [10:21:26]  INFO: starting autobuild (Ctrl-C to stop)
+   [10:21:26]  INFO: creating output/index.html
+   [10:22:57]  INFO: creating output/index.html
 
-Webby is not limited to producing HTML. By no means! Do you ever get tired of
-repeating the same color code <b>#D3C4A2</b> in your CSS files? Webby can help.
-Need some customized JavaScript for your website. Webby can help. Anytime you
-find yourself repeating the same bit of text over and over, then you should be
-using Webby.
+Webby is not limited to producing HTML. By no means! Do you ever get tired of repeating the same color code *#D3C4A2* in your CSS files? Webby can help. Need some customized JavaScript for your website. Webby can help. Anytime you find yourself repeating the same bit of text over and over, then you should be using Webby.
 
 == INSTALL:
 
@@ -57,24 +41,22 @@ using Webby.
 
 == EXAMPLE:
 
-   $ webby my_site
+   $ webby gen website my_site
    creating my_site
 
    $ cd my_site
 
-   $ rake create:page new_page.txt
-   creating content/new_page.txt
+   $ webby create:page 'new page'
+   creating content/new-page.txt
 
-   $ rake create:page another/new_page.txt
-   creating content/another/new_page.txt
+   $ webby create:page 'another/new page'
+   creating content/another/new-page.txt
 
-   $ rake autobuild
-   heel --root output --daemonize
-   -- starting autobuild (Ctrl-C to stop)
-   - started at 07:01:30
-   creating output/index.html
-   creating output/new_page.html
-   creating output/another/new_page.html
+   $ webby autobuild
+   [10:21:26]  INFO: starting autobuild (Ctrl-C to stop)
+   [10:21:26]  INFO: creating output/index.html
+   [10:21:26]  INFO: creating output/new-page.html
+   [10:21:26]  INFO: creating output/another/new-page.html
 
 == REQUIREMENTS:
 
