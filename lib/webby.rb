@@ -202,13 +202,17 @@ end  # module Webby
 
 
 # call-seq:
-#    try_require( library )    => true or false
+#    try_require( library, gemname = nil )    => true or false
 #
 # Try to laod the given _library_ using the built-in require, but do not
 # raise a LoadError if unsuccessful. Returns +true+ if the _library_ was
 # successfully loaded; returns +false+ otherwise.
 #
-def try_require( lib )
+# If a _gemname_ is given, then the "gem gemname" command will be called
+# before the library is loaded.
+#
+def try_require( lib, gemname = nil )
+  gem gemname unless gemname.nil?
   require lib
   true
 rescue LoadError

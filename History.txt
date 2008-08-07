@@ -1,4 +1,4 @@
-== 0.9.0 / 2008-07-
+== 0.9.0 / 2008-08-
 
 * 2 major enhancements
   - The "rake" command line tool has been replaced by the "webby"
@@ -9,11 +9,12 @@
   - Addition of a "tumblog" template
   - Addition of a sitemap file (Ana Nelson)
   - Updated to version 6.4.2 of ImageMagick for tex2img conversions
-* 3 bug fixes
+* 4 bug fixes
   - Better error message when an unkonwn filter is given
   - Table of contents generation bug
   - Failing to clean out the "content_for" cache when doing a
     multi-page render
+  - Explicitly loading the RedCloth gem
 
 == 0.8.4 / 2008-06-03
 

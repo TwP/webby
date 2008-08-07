@@ -1,6 +1,6 @@
 
 # Render text via markdown using the RDiscount library.
-if try_require 'rdiscount'
+if try_require('rdiscount', 'rdiscount')
 
   Webby::Filters.register :markdown do |input|
     RDiscount.new(input).to_html

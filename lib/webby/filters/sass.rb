@@ -1,6 +1,6 @@
 
 # Render text via the Sass library (part of Haml)
-if try_require 'sass'
+if try_require('sass', 'haml')
 
   Webby::Filters.register :sass do |input, cursor|
     opts = ::Webby.site.sass_options.merge(cursor.page.sass_options || {})

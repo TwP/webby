@@ -1,6 +1,6 @@
 
 # Render text via the Haml library
-if try_require 'haml'
+if try_require('haml', 'haml')
 
   Webby::Filters.register :haml do |input, cursor|
     opts = ::Webby.site.haml_options.merge(cursor.page.haml_options || {})
