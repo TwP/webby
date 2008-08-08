@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tim Pease"]
-  s.date = %q{2008-08-07}
+  s.date = %q{2008-08-08}
   s.default_executable = %q{webby}
   s.description = %q{*Webby* is a fantastic little website management system. It would be called a _content management system_ if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.}
   s.email = %q{tim.pease@gmail.com}
@@ -26,14 +26,14 @@ Gem::Specification.new do |s|
     if current_version >= 3 then
       s.add_runtime_dependency(%q<directory_watcher>, [">= 1.1.1"])
       s.add_runtime_dependency(%q<heel>, [">= 1.0.0"])
-      s.add_runtime_dependency(%q<hpricot>, [">= 0.6.161"])
+      s.add_runtime_dependency(%q<hpricot>, ["= 0.6.0"])
       s.add_runtime_dependency(%q<logging>, [">= 0.9.0"])
       s.add_runtime_dependency(%q<rake>, [">= 0.8.1"])
       s.add_runtime_dependency(%q<rspec>, [">= 1.1.4"])
     else
       s.add_dependency(%q<directory_watcher>, [">= 1.1.1"])
       s.add_dependency(%q<heel>, [">= 1.0.0"])
-      s.add_dependency(%q<hpricot>, [">= 0.6.161"])
+      s.add_dependency(%q<hpricot>, ["= 0.6.0"])
       s.add_dependency(%q<logging>, [">= 0.9.0"])
       s.add_dependency(%q<rake>, [">= 0.8.1"])
       s.add_dependency(%q<rspec>, [">= 1.1.4"])
@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<directory_watcher>, [">= 1.1.1"])
     s.add_dependency(%q<heel>, [">= 1.0.0"])
-    s.add_dependency(%q<hpricot>, [">= 0.6.161"])
+    s.add_dependency(%q<hpricot>, ["= 0.6.0"])
     s.add_dependency(%q<logging>, [">= 0.9.0"])
     s.add_dependency(%q<rake>, [">= 0.8.1"])
     s.add_dependency(%q<rspec>, [">= 1.1.4"])
