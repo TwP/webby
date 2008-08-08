@@ -102,6 +102,7 @@ lib/webby/auto_builder.rb
 lib/webby/builder.rb
 lib/webby/core_ext/enumerable.rb
 lib/webby/core_ext/hash.rb
+lib/webby/core_ext/kernel.rb
 lib/webby/core_ext/string.rb
 lib/webby/core_ext/time.rb
 lib/webby/filters.rb

@@ -10,8 +10,6 @@ class Webby::Main
 
 class Generator
 
-  WINDOWS = %r/djgpp|(cyg|ms|bcc)win|mingw/ =~ RUBY_PLATFORM    # :nodoc:
-
   attr_accessor :template, :site
   attr_reader :options
 

@@ -57,9 +57,8 @@ class Tidy
 
 end  # class Tidy
 
-%x[tidy -v 2>&1]
 # Render html into html/xhtml via the Tidy program
-if 0 == $?.exitstatus
+if cmd_available? %w[tidy -v]
   register :tidy do |input|
     Filters::Tidy.new(input).process
   end

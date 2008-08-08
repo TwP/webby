@@ -123,12 +123,9 @@ module TexImgHelper
   end
 end  # module TexImgHelper
 
-%x[pdflatex --version 2>&1]
-if 0 == $?.exitstatus
-  %x[convert --help 2>&1]
-  if (0..1).include?($?.exitstatus)
-    register(TexImgHelper)
-  end
+if  cmd_available?(%w[pdflatex --version]) \
+and cmd_available?(%w[convert --help])
+  register(TexImgHelper)
 end
 
 end  # module Webby::Helpers

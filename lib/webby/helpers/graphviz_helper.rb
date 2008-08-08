@@ -127,8 +127,7 @@ module GraphvizHelper
   end
 end  # module GraphvizHelper
 
-%x[dot -V 2>&1]
-if 0 == $?.exitstatus
+if cmd_available? %w[dot -V]
   register(GraphvizHelper)
 end
 

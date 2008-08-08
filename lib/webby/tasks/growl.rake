@@ -1,5 +1,5 @@
 
-unless Webby::Main::Generator::WINDOWS
+unless WINDOWS
 
 task :growl do
   Logging::Logger['Webby'].add_appenders(Logging::Appenders::Growl.new(
