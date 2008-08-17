@@ -98,6 +98,9 @@ examples/website/templates/_partial.erb
 examples/website/templates/page.erb
 examples/website/templates/presentation.erb
 lib/webby.rb
+lib/webby/apps.rb
+lib/webby/apps/generator.rb
+lib/webby/apps/main.rb
 lib/webby/auto_builder.rb
 lib/webby/builder.rb
 lib/webby/core_ext/enumerable.rb
@@ -124,8 +127,6 @@ lib/webby/helpers/tex_img_helper.rb
 lib/webby/helpers/ultraviolet_helper.rb
 lib/webby/helpers/url_helper.rb
 lib/webby/link_validator.rb
-lib/webby/main.rb
-lib/webby/main/generator.rb
 lib/webby/renderer.rb
 lib/webby/resources.rb
 lib/webby/resources/db.rb
@@ -149,9 +150,9 @@ spec/core_ext/string_spec.rb
 spec/core_ext/time_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
+spec/webby/apps/generator_spec.rb
+spec/webby/apps/main_spec.rb
 spec/webby/helpers/capture_helper_spec.rb
-spec/webby/main/generator_spec.rb
-spec/webby/main_spec.rb
 spec/webby/resources/file_spec.rb
 spec/webby/resources_spec.rb
 tasks/ann.rake

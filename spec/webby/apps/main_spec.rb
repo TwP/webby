@@ -1,12 +1,11 @@
 
-
-
-require ::File.join(::File.dirname(__FILE__), %w[.. spec_helper])
+require ::File.expand_path(
+    ::File.join(::File.dirname(__FILE__), %w[.. .. spec_helper]))
 
 # ---------------------------------------------------------------------------
-describe Webby::Main do
+describe Webby::Apps::Main do
   before do
-    @main = Webby::Main.new
+    @main = Webby::Apps::Main.new
   end
 
   describe "#capture_command_line_args" do

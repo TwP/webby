@@ -15,7 +15,7 @@ PROJ.url = 'http://webby.rubyforge.org/'
 PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
 PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
-PROJ.release_name = 'Forgetful Foobar'
+PROJ.release_name = 'Vegan Velociraptor'
 
 PROJ.ruby_opts = %w[-W0]
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$ ^webby.gemspec$)
@@ -24,7 +24,6 @@ PROJ.rdoc.dir = 'doc/rdoc'
 PROJ.rdoc.remote_dir = 'rdoc'
 PROJ.rdoc.exclude << %w(^data ^examples)
 
-PROJ.svn.path = ''
 PROJ.spec.opts << '--color'
 
 PROJ.ann.email[:to] << 'webby-forum@googlegroups.com'
@@ -49,6 +48,7 @@ depend_on 'directory_watcher'
 depend_on 'heel'
 depend_on 'hpricot', '= 0.6.0'
 depend_on 'logging'
+depend_on 'main'
 depend_on 'rake'
 depend_on 'rspec'
 

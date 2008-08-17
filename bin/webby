@@ -2,6 +2,7 @@
 
 require File.expand_path(
     File.join(File.dirname(__FILE__), %w[.. lib webby]))
-::Webby::Main.run ARGV
+
+::Webby::Apps::Main.new(ARGV, ENV).run
 
 # EOF

@@ -3,10 +3,10 @@ require ::File.expand_path(
     ::File.join(::File.dirname(__FILE__), %w[.. .. spec_helper]))
 require 'stringio'
 
-describe Webby::Main::Generator do
+describe Webby::Apps::Generator do
 
   before :each do
-    @generator = Webby::Main::Generator.new
+    @generator = Webby::Apps::Generator.new
   end
 
   it "should return a list of available templates" do
@@ -18,11 +18,11 @@ describe Webby::Main::Generator do
     @generator.parse %w[-p website foo]
     @generator.pretend?.should == true
 
-    @generator = Webby::Main::Generator.new
+    @generator = Webby::Apps::Generator.new
     @generator.parse %w[website foo]
     @generator.pretend?.should == false
 
-    @generator = Webby::Main::Generator.new
+    @generator = Webby::Apps::Generator.new
     @generator.parse %w[--pretend website foo]
     @generator.pretend?.should == true
   end
@@ -45,7 +45,6 @@ describe Webby::Main::Generator do
         "content/css/blueprint/plugins/fancy-type",
         "layouts",
         "lib",
-        "tasks",
         "templates"
     ]
     h["content"].should == %w[content/index.txt]
@@ -56,7 +55,7 @@ describe Webby::Main::Generator do
 
     before :each do
       @strio = StringIO.new
-      @generator = Webby::Main::Generator.new
+      @generator = Webby::Apps::Generator.new
       @generator.instance_variable_set(:@stdout, @strio)
 
       class << @strio
