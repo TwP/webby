@@ -22,7 +22,7 @@ PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$ ^webby.gemspec$)
 
 PROJ.rdoc.dir = 'doc/rdoc'
 PROJ.rdoc.remote_dir = 'rdoc'
-PROJ.rdoc.exclude << %w(^data ^examples)
+PROJ.rdoc.exclude << %w(^examples)
 
 PROJ.spec.opts << '--color'
 
