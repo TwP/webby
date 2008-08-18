@@ -18,9 +18,9 @@ Main = ::Main.create {
   }
 
   option('describe', 'D') {
+    desc 'describe the tasks (mathcing optional PATTERN)'
     argument :optional
     synopsis '--describe=[PATTERN], -D'
-    desc 'describe the tasks (mathcing optional PATTERN)'
   }
 
   option('prereqs', 'P') {
@@ -28,9 +28,9 @@ Main = ::Main.create {
   }
 
   option('tasks', 'T') {
+    desc 'display the tasks (mathcing optional PATTERN)'
     argument :optional
     synopsis '--tasks=[PATTERN], -T'
-    desc 'display the tasks (mathcing optional PATTERN)'
   }
 
   option('trace', 't') {

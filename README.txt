@@ -41,7 +41,7 @@ Webby is not limited to producing HTML. By no means! Do you ever get tired of re
 
 == EXAMPLE:
 
-   $ webby gen website my_site
+   $ webby-gen website my_site
    creating my_site
 
    $ cd my_site

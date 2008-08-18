@@ -96,7 +96,7 @@ describe Webby::Apps::Generator do
       lambda{@generator.parse %w[website]}.
           should raise_error(SystemExit, 'exit')
       @strio.to_s.split("\n").first.
-          should == 'Usage: webby gen [options] template site'
+          should == 'Usage: webby-gen [options] template site'
     end
 
     it "should exit if an unknown template is given" do

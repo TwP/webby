@@ -33,7 +33,11 @@ class Generator
   #
   def parse( args )
     opts = OptionParser.new
-    opts.banner = 'Usage: webby gen [options] template site'
+    opts.banner = 'Usage: webby-gen [options] template site'
+
+    opts.separator ''
+    opts.separator 'The webby-gen command is used to generate a site from a standard template.'
+    opts.separator 'A new site can be created, or an existing site can be added to or updated.'
 
     opts.separator ''
     opts.on('-f', '--force',
@@ -47,20 +51,18 @@ class Generator
 
     opts.separator ''
     opts.on('-t', '--templates', 'list available templates') {
-      @stdout.puts opts
       ary = templates.map {|t| ::File.basename(t)}
       ary.delete 'webby'
       @stdout.puts "\nAvailable Templates"
-      @stdout.puts "    #{ary.join(', ')}"
-      @stdout.puts
+      @stdout.puts "    #{ary.join(', ')}\n"
       exit
     }
 
     opts.separator ''
     opts.separator 'common options:'
 
-    opts.on_tail( '-h', '--help', 'show this message' ) {@stdout.puts opts; exit}
-    opts.on_tail( '--version', 'show version' ) do
+    opts.on( '-h', '--help', 'show this message' ) {@stdout.puts opts; exit}
+    opts.on( '--version', 'show version' ) do
       @stdout.puts "Webby #{::Webby::VERSION}"
       exit
     end
@@ -71,18 +73,18 @@ class Generator
 
     # if no site was given, see if there is a Sitefile in the current
     # directory
-    if @site.nil?
-      @site = '.' if test(?f, 'Sitefile')
+    if site.nil?
+      self.site = '.' if test(?f, 'Sitefile')
     end
 
     # exit if comand line args are missing
-    if @site.nil? or tmpl.nil?
+    if site.nil? or tmpl.nil?
       @stdout.puts opts
       exit 1
     end
 
     templates.each {|t| self.template = t if t =~ %r/\/#{tmpl}$/}
-    if @template.nil?
+    if template.nil?
       @stdout.puts opts
       abort "Could not find template '#{tmpl}'"
     end

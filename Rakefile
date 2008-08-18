@@ -48,7 +48,6 @@ depend_on 'directory_watcher'
 depend_on 'heel'
 depend_on 'hpricot', '= 0.6.0'
 depend_on 'logging'
-depend_on 'main'
 depend_on 'rake'
 depend_on 'rspec'
 
