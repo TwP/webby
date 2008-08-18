@@ -10,6 +10,13 @@ module Webby::Apps
 
 class Generator
 
+  # Create a new Generator instance and run the +webby+ application given the
+  # command line _args_.
+  #
+  def self.run( args )
+    self.new.run args
+  end
+
   attr_accessor :template, :site
   attr_reader :options
 
@@ -54,7 +61,8 @@ class Generator
       ary = templates.map {|t| ::File.basename(t)}
       ary.delete 'webby'
       @stdout.puts "\nAvailable Templates"
-      @stdout.puts "    #{ary.join(', ')}\n"
+      @stdout.puts "    #{ary.join(', ')}"
+      @stdout.puts
       exit
     }
 

@@ -1,72 +1,112 @@
-require 'main'
+require 'optparse'
 require 'rake'
 
 module Webby::Apps
 
-Main = ::Main.create {
-  author ::Webby::Apps.author
-  version ::Webby::VERSION
+class Main
 
-  description 'TODO: add a description'
+  # Create a new instance of Main, and run the +webby+ application given the
+  # command line _args_.
+  #
+  def self.run( args )
+    self.new.run args
+  end
 
-  examples 'TODO: add some examples'
+  # Create a new Main webby object for building websites.
+  #
+  def initialize
+    @stdout = $stdout
+  end
 
-  argument('target') {
-    desc 'the task to exectue'
-    optional
-    attr
-  }
+  # Runs the main webby application. The command line arguments are passed
+  # in to this method as an array of strings. The command line arguments are
+  # parsed to figure out which rake task to invoke.
+  #
+  def run( args )
+    parse args
+    init args
+    rake
+  end
 
-  option('describe', 'D') {
-    desc 'describe the tasks (mathcing optional PATTERN)'
-    argument :optional
-    synopsis '--describe=[PATTERN], -D'
-  }
+  # Parse the command line _args_ for options and commands to invoke.
+  #
+  def parse( args )
+    opts = OptionParser.new
+    opts.banner = 'Usage: webby [options] target [target args]'
 
-  option('prereqs', 'P') {
-    desc 'display the tasks and dependencies, then exit'
-  }
+    opts.separator ''
+    opts.on('-D', '--describe [PATTERN]', 'describe the tasks (matching optional PATTERN), then exit') {|pattern| app.do_option('--describe', pattern)}
+    opts.on('-P', '--prereqs', 'display the tasks and dependencies, then exit') {app.do_option('--prereqs', nil)}
+    opts.on('-T', '--tasks [PATTERN]', 'display the tasks (matching optional PATTERN) with descriptions, then exit') {|pattern| app.do_option('--tasks', pattern)}
+    opts.on('-t', '--trace', 'turn on invoke/execute tracing, enable full backtrace') {app.do_option('--trace', nil)}
 
-  option('tasks', 'T') {
-    desc 'display the tasks (mathcing optional PATTERN)'
-    argument :optional
-    synopsis '--tasks=[PATTERN], -T'
-  }
+    opts.separator ''
+    opts.separator 'common options:'
 
-  option('trace', 't') {
-    desc 'turn on invoke/execute tracing, enable full backtrace'
-  }
-
-  def run
-    app = Rake.application
-
-    # configure the rake application
-    %w[describe prereqs tasks trace].each do |opt|
-      p = params[opt]
-      app.do_option("--#{opt}", (true == p.value ? nil : p.value)) if p.given?
+    opts.on_tail( '-h', '--help', 'show this message' ) do
+      @stdout.puts opts
+      exit
     end
+    opts.on_tail( '--version', 'show version' ) do
+      @stdout.puts "Webby #{::Webby::VERSION}"
+      exit
+    end
+
+    opts.parse! args
+
+    ARGV.replace Array(args.shift)
+    args
+  end
+
+  # Initialize the Rake application object and load the core rake tasks, the
+  # site specific rake tasks, and the site specific ruby code. Any extra
+  # command line arguments are converted into a page name and directory that
+  # might get created (depending upon the task invoked).
+  #
+  def init( args )
+    # Make sure we're in a folder with a Sitefile
     app.do_option('--rakefile', 'Sitefile')
     app.do_option('--nosearch', nil)
     app.do_option('--silent', nil)
 
-    # Make sure we're in a folder with a Sitefile
     unless app.have_rakefile
       raise RuntimeError, "Sitefile not found"
     end
 
-    # do the webby stuff
     import_default_tasks
     import_website_tasks
     require_lib_files
-    capture_command_line_args([argv])
+    capture_command_line_args(args)
+    args
+  end
 
-    # the only thing we want to send to rake is the target to execute
-    ARGV.replace Array(target)
-
-    # run rake
+  # Execute the rake command.
+  #
+  def rake
     app.init 'webby'
     app.load_rakefile
     app.top_level
+  end
+
+  # Return the Rake application object.
+  #
+  def app
+    Rake.application
+  end
+
+  # Search for the "Sitefile" starting in the current directory and working
+  # upwards through the filesystem until the root of the filesystem is
+  # reached. If a "Sitefile" is not found, a RuntimeError is raised.
+  #
+  def find_sitefile
+    here = Dir.pwd
+    while ! app.have_rakefile
+      Dir.chdir("..")
+      if Dir.pwd == here || options.nosearch
+        fail "No Sitefile found"
+      end
+      here = Dir.pwd
+    end
   end
 
   def import_default_tasks
@@ -101,29 +141,7 @@ Main = ::Main.create {
     args
   end
 
-}
-
-# The Webby::Main class contains all the functionality needed by the +webby+
-# command line application.
-#
-class OldMain
-
-  # Search for the "Sitefile" starting in the current directory and working
-  # upwards through the filesystem until the root of the filesystem is
-  # reached. If a "Sitefile" is not found, a RuntimeError is raised.
-  #
-  def find_sitefile
-    here = Dir.pwd
-    while ! app.have_rakefile
-      Dir.chdir("..")
-      if Dir.pwd == here || options.nosearch
-        fail "No Sitefile found"
-      end
-      here = Dir.pwd
-    end
-  end
-
-end
+end  # class Main
 end  # module Webby::Apps
 
 # :stopdoc:
