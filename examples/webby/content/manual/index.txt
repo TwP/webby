@@ -72,6 +72,8 @@ Webby can also use a few other programs to clean up generated HTML and to create
 
 h3. Running Webby
 
+p(TODO). update to reflect the two commands webby-gen and webby
+
 When Webby is installed a command line program, @webby@, is installed alongside the gem. This program is used to create a new Webby site folder and files, and it is used within the site folder to generate the final site output from the content and layouts. Type in @webby --help@ on the command line will show you the options this program supports.
 
 <pre>
@@ -93,12 +95,12 @@ In this mode the @webby@ command is a smart wrapper around "Rake":http://docs.ru
 
 pre. webby -T
 
-The second mode of the @webby@ program is used less often but it is no less important. This is the *generate* mode, and it is used to create a new Webby site folder and files. Type in @webby gen --help@ on the command to see how the program is used.
+The second mode of the @webby@ program is used less often but it is no less important. This is the *generate* mode, and it is used to create a new Webby site folder and files. Type in @webby-gen --help@ on the command to see how the program is used.
 
 <pre>
-webby gen --help
+webby-gen --help
 
-Usage: webby gen [options] template site
+Usage: webby-gen [options] template site
 
     -f, --force                      overwrite files that already exist
     -s, --skip                       skip files that already exist
@@ -114,7 +116,7 @@ common options:
 
 The Webby generate command will create a new site folder (or update an existing site folder) using files from the desired template type. Each template is a collection of files that can be used as the starting point for a Webby project. You can see the list of available templates:
 
-pre. webby gen --templates
+pre. webby-gen --templates
 
 h2. Getting Started
 

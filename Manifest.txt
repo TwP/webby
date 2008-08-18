@@ -3,6 +3,7 @@ Manifest.txt
 README.txt
 Rakefile
 bin/webby
+bin/webby-gen
 examples/blog/Sitefile
 examples/blog/tasks/blog.rake
 examples/blog/templates/atom_feed.erb
