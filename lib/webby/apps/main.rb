@@ -23,6 +23,8 @@ class Main
   # parsed to figure out which rake task to invoke.
   #
   def run( args )
+    args = args.dup
+
     parse args
     init args
     rake
@@ -129,9 +131,12 @@ class Main
                          "please quote the page title"
     end
 
-    args.dir   = ::Webby::Resources::File.dirname(args.raw.join('-').downcase)
-    args.slug  = ::Webby::Resources::File.basename(args.raw.join('-').downcase).to_url
-    args.title = ::Webby::Resources::File.basename(args.raw.join(' ')).titlecase
+    dashed = args.raw.join('-').downcase
+    spaced = args.raw.join(' ')
+
+    args.dir   = ::File.dirname(dashed)
+    args.slug  = ::Webby::Resources::File.basename(dashed).to_url
+    args.title = ::Webby::Resources::File.basename(spaced).titlecase
 
     # page should be dir/slug without leading /
     args.page  = ::File.join(args.dir, args.slug).gsub(/^\//, '')

@@ -1,0 +1,73 @@
+---
+title:      Release 0.9.0
+created_at: 2008-08-18 16:05:25.189950 -06:00
+filter:
+  - erb
+  - textile
+---
+h2. <%= h(@page.title) %>
+
+Release 0.9.0 adds new features and fixes some bugs. Most notably is the move away from the rake command line application, and the daily usage of the *webby* command line application to build sites.
+
+* 2 major enhancements
+** The "rake" command line tool has been replaced by the "webby" command line tool for day to day site tasks
+** Now using the "rdiscount" gem for markdown syntax
+* 4 minor enhancements
+** Layouts can exist in subdirectories of the layouts folder
+** Addition of a "tumblog" template
+** Addition of a sitemap file (Ana Nelson)
+** Updated to version 6.4.2 of ImageMagick for tex2img conversions
+* 5 bug fixes
+** Better error message when an unkonwn filter is given
+** Table of contents generation bug
+** Failing to clean out the "content_for" cache when doing a multi-page render
+** Explicitly loading the RedCloth gem
+** Handling exceptions from system calls on the Windows platform
+
+h3. Steps to Upgrade a Site
+
+* rename *Rakefile* to *Sitefile*
+* edit the *Sitefile* and remove the @load tasks/setup.rb@ line
+* remove *setup.rb* from the *tasks* folder
+* remove the following files from the *tasks* folder _unless you have modified them_
+** build.rake
+** create.rake
+** deploy.rake
+** growl.rake
+** heel.rake
+** validate.rake
+
+h3. Rationale
+
+*webby vs. rake*
+
+The most prominent change in this release is the move away from the rake command line application. The webby command line application has taken its place. The impetus for this change is rake's inability to handle command line arguments being passed to individual tasks. Specifically, when creating a new page in a site the filename of the page is passed on the command line. Much "hackery" was taking place behind the scenes in order for this to work with the rake command line app.
+
+Since "hackery" is prone to break, the immediate benefit of the webby command line app is future stability in the face of changes to rake. The rake infrastructure is still used under the hood, but the webby command line app now handles parsing of tasks and task arguments. This is a much more graceful solution.
+
+*webby-gen*
+
+A second command line application has been created -- *webby-gen*. When a new webby site was created with the old webby command line app, it was an "all or nothing" affair. Blueprint style sheets were created alongside S5 presentation templates with a smattering of blog support thrown in for good measure. Each of these can now be created independently of the others. Furthermore, a site template can be instantiated into an already existing site. Support for S5 presentations can be included into a site if it is needed.
+
+An attempt was made to roll all this functionality into the webby command line app. However, all the options proved to be cumbersome for one utility. Occam's razor was applied to split the two.
+
+*sitefile*
+
+Slightly related to the "webby vs. rake" section above, I wanted to make a distinction between the "old way" of doing things and the "new way" of doing things. Of all the choices made in the release this was the most capricious.
+
+*tasks*
+
+It simply made sense to move the vast majority of the common website tasks into the webby gem itself. I found that these same task files were repeated over and over again in all the sites, and they were not being modified at all. This fact combined with the move to the webby command line app provided for a convenient way to use the tasks from the webby gem.
+
+Some of the site templates (blog and tumblog, for example) still create rake tasks in the tasks folder. These are examples of specific behaviors that are good to be able to dissect for inspiration.
+
+h3. Thanks
+
+Thanks to everyone who has helped make Webby possible!
+If you've made a website with webby, thanks.
+If you've contributed some source code, thanks.
+If you've written up some documentation, thanks.
+If you've told a friend, thanks.
+
+Blessings,
+TwP

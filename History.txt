@@ -9,12 +9,13 @@
   - Addition of a "tumblog" template
   - Addition of a sitemap file (Ana Nelson)
   - Updated to version 6.4.2 of ImageMagick for tex2img conversions
-* 4 bug fixes
+* 5 bug fixes
   - Better error message when an unkonwn filter is given
   - Table of contents generation bug
   - Failing to clean out the "content_for" cache when doing a
     multi-page render
   - Explicitly loading the RedCloth gem
+  - Handling exceptions from system calls on the Windows platform
 
 == 0.8.4 / 2008-06-03
 
