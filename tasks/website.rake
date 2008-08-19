@@ -7,7 +7,7 @@ namespace :website do
     begin
       olddir = pwd
       chdir 'examples/webby'
-      sh 'rake rebuild BASE="http://webby.rubyforge.org"'
+      sh 'BASE="http://webby.rubyforge.org" webby rebuild'
       cp_r 'output/.', olddir + '/doc'
     ensure
       chdir olddir

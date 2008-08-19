@@ -31,7 +31,7 @@ describe Webby::Apps::Main do
     it "should set the dir from the page's dirname" do
       page = "foo/bar/this-is-a-page.txt"
       args = @main.send :capture_command_line_args, [page]
-      args.dir.should == "bar"
+      args.dir.should == "foo/bar"
     end
 
     it "should set the slug from the page's basename" do
@@ -53,7 +53,7 @@ describe Webby::Apps::Main do
 
       page = "foo/bar/10% Inspiration & 90% Perspiration"
       args = @main.send :capture_command_line_args, [page]
-      args.page.should == "bar/10-percent-inspiration-and-90-percent-perspiration"
+      args.page.should == "foo/bar/10-percent-inspiration-and-90-percent-perspiration"
     end
 
     # TODO: Is this desired behavior?

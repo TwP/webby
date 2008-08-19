@@ -378,7 +378,7 @@ The basepath filter only works on HTML/XHTML text, and therefore, it should be o
 Include "basepath" in the filter list of your layout(s). Specify the new base path to use either as a command line argument or as an option configured in the _Rakefile_. The base path specified on the command line takes precedence over the base path specified in the Rakefile.
 
 <pre style="margin-bottom:0">
-$ rake rebuild BASE='http://your.website.com/path/to/your/site'
+$ webby rebuild BASE='http://your.website.com/path/to/your/site'
 </pre>
 </div>
 
