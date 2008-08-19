@@ -57,6 +57,14 @@ class Main
     opts.parse! args
 
     ARGV.replace Array(args.shift)
+    args.delete_if do |arg|
+      if %r/^[A-Z_]+=/ =~ arg
+        ARGV << arg
+        next true
+      end
+      false
+    end
+
     args
   end
 

@@ -7,7 +7,7 @@ namespace :website do
     begin
       olddir = pwd
       chdir 'examples/webby'
-      sh 'BASE="http://webby.rubyforge.org" webby rebuild'
+      sh 'webby rebuild BASE="http://webby.rubyforge.org"'
       cp_r 'output/.', olddir + '/doc'
     ensure
       chdir olddir
