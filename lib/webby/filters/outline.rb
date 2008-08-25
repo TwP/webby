@@ -132,7 +132,8 @@ class Outline
     @toc_range = Integer(m[1])..Integer(m[2])
     @list_opening = build_list_opening(toc_elem)
 
-    doc.traverse_element(*%w[h1 h2 h3 h4 h5 h6]) do |elem|
+    headers = @toc_range.map {|x| "h#{x}"}
+    doc.traverse_element(*headers) do |elem|
       text, id = heading_info(elem)
       add_to_toc(text, id) if @toc_range.include? current_level
     end
