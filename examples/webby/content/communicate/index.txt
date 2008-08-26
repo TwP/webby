@@ -25,4 +25,4 @@ A few kind souls have written up their experiences with Webby along with some of
 
 h2. Errata
 
-If you're interested in the development of Webby, you can follow along at home by watching the <%= link_to('github repository', 'http://www.github.com/TwP/webby/master') %>.
+If you're interested in the development of Webby, you can follow along at home by watching the <%= link_to('github repository', 'http://github.com/TwP/webby/tree/master') %>.

@@ -19,8 +19,6 @@ h2. Introduction
 
 Webby was created out of the desire for a simple way to build and manage small websites. The goal was a system that could take files written in plain text, combine them with a layout file and produce web pages. In this system, a single page can be written quickly without the need for HTML markup; the look and feel of the entire site can be changed by modifying the site layout file.
 
-p(TODO). make a better picture using omnigraffle
-
 <% graphviz :path => "images", :alt => "Webby Overview" do %>
 digraph overview {
   rankdir = LR;
@@ -54,13 +52,11 @@ Webby is written in the Ruby programming language. To install and run Webby you 
 
 h3. Installation
 
-Webby is easily installed as a Ruby gem. From a command prompt type in the following:
+Webby is easily installed as a Ruby gem. From a command prompt type the following:
 
 pre. sudo gem install webby
 
 This will install Webby and all its required dependencies.
-
-bq. For those users installing Webby on the Windows platform, please omit the @sudo@ portion of the above command. You will also need to specify the *mswin32* versions of the _hpricot_ gem when prompted.
 
 To make use of all the features Webby has to offer, the following gems should also be installed. These gems provide different ways to transform text into HTML or CSS.
 
@@ -74,9 +70,7 @@ Webby can also use a few other programs to clean up generated HTML and to create
 
 h3. Running Webby
 
-p(TODO). update to reflect the two commands webby-gen and webby
-
-When Webby is installed a command line program, @webby@, is installed alongside the gem. This program is used to create a new Webby site folder and files, and it is used within the site folder to generate the final site output from the content and layouts. Type in @webby --help@ on the command line will show you the options this program supports.
+When Webby is installed, two command line programs are installed alongside the gem: @webby@ and @webby-gen@. The latter program is used to create a new Webby site folder and files. The former program is used within the site folder to generate the final site output from the content and layouts. Type @webby --help@ on the command line to see the options this program supports.
 
 <pre>
 webby --help
@@ -93,11 +87,11 @@ common options:
         --version                    show version
 </pre>
 
-In this mode the @webby@ command is a smart wrapper around "Rake":http://docs.rubyrake.org/. It is used to run the tasks that will create new pages, build the output products, and deploy the site to a server. The list of available tasks can be seen by typing the following command in a Webby site folder:
+The @webby@ program is actually a smart wrapper around "Rake":http://docs.rubyrake.org/. It is used to run the tasks that will create new pages, build the output products, and deploy the site to a server. The list of available tasks can be seen by typing the following command in a Webby site folder:
 
 pre. webby -T
 
-The second mode of the @webby@ program is used less often but it is no less important. This is the *generate* mode, and it is used to create a new Webby site folder and files. Type in @webby-gen --help@ on the command to see how the program is used.
+The second program, @webby-gen@, is used less often but it is no less important. This is the *generate* command, and it is used to create a new Webby site folder and files. Type @webby-gen --help@ on the command line to see how the program is used.
 
 <pre>
 webby-gen --help
@@ -119,13 +113,6 @@ common options:
 The Webby generate command will create a new site folder (or update an existing site folder) using files from the desired template type. Each template is a collection of files that can be used as the starting point for a Webby project. You can see the list of available templates:
 
 pre. webby-gen --templates
-
-h2. Getting Started
-
-p(TODO). have a little box on the left with a list of prerequisites for doing this section ??
-
-p(TODO). start here with a section on creating a new blog, modifying pages, creating pages, new layouts, and provide links to more in depth coverage later in the manual
-
 
 h2. Working With Resources
 
@@ -160,7 +147,7 @@ vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est eu
 lobortis mattis, lectus tellus tempus felis, a ultricies erat ipsum at metus.
 </pre>
 
-The page meta-data is contained in the first section  --  it is located between the two @---@ lines. The page meta-data will not be present in the generated HTML file. Only the page content (the text below the second @---@ line) will be rendered into the final HTML file. The meta-data defines a collection of attributes that (1) are made available to the various Webby filters and (2) provide instructions to the Webby filter engine itself.
+The page meta-data is contained in the first section. It is located between the two @---@ lines. The page meta-data will not be present in the generated HTML file. Only the page content (the text below the second @---@ line) will be rendered into the final HTML file. The meta-data defines a collection of attributes that (1) are made available to the various Webby filters and (2) provide instructions to the Webby filter engine itself.
 
 Three attributes are defined in the above example: @title@, @created_at@, and @filter@. The first attribute, @title@, is associated with the value "Lorem Ipsum". This attribute is used in the first line of the page content to render the title using a combination of the ERB and Textile filters (more can be read in the "Filters":#filters section of this manual). The example page above will result in the following snippet of HTML code.
 
@@ -172,7 +159,7 @@ vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est eu
 lobortis mattis, lectus tellus tempus felis, a ultricies erat ipsum at metus.</p>
 </pre>
 
-You can see that the value of the @title@ attribute was substituted for the ERB snippet <code><%= @page.title %></code>. All page attributes can be accessed using the <code>@page.attribute</code> syntax within an ERB block. This will be discussed in greater detail in the "ERB Filter":#erbfilter section.
+You can see that the value of the @title@ attribute was substituted for the ERB snippet @<%%= @page.title %>@. All page attributes can be accessed using the @@page.attribute@ syntax within an ERB block. This will be discussed in greater detail in the "ERB Filter":#erbfilter section.
 
 The last attribute in the meta-data section is the @filter@ attribute. The value for this attribute is a list of filters that will be applied to the page contents. The filters will be applied in the order they are specified. For the example page this would be the ERB filter followed by the Textile filter.
 
@@ -254,11 +241,11 @@ h3(#erbfilter). ERB
 
 "ERB":http://ruby-doc.org/stdlib/libdoc/erb/rdoc/classes/ERB.html provides an easy to use but powerful templating system for Ruby. Using ERB, Ruby code can be added to any plain text document for the purposes of generating document information details and/or flow control. Much of the functionality Webby has to offer is made available through the erb filter. ERB does not place any limitations on the content of the page, so it is recommended to use the erb filter with another filter that simplifies the HTML markup  --  Textile is my favorite, but Markdown and HAML support are provided in Webby, as well. Chose the markup language that suits your style.
 
-Some examples of ERB have already been seen in the "pages":#pages section of this document. Ruby code is placed between ERB delimiters, <code><notextile>&lt;%= ruby code %&gt;</notextile></code> somewhere in the content section of your page or layout. The erb filter executes that code and inserts the results into the page. Webby provides quite a few features that are accessed via ERB. Page attributes are one feature, and "helper methods":#helpermethods are another that are discussed elsewhere in this manual.
+Some examples of ERB have already been seen in the "pages":#pages section of this document. Ruby code is placed between ERB delimiters, @<%%= ruby code %>@ somewhere in the content section of your page or layout. The erb filter executes that code and inserts the results into the page. Webby provides quite a few features that are accessed via ERB. Page attributes are one feature, and "helper methods":#helpermethods are another that are discussed elsewhere in this manual.
 
-<pre><notextile>
-The title of this page is "&lt;%= @page.title" %&gt;".
-</notextile></pre>
+<pre>
+The title of this page is "<%%= @page.title" %>".
+</pre>
 
 <pre>
 The title of this page is "<%= @page.title %>".
@@ -285,7 +272,7 @@ h3. Textile
 
 A complete textile reference is beyond the scope of this document. Please refer to the "Textile reference":http://hobix.com/textile/ compiled by _why the luck stiff_ <sup><a href="#fn1">1</a></sup>.
 
-The textile filter will operate on all the contents of a page or layout. Given that fact, it should be one of the last filters applied to the page. You can prevent a section of the page from being processed by the textile filter by surrounding it with <code><notextile>&lt;notextile&gt;...&lt;/notextile&gt;</notextile></code> tags.
+The textile filter will operate on all the contents of a page or layout. Given that fact, it should be one of the last filters applied to the page. You can prevent a section of the page from being processed by the textile filter by surrounding it with @<notextile>...</notextile>@ tags.
 
 <div class="label">Usage</div>
 <div class="desc">
@@ -324,7 +311,7 @@ none
 
 <div class="label">Require</div>
 <div class="desc">
-The *BlueCloth* gem must be installed on your system in order to use the markdown filter.
+The *rdiscount* gem must be installed on your system in order to use the markdown filter.
 </div>
 
 h3. HAML & SASS
@@ -351,7 +338,7 @@ p(last). Options are passed to the sass filter by setting the "sass_options" in 
 
 <div class="label">Require</div>
 <div class="desc">
-The @haml@ gem must be installed on your system in order to use the haml filter or the sass filter.
+The *haml* gem must be installed on your system in order to use the haml filter or the sass filter.
 </div>
 
 h3. Outline

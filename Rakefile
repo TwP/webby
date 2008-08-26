@@ -31,10 +31,6 @@ PROJ.ann.email[:server] = 'smtp.gmail.com'
 PROJ.ann.email[:port] = 587
 
 PROJ.ann.text = <<-ANN
-== FUN FACT
-
-TODO: add a new fun fact before next release
-
 == POST SCRIPT
 
 Visit the Webby forum to chat with other Webby-Heads:

@@ -50,6 +50,7 @@ examples/tumblog/templates/tumblog/photo.erb
 examples/tumblog/templates/tumblog/post.erb
 examples/tumblog/templates/tumblog/quote.erb
 examples/webby/Sitefile
+examples/webby/content/communicate/index.txt
 examples/webby/content/css/background.gif
 examples/webby/content/css/blueprint/print.css
 examples/webby/content/css/blueprint/screen.css
@@ -57,7 +58,7 @@ examples/webby/content/css/coderay.css
 examples/webby/content/css/site.css
 examples/webby/content/css/uv/twilight.css
 examples/webby/content/index.txt
-examples/webby/content/manual/index.txt
+examples/webby/content/learn/index.txt
 examples/webby/content/reference/index.txt
 examples/webby/content/release-notes/rel-0-9-0/index.txt
 examples/webby/content/robots.txt
@@ -66,6 +67,7 @@ examples/webby/content/script/jquery.js
 examples/webby/content/sitemap.txt
 examples/webby/content/tips_and_tricks/index.txt
 examples/webby/content/tutorial/index.txt
+examples/webby/content/user-manual/index.txt
 examples/webby/layouts/default.txt
 examples/webby/templates/page.erb
 examples/website/Sitefile
