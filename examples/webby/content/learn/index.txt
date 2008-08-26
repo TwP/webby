@@ -1,0 +1,28 @@
+---
+title:      Learn
+created_at: 2008-08-24 15:36:06.596051 -06:00
+filter:
+  - erb
+  - textile
+---
+h1. <%= h(@page.title) %>
+
+This section is devoted to learning more about Webby. Located below are the various "official" documents to assist you on your way to becoming prolific with Webby.
+
+If you cannot find your answer here, head on over to the <%= link_to_page('Communicate') %> section where the mailing list might help you.
+
+p(pull). *<%= link_to_page('Tutorial') %>*
+
+p(pulltext). The tutorial is a great introduction to Webby if you want to hit the ground running and figure things out as you go. Following along with the tutorial on your own computer will get you comfortable with the basic concepts of Webby.
+
+p(pull). *<%= link_to_page('User Manual') %>*
+
+p(pulltext). The user manual provides a more in-depth look into Webby. It assumes no prior experience with Webby, and it goes into more detail about the various aspects of creating a webby site and working with Webby itself. The user manual is the place to go if you want to go beyond the basics.
+
+p(pull). *<%= link_to_page('Reference') %>*
+
+p(pulltext). The reference does not provide an introduction to Webby. Instead, it is an indexed collection of the various Webby features with a brief explanation of each. It is useful when you vaguely remember reading something about filters and only need a quick refresher of the details without instructional text.
+
+p(pull). *<%= link_to_page('Release Notes', :title => 'Release 0.9.0') %>*
+
+p(pulltext). These are the release notes for past and present versions of Webby. Actually, it's only for the current version of Webby since formal release notes were only recently thought of by the developer. %(quiet)Bad developer! No latte!!%

@@ -1,0 +1,28 @@
+---
+title:      Communicate
+created_at: 2008-08-24 15:37:45.654428 -06:00
+filter:
+  - erb
+  - textile
+---
+h1. <%= h(@page.title) %>
+
+There is a community of people using Webby right now to make real web pages and publish them on the internet. They have walked down this path, and some have chosen to share their knowledge %(quiet)&#40;aren't they a nice bunch!)%. The Webby developer is also known to frequent the list -- your questions will most definitely find an answer ... or they might have been answered already.
+
+p(pull). *<%= link_to('Forum', 'http://groups.google.com/group/webby-forum') %>*
+
+p(pulltext). The Google group dedicated to Webby and _ASCII Alchemy_.
+
+p(pull). *Reporting Bugs*
+
+p(pulltext). The occasional bug does rear its ugly head from time to time. If this happens please report it either by e-mailing the author or in a post to the discussion group. %(quiet)Note to self: look into a real bug tracking system.%
+
+h2. Elsewhere
+
+A few kind souls have written up their experiences with Webby along with some of their tips and tricks.
+
+* <%= link_to('Building Static Websites with Webby', 'http://clarkware.com/cgi/blosxom/2008/08/06#Webby') %> -- Mike Clark
+
+h2. Errata
+
+If you're interested in the development of Webby, you can follow along at home by watching the <%= link_to('github repository', 'http://www.github.com/TwP/webby/master') %>.

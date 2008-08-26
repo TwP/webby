@@ -13,8 +13,10 @@ content_for_head: |
 
 p(title). Table of Contents
 
-<toc />
+<toc toc_range="h2-h6" />
 </div>
+
+h1. <%= h(@page.title) %>
 
 h3. Resources
 

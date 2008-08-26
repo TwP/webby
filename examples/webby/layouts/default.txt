@@ -25,26 +25,20 @@ filter:
 
 <div class="container">
 
-   <div class="column span-18 prepend-3 append-3 first last" id="header">
-      <h1><%= link_to_page_unless_current('Webby') %></h1>
-      <p>ASCII Alchemy</p>
-   </div>
-
-   <div class="column span-4 prepend-1 first" id="navigation">
+   <div class="column span-17 prepend-4 append-3 first last" id="header">
       <ul
-        ><li><%= link_to_page_unless_current 'Tutorial' %></li
-        ><li><%= link_to_page_unless_current 'Manual' %></li
-        ><li><%= link_to_page_unless_current 'Reference' %></li
-        ><li><%= link_to_page_unless_current 'Tips & Tricks' %></li
-        ><li><a href="http://groups.google.com/group/webby-forum">Forum</a></li
-        ></ul>
+         ><li><%= link_to_page('Learn') %></li
+         ><li><%= link_to_page('Communicate') %></a></li
+      ></ul>
+      <h1><a href="/">Webby</a></h1>
+      <p>- ascii alchemy</p>
    </div>
 
-   <div class="column span-16 append-3 last">
+   <div class="column span-17 prepend-4 append-3 last">
       <%= @content %>
    </div>
 
-   <div class="column span-20 prepend-1 append-3 first last" id="footer">
+   <div class="column span-21 prepend-2 append-1 first last" id="footer">
      <hr />
      <p>This website was created with <a href="http://webby.rubyforge.org">Webby</a><br />
      Webby is released under the MIT license</p>

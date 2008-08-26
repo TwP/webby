@@ -81,42 +81,41 @@ p.quiet
 // ------------------------------------------------------------------------
 #header
   :margin              0 0 25px 0
-  :padding-top         25px
+  :padding-top         20px
+  a
+    :color =           !header
+    :text-decoration   none
   h1
     :margin            0
-    a
-      :color =         !header
-      :text-decoration none
+    :font-size         2.0em
+    :letter-spacing    0.25em
   p
-    :padding           0
-    :font-size         1.2em
     :font-style        italic
+    :font-weight       normal
     :color =           !quiet
-
-#navigation
   ul
-    :margin-left               0
-    :text-align                right
-    :font-size                 16px
-    :list-style-type           none
+    :float             right
+    :margin            0
+    :padding           0
+    :text-align        right
+    :font-size         1.0em
+    :list-style-type   circle
     li
-      :display                 block
-      :padding-right           5px
-      :background-color =      !box_bg
+      :display         inline
+      :margin          0 0 0 2.5em
       a
-        :display               block
-        :text-decoration       none
-        :margin-right          -5px
-        :padding-right         5px
-        :background-color      white
+        :color =       !quiet
+        :font-weight   bold
         &:hover
-          :background-color = !highlight
+          :color =     !header
 
 #footer
+  :margin-top        18px
+  :font-size         0.8em
   hr
     :margin-bottom   18px
   p
-    :text-align      right
+    :text-align      center
 
 .CodeRay
   pre
@@ -180,5 +179,18 @@ p.TODO
   :background-color red
   :font-weight      bold
   :padding          5px 0.5em
+
+p.pull
+  :float         left
+  :clear         left
+  :margin        0 10px 0 -120px
+  :width         110px
+  :text-align    right
+
+p.pulltext
+  :float         left
+  :clear         right
+  :margin-right  10px
+  :width         670px
 
 // EOF

@@ -1,5 +1,5 @@
 --- 
-title:      Manual
+title:      User Manual
 created_at: 2007-08-29 08:57:00.000000 -06:00
 filter:
   - erb
@@ -10,8 +10,10 @@ filter:
 
 p(title). Table of Contents
 
-<toc />
+<toc toc_range="h2-h6" />
 </div>
+
+h1. <%= h(@page.title) %>
 
 h2. Introduction
 

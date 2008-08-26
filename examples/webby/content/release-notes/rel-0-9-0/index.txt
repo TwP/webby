@@ -18,7 +18,7 @@ Release 0.9.0 adds new features and fixes some bugs. Most notably is the move aw
 ** Addition of a sitemap file (Ana Nelson)
 ** Updated to version 6.4.2 of ImageMagick for tex2img conversions
 * 5 bug fixes
-** Better error message when an unkonwn filter is given
+** Better error message when an unknown filter is given
 ** Table of contents generation bug
 ** Failing to clean out the "content_for" cache when doing a multi-page render
 ** Explicitly loading the RedCloth gem

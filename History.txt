@@ -1,4 +1,4 @@
-== 0.9.0 / 2008-08-
+== 0.9.0 / 2008-08-25
 
 * 2 major enhancements
   - The "rake" command line tool has been replaced by the "webby"
