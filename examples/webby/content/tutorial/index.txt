@@ -3,6 +3,8 @@ title:      Tutorial
 created_at: 2007-08-21 17:02:40.000000 -06:00
 filter:     textile
 --- 
+h1. Tutorial
+
 h2. Require
 
 Webby has a family of friends that help it get it's job done. The command-line is where Webby lives and works. You should be comfortable with your terminal if you're going to get serious with Webby. Webby is built on top of "Ruby":http://www.ruby-lang.org/, and many of the templates use Ruby in one way or another. Learning a little bit about Ruby will make Webby far less intimidating.
