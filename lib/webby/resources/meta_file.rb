@@ -89,14 +89,14 @@ class MetaFile
     return unless META_SEP =~ line
 
     @io.seek 0
-    buffer = @io.gets
+    pos = @io.gets.length
     while line = @io.gets
-      buffer << line
+      pos += line.length
       break if META_SEP =~ line
     end
     return if line.nil?
 
-    @meta_end = buffer.length
+    @meta_end = pos
   end
 
 end  # class MetaFile
