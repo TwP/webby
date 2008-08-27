@@ -14,10 +14,11 @@ Spec::Runner.configure do |config|
   config.before :all do
     @pwd = Dir.pwd
     Dir.chdir Webby.datapath
+    FileUtils.mkdir_p Webby.datapath(::Webby.site.output_dir)
   end
 
   config.after :all do
-    FileUtils.rm_rf(Webby.datapath %w[output .cairn])
+    FileUtils.rm_rf(Webby.datapath(::Webby.cairn))
     FileUtils.rm_rf(Dir.glob(Webby.datapath %w[output *]))
     Dir.chdir @pwd
   end
