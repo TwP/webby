@@ -120,6 +120,8 @@ class Renderer
         ::Webby::Renderer.new(resource)._render_page
       when Resources::Partial
         _render_partial(resource, opts)
+      when Resources::Static
+        resource._read
       else
         raise ::Webby::Error, "expecting a page or a partial but got '#{resource.class.name}'"
       end

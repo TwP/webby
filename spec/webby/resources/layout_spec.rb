@@ -28,7 +28,7 @@ describe Webby::Resources::Layout do
     @layout.destination.should == ::Webby.cairn
   end
 
-  it 'alwayrs returns nil as the url' do
+  it 'always returns nil as the url' do
     @layout.url.should be_nil
   end
 
