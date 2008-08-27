@@ -38,6 +38,19 @@ describe Webby::Resources::MetaFile do
   end
 
   # -----------------------------------------------------------------------
+  describe "#meta_data?" do
+    it 'returns true for files with meta-data' do
+      fn = Webby.datapath %w[content index.txt]
+      Webby::Resources::MetaFile.meta_data?(fn).should == true
+    end
+
+    it 'returns false for files without meta-data' do
+      fn = Webby.datapath %w[content css coderay.css]
+      Webby::Resources::MetaFile.meta_data?(fn).should == false
+    end
+  end
+
+  # -----------------------------------------------------------------------
   describe "#read" do
     it 'behaves the same as File#read for regular files' do
       fn = Webby.datapath %w[content css coderay.css]

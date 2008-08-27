@@ -93,6 +93,10 @@ describe Webby::Apps::Generator do
     end
 
     it "should exit if a site is not specified" do
+      # we need to force an error by changing directories back to the top
+      # level so we no longer have a Sitefile in the current directory
+      Dir.chdir @pwd
+
       lambda{@generator.parse %w[website]}.
           should raise_error(SystemExit, 'exit')
       @strio.to_s.split("\n").first.

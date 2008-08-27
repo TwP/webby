@@ -5,15 +5,6 @@ require File.expand_path(
 # -------------------------------------------------------------------------
 describe Webby::Resources::Resource do
 
-  before :all do
-    @pwd = Dir.pwd
-    Dir.chdir Webby.datapath
-  end
-
-  after :all do
-    Dir.chdir @pwd
-  end
-
   before :each do
     @filename = File.join %w[content index.txt]
     @resource = Webby::Resources::Resource.new(@filename)
@@ -37,6 +28,10 @@ describe Webby::Resources::Resource do
 
   it 'does not compute the dirty state by default' do
     lambda {@resource.dirty?}.should raise_error(NotImplementedError)
+  end
+
+  it 'does not implement the _read method by default' do
+    lambda {@resource._read}.should raise_error(NotImplementedError)
   end
 
   it 'provides the path to the file' do

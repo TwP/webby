@@ -20,7 +20,7 @@ class Resource
   attr_reader :dir
 
   # The resource filename excluding path and extension
-  attr_reader :filename
+  attr_reader :filename  # TODO: allowing overriding the filename from meta-data
 
   # Extesion of the resource file
   attr_reader :ext
@@ -40,7 +40,7 @@ class Resource
     @ext      = ::Webby::Resources.extname(@path)
     @mtime    = ::File.mtime @path
 
-    @mdata = @@mdata ||= {}
+    @mdata = {}
   end
 
   # call-seq:

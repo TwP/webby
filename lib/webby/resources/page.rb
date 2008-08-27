@@ -46,6 +46,7 @@ class Page < Resource
   # is returned for layouts.
   #
   def url
+    # TODO: don't cache the URL
     return @url if defined? @url and @url
 
     @url = destination.sub(::Webby.site.output_dir, '')
@@ -61,6 +62,9 @@ class Page < Resource
   # require pagination.
   #
   def number=( num )
+    # FIXME: complete hack of a method -- pagination should be handled by the
+    #        renderer, and the Page should simply recieve new settings from
+    #        the renderer and do the right thing
     @number = num
     @url = @dest = nil
   end
@@ -76,6 +80,7 @@ class Page < Resource
   # the 'destination' property in the page's meta-data.
   #
   def destination
+    # TODO: don't cache the destination
     return @dest if defined? @dest and @dest
 
     @dest = if @mdata.has_key? 'destination' then @mdata['destination']

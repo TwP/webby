@@ -52,8 +52,7 @@ module Webby::Resources
       end
 
       # see if we are dealing with a static resource
-      meta = MetaFile.meta_data(fn)
-      if meta.nil?
+      unless MetaFile.meta_data?(fn)
         r = ::Webby::Resources::Static.new(fn)
         self.pages << r
         return r

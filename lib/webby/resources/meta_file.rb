@@ -2,10 +2,9 @@ require 'yaml'
 
 module Webby::Resources
 
-# The Webby::Resources::File class is identical to the core Ruby file class
-# except for YAML meta-data stored at the top of the file. This meta-data
-# is made available through the <code>meta_data</code> and
-# <code>meta_data=</code> functions.
+# The MetaFile class is used to read meta-data and content from files. The
+# meta-data is in a YAML block located at the top of the file. The content
+# is the remainder of the file (everything after the YAML block).
 #
 # The meta-data data must be found between two YAML block separators "---",
 # each on their own line.
@@ -49,6 +48,17 @@ class MetaFile
     ::File.open(name, 'r') {|fd| MetaFile.new(fd).meta_data}
   end
 
+  # call-seq:
+  #    MetaFile.meta_data?( filename )    => true or false
+  #
+  # Opens the file identified by _filename_ and returns true if there is a
+  # meta-data block at the top of the file, and returns false if there is
+  # not a meta-data block at the top of the file.
+  #
+  def self.meta_data?( name )
+    ::File.open(name, 'r') {|fd| MetaFile.new(fd).meta_data?}
+  end
+
   # Creates a new MetaFile parser that will read from the given _io_ stream.
   #
   def initialize( io )
@@ -75,6 +85,13 @@ class MetaFile
 
     @io.seek 0
     return YAML.load(@io)
+  end
+
+  # Returns true if the IO stream contains meta-data. Returns false if the
+  # IO stream does not contain meta-data.
+  #
+  def meta_data?
+    meta_end.nil? ? false : true
   end
 
   # Returns the position in the IO stream where the meta-data ends and the

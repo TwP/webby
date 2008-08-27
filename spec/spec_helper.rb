@@ -5,11 +5,23 @@ WEBBY_SPEC_HELPER = true
 
 require 'rubygems'
 require 'fileutils'
+require 'stringio'
 
 require File.expand_path(
     File.join(File.dirname(__FILE__), %w[.. lib webby]))
 
 Spec::Runner.configure do |config|
+  config.before :all do
+    @pwd = Dir.pwd
+    Dir.chdir Webby.datapath
+  end
+
+  config.after :all do
+    FileUtils.rm_rf(Webby.datapath %w[output .cairn])
+    FileUtils.rm_rf(Dir.glob(Webby.datapath %w[output *]))
+    Dir.chdir @pwd
+  end
+
   # == Mock Framework
   #
   # RSpec uses it's own mocking framework by default. If you prefer to
@@ -26,6 +38,12 @@ module Webby
     args.empty? ? DATAPATH : ::File.join(DATAPATH, args.flatten)
   end
 end
+
+$webby_log_output = StringIO.new
+
+logger = Logging::Logger['Webby']
+logger.clear_appenders
+logger.add_appenders(Logging::Appenders::IO.new('stringio', $webby_log_output))
 
 end  # unless defined?
 
