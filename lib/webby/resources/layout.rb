@@ -16,7 +16,7 @@ class Layout < Resource
   def initialize( fn )
     super
 
-    @mdata = ::Webby::Resources::File.meta_data(@path)
+    @mdata = MetaFile.meta_data(@path)
     @mdata ||= {}
     @mdata.sanitize!
   end
@@ -57,6 +57,12 @@ class Layout < Resource
     nil
   end
 
+  # :stopdoc:
+  def _read
+    MetaFile.read(@path)
+  end
+  # :startdoc:
+  #
 end  # class Layout
 end  # module Webby::Resources
 

@@ -1,0 +1,40 @@
+---
+title:     A New Atom Feed
+subtitle:  A really swell blog built with Webby
+site:      fake-n-site.org
+author:    Author's Name
+email:     author@fake-n-site.org
+extension: xml
+layout:    nil
+dirty:     true
+filter:    erb
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+  <title><%%= h(@page.title) %></title>
+  <subtitle><%%= h(@page.subtitle) %></subtitle>
+  <link href="http://<%%= @page.site %>/<%= directory %>/" rel="self" />
+  <link href="http://<%%= @page.site %>/" />
+  <updated><%%= Time.now.xmlschema %></updated>
+  <author>
+    <name><%%= h(@page.author) %></name>
+    <email><%%= h(@page.email) %></email>
+  </author>
+  <id>http://<%%= @page.site %>/</id>
+  <%% @pages.find(:limit => 10,
+                 :in_directory => '<%= directory %>',
+                 :recursive => true,
+                 :sort_by => 'mtime',
+                 :reverse => true).each do |article|
+    next if article == @page
+  %>
+  <entry>
+    <title><%%= h(article.title) %></title>
+    <link href="<%%= article.url %>" />
+    <id>tag:<%%= @page.site %>,<%%= article.created_at.strftime('%Y-%m-%d') %>:<%%= article.created_at.to_i %></id>
+    <updated><%%= article.created_at.xmlschema %></updated>
+    <content type="html"><%%= h(render(article)) %></content>
+  </entry>
+  <%% end %>
+</feed>

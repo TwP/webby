@@ -189,7 +189,7 @@ class Renderer
   #
   def _render_page
     _track_rendering(@page.path) {
-      Filters.process(self, @page, ::Webby::Resources::File.read(@page.path))
+      Filters.process(self, @page, @page._read)
     }
   end
 
@@ -203,7 +203,7 @@ class Renderer
   def _render_partial( part, opts = {} )
     _track_rendering(part.path) {
       _configure_locals(opts[:locals])
-      Filters.process(self, part, ::Webby::Resources::File.read(part.path))
+      Filters.process(self, part, part._read)
     }
   end
 
@@ -248,8 +248,7 @@ class Renderer
     return if lyt.nil?
 
     _track_rendering(lyt.path) {
-      @content = Filters.process(
-          self, lyt, ::Webby::Resources::File.read(lyt.path))
+      @content = Filters.process(self, lyt, lyt._read)
       _render_layout_for(lyt)
     }
   end

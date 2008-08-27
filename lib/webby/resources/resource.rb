@@ -35,9 +35,9 @@ class Resource
   #
   def initialize( fn )
     @path     = fn
-    @dir      = ::Webby::Resources::File.dirname(@path)
-    @filename = ::Webby::Resources::File.basename(@path)
-    @ext      = ::Webby::Resources::File.extname(@path)
+    @dir      = ::Webby::Resources.dirname(@path)
+    @filename = ::Webby::Resources.basename(@path)
+    @ext      = ::Webby::Resources.extname(@path)
     @mtime    = ::File.mtime @path
 
     @mdata = @@mdata ||= {}
@@ -149,6 +149,14 @@ class Resource
 
   def extension
     raise NotImplementedError
+  end
+
+  def _read
+    raise NotImplementedError
+  end
+
+  def _meta_data
+    @mdata
   end
   # :startdoc:
 

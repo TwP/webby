@@ -144,8 +144,8 @@ class Main
     dir = ::File.dirname(dashed)
 
     args.dir   = ('.' == dir ? '' : dir)
-    args.slug  = ::Webby::Resources::File.basename(dashed).to_url
-    args.title = ::Webby::Resources::File.basename(spaced).titlecase
+    args.slug  = ::Webby::Resources.basename(dashed).to_url
+    args.title = ::Webby::Resources.basename(spaced).titlecase
 
     # page should be dir/slug without leading /
     args.page  = ::File.join(args.dir, args.slug).gsub(/^\//, '')

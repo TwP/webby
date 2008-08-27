@@ -21,7 +21,7 @@ class Page < Resource
     super
     @number = nil
 
-    @mdata = ::Webby::Resources::File.meta_data(@path)
+    @mdata = MetaFile.meta_data(@path)
     @mdata ||= {}
     @mdata = ::Webby.site.page_defaults.merge(@mdata)
     @mdata.sanitize!
@@ -111,6 +111,12 @@ class Page < Resource
     end
     @ext
   end
+
+  # :stopdoc:
+  def _read
+    MetaFile.read(@path)
+  end
+  # :startdoc:
 
 end  # class Page
 end  # module Webby::Resources

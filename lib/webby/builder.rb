@@ -35,8 +35,8 @@ class Builder
       tmpl = opts[:from]
       raise Error, "template not given" unless tmpl
 
-      name = ::Webby::Resources::File.basename(page)
-      ext  = ::Webby::Resources::File.extname(page)
+      name = ::Webby::Resources.basename(page)
+      ext  = ::Webby::Resources.extname(page)
       dir  = ::File.dirname(page)
       dir  = '' if dir == '.'
 

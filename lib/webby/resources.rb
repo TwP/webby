@@ -44,7 +44,7 @@ module Webby::Resources
       end
 
       # see if we are dealing with a partial
-      filename = ::Webby::Resources::File.basename(fn)
+      filename = self.basename(fn)
       if %r/\A_/o =~ filename
         r = ::Webby::Resources::Partial.new(fn)
         self.partials << r
@@ -52,7 +52,7 @@ module Webby::Resources
       end
 
       # see if we are dealing with a static resource
-      meta = ::Webby::Resources::File.meta_data(fn)
+      meta = MetaFile.meta_data(fn)
       if meta.nil?
         r = ::Webby::Resources::Static.new(fn)
         self.pages << r
@@ -77,7 +77,7 @@ module Webby::Resources
     def find_layout( filename )
       return if filename.nil?
 
-      fn  = ::Webby::Resources::File.basename(filename)
+      fn  = self.basename(filename)
       dir = ::File.dirname(filename)
       dir = '.' == dir ? '' : dir
 
@@ -87,8 +87,31 @@ module Webby::Resources
       raise Webby::Error, "could not find layout #{filename.inspect}"
     end
 
-  end  # class << self
+    # Returns the directory component of the _filename_ with the content
+    # directory removed from the beginning if it is present.
+    #
+    def dirname( filename )
+      rgxp = %r/\A(?:#{::Webby.site.content_dir}|#{::Webby.site.layout_dir})\//o
+      dirname = ::File.dirname(filename)
+      dirname << '/' if dirname.index(?/) == nil
+      dirname.sub(rgxp, '')
+    end
 
+    # Returns the last component of the _filename_ with any extension
+    # information removed.
+    #
+    def basename( filename )
+      ::File.basename(filename, '.*')
+    end
+
+    # Returns the extension (the portion of file name in path after the
+    # period). This method excludes the period from the extension name.
+    #
+    def extname( filename )
+      ::File.extname(filename).tr('.', '')
+    end
+
+  end  # class << self
 end  # module Webby::Resources
 
 Webby.require_all_libs_relative_to(__FILE__)

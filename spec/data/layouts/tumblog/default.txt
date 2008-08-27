@@ -1,0 +1,44 @@
+---
+extension: html
+filter:    erb
+---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title><%= h(@page.title) %></title>
+   <meta name="author" content="<%= h(@page.author) %>" />
+   <link rel="alternate" type="application/atom+xml" title="RSS" href="/tumblog/rss.xml"/>
+
+
+   <link rel="stylesheet" href="/css/tumblog.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+
+  <h1>
+    <a href="/">Fowl Friends</a>
+    <a href="/tumblog/rss.xml"><img src="/images/tumblog/rss.gif" id="rss" alt="RSS" /></a>
+  </h1>
+
+  <div id="content">
+    <div id="description">
+      <div>
+        <p><a href="/tumblog/archive">Archive</a></p>
+      </div>
+    </div>
+
+    <%= @content %>
+
+    <div id="footer">
+      <%= content_for :footer %>
+
+      <div id="credit">
+        Powered by <a href="http://webby.rubyforge.org/">Webby</a>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -24,7 +24,7 @@ class Partial < Resource
   def initialize( fn )
     super
 
-    @mdata = ::Webby::Resources::File.meta_data(@path)
+    @mdata = MetaFile.meta_data(@path)
     @mdata ||= {}
     @mdata.sanitize!
   end
@@ -72,6 +72,12 @@ class Partial < Resource
   def url
     nil
   end
+
+  # :stopdoc:
+  def _read
+    MetaFile.read(@path)
+  end
+  # :startdoc:
 
 end  # class Partial
 end  # module Webby::Resources

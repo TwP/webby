@@ -1,0 +1,13 @@
+---
+title:      Up a Tree
+created_at: 2008-07-06 16:09:49.530410 -06:00
+author:     Tim Pease
+filter:
+  - erb
+  - textile
+layout:       tumblog/post
+tumblog_type: photo
+---
+!http://www.madcitychickens.com/images/bttrcups_tree.jpg(<%= h(@page.title) %>)!
+
+p(caption). via "Mad City Chickens":http://www.madcitychickens.com/

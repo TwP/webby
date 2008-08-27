@@ -1,0 +1,11 @@
+---
+title:      The Wisdom of the Dutch
+created_at: 2008-07-26 16:11:39.658919 -06:00
+author:     Tim Pease
+filter:
+  - textile
+layout:       tumblog/post
+tumblog_type: quote
+---
+<big>&#147;</big> You can't hatch chickens from fried eggs.
+%(source)Dutch Proverb%
