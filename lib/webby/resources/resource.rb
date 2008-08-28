@@ -138,6 +138,7 @@ class Resource
   # is returned for layouts.
   #
   def url
+    # TODO: don't cache the URL
     return @url if defined? @url and @url
     @url = destination.sub(::Webby.site.output_dir, '')
   end
