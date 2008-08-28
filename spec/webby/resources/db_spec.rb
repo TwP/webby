@@ -136,7 +136,113 @@ describe Webby::Resources::DB do
 
   # -----------------------------------------------------------------------
   describe '.find' do
-    it 'needs some specs'
+    it 'returns the first page if no options are given' do
+      page = @db.each {|p| break p}
+      @db.find.path.should == page.path
+    end
+
+    it 'returns all pages' do
+      ary = []
+      @db.each {|p| ary << p.path}
+
+      pages = @db.find(:all)
+      pages.map! {|p| p.path}
+      pages.should == ary
+
+      pages = @db.find(:limit => :all)
+      pages.map! {|p| p.path}
+      pages.should == ary
+
+      pages = @db.find('all')
+      pages.map! {|p| p.path}
+      pages.should == ary
+    end
+
+    it 'returns a limited number of pages' do
+      ary = []
+      @db.each {|p| ary << p.path}
+      ary = ary.slice(0,3)
+
+      pages = @db.find(3)
+      pages.map! {|p| p.path}
+      pages.should == ary
+
+      pages = @db.find(:limit => 3)
+      pages.map! {|p| p.path}
+      pages.should == ary
+    end
+
+    it 'can sorty by a given meta-data field' do
+      pages = @db.find(:all, :sort_by => 'title')
+      pages.map! {|p| p.title}
+      pages.should == [
+        'A Mother Clucker',
+        'A Mother Clucker',
+        'Historical Perspectives on the Classic Chicken Joke',
+        'Mad City Chickens',
+        'The Noble Chicken',
+        'The Wisdom of the Dutch',
+        'Up a Tree'
+      ]
+
+      pages = @db.find(:all, :sort_by => 'tumblog_type')
+      pages.map! {|p| p.tumblog_type}
+      pages.should == %w[conversation link photo quote regular]
+    end
+
+    it 'can reverse the sort order' do
+      pages = @db.find(:all, :sort_by => 'tumblog_type', :reverse => true)
+      pages.map! {|p| p.tumblog_type}
+      pages.should == %w[conversation link photo quote regular].reverse
+
+      pages = @db.find(3, :sort_by => 'tumblog_type', :reverse => true)
+      pages.map! {|p| p.tumblog_type}
+      pages.should == %w[regular quote photo]
+    end
+
+    it 'can search is a specific directory' do
+      pages = @db.find('all', :in_directory => 'tumblog')
+      pages.map! {|p| p.path}
+      pages.should == %w[
+        content/tumblog/index.txt
+        content/tumblog/rss.txt
+      ]
+    end
+
+    it 'can recurse into directories' do
+      pages = @db.find('all', :in_directory => 'tumblog/200807', :recursive => true)
+      pages.map! {|p| p.title}
+      pages.should == [
+        'The Wisdom of the Dutch',
+        'Mad City Chickens',
+        'Historical Perspectives on the Classic Chicken Joke',
+        'Up a Tree'
+      ]
+    end
+
+    it 'can combine all these options' do
+      pages = @db.find(:limit => 2,
+                       :in_directory => 'tumblog/200807', :recursive => true,
+                       :sort_by => 'title', :reverse => true,
+                       :author => 'Tim Pease')
+      pages.map! {|p| p.title}
+      pages.should == [
+        'Up a Tree',
+        'Mad City Chickens'
+      ]
+    end
+
+    it 'can find pages using a user supplied search block' do
+      pages = @db.find(:all, :sort_by => 'title') do |page|
+        %w[quote conversation photo].include? page.tumblog_type
+      end
+      pages.map! {|p| p.title}
+      pages.should == [
+        'Historical Perspectives on the Classic Chicken Joke',
+        'The Wisdom of the Dutch',
+        'Up a Tree'
+      ]
+    end
   end
 
 end  # describe Webby::Resources::DB
