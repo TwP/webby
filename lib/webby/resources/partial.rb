@@ -24,9 +24,9 @@ class Partial < Resource
   def initialize( fn )
     super
 
-    @mdata = MetaFile.meta_data(@path)
-    @mdata ||= {}
-    @mdata.sanitize!
+    @_meta_data = MetaFile.meta_data(@path)
+    @_meta_data ||= {}
+    @_meta_data.sanitize!
   end
 
   # call-seq:
@@ -37,7 +37,7 @@ class Partial < Resource
   # copied (if a static file) to the output directory.
   #
   def dirty?
-    return @mdata['dirty'] if @mdata.has_key? 'dirty'
+    return _meta_data['dirty'] if _meta_data.has_key? 'dirty'
 
     # if the destination file does not exist, then we are dirty
     return true unless test(?e, destination)

@@ -16,11 +16,11 @@ class Resource
   # The full path to the resource file
   attr_reader :path
 
+  # The name of the file excluding the directory and extension
+  attr_reader :name
+
   # The directory of the resource excluding the content directory
   attr_reader :dir
-
-  # The resource filename excluding path and extension
-  attr_reader :filename  # TODO: allowing overriding the filename from meta-data
 
   # Extesion of the resource file
   attr_reader :ext
@@ -28,19 +28,22 @@ class Resource
   # Resource file modification time
   attr_reader :mtime
 
+  attr_reader :_meta_data  #:nodoc:
+
   # call-seq:
   #    Resource.new( filename )    => resource
   #
   # Creates a new resource object given the _filename_.
   #
   def initialize( fn )
-    @path     = fn
-    @dir      = ::Webby::Resources.dirname(@path)
-    @filename = ::Webby::Resources.basename(@path)
-    @ext      = ::Webby::Resources.extname(@path)
-    @mtime    = ::File.mtime @path
+    @path  = fn
+    @dir   = ::Webby::Resources.dirname(@path)
+    @name  = ::Webby::Resources.basename(@path)
+    @ext   = ::Webby::Resources.extname(@path)
+    @mtime = ::File.mtime @path
 
-    @mdata = {}
+    @_meta_data =  {}
+    self._reset
   end
 
   # call-seq:
@@ -51,7 +54,7 @@ class Resource
   #
   def equal?( other )
     return false unless other.kind_of? ::Webby::Resources::Resource
-    @path == other.path
+    self.destination == other.destination
   end
   alias :== :equal?
   alias :eql? :equal?
@@ -65,7 +68,7 @@ class Resource
   #
   def <=>( other )
     return unless other.kind_of? ::Webby::Resources::Resource
-    @path <=> other.path
+    self.destination <=> other.destination
   end
 
   # call-seq:
@@ -75,7 +78,7 @@ class Resource
   # converted into a string.
   #
   def []( key )
-    @mdata[key.to_s]
+    _meta_data[key.to_s]
   end
 
   # call-seq:
@@ -85,7 +88,7 @@ class Resource
   # string.
   #
   def []=( key, value )
-    @mdata[key.to_s] = value
+    _meta_data[key.to_s] = value
   end
 
   # call-seq:
@@ -97,7 +100,7 @@ class Resource
   # meta-data item is returned; otherwise, +nil+ is returned.
   #
   def method_missing( name, *a, &b )
-    @mdata[name.to_s]
+    _meta_data[name.to_s]
   end
 
   # call-seq:
@@ -108,7 +111,7 @@ class Resource
   # copied (if a static file) to the output directory.
   #
   def dirty?
-    return @mdata['dirty'] if @mdata.has_key? 'dirty'
+    return _meta_data['dirty'] if _meta_data.has_key? 'dirty'
 
     # if the destination file does not exist, then we are dirty
     return true unless test(?e, destination)
@@ -120,8 +123,8 @@ class Resource
 
     # check to see if the layout is dirty, and if it is then we
     # are dirty, too
-    if @mdata.has_key? 'layout'
-      lyt = ::Webby::Resources.find_layout(@mdata['layout'])
+    if _meta_data.has_key? 'layout'
+      lyt = ::Webby::Resources.find_layout(_meta_data['layout'])
       unless lyt.nil?
         return true if lyt.dirty?
       end
@@ -131,33 +134,63 @@ class Resource
     false
   end
 
-  # call-seq
-  #    url    => string or nil
+  # The resource filename excluding path and extension. This will either be
+  # the name of the file or the 'filename' attribute from the meta-data if
+  # present.
   #
-  # Returns a string suitable for use as a URL linking to this page. Nil
-  # is returned for layouts.
+  def filename
+    return _meta_data['filename'] if _meta_data.has_key? 'filename'
+    name
+  end
+
+  # The resource file extension. This will either be the extension of the
+  # file or the 'extension' attribute from the meta-data if present.
+  #
+  def extension
+    return _meta_data['extension'] if _meta_data.has_key? 'extension'
+    ext
+  end
+
+  # The location of this resource in the directory structure. This directory
+  # does not include the content folder or the output folder.
+  #
+  def directory
+    return _meta_data['directory'] if _meta_data.has_key? 'directory'
+    dir
+  end
+
+  # Returns the path in the output directory where the resource will be
+  # generated. This path is used to determine if the resource is dirty
+  # and in need of generating.
+  #
+  def destination
+    return @destination unless @destination.nil?
+    @destination = ::File.join(::Webby.site.output_dir, url)
+  end
+
+  # Returns a string suitable for use as a URL linking to this resource.
   #
   def url
-    # TODO: don't cache the URL
-    return @url if defined? @url and @url
-    @url = destination.sub(::Webby.site.output_dir, '')
+    return @url unless @url.nil?
+
+    @url = ::File.join('', directory, filename)
+    ext = extension
+
+    unless ext.nil? or ext.empty?
+      @url << '.' << ext
+    end
+    @url
   end
 
   # :stopdoc:
-  def destination
-    raise NotImplementedError
-  end
-
-  def extension
-    raise NotImplementedError
-  end
-
   def _read
-    raise NotImplementedError
+    MetaFile.read(@path)
   end
 
-  def _meta_data
-    @mdata
+  def _reset( meta_data = nil )
+    _meta_data.replace(meta_data) if meta_data.instance_of?(Hash)
+    @url = nil
+    @destination = nil
   end
   # :startdoc:
 

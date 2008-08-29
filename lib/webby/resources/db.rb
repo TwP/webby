@@ -23,7 +23,7 @@ class DB
   # time if it already exists in the database.
   #
   def add( page )
-    ary = @db[page.dir]
+    ary = @db[page.directory]
 
     # make sure we don't duplicate pages
     ary.delete page if ary.include? page
@@ -183,7 +183,7 @@ class DB
   #   Reverse the order of the results
   #
   def siblings( page, opts = {} )
-    ary = @db[page.dir].dup
+    ary = @db[page.directory].dup
     ary.delete page
     return ary unless opts.has_key? :sort_by
 
@@ -207,7 +207,7 @@ class DB
   #   Reverse the order of the results
   #
   def children( page, opts = {} )
-    rgxp = Regexp.new "\\A#{page.dir}/[^/]+"
+    rgxp = Regexp.new "\\A#{page.directory}/[^/]+"
 
     keys = @db.keys.find_all {|k| rgxp =~ k}
     ary  = keys.map {|k| @db[k]}
@@ -229,7 +229,7 @@ class DB
   #  of the current directory or the next directory up the chain.
   #
   def parent_of( page )
-    dir = page.dir
+    dir = page.directory
 
     loop do
       if @db.has_key? dir

@@ -21,10 +21,10 @@ class Page < Resource
     super
     @number = nil
 
-    @mdata = MetaFile.meta_data(@path)
-    @mdata ||= {}
-    @mdata = ::Webby.site.page_defaults.merge(@mdata)
-    @mdata.sanitize!
+    @_meta_data = MetaFile.meta_data(@path)
+    @_meta_data ||= {}
+    @_meta_data = ::Webby.site.page_defaults.merge(@_meta_data)
+    @_meta_data.sanitize!
   end
 
   # call-seq:
@@ -66,7 +66,7 @@ class Page < Resource
     #        renderer, and the Page should simply recieve new settings from
     #        the renderer and do the right thing
     @number = num
-    @url = @dest = nil
+    _reset
   end
 
   # call-seq:
@@ -81,19 +81,19 @@ class Page < Resource
   #
   def destination
     # TODO: don't cache the destination
-    return @dest if defined? @dest and @dest
+    return @destination if defined? @destination and @destination
 
-    @dest = if @mdata.has_key? 'destination' then @mdata['destination']
+    @destination = if _meta_data.has_key? 'destination' then _meta_data['destination']
             else ::File.join(dir, filename) end
 
-    @dest = ::File.join(::Webby.site.output_dir, @dest)
-    @dest << @number.to_s if @number
+    @destination = ::File.join(::Webby.site.output_dir, @destination)
+    @destination << @number.to_s if @number
 
     ext = extension
     unless ext.nil? or ext.empty?
-      @dest << '.' << ext
+      @destination << '.' << ext
     end
-    @dest
+    @destination
   end
 
   # call-seq:
@@ -107,21 +107,15 @@ class Page < Resource
   # * the extension of this page file
   #
   def extension
-    return @mdata['extension'] if @mdata.has_key? 'extension'
+    return _meta_data['extension'] if _meta_data.has_key? 'extension'
 
-    if @mdata.has_key? 'layout'
-      lyt = ::Webby::Resources.find_layout(@mdata['layout'])
+    if _meta_data.has_key? 'layout'
+      lyt = ::Webby::Resources.find_layout(_meta_data['layout'])
       ext = lyt ? lyt.extension : nil
       return ext if ext
     end
     @ext
   end
-
-  # :stopdoc:
-  def _read
-    MetaFile.read(@path)
-  end
-  # :startdoc:
 
 end  # class Page
 end  # module Webby::Resources

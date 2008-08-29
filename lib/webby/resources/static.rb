@@ -24,20 +24,6 @@ class Static < Resource
     @mtime > ::File.mtime(destination)
   end
 
-  # Returns the path in the output directory where the static file should
-  # be copied. This path is used to determine if the static file is dirty
-  # and in need of copying to the output file.
-  #
-  def destination
-    return @dest if defined? @dest and @dest
-
-    @dest = ::File.join(::Webby.site.output_dir, dir, filename)
-    @dest << '.' << @ext if @ext and !@ext.empty?
-    @dest
-  end
-
-  alias :extension :ext
-
   # :stopdoc:
   def _read
     ::File.read(path)

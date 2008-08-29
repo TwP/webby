@@ -16,14 +16,24 @@ class Layout < Resource
   def initialize( fn )
     super
 
-    @mdata = MetaFile.meta_data(@path)
-    @mdata ||= {}
-    @mdata.sanitize!
+    @_meta_data = MetaFile.meta_data(@path)
+    @_meta_data ||= {}
+    @_meta_data.sanitize!
   end
 
-  # call-seq:
-  #    destination    => string
+  # Returns the extension to be applied to output files rendered by the
+  # layotut. This will either be a string or +nil+ if the layout does not
+  # specify an extension to use.
   #
+  def extension
+    return _meta_data['extension'] if _meta_data.has_key? 'extension'
+
+    if _meta_data.has_key? 'layout'
+      lyt = ::Webby::Resources.find_layout(_meta_data['layout'])
+      lyt ? lyt.extension : nil
+    end
+  end
+
   # The output file destination for the layout. This is the ".cairn" file in
   # the output folder. It is used to determine if the layout is newer than
   # the build products.
@@ -32,37 +42,12 @@ class Layout < Resource
     ::Webby.cairn
   end
 
-  # call-seq:
-  #    extension    => string or nil
-  #
-  # Returns the extension to be applied to output files rendered by the
-  # layotut. This will either be a string or +nil+ if the layout does not
-  # specify an extension to use.
-  #
-  def extension
-    return @mdata['extension'] if @mdata.has_key? 'extension'
-
-    if @mdata.has_key? 'layout'
-      lyt = ::Webby::Resources.find_layout(@mdata['layout'])
-      ext = lyt ? lyt.extension : nil
-    end
-  end
-
-  # call-seq:
-  #    url    => nil
-  #
   # Layouts do not have a URL. This method will alwasy return +nil+.
   #
   def url
     nil
   end
 
-  # :stopdoc:
-  def _read
-    MetaFile.read(@path)
-  end
-  # :startdoc:
-  #
 end  # class Layout
 end  # module Webby::Resources
 
