@@ -157,9 +157,6 @@ class Builder
     nil
   end
 
-
-  private
-
   # Scan the <code>layouts/</code> folder and the <code>content/</code>
   # folder and create a new Resource object for each file found there.
   #

@@ -30,6 +30,8 @@ class AutoBuilder
     @log = Logging::Logger[self]
 
     @builder = Builder.new
+    @builder.load_files
+
     @watcher = DirectoryWatcher.new '.', :interval => 2
     @watcher.add_observer self
 

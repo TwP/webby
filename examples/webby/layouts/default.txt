@@ -28,7 +28,7 @@ filter:
    <div class="column span-17 prepend-4 append-3 first last" id="header">
       <ul
          ><li><%= link_to_page('Learn') %></li
-         ><li><%= link_to_page('Communicate') %></a></li
+         ><li><%= link_to_page('Communicate') %></li
       ></ul>
       <h1><a href="/">Webby</a></h1>
       <p>- ascii alchemy</p>
