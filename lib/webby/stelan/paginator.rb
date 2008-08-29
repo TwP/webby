@@ -18,7 +18,7 @@ class Paginator
   class MissingCountError < ArgumentError; end
   class MissingSelectError < ArgumentError; end  
   
-  attr_reader :per_page, :count, :resource
+  attr_reader :per_page, :count, :resource, :filename
   
   # Instantiate a new Paginator object
   #
@@ -31,6 +31,8 @@ class Paginator
   #     convenience, if the arity is 2)
   def initialize(count, per_page, resource, &select)
     @count, @per_page, @resource = count, per_page, resource
+    @meta_data = @resource._meta_data.dup
+    @filename = @resource.filename
     unless select
       raise MissingSelectError, "Must provide block to select data for each page"
     end
@@ -68,6 +70,11 @@ class Paginator
       @select.call(*args)
     })
   end
+
+  # Finalizer method that should be called when the paginator is finished
+  def done
+    resource._reset(@meta_data)
+  end
   
   # Page object
   #
@@ -84,7 +91,10 @@ class Paginator
       @offset = (number - 1) * pager.per_page
       @select = select
 
-      @pager.resource.number = (number == 1 ? nil : number)
+      @pager.resource._reset
+      if number > 1
+        @pager.resource['filename'] = @pager.filename + number.to_s
+      end
       @url = @pager.resource.url
     end
 

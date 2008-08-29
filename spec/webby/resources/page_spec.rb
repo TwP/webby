@@ -42,13 +42,6 @@ describe Webby::Resources::Page do
       resource = Webby::Resources::Page.new(filename)
       resource.url.should == '/tumblog'
     end
-
-    it 'adds the page number to the url' do
-      filename = File.join %w[content tumblog index.txt]
-      resource = Webby::Resources::Page.new(filename)
-      resource.number = 42
-      resource.url.should == '/tumblog/index42.html'
-    end
   end
 
   # -----------------------------------------------------------------------
@@ -65,33 +58,6 @@ describe Webby::Resources::Page do
     it "uses the file's extension as a last ditch effort" do
       @page._meta_data.delete('layout')
       @page.extension.should == 'txt'
-    end
-  end
-
-  # -----------------------------------------------------------------------
-  describe '.destination' do
-    it 'uses the destination from the meta-data if present' do
-      @page['destination'] = 'foo/bar/baz'
-      @page.destination.should == 'output/foo/bar/baz.html'
-    end
-
-    it 'computes the destination from the filename and dir' do
-      @page.destination.should == 'output/index.html'
-    end
-
-    it 'caches the destination' do
-      @page.destination.should == 'output/index.html'
-
-      @page['destination'] = 'foo/bar/baz'
-      @page.destination.should == 'output/index.html'
-    end
-
-    it 'incorporates the page number into the destination' do
-      @page.number = 42
-      @page.destination.should == 'output/index42.html'
-
-      @page.number = 2
-      @page.destination.should == 'output/index2.html'
     end
   end
 

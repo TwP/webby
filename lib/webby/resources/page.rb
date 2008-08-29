@@ -9,9 +9,6 @@ module Webby::Resources
 #
 class Page < Resource
 
-  # Resource page number (if needed)
-  attr_reader :number
-
   # call-seq:
   #    Resource.new( path )
   #
@@ -19,7 +16,6 @@ class Page < Resource
   #
   def initialize( fn )
     super
-    @number = nil
 
     @_meta_data = MetaFile.meta_data(@path)
     @_meta_data ||= {}
@@ -46,54 +42,11 @@ class Page < Resource
   # is returned for layouts.
   #
   def url
-    # TODO: don't cache the URL
-    return @url if defined? @url and @url
+    return @url unless @url.nil?
 
-    @url = destination.sub(::Webby.site.output_dir, '')
-    @url = File.dirname(@url) if filename == 'index' and number.nil?
+    @url = super
+    @url = File.dirname(@url) if filename == 'index'
     @url
-  end
-
-  # call-seq:
-  #    page.number = Integer
-  #
-  # Sets the page number for the current resource to the given integer. This
-  # number is used to modify the output destination for resources that
-  # require pagination.
-  #
-  def number=( num )
-    # FIXME: complete hack of a method -- pagination should be handled by the
-    #        renderer, and the Page should simply recieve new settings from
-    #        the renderer and do the right thing
-    @number = num
-    _reset
-  end
-
-  # call-seq:
-  #    destination    => string
-  #
-  # Returns the path in the output directory where the rendered page should
-  # be stored. This path is used to determine if the page is dirty and in
-  # need of rendering.
-  #
-  # The destination for a page can be overridden by explicitly setting
-  # the 'destination' property in the page's meta-data.
-  #
-  def destination
-    # TODO: don't cache the destination
-    return @destination if defined? @destination and @destination
-
-    @destination = if _meta_data.has_key? 'destination' then _meta_data['destination']
-            else ::File.join(dir, filename) end
-
-    @destination = ::File.join(::Webby.site.output_dir, @destination)
-    @destination << @number.to_s if @number
-
-    ext = extension
-    unless ext.nil? or ext.empty?
-      @destination << '.' << ext
-    end
-    @destination
   end
 
   # call-seq:
@@ -111,10 +64,11 @@ class Page < Resource
 
     if _meta_data.has_key? 'layout'
       lyt = ::Webby::Resources.find_layout(_meta_data['layout'])
-      ext = lyt ? lyt.extension : nil
-      return ext if ext
+      lyt_ext = lyt ? lyt.extension : nil
+      return lyt_ext if lyt_ext
     end
-    @ext
+
+    ext
   end
 
 end  # class Page

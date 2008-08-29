@@ -271,7 +271,8 @@ class Renderer
       @_content_for.clear
       @_bindings.clear
     else
-      @page.number = nil
+      @pager.pager.done
+      @pager = nil
       return false
     end
 

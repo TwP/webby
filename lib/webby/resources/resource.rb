@@ -165,21 +165,20 @@ class Resource
   #
   def destination
     return @destination unless @destination.nil?
-    @destination = ::File.join(::Webby.site.output_dir, url)
+
+    @destination = ::File.join(::Webby.site.output_dir, directory, filename)
+    ext = extension
+    unless ext.nil? or ext.empty?
+      @destination << '.' << ext
+    end
+    @destination
   end
 
   # Returns a string suitable for use as a URL linking to this resource.
   #
   def url
     return @url unless @url.nil?
-
-    @url = ::File.join('', directory, filename)
-    ext = extension
-
-    unless ext.nil? or ext.empty?
-      @url << '.' << ext
-    end
-    @url
+    @url = destination.sub(::Webby.site.output_dir, '')
   end
 
   # :stopdoc:
