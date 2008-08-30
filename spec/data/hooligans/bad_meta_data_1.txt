@@ -1,0 +1,34 @@
+---
+title:      Bad Meta-Data 1
+created_at: 2007-08-29 08:57:11.000000 -06:00
+filter:     textile
+---
+h2. Pagination
+
+Pagination is the process of organizing information onto a page such that a fixed number of items appear on each page. Webby provides some methods for paginating information.
+
+Let's assume that your website has a collection of articles in a folder called "articles" in the content directory. The goal is to display these articles ten at a time in reverse chronological order.
+
+<pre>
+---
+title: Articles
+filter:
+- erb
+- textile
+---
+h2. <%= h(@page.title) %>
+
+<%
+  articles = @pages.find(:all, :in_directory => "articles",
+                         :sort_by => "mtime", :reverse => true)
+  paginate(articles, 10) do |page|
+%>
+<%= page.render %>
+<hr />
+<% end %>
+
+<%= link_to("Prev", @pager.prev) if @pager.prev? %>
+<%= link_to("Next", @pager.next) if @pager.next? %>
+</pre>
+
+In the example page above, the first step is get the collection of articles we are interested in the paginating. This is done using the <code>@pages.find</code> method to retrieve all the pages from the articles folder sorted in reverse order by modification time. When we have the collection of articles, we pass them to the @paginate@ method along with the desired number of articles per page. The @paginate@ method will pass each page in the @articles@ collection to the supplied block of code, but for each ten pages passed to the block, a new webpage will be created.

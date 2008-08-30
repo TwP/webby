@@ -2,6 +2,7 @@
 title:      Tips & Tricks
 created_at: 2007-08-29 08:57:11.000000 -06:00
 filter:
+- erb
 - textile
 - outline
 --- 
@@ -19,25 +20,25 @@ Pagination is the process of organizing information onto a page such that a fixe
 Let's assume that your website has a collection of articles in a folder called "articles" in the content directory. The goal is to display these articles ten at a time in reverse chronological order.
 
 <pre>
----
+<%= Webby::YAML_SEP %>
 title: Articles
 filter:
 - erb
 - textile
----
-h2. <%= h(@page.title) %>
+<%= Webby::YAML_SEP %>
+h2. <%%= h(@page.title) %>
 
-<%
+<%%
   articles = @pages.find(:all, :in_directory => "articles",
                          :sort_by => "mtime", :reverse => true)
   paginate(articles, 10) do |page|
 %>
-<%= page.render %>
+<%%= page.render %>
 <hr />
-<% end %>
+<%% end %>
 
-<%= link_to("Prev", @pager.prev) if @pager.prev? %>
-<%= link_to("Next", @pager.next) if @pager.next? %>
+<%%= link_to("Prev", @pager.prev) if @pager.prev? %>
+<%%= link_to("Next", @pager.next) if @pager.next? %>
 </pre>
 
 In the example page above, the first step is get the collection of articles we are interested in the paginating. This is done using the <code>@pages.find</code> method to retrieve all the pages from the articles folder sorted in reverse order by modification time. When we have the collection of articles, we pass them to the @paginate@ method along with the desired number of articles per page. The @paginate@ method will pass each page in the @articles@ collection to the supplied block of code, but for each ten pages passed to the block, a new webpage will be created.
@@ -61,19 +62,19 @@ h2. CodeRay
 To include "CodeRay":http://coderay.rubychan.de/ syntax highlighting support in a page you need to have the @coderay@ gem installed, and you need to include the CodeRay stylesheet in your layout. The following example shows a page that uses CodeRay syntax highlighting combined with Textile markup.
 
 <pre>
----
+<%= Webby::YAML_SEP %>
 title:  CodeRay Example
 filter:
 - erb
 - textile
---- 
-h2. <%= h(@page.title) %>
+<%= Webby::YAML_SEP %> 
+h2. <%%= h(@page.title) %>
 
 This is the @render_page@ function from the Webby static website generation
 system. It is used to render a page by applying the specified filters in
 succession to the page contents.
 
-<% coderay(:lang => "ruby", :line_numbers => "inline") do -%>
+<%% coderay(:lang => "ruby", :line_numbers => "inline") do -%>
 # call-seq:
 #    render_page    => string
 #
@@ -90,7 +91,7 @@ def render_page
 
   str
 end
-<% end -%>
+<%% end -%>
 </pre>
 
 There are more options that can be passed to the CodeRay syntax highlighter than those shown in the example above. Take a look at the RDoc documentation for the "CodeRay Helper":/rdoc/classes/Webby/Helpers/CodeRayHelper.html class for more information.

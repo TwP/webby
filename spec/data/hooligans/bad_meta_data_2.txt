@@ -1,0 +1,34 @@
+---
+title:      Bad Meta-Data 2
+created_at: 2007-08-29 08:57:11.000000 -06:00
+filter:
+  - erb
+  - textile
+---
+h3. Requirements
+
+Webby is written in the Ruby programming language. To install and run Webby you will need the following applications installed on your system:
+
+* "Ruby":http://ruby-lang.org
+* "RubyGems":http://rubygems.org/read/chapter/3
+
+h3(#pages). Pages
+
+Pages are found in the _content_ folder along with regular files. Pages contain *meta-data* at the top of the file; this is what differentiates a page from a regular file. The meta-data is a section of "YAML":http://www.yaml.org/spec/1.1/ formatted text that describes various properties and attributes of the page. These attributes are used by Webby to determine how the page will be processed by the filter engine.
+
+Let's look at an example page.
+
+<pre>
+---
+title:      Lorem Ipsum
+created_at: Wed Aug 29 08:57:00 -0600 2007
+filter:
+  - erb
+  - textile
+---
+h2. <%%= @page.title %>
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc congue ipsum
+vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est eu
+lobortis mattis, lectus tellus tempus felis, a ultricies erat ipsum at metus.
+</pre>

@@ -19,6 +19,21 @@ describe Webby::Resources::Page do
     h.should_not be_empty
     h['title'].should == 'Home Page'
     h['filter'].should == ['erb', 'textile']
+    h['layout'].should == 'default'
+  end
+
+  it 'can be given a hash of meta-data on initialization' do
+    page = Webby::Resources::Page.new(
+      @filename,
+      'title' => 'Not Your Average Title'
+    )
+
+    h = page._meta_data
+    h.should_not be_empty
+    h['title'].should == 'Not Your Average Title'
+    h['layout'].should == 'default'
+    h['created_at'].should be_nil
+    h['filter'].should be_nil
   end
 
   it 'reads the contents of the file' do

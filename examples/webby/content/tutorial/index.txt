@@ -1,7 +1,9 @@
 --- 
 title:      Tutorial
 created_at: 2007-08-21 17:02:40.000000 -06:00
-filter:     textile
+filter:
+  - erb
+  - textile
 --- 
 h1. Tutorial
 
@@ -50,14 +52,14 @@ h2. Making Changes
 Of course "Lorem Ipsum" is some great content, but if everyone posted their site in such a state the web would be a monochromatic smurf blue. Let's change that into something more creative, more us. Open the *content/index.txt* file in your favorite editor.
 
 <pre class="code">
---- 
+<%= Webby::YAML_SEP %> 
 title:      Home Page
 created_at: Tue Aug 21 17:02:40 -0600 2007
 filter:
   - erb
   - textile
---- 
-h2. <%= @page.title %>
+<%= Webby::YAML_SEP %> 
+h2. <%%= @page.title %>
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc congue ipsum
 vestibulum libero. Aenean vitae justo. Nam eget tellus. Etiam convallis, est
@@ -72,7 +74,7 @@ This is not the entire contents of the file, just to enough to get a feel for ho
 
 The content of this page is not HTML, but it ends up that way. How? Webby uses _filters_ on the page to transform the text into HTML. The *filter* item in the meta-data tells Webby which filters to apply to the page. Two filters will be applied, "erb" and "textile" - in that order. Each filter operates on the page text (everything after the meta-data).
 
-The erb filter (erb stands for "embedded Ruby") allows Webby to process Ruby statements found in the page text and to substitute the output of those Ruby statements back into the page text. The Ruby statements appear between @<%= ruby_code %>@ delimiters. The meta-data found at the top of the page is made available through the @@page@ object. You can see from the index.txt file that the page title, "Home Page", will be substituted on the first line.
+The erb filter (erb stands for "embedded Ruby") allows Webby to process Ruby statements found in the page text and to substitute the output of those Ruby statements back into the page text. The Ruby statements appear between @<%%= ruby_code %>@ delimiters. The meta-data found at the top of the page is made available through the @@page@ object. You can see from the index.txt file that the page title, "Home Page", will be substituted on the first line.
 
 The textile filter operates on all page text. It is a human readable markup that gets converted into HTML. For example, the line <notextile><code>h2.&nbsp;Litora&nbsp;Sociis</code></notextile> will be converted into <notextile><code>&lt;h2&gt;&nbsp;Litora&nbsp;Sociis&lt;/h2&gt;</code></notextile> by the textile filter. It is a powerful markup language that simplifies web publishing. 
 
@@ -103,18 +105,18 @@ h2. Change the Layout
 The next step is to change how the page looks. In fact, we want to change the appearance of all the pages in our website. This is easily done by changing the website layout file in the _layouts_ folder. Open the *layouts/default.txt* file in your favorite editor.
 
 <pre class="code">
---- 
+<%= Webby::YAML_SEP %> 
 extension: html
 filter:    erb
---- 
+<%= Webby::YAML_SEP %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-   <title><%= @page.title %></title>
-   <meta name="author" content="<%= @page.author %>" />
+   <title><%%= @page.title %></title>
+   <meta name="author" content="<%%= @page.author %>" />
 ...
 </pre>
 

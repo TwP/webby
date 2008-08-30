@@ -14,11 +14,15 @@ class Page < Resource
   #
   # Creates a new page object from the full path to the page file.
   #
-  def initialize( fn )
-    super
+  def initialize( fn, meta_data = nil )
+    super(fn)
 
-    @_meta_data = MetaFile.meta_data(@path)
-    @_meta_data ||= {}
+    if meta_data.instance_of?(Hash)
+      @_meta_data = meta_data
+    else
+      @_meta_data = MetaFile.meta_data(@path)
+      @_meta_data ||= {}
+    end
     @_meta_data = ::Webby.site.page_defaults.merge(@_meta_data)
     @_meta_data.sanitize!
   end

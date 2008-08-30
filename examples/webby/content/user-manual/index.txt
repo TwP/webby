@@ -133,13 +133,13 @@ Pages are found in the _content_ folder along with regular files. Pages contain 
 Let's look at an example page.
 
 <pre>
----
+<%= Webby::YAML_SEP %>
 title:      Lorem Ipsum
 created_at: Wed Aug 29 08:57:00 -0600 2007
 filter:
   - erb
   - textile
----
+<%= Webby::YAML_SEP %>
 h2. <%%= @page.title %>
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc congue ipsum
@@ -213,10 +213,10 @@ The diagram to the right shows a typical page rendering process. The content of 
 Layouts are treated exactly as pages are treated with one exception  --  the layout has access to the rendered contents of another page in site. The content of the page being rendered is made available to the layout via the @@content@ variable accessible from the ERB filter.
 
 <pre>
----
+<%= Webby::YAML_SEP %>
 extension: html
 filter:    erb
----
+<%= Webby::YAML_SEP %>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
   <title><%= @page.title %></title>

@@ -21,6 +21,7 @@ module Webby
   VERSION = '0.9.1'   # :nodoc:
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
+  YAML_SEP = '---'
   # :startdoc:
 
   class Error < StandardError; end  # :nodoc:

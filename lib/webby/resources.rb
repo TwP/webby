@@ -51,17 +51,29 @@ module Webby::Resources
         return r
       end
 
-      # see if we are dealing with a static resource
-      unless MetaFile.meta_data?(fn)
-        r = ::Webby::Resources::Static.new(fn)
-        self.pages << r
-        return r
-      end
+      begin
+        fd = ::File.open(fn, 'r')
+        mf = MetaFile.new fd
 
-      # this is a renderable page
-      r = ::Webby::Resources::Page.new(fn)
-      self.pages << r
-      return r
+        # see if we are dealing with a static resource
+        unless mf.meta_data?
+          r = ::Webby::Resources::Static.new(fn)
+          self.pages << r
+          return r
+        end
+
+        # this is a renderable page
+        mf.each do |meta_data|
+          r = ::Webby::Resources::Page.new(fn, meta_data)
+          self.pages << r
+          r
+        end
+      rescue MetaFile::Error => err
+        logger.error "error loading file #{fn.inspect}"
+        logger.error err
+      ensure
+        fd.close
+      end
     end
 
     # Returns a normalized path for the given filename.
@@ -109,6 +121,12 @@ module Webby::Resources
     def extname( filename )
       ::File.extname(filename).tr('.', '')
     end
+
+    # :stopdoc:
+    def logger
+      @logger ||= ::Logging::Logger[self]
+    end
+    # :startdoc:
 
   end  # class << self
 end  # module Webby::Resources

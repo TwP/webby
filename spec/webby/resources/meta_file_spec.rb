@@ -10,6 +10,84 @@ describe Webby::Resources::MetaFile do
       ArgumentError, 'expecting an IO stream')
   end
 
+  it 'returns the number of meta-data blocks at the top of a file' do
+    fn = Webby.datapath %w[content css coderay.css]
+    File.open(fn, 'r') do |fd|
+      mf = Webby::Resources::MetaFile.new(fd)
+      mf.meta_count.should == 0
+    end
+
+    fn = Webby.datapath %w[content index.txt]
+    File.open(fn, 'r') do |fd|
+      mf = Webby::Resources::MetaFile.new(fd)
+      mf.meta_count.should == 1
+    end
+
+    fn = Webby.datapath %w[content photos.txt]
+    File.open(fn, 'r') do |fd|
+      mf = Webby::Resources::MetaFile.new(fd)
+      mf.meta_count.should == 3
+    end
+  end
+
+  # -----------------------------------------------------------------------
+  describe '.each' do
+    it 'yields each meta-data block' do
+      fn = Webby.datapath %w[content photos.txt]
+      output = []
+      File.open(fn, 'r') do |fd|
+        mf = Webby::Resources::MetaFile.new(fd)
+        mf.each {|h| output << h}
+      end
+      output.length.should == 3
+      output.map {|h| h['title']}.should == [
+        'First Photo',
+        'Second Photo',
+        'Third Photo'
+      ]
+      output.map {|h| h['directory']}.should == ['photos']*3
+      output.map {|h| h['filename']}.should == %w[image1 image2 image3]
+
+    end
+
+    it 'yields a single meta-data block' do
+      fn = Webby.datapath %w[content index.txt]
+      output = []
+      File.open(fn, 'r') do |fd|
+        mf = Webby::Resources::MetaFile.new(fd)
+        mf.each {|h| output << h}
+      end
+      output.length.should == 1
+      h = output.first
+      h['title'].should == 'Home Page'
+      h['filter'].should == %w[erb textile]
+    end
+
+    it 'raises an error if the meta-data is not a hash' do
+      fn = Webby.datapath %w[hooligans bad_meta_data_1.txt]
+      output = []
+      File.open(fn, 'r') do |fd|
+        mf = Webby::Resources::MetaFile.new(fd)
+        lambda {
+          mf.each {|h| output << h}
+        }.should raise_error(Webby::Resources::MetaFile::Error)
+      end
+      output.length.should == 1
+    end
+
+    it "really doesn't like YAML syntax errors" do
+      fn = Webby.datapath %w[hooligans bad_meta_data_2.txt]
+      output = []
+      File.open(fn, 'r') do |fd|
+        mf = Webby::Resources::MetaFile.new(fd)
+        lambda {
+          mf.each {|h| output << h}
+        }.should raise_error(Webby::Resources::MetaFile::Error)
+      end
+      output.length.should == 1
+    end
+  end
+
   # -----------------------------------------------------------------------
   describe '#meta_data' do
     it 'returns nil for regular files' do

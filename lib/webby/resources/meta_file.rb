@@ -23,7 +23,10 @@ module Webby::Resources
 #
 class MetaFile
 
+  class Error < StandardError; end
+
   META_SEP = %r/\A---\s*(?:\r\n|\n)?\z/   # :nodoc:
+  ERR_MSG = "corrupt meta-data (perhaps there is an errant YAML marker '---' in the file)" # :nodoc:
 
   # call-seq:
   #    MetaFile.read( filename )    => string
@@ -64,6 +67,7 @@ class MetaFile
   def initialize( io )
     raise ArgumentError, "expecting an IO stream" unless io.respond_to? :gets
     @io = io
+    @meta_count = 0
   end
 
   # Returns the entire contents of the IO stream exluding any meta-data
@@ -72,6 +76,77 @@ class MetaFile
   def read
     @io.seek(meta_end || 0)
     @io.read
+  end
+
+  # Reads in each meta-data section and yields it to the given block. The
+  # first meta-data section is yielded "as is", but subsequent meta-data
+  # sections are merged with this first section and then yielded. This
+  # allows the user to define common items in the first meta-data section
+  # and only include items that are different in the subsequent sections.
+  #
+  # Example:
+  #
+  #    ---
+  #    title:      First Title
+  #    author:     me
+  #    directory:  foo/bar/baz
+  #    ---
+  #    title:      Second Title
+  #    author:     you
+  #    ---
+  #    title:      Third Title
+  #    author:     them
+  #    ---
+  #
+  # and parsing the meta-data above yields ...
+  #
+  #    meta_file.each do |hash|
+  #      pp hash
+  #    end
+  #
+  # the following output
+  #
+  #    { 'title' => 'First Title',
+  #      'author' => 'me',
+  #      'directory' => 'foo/bar/baz' }
+  #
+  #    { 'title' => 'Second Title',
+  #      'author' => 'you',
+  #      'directory' => 'foo/bar/baz' }
+  #
+  #    { 'title' => 'Third Title',
+  #      'author' => 'them',
+  #      'directory' => 'foo/bar/baz' }
+  #
+  # Even though the "directory" item only appears in the first meta-data
+  # block, it is copied to all the subsequent blocks.
+  #
+  def each
+    return unless meta_data?
+
+    first, count = nil, 0
+    @io.seek 0
+
+    buffer = @io.gets
+    while count < @meta_count
+      while (line = @io.gets) !~ META_SEP
+        buffer << line
+      end
+
+      h = YAML.load(buffer)
+      raise Error, ERR_MSG unless h.instance_of?(Hash)
+
+      if first then h = first.merge(h)
+      else first = h.dup end
+
+      buffer = line
+      count += 1
+
+      yield h
+    end
+  rescue ArgumentError => err
+    msg = ERR_MSG.dup << "\n\t-- " << err.message
+    raise Error, msg
   end
 
   # Returns the meta-data defined at the top of the file. Returns +nil+ if
@@ -94,6 +169,13 @@ class MetaFile
     meta_end.nil? ? false : true
   end
 
+  # Returns the number of meta-data blocks at the top of the file.
+  #
+  def meta_count
+    meta_end
+    @meta_count
+  end
+
   # Returns the position in the IO stream where the meta-data ends and the
   # regular data begins. If there is no meta-data in the stream, returns +nil+.
   #
@@ -106,12 +188,16 @@ class MetaFile
     return unless META_SEP =~ line
 
     @io.seek 0
-    pos = @io.gets.length
+    pos = nil
+    buffer = @io.gets.length
     while line = @io.gets
-      pos += line.length
-      break if META_SEP =~ line
+      buffer += line.length
+      if META_SEP =~ line
+        pos = buffer
+        @meta_count += 1
+      end
     end
-    return if line.nil?
+    return if pos.nil?
 
     @meta_end = pos
   end
