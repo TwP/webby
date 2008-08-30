@@ -3,8 +3,12 @@
 require File.expand_path(
     File.join(File.dirname(__FILE__), %w[.. spec_helper]))
 
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 describe Webby::Resources do
+  before :each do
+    Webby::Resources.clear
+  end
+
   it "should raise a useful error if there are no layouts" do
     layouts = mock("Layouts")
     Webby::Resources.stub!(:layouts).and_return(layouts)
@@ -38,4 +42,28 @@ describe Webby::Resources do
     Webby::Resources.path('/').should == ''
     Webby::Resources.path('').should == ''
   end
+
+  # ------------------------------------------------------------------------
+  describe "#new" do
+    before :each do
+      layout = Webby::Resources::Layout.
+               new(Webby.datapath %w[layouts default.txt])
+      Webby::Resources.stub!(:find_layout).and_return(layout)
+    end
+
+    it "creates multiple pages for files with multiple YAML sections" do
+      pages = Webby::Resources.pages
+
+      fn = File.join %w[content photos.txt]
+      Webby::Resources.new(fn)
+
+      ary = pages.find(:all, :in_directory => 'photos')
+      ary.map {|page| page.title}.should == [
+        'First Photo', 'Second Photo', 'Third Photo'
+      ]
+    end
+  end
+
 end
+
+# EOF

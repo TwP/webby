@@ -72,7 +72,7 @@ module Webby::Resources
         logger.error "error loading file #{fn.inspect}"
         logger.error err
       ensure
-        fd.close
+        fd.close if fd
       end
     end
 
