@@ -160,6 +160,7 @@ spec/data/content/css/tumblog.css
 spec/data/content/images/tumblog/permalink.gif
 spec/data/content/images/tumblog/rss.gif
 spec/data/content/index.txt
+spec/data/content/photos.txt
 spec/data/content/tumblog/200806/the-noble-chicken/index.txt
 spec/data/content/tumblog/200807/historical-perspectives-on-the-classic-chicken-joke/index.txt
 spec/data/content/tumblog/200807/mad-city-chickens/index.txt
@@ -167,6 +168,8 @@ spec/data/content/tumblog/200807/the-wisdom-of-the-dutch/index.txt
 spec/data/content/tumblog/200807/up-a-tree/index.txt
 spec/data/content/tumblog/index.txt
 spec/data/content/tumblog/rss.txt
+spec/data/hooligans/bad_meta_data_1.txt
+spec/data/hooligans/bad_meta_data_2.txt
 spec/data/layouts/default.txt
 spec/data/layouts/tumblog/default.txt
 spec/data/layouts/tumblog/post.txt

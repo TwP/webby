@@ -1,7 +1,8 @@
 == 0.9.1 / 2008-09-
 
-* 1 minor enhancement
+* 2 minor enhancements
   - simplified the handling of meta-data at the top of files
+  - multiple output files can be generated from a single page
 * 1 bug fix
   - filename extensions were not being preserved when creating a new page
 
