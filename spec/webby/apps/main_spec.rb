@@ -55,11 +55,24 @@ describe Webby::Apps::Main do
       args.page.should == "foo/bar/10-percent-inspiration-and-90-percent-perspiration"
     end
 
-    # TODO: Is this desired behavior?
     it "should set the title by joining the raw args, getting the basename, and titlecasing"  do
-      page = "foo/bar/this-is-a-page.txt"
+      page = "foo/bar/this is a page.txt"
       args = @main.capture_command_line_args([page])
-      args.title.should == "This-Is-a-Page"
+      args.title.should == "This Is a Page"
+    end
+
+    it "should preserve any page extensions" do
+      page = "foo/bar/this is a page.txt"
+      args = @main.capture_command_line_args([page])
+      args.page.should == "foo/bar/this-is-a-page.txt"
+
+      page = "This is another page.haml"
+      args = @main.capture_command_line_args([page])
+      args.page.should == "this-is-another-page.haml"
+
+      page = "one/more/for the road"
+      args = @main.capture_command_line_args([page])
+      args.page.should == "one/more/for-the-road"
     end
   end
 

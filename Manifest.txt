@@ -187,6 +187,7 @@ spec/spec_helper.rb
 spec/webby/apps/generator_spec.rb
 spec/webby/apps/main_spec.rb
 spec/webby/helpers/capture_helper_spec.rb
+spec/webby/renderer_spec.rb
 spec/webby/resources/db_spec.rb
 spec/webby/resources/layout_spec.rb
 spec/webby/resources/meta_file_spec.rb

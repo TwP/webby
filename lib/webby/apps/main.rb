@@ -150,6 +150,9 @@ class Main
     # page should be dir/slug without leading /
     args.page  = ::File.join(args.dir, args.slug).gsub(/^\//, '')
 
+    ext = ::File.extname(dashed)
+    args.page << ext unless ext.empty?
+
     ::Webby.site.args = args
     Object.const_set(:SITE, Webby.site)
     args

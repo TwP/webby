@@ -2,6 +2,8 @@
 
 * 1 minor enhancement
   - simplified the handling of meta-data at the top of files
+* 1 bug fix
+  - filename extensions were not being preserved when creating a new page
 
 == 0.9.0 / 2008-08-25
 
