@@ -18,7 +18,7 @@ class Paginator
   class MissingCountError < ArgumentError; end
   class MissingSelectError < ArgumentError; end  
   
-  attr_reader :per_page, :count, :resource, :filename
+  attr_reader :per_page, :count, :resource, :filename, :directory
   
   # Instantiate a new Paginator object
   #
@@ -33,6 +33,7 @@ class Paginator
     @count, @per_page, @resource = count, per_page, resource
     @meta_data = @resource._meta_data.dup
     @filename = @resource.filename
+    @directory = @resource.directory
     unless select
       raise MissingSelectError, "Must provide block to select data for each page"
     end
@@ -93,7 +94,11 @@ class Paginator
 
       @pager.resource._reset
       if number > 1
-        @pager.resource['filename'] = @pager.filename + number.to_s
+        if ::Webby.site.create_mode == 'directory'
+          @pager.resource['directory'] = File.join(@pager.directory, number.to_s)
+        else
+          @pager.resource['filename'] = @pager.filename + number.to_s
+        end
       end
       @url = @pager.resource.url
     end

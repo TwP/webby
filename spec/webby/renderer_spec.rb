@@ -14,62 +14,126 @@ describe Webby::Renderer do
     @renderer = Webby::Renderer.new(@page)
   end
 
-  it 'paginates a set of items' do
-    items = %w[one two three four five six seven eight]
-    output = []
+  it 'needs some more specs'
 
-    @renderer.instance_variable_get(:@pager).should be_nil
+  # -------------------------------------------------------------------------
+  describe 'when paginating' do
+    after :each do
+      ::Webby.site.create_mode = 'page'
+    end
 
-    # the first page of items
-    @renderer.paginate(items, 3) {|item| output << item}
-    pager = @renderer.instance_variable_get(:@pager)
+    it 'paginates a set of items' do
+      items = %w[one two three four five six seven eight]
+      output = []
 
-    pager.should_not be_nil
-    pager.number_of_pages.should == 3
-    pager.prev?.should == false
-    pager.next?.should == true
+      @renderer.instance_variable_get(:@pager).should be_nil
 
-    output.should == %w[one two three]
-    @page.destination.should == 'output/tumblog/index.html'
+      # the first page of items
+      @renderer.paginate(items, 3) {|item| output << item}
+      pager = @renderer.instance_variable_get(:@pager)
 
-    # go to the next page of items
-    @renderer._next_page.should == true
-    output.should == %w[one two three]
+      pager.should_not be_nil
+      pager.number_of_pages.should == 3
+      pager.prev?.should == false
+      pager.next?.should == true
 
-    pager = @renderer.instance_variable_get(:@pager)
-    pager.should_not be_nil
-    pager.number_of_pages.should == 3
-    pager.prev?.should == true
-    pager.next?.should == true
+      output.should == %w[one two three]
+      @page.destination.should == 'output/tumblog/index.html'
 
-    @page.destination.should == 'output/tumblog/index2.html'
+      # go to the next page of items
+      @renderer._next_page.should == true
+      output.should == %w[one two three]
 
-    @renderer.paginate(items, 3) {|item| output << item}
-    output.should == %w[one two three four five six]
+      pager = @renderer.instance_variable_get(:@pager)
+      pager.should_not be_nil
+      pager.number_of_pages.should == 3
+      pager.prev?.should == true
+      pager.next?.should == true
 
-    # go to the last page of items
-    @renderer._next_page.should == true
-    output.should == %w[one two three four five six]
+      @page.destination.should == 'output/tumblog/index2.html'
 
-    pager = @renderer.instance_variable_get(:@pager)
-    pager.should_not be_nil
-    pager.number_of_pages.should == 3
-    pager.prev?.should == true
-    pager.next?.should == false
+      @renderer.paginate(items, 3) {|item| output << item}
+      output.should == %w[one two three four five six]
 
-    @page.destination.should == 'output/tumblog/index3.html'
+      # go to the last page of items
+      @renderer._next_page.should == true
+      output.should == %w[one two three four five six]
 
-    @renderer.paginate(items, 3) {|item| output << item}
-    output.should == %w[one two three four five six seven eight]
+      pager = @renderer.instance_variable_get(:@pager)
+      pager.should_not be_nil
+      pager.number_of_pages.should == 3
+      pager.prev?.should == true
+      pager.next?.should == false
 
-    # after the last page
-    @renderer._next_page.should == false
-    pager = @renderer.instance_variable_get(:@pager)
-    pager.should be_nil
-    @page.destination.should == 'output/tumblog/index.html'
+      @page.destination.should == 'output/tumblog/index3.html'
+
+      @renderer.paginate(items, 3) {|item| output << item}
+      output.should == %w[one two three four five six seven eight]
+
+      # after the last page
+      @renderer._next_page.should == false
+      pager = @renderer.instance_variable_get(:@pager)
+      pager.should be_nil
+      @page.destination.should == 'output/tumblog/index.html'
+    end
+
+    it 'obeys the create_mode of the site' do
+      ::Webby.site.create_mode = 'directory'
+      items = %w[one two three four five six seven eight]
+      output = []
+
+      @renderer.instance_variable_get(:@pager).should be_nil
+
+      # the first page of items
+      @renderer.paginate(items, 3) {|item| output << item}
+      pager = @renderer.instance_variable_get(:@pager)
+
+      pager.should_not be_nil
+      pager.number_of_pages.should == 3
+      pager.prev?.should == false
+      pager.next?.should == true
+
+      output.should == %w[one two three]
+      @page.destination.should == 'output/tumblog/index.html'
+
+      # go to the next page of items
+      @renderer._next_page.should == true
+      output.should == %w[one two three]
+
+      pager = @renderer.instance_variable_get(:@pager)
+      pager.should_not be_nil
+      pager.number_of_pages.should == 3
+      pager.prev?.should == true
+      pager.next?.should == true
+
+      @page.destination.should == 'output/tumblog/2/index.html'
+
+      @renderer.paginate(items, 3) {|item| output << item}
+      output.should == %w[one two three four five six]
+
+      # go to the last page of items
+      @renderer._next_page.should == true
+      output.should == %w[one two three four five six]
+
+      pager = @renderer.instance_variable_get(:@pager)
+      pager.should_not be_nil
+      pager.number_of_pages.should == 3
+      pager.prev?.should == true
+      pager.next?.should == false
+
+      @page.destination.should == 'output/tumblog/3/index.html'
+
+      @renderer.paginate(items, 3) {|item| output << item}
+      output.should == %w[one two three four five six seven eight]
+
+      # after the last page
+      @renderer._next_page.should == false
+      pager = @renderer.instance_variable_get(:@pager)
+      pager.should be_nil
+      @page.destination.should == 'output/tumblog/index.html'
+    end
   end
 
-  it 'needs some more specs'
-end
+end  # describe Webby::Renderer
 
 # EOF
