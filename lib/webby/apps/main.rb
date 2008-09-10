@@ -37,10 +37,12 @@ class Main
     opts.banner = 'Usage: webby [options] target [target args]'
 
     opts.separator ''
-    opts.on('-D', '--describe [PATTERN]', 'describe the tasks (matching optional PATTERN), then exit') {|pattern| app.do_option('--describe', pattern)}
-    opts.on('-P', '--prereqs', 'display the tasks and dependencies, then exit') {app.do_option('--prereqs', nil)}
-    opts.on('-T', '--tasks [PATTERN]', 'display the tasks (matching optional PATTERN) with descriptions, then exit') {|pattern| app.do_option('--tasks', pattern)}
-    opts.on('-t', '--trace', 'turn on invoke/execute tracing, enable full backtrace') {app.do_option('--trace', nil)}
+
+    desired_opts = %[--describe --prereqs --tasks --trace]
+    app.standard_rake_options.each do |options|
+      next unless desired_opts.include?(options.first)
+      opts.on(*options)
+    end
 
     opts.separator ''
     opts.separator 'common options:'
@@ -75,9 +77,10 @@ class Main
   #
   def init( args )
     # Make sure we're in a folder with a Sitefile
-    app.do_option('--rakefile', 'Sitefile')
-    app.do_option('--nosearch', nil)
-    app.do_option('--silent', nil)
+    options = app.standard_rake_options
+    [['--rakefile', 'Sitefile'],
+     ['--no-search', nil],
+     ['--silent', nil]].each {|opt, value| options.assoc(opt).last.call(value)}
 
     unless app.have_rakefile
       raise RuntimeError, "Sitefile not found"
@@ -102,6 +105,12 @@ class Main
   #
   def app
     Rake.application
+  end
+
+  # Returns the options hash from the Rake application object.
+  #
+  def options
+    app.options
   end
 
   # Search for the "Sitefile" starting in the current directory and working
@@ -187,10 +196,10 @@ class Rake::Application
       end
     else
       width = displayable_tasks.collect { |t| t.name_with_args.length }.max || 10
-      max_column = 80 - name.size - width - 7
+      max_column = truncate_output? ? terminal_width - name.size - width - 7 : nil
       displayable_tasks.each do |t|
         printf "#{name} %-#{width}s  # %s\n",
-          t.name_with_args, truncate(t.comment, max_column)
+          t.name_with_args, max_column ? truncate(t.comment, max_column) : t.comment
       end
     end
   end
@@ -202,12 +211,12 @@ class Rake::Application
     rescue SystemExit => ex
       # Exit silently with current status
       exit(ex.status)
-    rescue SystemExit, GetoptLong::InvalidOption => ex
+    rescue SystemExit, OptionParser::InvalidOption => ex
       # Exit silently
       exit(1)
     rescue Exception => ex
       # Exit with error message
-      $stderr.puts "webby aborted!"
+      $stderr.puts "#{name} aborted!"
       $stderr.puts ex.message
       if options.trace
         $stderr.puts ex.backtrace.join("\n")

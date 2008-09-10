@@ -4,8 +4,9 @@
   - simplified the handling of meta-data at the top of files
   - multiple output files can be generated from a single page
   - pagination now honors the "page per directory" flag
-* 1 bug fix
+* 2 bug fixes
   - filename extensions were not being preserved when creating a new page
+  - webby now works properly with rake 0.8.2
 
 == 0.9.0 / 2008-08-25
 
