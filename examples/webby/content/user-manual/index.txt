@@ -169,12 +169,13 @@ Attribute identifiers cannot contain spaces; they must be separated from their v
 
 There are a few attributes that control when, where, and how pages are rendered. These are listed below with a brief description of how the attribute affects the system.
 
-* *destination*  --  Defines the path in the output directory where the rendered page should be stored.
+* *directory*  --  Defines the path in the output directory where the rendered page should be stored. If left empty, then the path of the page in the content folder is used as the output directory.
 * *dirty*  --  The dirty flag is used to determine whether the page should rendered or not. Normally this is automatically determined by the filter engine, but it can be overridden by setting this attribute. If the dirty flag is set to _true_ then the page will always be rendered. If the dirty flag is set to _false_ then the page will never be rendered.
 * *extension*  --  Defines the extension that will be appended to the filename of the rendered page in the output folder. The extension is determined by looking at the following:
 ** the meta-data of the current page for an @extension@ attribute
 ** the meta-data of layout file of the current page for an @extension@ attribute
 ** the extension of this page file in the _content_ folder
+* *filename*  --  The name of the rendered page in the output folder. If left blank, the name of the file in the content folder is used.
 * *filter*  --  Defines the list of filters that will be applied to the contents of this page. If left blank, then the default filter will be applied to the page contents.
 * *layout*  --  Defines the layout that the page contents will be rendered into. The default layout will be used if this attribute is not defined. The value of @nil@ should be specified if the page should not be rendered into any layout.
 
@@ -182,12 +183,11 @@ The following attributes are defined for each page in the content folder. These 
 
 * *path*  --  The full path to the file in the _content_ folder
 * *dir*  --  The relative directory in the output folder where the page will be rendered
-* *filename*  --  The name of the file in the _content_ folder excluding any path information
+* *name*  --  The name of the file in the _content_ folder excluding any path information
 * *ext*  --  The extension of the file in the _content_ folder
 * *mtime*  --  The modification time of the file in the _content_ folder
-* *number*  --  Reserved variable used for multi-page content
 * *url*  --  A URL suitable for creating a link to the page
-* *render*  --  Returns the contents of the page as rendered by the Webby filter engine
+* *destination*  --  The path in the output folder where the page will be rendered
 
 h4. Page Filters
 

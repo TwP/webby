@@ -5,7 +5,7 @@ module Filters
     
     # Register a handler for a filter
     def register( filter, &block )
-      handlers[filter.to_s] = block
+      _handlers[filter.to_s] = block
     end
     
     # Process input through filters
@@ -16,15 +16,11 @@ module Filters
     
     # Access a filter handler
     def []( name )
-      handlers[name]
+      _handlers[name]
     end
       
-    #######
-    private
-    #######
-
     # The registered filter handlers
-    def handlers
+    def _handlers
       @handlers ||= {}
     end
     
@@ -53,7 +49,7 @@ module Filters
           raise ::Webby::Error, "unknown filter: #{filter.inspect}" if handler.nil?
 
           args = [result, self][0, handler.arity]
-          handle(filter, handler, *args)
+          _handle(filter, handler, *args)
         end
       ensure
         @renderer.instance_variable_set(:@_cursor, @prev_cursor)
@@ -69,12 +65,8 @@ module Filters
         filters[@processed]
       end
       
-      #######
-      private
-      #######
-
       # Process arguments through a single filter
-      def handle(filter, handler, *args)
+      def _handle(filter, handler, *args)
         result = handler.call(*args)
         @processed += 1
         result
