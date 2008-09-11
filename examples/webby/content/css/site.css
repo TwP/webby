@@ -72,7 +72,7 @@ th,td
 
 // Default Classes
 // ------------------------------------------------------------------------
-p.quiet
+.quiet
   :color = !quiet
 .alt
   :color = !alt

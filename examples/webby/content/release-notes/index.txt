@@ -1,0 +1,21 @@
+---
+title:      Release Notes
+created_at: 2008-09-10 19:53:33.084767 -06:00
+dirty: true
+filter:
+  - erb
+  - textile
+---
+h2. <%= h(@page.title) %>
+
+Below are links to the release notes for the various version of Webby that have been officially released. Please note the humorous release names; these were created at great expense by a team of comedy writers hand picked by Stephen Colbert.
+
+<% @pages.find(:all,
+   :sort_by => 'title',
+   :reverse => true,
+   :in_directory => @page.directory,
+   :recursive => true).each do |page|
+   next if page == @page
+-%>
+* *<%= link_to_page page %>*  %(quiet)-- <%= h(page.release_name) %>%
+<% end -%>

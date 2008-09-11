@@ -60,7 +60,9 @@ examples/webby/content/css/uv/twilight.css
 examples/webby/content/index.txt
 examples/webby/content/learn/index.txt
 examples/webby/content/reference/index.txt
+examples/webby/content/release-notes/index.txt
 examples/webby/content/release-notes/rel-0-9-0/index.txt
+examples/webby/content/release-notes/rel-0-9-1/index.txt
 examples/webby/content/robots.txt
 examples/webby/content/script/jquery.corner.js
 examples/webby/content/script/jquery.js
@@ -189,6 +191,7 @@ spec/spec.opts
 spec/spec_helper.rb
 spec/webby/apps/generator_spec.rb
 spec/webby/apps/main_spec.rb
+spec/webby/filters/textile_spec.rb
 spec/webby/helpers/capture_helper_spec.rb
 spec/webby/renderer_spec.rb
 spec/webby/resources/db_spec.rb

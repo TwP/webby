@@ -23,6 +23,6 @@ p(pull). *<%= link_to_page('Reference') %>*
 
 p(pulltext). The reference does not provide an introduction to Webby. Instead, it is an indexed collection of the various Webby features with a brief explanation of each. It is useful when you vaguely remember reading something about filters and only need a quick refresher of the details without instructional text.
 
-p(pull). *<%= link_to_page('Release Notes', :title => 'Release 0.9.0') %>*
+p(pull). *<%= link_to_page('Release Notes') %>*
 
 p(pulltext). These are the release notes for past and present versions of Webby. Actually, it's only for the current version of Webby since formal release notes were only recently thought of by the developer. %(quiet)Bad developer! No latte!!%

@@ -1,8 +1,9 @@
-== 0.9.1 / 2008-09-
+== 0.9.1 / 2008-09-10
 
-* 3 minor enhancements
-  - simplified the handling of meta-data at the top of files
+* 1 major enhancement
   - multiple output files can be generated from a single page
+* 2 minor enhancements
+  - simplified the handling of meta-data at the top of files
   - pagination now honors the "page per directory" flag
 * 2 bug fixes
   - filename extensions were not being preserved when creating a new page
