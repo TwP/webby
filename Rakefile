@@ -14,7 +14,7 @@ PROJ.url = 'http://webby.rubyforge.org/'
 PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
 PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
-PROJ.release_name = 'Gallus Gallus Toothicus'
+PROJ.release_name = 'Gallus Gallus Toothicus ++'
 
 PROJ.ruby_opts = %w[-W0]
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$ ^webby.gemspec$)

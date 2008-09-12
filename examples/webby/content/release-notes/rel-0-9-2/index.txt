@@ -1,0 +1,14 @@
+---
+title:      Release 0.9.2
+created_at: 2008-09-11 19:33:47.822421 -06:00
+filter:
+  - erb
+  - textile
+release_name: Gallus Gallus Toothicus ++
+---
+h2. <%= h(@page.title) %>
+
+Release 0.9.2 is a bug-fix release. No new features or enhancements.
+
+* 1 bug fix
+** Layouts were not being found if more than one layout was in a directory in the layouts folder

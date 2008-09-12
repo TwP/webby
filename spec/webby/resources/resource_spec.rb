@@ -56,6 +56,11 @@ describe Webby::Resources::Resource do
     (b == c).should == false
     (a == nil).should == false
     (a == a.path).should == false
+
+    b['filename'] = 'index'
+    b._reset
+    b.destination.should == a.destination
+    (a == b).should == false
   end
 
   it 'compares two resources by path' do

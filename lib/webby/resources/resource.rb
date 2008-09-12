@@ -54,7 +54,7 @@ class Resource
   #
   def equal?( other )
     return false unless other.kind_of? ::Webby::Resources::Resource
-    self.destination == other.destination
+    (self.destination == other.destination) && (self.path == other.path)
   end
   alias :== :equal?
   alias :eql? :equal?

@@ -1,3 +1,9 @@
+== 0.9.2 / 2008-09-11
+
+* 1 bug fix
+  - Layouts were not being found if more than one layout was in a directory
+    in the layouts folder
+
 == 0.9.1 / 2008-09-10
 
 * 1 major enhancement
