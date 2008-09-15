@@ -30,6 +30,20 @@ describe Webby::Resources::MetaFile do
     end
   end
 
+  it 'determines the end of the final meta-data block' do
+    fn = Webby.datapath %w[content index.txt]
+    File.open(fn, 'r') do |fd|
+      mf = Webby::Resources::MetaFile.new(fd)
+      mf.meta_end.should == 7
+    end
+
+    fn = Webby.datapath %w[content photos.txt]
+    File.open(fn, 'r') do |fd|
+      mf = Webby::Resources::MetaFile.new(fd)
+      mf.meta_end.should == 18
+    end
+  end
+
   # -----------------------------------------------------------------------
   describe '.each' do
     it 'yields each meta-data block' do

@@ -74,7 +74,9 @@ class MetaFile
   # found at the beginning of the stream.
   #
   def read
-    @io.seek(meta_end || 0)
+    count = meta_end
+    @io.seek 0
+    count.times {@io.gets} unless count.nil?
     @io.read
   end
 
@@ -188,12 +190,13 @@ class MetaFile
     return unless META_SEP =~ line
 
     @io.seek 0
-    pos = nil
-    buffer = @io.gets.length
+    @io.gets
+    pos, count = nil, 1
+
     while line = @io.gets
-      buffer += line.length
+      count += 1
       if META_SEP =~ line
-        pos = buffer
+        pos = count
         @meta_count += 1
       end
     end
