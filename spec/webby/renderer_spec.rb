@@ -6,7 +6,7 @@ require File.expand_path(
 describe Webby::Renderer do
   before :each do
     layout = Webby::Resources::Layout.
-             new(Webby.datapath %w[layouts tumblog default.txt])
+             new(Webby.datapath(%w[site layouts tumblog default.txt]))
     Webby::Resources.stub!(:find_layout).and_return(layout)
 
     @filename = File.join %w[content tumblog index.txt]

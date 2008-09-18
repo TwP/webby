@@ -13,13 +13,13 @@ require File.expand_path(
 Spec::Runner.configure do |config|
   config.before :all do
     @pwd = Dir.pwd
-    Dir.chdir Webby.datapath
-    FileUtils.mkdir_p Webby.datapath(::Webby.site.output_dir)
+    Dir.chdir Webby.datapath('site')
+    FileUtils.mkdir_p Webby.datapath('site', ::Webby.site.output_dir)
   end
 
   config.after :all do
-    FileUtils.rm_rf(Webby.datapath(::Webby.cairn))
-    FileUtils.rm_rf(Dir.glob(Webby.datapath %w[output *]))
+    FileUtils.rm_rf(Webby.datapath('site', ::Webby.cairn))
+    FileUtils.rm_rf(Dir.glob(Webby.datapath(%w[site output *])))
     Dir.chdir @pwd
   end
 
