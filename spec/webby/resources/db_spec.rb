@@ -7,7 +7,7 @@ describe Webby::Resources::DB do
 
   before :each do
     layout = Webby::Resources::Layout.
-             new(Webby.datapath %w[layouts tumblog default.txt])
+             new(Webby.datapath %w[site layouts tumblog default.txt])
     Webby::Resources.stub!(:find_layout).and_return(layout)
 
     @db = Webby::Resources::DB.new

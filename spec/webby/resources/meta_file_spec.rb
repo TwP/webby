@@ -11,19 +11,19 @@ describe Webby::Resources::MetaFile do
   end
 
   it 'returns the number of meta-data blocks at the top of a file' do
-    fn = Webby.datapath %w[content css coderay.css]
+    fn = Webby.datapath %w[site content css coderay.css]
     File.open(fn, 'r') do |fd|
       mf = Webby::Resources::MetaFile.new(fd)
       mf.meta_count.should == 0
     end
 
-    fn = Webby.datapath %w[content index.txt]
+    fn = Webby.datapath %w[site content index.txt]
     File.open(fn, 'r') do |fd|
       mf = Webby::Resources::MetaFile.new(fd)
       mf.meta_count.should == 1
     end
 
-    fn = Webby.datapath %w[content photos.txt]
+    fn = Webby.datapath %w[site content photos.txt]
     File.open(fn, 'r') do |fd|
       mf = Webby::Resources::MetaFile.new(fd)
       mf.meta_count.should == 3
@@ -31,13 +31,13 @@ describe Webby::Resources::MetaFile do
   end
 
   it 'determines the end of the final meta-data block' do
-    fn = Webby.datapath %w[content index.txt]
+    fn = Webby.datapath %w[site content index.txt]
     File.open(fn, 'r') do |fd|
       mf = Webby::Resources::MetaFile.new(fd)
       mf.meta_end.should == 7
     end
 
-    fn = Webby.datapath %w[content photos.txt]
+    fn = Webby.datapath %w[site content photos.txt]
     File.open(fn, 'r') do |fd|
       mf = Webby::Resources::MetaFile.new(fd)
       mf.meta_end.should == 18
@@ -47,7 +47,7 @@ describe Webby::Resources::MetaFile do
   # -----------------------------------------------------------------------
   describe '.each' do
     it 'yields each meta-data block' do
-      fn = Webby.datapath %w[content photos.txt]
+      fn = Webby.datapath %w[site content photos.txt]
       output = []
       File.open(fn, 'r') do |fd|
         mf = Webby::Resources::MetaFile.new(fd)
@@ -65,7 +65,7 @@ describe Webby::Resources::MetaFile do
     end
 
     it 'yields a single meta-data block' do
-      fn = Webby.datapath %w[content index.txt]
+      fn = Webby.datapath %w[site content index.txt]
       output = []
       File.open(fn, 'r') do |fd|
         mf = Webby::Resources::MetaFile.new(fd)
@@ -105,12 +105,12 @@ describe Webby::Resources::MetaFile do
   # -----------------------------------------------------------------------
   describe '#meta_data' do
     it 'returns nil for regular files' do
-      fn = Webby.datapath %w[content css coderay.css]
+      fn = Webby.datapath %w[site content css coderay.css]
       Webby::Resources::MetaFile.meta_data(fn).should be_nil
     end
 
     it 'returns a hash for pages' do
-      fn = Webby.datapath %w[content index.txt]
+      fn = Webby.datapath %w[site content index.txt]
       h = Webby::Resources::MetaFile.meta_data(fn)
 
       h.should be_instance_of(Hash)
@@ -118,7 +118,7 @@ describe Webby::Resources::MetaFile do
     end
 
     it 'returns a hash for layouts' do
-      fn = Webby.datapath %w[layouts default.txt]
+      fn = Webby.datapath %w[site layouts default.txt]
       h = Webby::Resources::MetaFile.meta_data(fn)
 
       h.should be_instance_of(Hash)
@@ -132,12 +132,12 @@ describe Webby::Resources::MetaFile do
   # -----------------------------------------------------------------------
   describe "#meta_data?" do
     it 'returns true for files with meta-data' do
-      fn = Webby.datapath %w[content index.txt]
+      fn = Webby.datapath %w[site content index.txt]
       Webby::Resources::MetaFile.meta_data?(fn).should == true
     end
 
     it 'returns false for files without meta-data' do
-      fn = Webby.datapath %w[content css coderay.css]
+      fn = Webby.datapath %w[site content css coderay.css]
       Webby::Resources::MetaFile.meta_data?(fn).should == false
     end
   end
@@ -145,12 +145,12 @@ describe Webby::Resources::MetaFile do
   # -----------------------------------------------------------------------
   describe "#read" do
     it 'behaves the same as File#read for regular files' do
-      fn = Webby.datapath %w[content css coderay.css]
+      fn = Webby.datapath %w[site content css coderay.css]
       Webby::Resources::MetaFile.read(fn).should == ::File.read(fn)
     end
 
     it 'returns only the content for pages' do
-      fn = Webby.datapath %w[content index.txt]
+      fn = Webby.datapath %w[site content index.txt]
       lines = File.readlines(fn)
       lines = lines[7..-1].join
 
@@ -158,7 +158,7 @@ describe Webby::Resources::MetaFile do
     end
 
     it 'returns only the content for layouts' do
-      fn = Webby.datapath %w[layouts default.txt]
+      fn = Webby.datapath %w[site layouts default.txt]
       lines = File.readlines(fn)
       lines = lines[4..-1].join
 

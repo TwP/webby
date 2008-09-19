@@ -47,7 +47,7 @@ describe Webby::Resources do
   describe "#new" do
     before :each do
       layout = Webby::Resources::Layout.
-               new(Webby.datapath %w[layouts default.txt])
+               new(Webby.datapath %w[site layouts default.txt])
       Webby::Resources.stub!(:find_layout).and_return(layout)
     end
 
