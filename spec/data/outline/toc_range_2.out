@@ -1,0 +1,55 @@
+<ol>
+<li>
+<a href="#h1">Second Header</a>
+</li>
+<li>
+<a href="#h2">Third Header</a>
+</li>
+<li>
+<a href="#h3">Sixth Header</a>
+<ol>
+<li>
+<a href="#h3_1">Seventh Header</a>
+<ol>
+<li>
+<a href="#h3_1_1">Eighth Header</a>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<a href="#h4">Eleventh Header</a>
+<ol>
+<li>
+<a href="#h4_1">Twelfth Header</a>
+</li>
+<li>
+<a href="#h4_2">Thirteenth Header</a>
+</li>
+</ol>
+</li>
+<li>
+<a href="#h5">Fifteenth Header</a>
+</li>
+</ol>
+
+<h1>First Header</h1>
+<h2 id="h1"><span class="heading-num">1</span>Second Header</h2>
+<h2 id="h2"><span class="heading-num">2</span>Third Header</h2>
+
+<h1>Fourth Header</h1>
+
+<h1>Fifth Header</h1>
+<h2 id="h3"><span class="heading-num">3</span>Sixth Header</h2>
+<h3 id="h3_1"><span class="heading-num">3.1</span>Seventh Header</h3>
+<h4 id="h3_1_1"><span class="heading-num">3.1.1</span>Eighth Header</h4>
+<h5>Ninth Header</h5>
+<h6>Tenth Header</h6>
+
+<h2 id="h4"><span class="heading-num">4</span>Eleventh Header</h2>
+<h3 id="h4_1"><span class="heading-num">4.1</span>Twelfth Header</h3>
+<h3 id="h4_2"><span class="heading-num">4.2</span>Thirteenth Header</h3>
+
+<h1>Fourteenth Header</h1>
+<h2 id="h5"><span class="heading-num">5</span>Fifteenth Header</h2>
