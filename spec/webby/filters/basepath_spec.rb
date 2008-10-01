@@ -27,8 +27,6 @@ describe Webby::Filters::BasePath do
     Webby.site.xpaths = @xpaths
   end
 
-  it 'needs some specs'
-
   it 'raises an exception if a new base has not been specified' do
     input = @input % ['', '<img src="/foo/picture.jpg" />']
     bp = Webby::Filters::BasePath.new(input, 'html')
@@ -125,6 +123,45 @@ describe Webby::Filters::BasePath do
     HTML
   end
 
+  it 'registers a "basepath" filter in the filters module' do
+    handler = Webby::Filters._handlers['basepath']
+    handler.should_not be_nil
+    handler.arity.should == 2
+  end
+
+  it 'leaves the input text unchanged if a base path is not configured' do
+    cursor = mock("Cursor")
+    page = mock("Page")
+    cursor.stub!(:page).and_return(page)
+    page.stub!(:extension).and_return('html')
+    input = @input % ['', '<img src="/foo/picture.jpg" />']
+
+    handler = Webby::Filters._handlers['basepath']
+    output = handler.call(input, cursor)
+
+    output.should equal(input)
+  end
+
+  it 'modifies text when a base path is configured' do
+    cursor = mock("Cursor")
+    page = mock("Page")
+    cursor.stub!(:page).and_return(page)
+    page.stub!(:extension).and_return('html')
+    Webby.site.base = 'http://example.com'
+    input = @input % ['', '<img src="/foo/picture.jpg" />']
+
+    handler = Webby::Filters._handlers['basepath']
+    handler.call(input, cursor).should == <<-HTML
+<html>
+<head>
+
+</head>
+<body>
+<img src="http://example.com/foo/picture.jpg" />
+</body>
+</html>
+    HTML
+  end
 end
 
 # EOF
