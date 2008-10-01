@@ -72,6 +72,21 @@ describe Webby::Filters::Outline do
     )
   end
 
+  it 'does not clobber other HTML tags' do
+    html = <<-HTML
+    <div>
+      <p>This is the title</p>
+      <toc />
+      <p>And some sampler text</p>
+    </div>
+    HTML
+    input = @input.sub(%r/<toc \/>/, html)
+    output = File.read(Webby.datapath(%w[outline no_clobber.out]))
+
+    outline = Webby::Filters::Outline.new(input)
+    outline.filter.should == output
+  end
+
 end
 
 # EOF

@@ -159,6 +159,9 @@ module UrlHelper
   #
   def link_to_page( *args )
     self.link_to(*_find_page(args))
+  rescue ::Webby::Error => err
+    return yield if block_given?
+    raise err
   end
 
   # call-seq:
@@ -184,6 +187,9 @@ module UrlHelper
     return name if @page == page
 
     self.link_to(name, page, link_opts)
+  rescue ::Webby::Error => err
+    return yield if block_given?
+    raise err
   end
 
   
