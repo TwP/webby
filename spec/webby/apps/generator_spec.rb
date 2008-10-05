@@ -55,8 +55,9 @@ describe Webby::Apps::Generator do
 
     before :each do
       @strio = StringIO.new
-      @generator = Webby::Apps::Generator.new
-      @generator.instance_variable_set(:@stdout, @strio)
+      ::Logging::Logger['Webby::Journal'].appenders =
+          ::Logging::Appenders::IO.new('test', @strio)
+      @generator = Webby::Apps::Generator.new(@strio)
 
       class << @strio
         def to_s

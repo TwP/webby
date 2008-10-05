@@ -1,5 +1,38 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'logging'
+
+::Logging.configure {
+  logger('Webby') {
+    level      :info
+    appenders  'stdout'
+  }
+
+  logger('Webby::Journal') {
+    level      :info
+    additive   false
+    appenders  'journal'
+  }
+
+  appender('stdout') {
+    type   'Stdout'
+    layout {
+      type          'Pattern'
+      pattern       "[%d] %5l: %m\n"
+      date_pattern  "%H:%M:%S"
+    }
+  }
+
+  appender('journal') {
+    type  'Stdout'
+    layout {
+      type     'Pattern'
+      pattern  "%m\n"
+    }
+  }
+}
+
 require File.expand_path(
     File.join(File.dirname(__FILE__), %w[.. lib webby]))
 

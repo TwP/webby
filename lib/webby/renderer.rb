@@ -36,12 +36,17 @@ class Renderer
     renderer = self.new(page)
 
     loop {
+      FileUtils.mkdir_p ::File.dirname(page.destination)
+      journal.create_or_update(page)
+
       ::File.open(page.destination, 'w') do |fd|
         fd.write(renderer._layout_page)
       end
       break unless renderer._next_page
     }
   end
+
+  attr_reader :logger
 
   # call-seq:
   #    Renderer.new( page )
@@ -64,7 +69,7 @@ class Renderer
 
     @_bindings = []
     @_content_for = {}
-    @log = Logging::Logger[self]
+    @logger = Logging::Logger[self]
   end
 
   # call-seq:
@@ -227,11 +232,11 @@ class Renderer
 
     @content
   rescue ::Webby::Error => err
-    @log.error "while rendering page '#{@page.path}'"
-    @log.error err.message
+    logger.error "while rendering page '#{@page.path}'"
+    logger.error err.message
   rescue => err
-    @log.error "while rendering page '#{@page.path}'"
-    @log.fatal err
+    logger.error "while rendering page '#{@page.path}'"
+    logger.fatal err
     exit 1
   ensure
     @content = nil

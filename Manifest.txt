@@ -134,6 +134,7 @@ lib/webby/helpers/tag_helper.rb
 lib/webby/helpers/tex_img_helper.rb
 lib/webby/helpers/ultraviolet_helper.rb
 lib/webby/helpers/url_helper.rb
+lib/webby/journal.rb
 lib/webby/link_validator.rb
 lib/webby/renderer.rb
 lib/webby/resources.rb

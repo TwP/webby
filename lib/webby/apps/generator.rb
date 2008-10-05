@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'optparse'
+require 'forwardable'
 
 module Webby::Apps
 
@@ -9,6 +10,7 @@ module Webby::Apps
 #
 
 class Generator
+  extend Forwardable
 
   # Create a new Generator instance and run the +webby+ application given the
   # command line _args_.
@@ -22,10 +24,34 @@ class Generator
 
   # Initialize a new generator object.
   #
-  def initialize
+  def initialize( output = $stdout, input = $stdin )
     @options = {}
     @site = @template = nil
-    @stdout, @stdin = $stdout, $stdin
+    @output, @input = output, input
+    @journal = journal
+  end
+
+  def_delegators :@journal,
+                 :exists, :create, :force, :skip, :identical
+
+  # Writes the given objects to the output destination. Each object is
+  # followed by a newline unless the object is a string with a newline
+  # already at the end.
+  #
+  def puts( *args )
+    @output.puts(*args)
+  end
+
+  # Writes the given objects to the output destination.
+  #
+  def print( *args )
+    @output.print(*args)
+  end
+
+  # Reads a line text frim the input source.
+  #
+  def gets
+    @input.gets
   end
 
   # Run the generator executing the commands specified by the user on the
@@ -60,18 +86,18 @@ class Generator
     opts.on('-t', '--templates', 'list available templates') {
       ary = templates.map {|t| ::File.basename(t)}
       ary.delete 'webby'
-      @stdout.puts "\nAvailable Templates"
-      @stdout.puts "    #{ary.join(', ')}"
-      @stdout.puts
+      puts "\nAvailable Templates"
+      puts "    #{ary.join(', ')}"
+      puts
       exit
     }
 
     opts.separator ''
     opts.separator 'common options:'
 
-    opts.on( '-h', '--help', 'show this message' ) {@stdout.puts opts; exit}
+    opts.on( '-h', '--help', 'show this message' ) {puts opts; exit}
     opts.on( '--version', 'show version' ) do
-      @stdout.puts "Webby #{::Webby::VERSION}"
+      puts "Webby #{::Webby::VERSION}"
       exit
     end
 
@@ -87,13 +113,13 @@ class Generator
 
     # exit if comand line args are missing
     if site.nil? or tmpl.nil?
-      @stdout.puts opts
+      puts opts
       exit 1
     end
 
     templates.each {|t| self.template = t if t =~ %r/\/#{tmpl}$/}
     if template.nil?
-      @stdout.puts opts
+      puts opts
       abort "Could not find template '#{tmpl}'"
     end
 
@@ -205,25 +231,13 @@ class Generator
     end
   end
 
-  %w[exists create force skip identical].each do |m|
-    class_eval "def #{m}( msg ) message('#{m}', msg); end"
-  end
-
-  # Print the given message and message type to stdout.
-  #
-  def message( type, msg )
-    msg = msg.sub(%r/#{site}\/?/, '')
-    return if msg.empty?
-    @stdout.puts "%13s  %s" % [type, msg]
-  end
-
   # Prints an abort message to the screen and then exits the Ruby
   # interpreter. A non-zero return code is used to indicate an error.
   #
   def abort( msg )
-    @stdout.puts "\nAborting!"
-    @stdout.puts "    #{msg}"
-    @stdout.puts
+    puts "\nAborting!"
+    puts "    #{msg}"
+    puts
     exit 1
   end
 
@@ -265,9 +279,8 @@ class Generator
   #
   def force_file_collision?( dst )
     dst = dst.sub(%r/#{site}\/?/, '')
-    @stdout.print "overwrite #{dst}? [(Y)es (n)o (q)uit] "
-    @stdout.flush
-    case @stdin.gets
+    print "overwrite #{dst}? [(Y)es (n)o (q)uit] "
+    case gets
       when %r/q/i  then abort 'user asked to quit'
       when %r/n/i  then :skip
       when %r/y/i  then :force

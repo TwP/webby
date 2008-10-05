@@ -16,6 +16,11 @@ module Kernel
     STDERR.reopen io.last
     $stdout, $stderr = STDOUT, STDERR
   end
+
+  def journal
+    @journal ||= ::Webby::Journal.new
+  end
+
 end  # module Kernel
 
 # EOF

@@ -82,7 +82,6 @@ class Builder
       [args.page, args.title, args.dir]
     end
 
-
     private
 
     # Returns the binding in the scope of the Builder class object.
@@ -98,7 +97,7 @@ class Builder
   # layout directories.
   #
   def initialize
-    @log = Logging::Logger[self]
+    @logger = Logging::Logger[self]
   end
 
   # call-seq:
@@ -125,24 +124,25 @@ class Builder
   #
   def run( opts = {} )
     opts[:load_files] = true unless opts.has_key?(:load_files)
+    verbose = opts.getopt(:verbose, true)
 
     unless test(?d, output_dir)
-      @log.info "creating #{output_dir}"
+      journal.create output_dir
       FileUtils.mkdir output_dir
     end
 
     load_files if opts[:load_files]
 
     Resources.pages.each do |page|
-      next unless page.dirty? or opts[:rebuild]
-
-      @log.info "creating #{page.destination}"
-
-      # make sure the directory exists
-      FileUtils.mkdir_p ::File.dirname(page.destination)
+      unless page.dirty? or opts[:rebuild]
+        journal.identical(page.destination) if verbose
+        next
+      end
 
       # copy the resource to the output directory if it is static
       if page.instance_of? Resources::Static
+        FileUtils.mkdir_p ::File.dirname(page.destination)
+        journal.create_or_update(page)
         FileUtils.cp page.path, page.destination
         FileUtils.chmod 0644, page.destination
 

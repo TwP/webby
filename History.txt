@@ -1,8 +1,9 @@
 == 0.9.3 / 2008-10-
 
-* 1 minor enhancement
+* 2 minor enhancements
   - Added a "wikiwords" filter to process [[text]] as links to other pages
     (thanks to Paul)
+  - Added colorization to the output text (facets gem required)
 * 1 bug fix
   - Fixed a bug on Windows where line endings were messing with meta-data
 

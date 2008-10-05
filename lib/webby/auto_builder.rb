@@ -21,13 +21,15 @@ class AutoBuilder
     self.new.run
   end
 
+  attr_reader :logger
+
   # call-seq:
   #    AutoBuilder.new
   #
   # Create a new AutoBuilder class.
   #
   def initialize
-    @log = Logging::Logger[self]
+    @logger = Logging::Logger[self]
 
     @builder = Builder.new
     @builder.load_files
@@ -53,15 +55,16 @@ class AutoBuilder
     return if ary.empty?
 
     ary.each do |evt|
-      @log.debug "changed #{evt.path}"
+      logger.debug "changed #{evt.path}"
       next unless test ?f, evt.path
       next if evt.path =~ ::Webby.exclude
       Resources.new evt.path
     end
 
-    @builder.run :load_files => false
+    logger.info 'running the build'
+    @builder.run :load_files => false, :verbose => false
   rescue => err
-    @log.error err
+    logger.error err
   end
 
   # call-seq:
@@ -71,7 +74,7 @@ class AutoBuilder
   # Ctrl-C to stop the watcher thread.
   #
   def run
-    @log.info 'starting autobuild (Ctrl-C to stop)'
+    logger.info 'starting autobuild (Ctrl-C to stop)'
 
     Signal.trap('INT') {@watcher.stop}
 
