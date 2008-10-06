@@ -1,21 +1,20 @@
 
-begin require 'facets/ansicode'; rescue LoadError; end
-
 module Webby
 
 # The Journal class is used to output simple messages regarding the creation
 # and updating of files when webby applications are run. The output messages
-# will be color coded if the "facets" gem is installed.
+# will be color coded if the terminal supports the ANSI codes.
 #
 class Journal
 
-  attr_reader :logger, :colorize
+  attr_accessor :colorize
+  attr_reader :logger
 
   # Create a new journal
   #
   def initialize
     @logger = ::Logging::Logger[self]
-    @colorize = defined?(::ANSICode) and ENV.has_key?('TERM')
+    @colorize = ENV.has_key?('TERM')
   end
 
   # Output a message of the given _type_ using the option _color_ code. The
@@ -34,7 +33,7 @@ class Journal
   #
   def typed_message( type, msg, color = nil )
     type = type.to_s.rjust(13)
-    type = ::ANSICode.send(color, type) unless color.nil?
+    type = self.send(color, type) unless color.nil?
     logger.info "#{type}  #{msg.to_s}"
   end
 
@@ -83,6 +82,42 @@ class Journal
   #
   def identical( msg )
     typed_message('identical', msg, (colorize ? :cyan : nil))
+  end
+
+  [ [ :clear        ,   0 ],
+    [ :reset        ,   0 ],     # synonym for :clear
+    [ :bold         ,   1 ],
+    [ :dark         ,   2 ],
+    [ :italic       ,   3 ],     # not widely implemented
+    [ :underline    ,   4 ],
+    [ :underscore   ,   4 ],     # synonym for :underline
+    [ :blink        ,   5 ],
+    [ :rapid_blink  ,   6 ],     # not widely implemented
+    [ :negative     ,   7 ],     # no reverse because of String#reverse
+    [ :concealed    ,   8 ],
+    [ :strikethrough,   9 ],     # not widely implemented
+    [ :black        ,  30 ],
+    [ :red          ,  31 ],
+    [ :green        ,  32 ],
+    [ :yellow       ,  33 ],
+    [ :blue         ,  34 ],
+    [ :magenta      ,  35 ],
+    [ :cyan         ,  36 ],
+    [ :white        ,  37 ],
+    [ :on_black     ,  40 ],
+    [ :on_red       ,  41 ],
+    [ :on_green     ,  42 ],
+    [ :on_yellow    ,  43 ],
+    [ :on_blue      ,  44 ],
+    [ :on_magenta   ,  45 ],
+    [ :on_cyan      ,  46 ],
+    [ :on_white     ,  47 ] ].each do |name,code|
+
+    class_eval <<-CODE
+      def #{name.to_s}( str )
+        "\e[#{code}m\#{str}\e[0m"
+      end
+    CODE
   end
 
 end  # class Journal
