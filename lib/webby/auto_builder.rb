@@ -1,4 +1,6 @@
 require 'directory_watcher'
+require 'launchy'
+require 'webrick'
 
 module Webby
 
@@ -41,6 +43,8 @@ class AutoBuilder
     glob << File.join(::Webby.site.layout_dir, '**', '*')
     glob << File.join(::Webby.site.content_dir, '**', '*')
     @watcher.glob = glob
+
+    @web_server = WebServer.new
   end
 
   # call-seq:
@@ -76,11 +80,74 @@ class AutoBuilder
   def run
     logger.info 'starting autobuild (Ctrl-C to stop)'
 
-    Signal.trap('INT') {@watcher.stop}
+    Signal.trap('INT') {
+      @watcher.stop
+      @web_server.stop
+    }
 
     @watcher.start
+    @web_server.start
+    sleep 0.25
+    Launchy.open("http://localhost:#{::Webby.site.heel_port}")
+
     @watcher.join
+    @web_server.join
   end
+
+  # Wrapper class around the webrick web server.
+  #
+  class WebServer
+
+    # Create a new webrick server configured to serve pages from the output
+    # directory. Output will be directed to /dev/null.
+    #
+    def initialize
+      logger = WEBrick::Log.new(Kernel::DEV_NULL, WEBrick::Log::DEBUG)
+      access_log = [[ logger, WEBrick::AccessLog::COMBINED_LOG_FORMAT ]]
+
+      @thread = nil
+      @running = false
+      @server = WEBrick::HTTPServer.new(
+        :BindAddress   => 'localhost',
+        :Port          => ::Webby.site.heel_port,
+        :DocumentRoot  => ::Webby.site.output_dir,
+        :FancyIndexing => true,
+        :Logger        => logger,
+        :AccessLog     => access_log
+      )
+    end
+
+    # Returns +true+ if the server is running.
+    #
+    def running?
+      @running
+    end
+
+    # Start the webrick server running in a separate thread (so we don't
+    # block forever).
+    #
+    def start
+      return if running?
+      @running = true
+      @thread = Thread.new {@server.start}
+    end
+
+    # Stop the webrick server.
+    #
+    def stop
+      return if not running?
+      @running = false
+      @server.shutdown
+    end
+
+    # Join on the webserver thread.
+    #
+    def join
+      return if not running?
+      @thread.join
+    end
+
+  end  # class WebServer
 
 end  # class AutoBuilder
 end  # module Webby

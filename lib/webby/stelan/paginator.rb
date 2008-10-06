@@ -73,7 +73,7 @@ class Paginator
   end
 
   # Finalizer method that should be called when the paginator is finished
-  def done
+  def reset
     resource._reset(@meta_data)
   end
   
@@ -92,7 +92,7 @@ class Paginator
       @offset = (number - 1) * pager.per_page
       @select = select
 
-      @pager.resource._reset
+      @pager.reset
       if number > 1
         if ::Webby.site.create_mode == 'directory'
           @pager.resource['directory'] = File.join(@pager.directory, number.to_s)

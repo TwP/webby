@@ -1,11 +1,14 @@
 == 0.9.3 / 2008-10-
 
-* 2 minor enhancements
+* 3 minor enhancements
   - Added a "wikiwords" filter to process [[text]] as links to other pages
     (thanks to Paul)
   - Added colorization to the output text (facets gem required)
-* 1 bug fix
+  - Replaced the Heel webserver with webrick
+* 2 bug fixes
   - Fixed a bug on Windows where line endings were messing with meta-data
+  - The paginator was not linking correctly back to the first page from
+    subsequent pages in a list
 
 == 0.9.2 / 2008-09-11
 

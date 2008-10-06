@@ -152,7 +152,6 @@ lib/webby/tasks/build.rake
 lib/webby/tasks/create.rake
 lib/webby/tasks/deploy.rake
 lib/webby/tasks/growl.rake
-lib/webby/tasks/heel.rake
 lib/webby/tasks/validate.rake
 spec/core_ext/hash_spec.rb
 spec/core_ext/string_spec.rb
