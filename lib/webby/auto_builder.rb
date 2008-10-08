@@ -44,7 +44,7 @@ class AutoBuilder
     glob << File.join(::Webby.site.content_dir, '**', '*')
     @watcher.glob = glob
 
-    @web_server = WebServer.new
+    @web_server = ::Webby.site.use_web_server ? WebServer.new : nil
   end
 
   # call-seq:
@@ -82,16 +82,18 @@ class AutoBuilder
 
     Signal.trap('INT') {
       @watcher.stop
-      @web_server.stop
+      @web_server.stop if @web_server
     }
 
     @watcher.start
-    @web_server.start
-    sleep 0.25
-    Launchy.open("http://localhost:#{::Webby.site.heel_port}")
+    if @web_server
+      @web_server.start
+      sleep 0.25
+      Launchy.open("http://localhost:#{::Webby.site.heel_port}")
+    end
 
     @watcher.join
-    @web_server.join
+    @web_server.join if @web_server
   end
 
   # Wrapper class around the webrick web server.

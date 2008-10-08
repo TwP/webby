@@ -12,10 +12,13 @@ class Main
     self.new.run args
   end
 
+  attr_reader :cmd_line_options
+
   # Create a new Main webby object for building websites.
   #
   def initialize
     @stdout = $stdout
+    @cmd_line_options = {}
   end
 
   # Runs the main webby application. The command line arguments are passed
@@ -43,6 +46,16 @@ class Main
       next unless desired_opts.include?(options.first)
       opts.on(*options)
     end
+
+    opts.separator ''
+    opts.separator 'autobuild options:'
+
+    opts.on('--web-server', 'Start a local web server') {
+      cmd_line_options[:use_web_server] = true
+    }
+    opts.on('--no-web-server', 'Do not start a local web server') {
+      cmd_line_options[:use_web_server] = false
+    }
 
     opts.separator ''
     opts.separator 'common options:'
@@ -98,6 +111,7 @@ class Main
   def rake
     app.init 'webby'
     app.load_rakefile
+    load_command_line_options
     app.top_level
   end
 
@@ -165,6 +179,14 @@ class Main
     ::Webby.site.args = args
     Object.const_set(:SITE, Webby.site)
     args
+  end
+
+  # Load options from the command line into the ::Webby.site struct
+  #
+  def load_command_line_options
+    cmd_line_options.each do |key, value|
+      ::Webby.site.__send__("#{key}=", value)
+    end
   end
 
 end  # class Main
