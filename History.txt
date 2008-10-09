@@ -1,4 +1,4 @@
-== 0.9.3 / 2008-10-
+== 0.9.3 / 2008-10-08
 
 * 4 minor enhancements
   - Added a "wikiwords" filter to process [[text]] as links to other pages

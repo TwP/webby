@@ -1,0 +1,49 @@
+---
+title:      Release 0.9.3
+created_at: 2008-10-08 21:22:41.217238 -06:00
+filter:
+  - erb
+  - textile
+release_name: Bill Gates Alien Love Child
+---
+h2. <%= h(@page.title) %>
+
+FIXME
+
+Release 0.9.3 adds several new features and fixes a few bugs. The two most significant features are a "wikiwords" filter and a special webby gem for the windows platform. See below for more information.
+
+* 4 minor enhancements
+** Added a "wikiwords" filter to process [[text]] as links to other pages (thanks to Paul)
+** Added colorization to the output text (facets gem required)
+** Replaced the Heel webserver with webrick
+** Special windows version with windows line endings in generated files
+* 2 bug fixes
+** Fixed a bug on Windows where line endings were messing with meta-data
+** The paginator was not linking correctly back to the first page from subsequent pages in a list
+
+h3. Wiki Words
+
+Wiki Words provide a convenient way to link to other pages in a site based on the page titles. Page titles surrounded by double brackets will be converted into a link to that particular page.
+
+<pre>
+<%= Webby::YAML_SEP %> 
+title:      Special Report
+created_at: 2008-10-08 21:22:41.217238 -06:00
+filter:
+  - wikiwords
+  - textile
+<%= Webby::YAML_SEP %> 
+h1. Special Report
+
+This page is a special report that links to some [[Other Page]] in the site and
+offers a little more information. You can find out more in the [[Reference]]
+page, too.
+</pre>
+
+So, in the example above two links will be generated. One will link to the "Other Page" and the second will link to the "Reference" page.
+
+h3. Windows Support
+
+This release also fixes a few issues with webby on the windows platform. Both issues concern windows line endings versus UNIX line endings in files. The code that parses meta-data has been updated to be line ending agnostic -- so no need to use UNIX line endings in the windows world.
+
+The second issue is a windows specific version of the webby gem. This gem has the template site files converted to the windows line ending style. So when a site is created using the webby-gen command, the resulting files should be in the native windows format.
