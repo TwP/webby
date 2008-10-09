@@ -8,8 +8,6 @@ release_name: Bill Gates Alien Love Child
 ---
 h2. <%= h(@page.title) %>
 
-FIXME
-
 Release 0.9.3 adds several new features and fixes a few bugs. The two most significant features are a "wikiwords" filter and a special webby gem for the windows platform. See below for more information.
 
 * 4 minor enhancements
