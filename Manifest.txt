@@ -147,7 +147,6 @@ lib/webby/resources/resource.rb
 lib/webby/resources/static.rb
 lib/webby/stelan/mktemp.rb
 lib/webby/stelan/paginator.rb
-lib/webby/stelan/spawner.rb
 lib/webby/tasks/build.rake
 lib/webby/tasks/create.rake
 lib/webby/tasks/deploy.rake
