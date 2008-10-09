@@ -103,7 +103,6 @@ examples/website/layouts/default.txt
 examples/website/lib/breadcrumbs.rb
 examples/website/templates/_partial.erb
 examples/website/templates/page.erb
-examples/website/templates/presentation.erb
 lib/webby.rb
 lib/webby/apps.rb
 lib/webby/apps/generator.rb

@@ -6,7 +6,7 @@ require 'rake/contrib/sshpublisher'
 
 namespace :gem do
   desc 'Package and upload to RubyForge'
-  task :release => [:clobber, 'gem:package'] do |t|
+  task :release => [:clobber, 'gem'] do |t|
     v = ENV['VERSION'] or abort 'Must supply VERSION=x.y.z'
     abort "Versions don't match #{v} vs #{PROJ.version}" if v != PROJ.version
     pkg = "pkg/#{PROJ.gem._spec.full_name}"
@@ -26,9 +26,7 @@ namespace :gem do
     c['release_changes'] = PROJ.changes if PROJ.changes
     c['preformatted'] = true
 
-    files = [(PROJ.gem.need_tar ? "#{pkg}.tgz" : nil),
-             (PROJ.gem.need_zip ? "#{pkg}.zip" : nil),
-             "#{pkg}.gem"].compact
+    files = Dir.glob("#{pkg}*.*")
 
     puts "Releasing #{PROJ.name} v. #{PROJ.version}"
     rf.add_release PROJ.rubyforge.name, PROJ.name, PROJ.version, *files

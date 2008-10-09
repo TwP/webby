@@ -210,25 +210,7 @@ class Generator
     end
     return if pretend?
 
-    if WINDOWS then win_line_endings(src, dst)
-    else FileUtils.cp(src, dst) end
-  end
-
-  # Copy the file from the _src_ location to the _dst_ location and
-  # transform the line endings to the windows "\r\n" format.
-  #
-  def win_line_endings( src, dst )
-    case ::File.extname(src)
-    when *%w[.png .gif .jpg .jpeg]
-      FileUtils.cp src, dst
-    else
-      ::File.open(dst,'w') do |fd|
-        ::File.foreach(src, "\n") do |line|
-          line.tr!("\r\n",'')
-          fd.puts line
-        end
-      end
-    end
+    FileUtils.cp(src, dst)
   end
 
   # Prints an abort message to the screen and then exits the Ruby
@@ -268,8 +250,6 @@ class Generator
   # Returns +false+ if this is not the case.
   #
   def identical?( src, dst )
-    # FIXME: this most likely won't work on windows machines
-    #        because the line endings are modified when the site is gnerated
     source      = IO.read(src)
     destination = IO.read(dst)
     source == destination
