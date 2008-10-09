@@ -10,7 +10,7 @@ require 'date'
 module Webby
 
   # :stopdoc:
-  VERSION = '0.9.3'   # :nodoc:
+  VERSION = '0.9.4'   # :nodoc:
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
   YAML_SEP = '---'
