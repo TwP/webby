@@ -56,18 +56,18 @@ class LinkValidator
     @log.info "validating #{fn}"
 
     dir = ::File.dirname(fn)
-    @doc = Hpricot(::File.read(fn))
+    doc = Hpricot(::File.read(fn))
 
     ::Webby.site.xpaths.each do |xpath|
       @attr_name = nil
 
-      @doc.search(xpath).each do |element|
-        @attr_name ||= @attr_rgxp.match(xpath)[1]
-        uri = URI.parse(element.get_attribute(@attr_name))
-        validate_uri(uri, dir)
+      doc.search(xpath).each do |element|
+        attr_name ||= @attr_rgxp.match(xpath)[1]
+        uri = URI.parse(element.get_attribute(attr_name))
+        validate_uri(uri, dir, doc)
       end
     end
-    @doc = @attr_name = nil
+    return nil # side effect of original implementation
   end
 
   # Validate the the page the _uri_ refers to actually exists. The directory
@@ -80,54 +80,15 @@ class LinkValidator
   # will only take place if the LinkValidator was created with the :external
   # flag set to true.
   #
-  def validate_uri( uri, dir )
-    # for relative URIs, we can see if the file exists in the output folder
-    if uri.relative?
-      return validate_anchor(uri, @doc) if uri.path.empty?
+  def validate_uri( uri, dir, doc )
+    # do not retry external uris that have already been validated
+    return if @valid_uris.include? uri.to_s
 
-      path = if uri.path =~ %r/^\//
-          ::File.join(::Webby.site.output_dir, uri.path)
-        else
-          ::File.join(dir, uri.path)
-        end
-      path = ::File.join(path, 'index.html') if ::File.extname(path).empty?
-
-      uri_str = path.dup
-      (uri_str << '#' << uri.fragment) if uri.fragment
-      return if @valid_uris.include? uri_str
-
-      if test ?f, path
-        valid = if uri.fragment
-            validate_anchor(uri, Hpricot(::File.read(path)))
-          else true end
-        @valid_uris << uri_str if valid
-      else
-        @log.error "invalid URI '#{uri.to_s}'"
-      end
-
-    # if the URI responds to the open mehod, then try to access the URI
-    elsif uri.respond_to? :open
-      return unless @validate_externals
-      return if @valid_uris.include? uri.to_s
-
-      if @invalid_uris.include? uri.to_s
-        @log.error "could not open URI '#{uri.to_s}'"
-        return
-      end
-
-      begin
-        uri.open {|_| nil}
-        @valid_uris << uri.to_s
-      rescue Exception
-        @log.error "could not open URI '#{uri.to_s}'"
-        @invalid_uris << uri.to_s
-      end 
+    return validate_relative_uri(uri, dir, doc) if uri.relative?
+    return validate_external_uri(uri, dir, doc) if uri.respond_to? :open
 
     # otherwise, post a warning that the URI could not be validated
-    else
-      return if @valid_uris.include? uri.to_s
-      @log.warn "could not validate URI '#{uri.to_s}'"
-    end
+    @log.warn "could not validate URI '#{uri.to_s}'"
   end
 
   # Validate that the anchor fragment of the URI exists in the given
@@ -144,6 +105,53 @@ class LinkValidator
       @log.error "invalid URI '#{uri.to_s}'"
       false
     else true end
+  end
+
+  # Validate that the file pointed to by the relative URI exists in the output
+  # directory. If the URI has an anchor, validate that the anchor exists as
+  # well.
+  #
+  def validate_relative_uri( uri, dir, doc )
+    return validate_anchor(uri, doc) if uri.path.empty?
+
+    path = if uri.path =~ %r/^\//
+        ::File.join(::Webby.site.output_dir, uri.path)
+      else
+        ::File.join(dir, uri.path)
+      end
+    path = ::File.join(path, 'index.html') if ::File.extname(path).empty?
+
+    uri_str = path.dup
+    (uri_str << '#' << uri.fragment) if uri.fragment
+    return if @valid_uris.include? uri_str
+
+    if test ?f, path
+      valid = if uri.fragment
+          validate_anchor(uri, Hpricot(::File.read(path)))
+        else true end
+      @valid_uris << uri_str if valid
+    else
+      @log.error "invalid URI '#{uri.to_s}'"
+    end
+  end
+
+  # Validate that an external URI can be opened
+  #
+  def validate_external_uri( uri, dir, doc )
+    return unless @validate_externals
+
+    if @invalid_uris.include? uri.to_s
+      @log.error "could not open URI '#{uri.to_s}'"
+      return
+    end
+
+    begin
+      uri.open {|_| nil}
+      @valid_uris << uri.to_s
+    rescue Exception
+      @log.error "could not open URI '#{uri.to_s}'"
+      @invalid_uris << uri.to_s
+    end 
   end
 
 end  # class LinkValidator
