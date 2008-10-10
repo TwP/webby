@@ -7,6 +7,13 @@ require 'rubygems'
 require 'fileutils'
 require 'stringio'
 
+begin
+  require 'fake_web'
+  $test_externals = true
+rescue LoadError
+  $test_externals = false
+end
+
 require File.expand_path(
     File.join(File.dirname(__FILE__), %w[.. lib webby]))
 
