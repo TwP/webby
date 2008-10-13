@@ -120,6 +120,7 @@ lib/webby/filters/basepath.rb
 lib/webby/filters/erb.rb
 lib/webby/filters/haml.rb
 lib/webby/filters/markdown.rb
+lib/webby/filters/maruku.rb
 lib/webby/filters/outline.rb
 lib/webby/filters/sass.rb
 lib/webby/filters/slides.rb
