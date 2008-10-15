@@ -33,6 +33,7 @@ PROJ.spec.opts << '--color'
 PROJ.ann.email[:to] << 'webby-forum@googlegroups.com'
 PROJ.ann.email[:server] = 'smtp.gmail.com'
 PROJ.ann.email[:port] = 587
+PROJ.ann.email[:from] = 'Tim Pease'
 
 PROJ.ann.text = <<-ANN
 == POST SCRIPT
