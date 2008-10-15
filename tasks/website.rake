@@ -1,4 +1,3 @@
-# $Id$
 
 namespace :website do
 
