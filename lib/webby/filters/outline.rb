@@ -175,7 +175,7 @@ class Outline
 
     lbl = label
     if numbering?
-      elem.children.first.before {tag!(:span, lbl, :class => 'heading-num')}
+      elem.children.first.before %Q{<span class="heading-num">#{lbl}</span>}
     end
     elem['id'] = "h#{lbl.tr('.','_')}" if elem['id'].nil?
 

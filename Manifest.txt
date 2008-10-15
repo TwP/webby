@@ -158,6 +158,12 @@ spec/core_ext/string_spec.rb
 spec/core_ext/time_spec.rb
 spec/data/hooligans/bad_meta_data_1.txt
 spec/data/hooligans/bad_meta_data_2.txt
+spec/data/html/anchor.html
+spec/data/html/external.html
+spec/data/html/invalid-relative.html
+spec/data/html/relative-anchor.html
+spec/data/html/relative-invalid-anchor.html
+spec/data/html/relative.html
 spec/data/outline/basic.out
 spec/data/outline/basic.txt
 spec/data/outline/no_clobber.out
@@ -202,9 +208,11 @@ spec/spec_helper.rb
 spec/webby/apps/generator_spec.rb
 spec/webby/apps/main_spec.rb
 spec/webby/filters/basepath_spec.rb
+spec/webby/filters/maruku_spec.rb
 spec/webby/filters/outline_spec.rb
 spec/webby/filters/textile_spec.rb
 spec/webby/helpers/capture_helper_spec.rb
+spec/webby/link_validator_spec.rb
 spec/webby/renderer_spec.rb
 spec/webby/resources/db_spec.rb
 spec/webby/resources/layout_spec.rb
