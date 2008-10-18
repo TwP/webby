@@ -13,9 +13,9 @@ p(pull). *<%= link_to('Forum', 'http://groups.google.com/group/webby-forum') %>*
 
 p(pulltext). The Google group dedicated to Webby and _ASCII Alchemy_.
 
-p(pull). *Reporting Bugs*
+p(pull). *<%= link_to('Reporting Bugs', 'http://webby.lighthouseapp.com') %>*
 
-p(pulltext). The occasional bug does rear its ugly head from time to time. If this happens please report it either by e-mailing the author or in a post to the discussion group. %(quiet)Note to self: look into a real bug tracking system.%
+p(pulltext). The occasional bug does rear its ugly head from time to time. If this happens please report it using the Lighthouse bug tracker.
 
 h2. Elsewhere
 
