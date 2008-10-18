@@ -131,7 +131,7 @@ class Builder
       FileUtils.mkdir output_dir
     end
 
-    load_files if opts[:load_files]
+    ::Webby.load_files if opts[:load_files]
 
     Resources.pages.each do |page|
       unless page.dirty? or opts[:rebuild]
@@ -157,15 +157,9 @@ class Builder
     nil
   end
 
-  # Scan the <code>layouts/</code> folder and the <code>content/</code>
-  # folder and create a new Resource object for each file found there.
-  #
   def load_files
-    ::Find.find(layout_dir, content_dir) do |path|
-      next unless test ?f, path
-      next if path =~ ::Webby.exclude
-      Resources.new path
-    end
+    ::Webby.deprecated "load_files", "it is being replaced by the Webby#load() method"
+    ::Webby.load_files
   end
 
   %w(output_dir layout_dir content_dir).each do |key|

@@ -34,7 +34,7 @@ class AutoBuilder
     @logger = Logging::Logger[self]
 
     @builder = Builder.new
-    @builder.load_files
+    ::Webby.load_files
 
     @watcher = DirectoryWatcher.new '.', :interval => 2
     @watcher.add_observer self

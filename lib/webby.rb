@@ -192,6 +192,17 @@ module Webby
     Logging::Logger['Webby'].warn msg
   end
 
+  # Scan the <code>layouts/</code> folder and the <code>content/</code>
+  # folder and create a new Resource object for each file found there.
+  #
+  def self.load_files
+    ::Find.find(site.layout_dir, site.content_dir) do |path|
+      next unless test ?f, path
+      next if path =~ ::Webby.exclude
+      Resources.new path
+    end
+  end
+
 end  # module Webby
 
 
