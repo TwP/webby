@@ -1,4 +1,5 @@
 Buttons
+
 * Gives you great looking CSS buttons, for both <a> and <button>.
 * Demo: particletree.com/features/rediscovering-the-button-element
 
@@ -13,8 +14,8 @@ Credits
 Usage
 ----------------------------------------------------------------
 
-1) Add this line to "blueprint/screen.css":
-	 @import 'plugins/buttons/buttons.css';
+1) Add this plugin to lib/settings.yml.
+   See compress.rb for instructions.
 
 2) Use the following HTML code to place the buttons on your site:
 

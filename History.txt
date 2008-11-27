@@ -2,6 +2,7 @@
 
 * 1 minor enhancement
   - Added a Maruku filter (thanks to Martyn Loughran)
+  - Updated to version 0.8.0 of Blueprint css
 
 == 0.9.3 / 2008-10-08
 
