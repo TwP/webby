@@ -74,10 +74,8 @@ class Builder
     def new_page_info
       args = Webby.site.args
 
-      if args.raw.empty?
-        task_name = Rake.application.top_level_tasks.first
-        raise "Usage:  webby #{task_name} path"
-      end
+      # TODO: maybe even get rid of this method altogether
+      raise "Usage:  webby #{args.rake.first} 'path'" if args.raw.empty?
 
       [args.page, args.title, args.dir]
     end

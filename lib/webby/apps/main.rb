@@ -155,7 +155,10 @@ class Main
   end
 
   def capture_command_line_args(args)
-    args = OpenStruct.new(:raw => args)
+    args = OpenStruct.new(
+      :raw  => args,
+      :rake => ARGV.dup
+    )
 
     if args.raw.size > 1
       ::Webby.deprecated "multiple arguments used for page title",
