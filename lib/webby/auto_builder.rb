@@ -89,7 +89,7 @@ class AutoBuilder
     if @web_server
       @web_server.start
       sleep 0.25
-      Launchy.open("http://localhost:#{::Webby.site.heel_port}")
+      Launchy.open("http://localhost:#{::Webby.site.web_port}")
     end
 
     @watcher.join
@@ -111,7 +111,7 @@ class AutoBuilder
       @running = false
       @server = WEBrick::HTTPServer.new(
         :BindAddress   => 'localhost',
-        :Port          => ::Webby.site.heel_port,
+        :Port          => ::Webby.site.web_port,
         :DocumentRoot  => ::Webby.site.output_dir,
         :FancyIndexing => true,
         :Logger        => logger,
