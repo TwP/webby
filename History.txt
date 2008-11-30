@@ -1,8 +1,10 @@
-== 0.9.4 / 2008-10-
+== 0.9.4 / 2008-12-
 
-* 1 minor enhancement
+* 2 minor enhancements
   - Added a Maruku filter (thanks to Martyn Loughran)
   - Updated to version 0.8.0 of Blueprint css
+* 1 bug fix
+  - Editor launching now handles switches passed to the editor
 
 == 0.9.3 / 2008-10-08
 
