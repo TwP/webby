@@ -1,7 +1,7 @@
 
 namespace :validate do
 
-  desc 'Validate hyperlinks (exclude exteranl sites)'
+  desc 'Validate hyperlinks (exclude external sites)'
   task :internal => :build do
     Webby::LinkValidator.validate(:external => false)
   end
