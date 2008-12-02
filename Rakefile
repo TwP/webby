@@ -16,7 +16,6 @@ PROJ.summary = 'static website creation and management'
 PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://webby.rubyforge.org/'
-PROJ.description = paragraphs_of('README.rdoc', 3).join("\n\n")
 PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
 PROJ.release_name = 'Bill Gates Alien Love Child'
@@ -28,6 +27,7 @@ PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$ ^webby.gemspec$)
 PROJ.rdoc.dir = 'doc/rdoc'
 PROJ.rdoc.remote_dir = 'rdoc'
 PROJ.rdoc.exclude << %w(^examples)
+PROJ.rdoc.include << PROJ.readme_file
 
 PROJ.spec.opts << '--color'
 
