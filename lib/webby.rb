@@ -42,9 +42,9 @@ module Webby
       :blog_dir      => 'blog',
       :tumblog_dir   => 'tumblog',
 
-      # Items for running the heel webserver
+      # Items for running the embedded webserver
       :use_web_server => true,
-      :heel_port      => 4331,
+      :web_port      => 4331,
 
       # Items used to deploy the website
       :user       => ENV['USER'] || ENV['USERNAME'],

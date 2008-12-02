@@ -25,7 +25,7 @@ h2. Features
 
 h2. But Wait! There's More!
 
-Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via "heel":http://copiousfreetime.rubyforge.org/heel/, a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
+Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up using Webrick, a simple webserver that is bundled with Ruby. Whenever you change a page, you can immediately see those changes without having to run any commands.
 
 pre. $ webby autobuild
 [10:21:26]  INFO: starting autobuild (Ctrl-C to stop)

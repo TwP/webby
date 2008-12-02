@@ -1,4 +1,4 @@
-Webby
+= Webby
 
 * {Homepage}[http://webby.rubyforge.org/]
 * {Rubyforge Project}[http://rubyforge.org/projects/webby]
@@ -6,7 +6,7 @@ Webby
 
 == DESCRIPTION:
 
-*Webby* is a fantastic little website management system. It would be called a _content management system_ if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.
+*Webby* is a fantastic little website management system. It would be called a *content management system* if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.
 
 Webby works by combining the contents of a *page* with a *layout* to produce HTML. The layout contains everything common to all the pages - HTML headers, navigation menu, footer, etc. - and the page contains just the information for that page. You can use your favorite markup language to write your pages; Webby supports quite a few.
 
@@ -15,18 +15,18 @@ Install Webby and try it out!
 == FEATURES:
 
 * choose your templating language: *ERB*, *Textile*, *Markdown*, *HAML*, *SASS*
-* support for "UltraViolet":http://ultraviolet.rubyforge.org/ and "CodeRay":http://coderay.rubychan.de/ syntax highlighting
-* embeddable DOT scripts for "Graphviz":http://www.graphviz.org/ graphs
-* "LaTeX":http://www.latex-project.org/ snippets for mathematical formulas
-* automatically clean up generated content using "Tidy":http://tidy.sourceforge.net/
+* support for {UltraViolet}[http://ultraviolet.rubyforge.org/] and {CodeRay}[http://coderay.rubychan.de/] syntax highlighting
+* embeddable DOT scripts for {Graphviz}[http://www.graphviz.org/] graphs
+* {LaTeX}[http://www.latex-project.org/] snippets for mathematical formulas
+* automatically clean up generated content using {Tidy}[http://tidy.sourceforge.net/]
 * quick and speedy - only builds pages that have changed
 * deploy anywhere - it's just HTML, no special server stuff required
-* happy "rake":http://docs.rubyrake.org/ tasks for deploying your website to a server
+* happy {Rake}[http://docs.rubyrake.org/] tasks for deploying your website to a server
 * build new pages from templates for quicker blog posts and news items
 
 But Wait! There's More!
 
-Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via "heel":http://copiousfreetime.rubyforge.org/heel/, a static file webserver based on mongrel. Whenever you change a page, you can immediately see those changes without having to run any commands.
+Webby has a great _autobuild_ feature that continuously generates HTML whenever the *pages* or *layouts* change. The HTML is served up via _WebBrick_, a simple webserver that comes with Ruby. Whenever you change a page, you can immediately see those changes without having to run any commands.
 
    $ webby autobuild
    [10:21:26]  INFO: starting autobuild (Ctrl-C to stop)
@@ -61,11 +61,11 @@ Webby is not limited to producing HTML. By no means! Do you ever get tired of re
 == REQUIREMENTS:
 
 * directory_watcher
-* heel
 * hpricot
 * logging
 * rake
 * rspec
+* bones
 
 == LICENSE:
 

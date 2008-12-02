@@ -16,10 +16,11 @@ PROJ.summary = 'static website creation and management'
 PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://webby.rubyforge.org/'
-PROJ.description = paragraphs_of('README.txt', 3).join("\n\n")
+PROJ.description = paragraphs_of('README.rdoc', 3).join("\n\n")
 PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
 PROJ.release_name = 'Bill Gates Alien Love Child'
+PROJ.readme_file = 'README.rdoc'
 
 PROJ.ruby_opts = %w[-W0]
 PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$ ^webby.gemspec$)
