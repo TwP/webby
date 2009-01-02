@@ -86,7 +86,8 @@ module Webby::Resources
     # +nil+ if no layout exists under that filename.
     #
     def find_layout( filename )
-      return if filename.nil?
+      return unless filename
+      filename = filename.to_s
 
       fn  = self.basename(filename)
       dir = ::File.dirname(filename)
