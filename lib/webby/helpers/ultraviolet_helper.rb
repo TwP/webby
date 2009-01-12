@@ -43,9 +43,9 @@ module UltraVioletHelper
     line_numbers = opts.getopt(:line_numbers, defaults[:line_numbers])
     theme = opts.getopt(:theme, defaults[:theme])
     
-    out = '<div class="UltraViolet">'
+    out = %Q{<div class="UltraViolet">\n}
     out << Uv.parse(text, "xhtml", lang, line_numbers, theme)
-    out << '</div>'
+    out << %Q{\n</div>}
 
     # put some guards around the output (specifically for textile)
     out = _guard(out)

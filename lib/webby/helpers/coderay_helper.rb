@@ -49,9 +49,9 @@ module CodeRayHelper
     end
 
     #cr.swap(CodeRay.scan(text, lang).html(opts).div)
-    out = '<div class="CodeRay"><pre>'
+    out = %Q{<div class="CodeRay">\n<pre>}
     out << ::CodeRay.scan(text, lang).html(cr_opts)
-    out << '</pre></div>'
+    out << %Q{</pre>\n</div>}
 
     # put some guards around the output (specifically for textile)
     out = _guard(out)
