@@ -1,5 +1,6 @@
 
 begin
+  gem 'bones', '= 2.3.1'
   require 'bones'
   Bones.setup
 rescue LoadError
@@ -24,9 +25,10 @@ PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
 PROJ.release_name = 'Bill Gates Alien Love Child'
 PROJ.readme_file = 'README.rdoc'
+PROJ.ignore_file = '.gitignore'
 
 PROJ.ruby_opts = %w[-W0]
-PROJ.exclude << %w(^examples/[^/]+/output ^tasks/archive ^tags$ ^webby.gemspec$)
+PROJ.exclude << %w(^webby.gemspec$)
 
 PROJ.rdoc.dir = 'doc/rdoc'
 PROJ.rdoc.remote_dir = 'rdoc'
