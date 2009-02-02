@@ -70,6 +70,8 @@ module Filters
         result = handler.call(*args)
         @processed += 1
         result
+      rescue StandardError => err
+        raise ::Webby::Error, "#{filter} filter error: #{err.message.inspect}"
       end
       
     end  # class Cursor

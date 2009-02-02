@@ -1,6 +1,6 @@
 
 begin
-  gem 'bones', '= 2.3.1'
+  gem 'bones', '= 2.4.0'
   require 'bones'
   Bones.setup
 rescue LoadError

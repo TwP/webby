@@ -39,9 +39,11 @@ class Renderer
       FileUtils.mkdir_p ::File.dirname(page.destination)
       journal.create_or_update(page)
 
-      ::File.open(page.destination, 'w') do |fd|
-        fd.write(renderer._layout_page)
+      text = renderer._layout_page
+      unless text.nil?
+        ::File.open(page.destination, 'w') {|fd| fd.write(text)}
       end
+
       break unless renderer._next_page
     }
   end
@@ -234,6 +236,7 @@ class Renderer
   rescue ::Webby::Error => err
     logger.error "while rendering page '#{@page.path}'"
     logger.error err.message
+    return nil
   rescue => err
     logger.error "while rendering page '#{@page.path}'"
     logger.fatal err
