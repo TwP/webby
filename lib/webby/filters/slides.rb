@@ -35,9 +35,9 @@ class Slides
   def filter
     result = []
 
-    @str.split(%r/\<h1\>/i).each do |slide|
+    @str.split(%r/\<h1/i).each do |slide|
       next if slide.strip.empty?
-      result << START_SLIDE << '<h1>' << slide << END_SLIDE
+      result << START_SLIDE << '<h1' << slide << END_SLIDE
     end
 
     result.join
