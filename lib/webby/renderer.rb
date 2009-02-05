@@ -36,12 +36,13 @@ class Renderer
     renderer = self.new(page)
 
     loop {
-      FileUtils.mkdir_p ::File.dirname(page.destination)
+      dest = page.destination
+      FileUtils.mkdir_p ::File.dirname(dest)
       journal.create_or_update(page)
 
       text = renderer._layout_page
       unless text.nil?
-        ::File.open(page.destination, 'w') {|fd| fd.write(text)}
+        ::File.open(dest, 'w') {|fd| fd.write(text)}
       end
 
       break unless renderer._next_page
