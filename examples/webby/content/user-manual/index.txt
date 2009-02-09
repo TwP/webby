@@ -364,7 +364,7 @@ The basepath filter only works on HTML/XHTML text, and therefore, it should be o
 <div class="label">Usage</div>
 <div class="desc">
 
-Include "basepath" in the filter list of your layout(s). Specify the new base path to use either as a command line argument or as an option configured in the _Rakefile_. The base path specified on the command line takes precedence over the base path specified in the Rakefile.
+Include "basepath" in the filter list of your layout(s). Specify the new base path to use either as a command line argument or as an option configured in the _Sitefile_. The base path specified on the command line takes precedence over the base path specified in the Sitefile.
 
 <pre style="margin-bottom:0">
 $ webby rebuild BASE='http://your.website.com/path/to/your/site'
@@ -374,7 +374,7 @@ $ webby rebuild BASE='http://your.website.com/path/to/your/site'
 <div class="label">Options</div>
 <div class="desc">
 
-Options can be passed to the basepath filter by specifying them in the project _Rakefile_.
+Options can be passed to the basepath filter by specifying them in the project _Sitefile_.
 
 <pre style="margin-bottom:0">
 SITE.xpaths << '/html/body//img[@usemap]'
@@ -403,7 +403,7 @@ Include "tidy" as the last item in the filter list of your layout(s).
 <div class="label">Options</div>
 <div class="desc">
 
-Options can be passed to the tidy program by specifying them in the project _Rakefile_. These are the command line options that will be passed to the tidy program when it is run.
+Options can be passed to the tidy program by specifying them in the project _Sitefile_. These are the command line options that will be passed to the tidy program when it is run.
 
 <pre style="margin-bottom:0">
 SITE.tidy_options = '-indent -wrap 80'

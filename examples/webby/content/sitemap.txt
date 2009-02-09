@@ -1,6 +1,6 @@
 ---
 #
-# Define the following in your Rakefile or some
+# Define the following in your Sitefile or some
 # other location which will be accessed by tasks/setup.rb
 #
 # SITE.site_root = "http://webby.rubyforge.org"
