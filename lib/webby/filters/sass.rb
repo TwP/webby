@@ -3,7 +3,8 @@
 if try_require('sass', 'haml')
 
   Webby::Filters.register :sass do |input, cursor|
-    opts = ::Webby.site.sass_options.merge(cursor.page.sass_options || {}).symbolize_keys
+    opts = ::Webby.site.sass_options.merge(cursor.page.sass_options || {})
+    opts = opts.symbolize_keys
     opts[:style] = opts[:style].to_sym if opts.include? :style
     Sass::Engine.new(input, opts).render
   end
