@@ -126,7 +126,7 @@ module Webby
   end
 
   # call-seq:
-  #    Webby.spawn_editor    => nil or string
+  #    Webby.spawn_editor_if_specified => nil or string
   #
   # Calls the editor set by the WEBBY_EDITOR environment variable, if present
   def self.spawn_editor_if_specified(params)
