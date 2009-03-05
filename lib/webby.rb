@@ -126,16 +126,12 @@ module Webby
   end
 
   # call-seq:
-  #    Webby.editor    => string or nil
+  #    Webby.spawn_editor    => nil or string
   #
-  # Returns the default editor to use when creating new pages. This editor
-  # will be spawned to allow the user to edit the newly created page.
-  #
-  def self.editor
-    return @editor if defined? @editor
-
-    @editor = if ENV['EDITOR'].nil? or ENV['EDITOR'].empty? then nil
-              else ENV['EDITOR'] end
+  # Calls the editor set by the WEBBY_EDITOR environment variable, if present
+  def self.spawn_editor_if_specified(params)
+    ed = ENV['EDITOR']
+    (ed.nil? || ed.empty?) ? nil : `#{ed} #{params}`
   end
 
   # call-seq:

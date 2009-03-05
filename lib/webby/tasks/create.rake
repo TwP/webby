@@ -13,10 +13,7 @@ namespace :create do
       page, title, dir = Webby::Builder.new_page_info
       page = Webby::Builder.create(page, :from => template,
                  :locals => {:title => title, :directory => dir})
-      unless ::Webby.editor.nil?
-        args = [::Webby.editor.split, page].flatten
-        exec(*args)
-      end
+      Webby.spawn_editor_if_specified(page)
     end
   end  # each
 
