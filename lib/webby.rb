@@ -130,7 +130,7 @@ module Webby
   #
   # Calls the editor set by the WEBBY_EDITOR environment variable, if present
   def self.spawn_editor_if_specified(params)
-    ed = ENV['EDITOR']
+    ed = ENV['WEBBY_EDITOR']
     (ed.nil? || ed.empty?) ? nil : `#{ed} #{params}`
   end
 
