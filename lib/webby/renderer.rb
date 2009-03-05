@@ -340,7 +340,7 @@ class Renderer
   # the partial. If a full path is given, then the partial is searched for
   # in that directory.
   #
-  # Raies a Webby::Error if the partial could not be found.
+  # Raises a Webby::Error if the partial could not be found.
   #
   def _find_partial( part )
     case part
