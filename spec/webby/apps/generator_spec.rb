@@ -52,6 +52,27 @@ describe Webby::Apps::Generator do
     h["layouts"].should == %w[layouts/default.txt]
   end
 
+  it "should return a list of all the blog files from the template" do
+    @generator.parse %w[blog foo]
+
+    h = @generator.site_files
+    h.keys.sort.should == [
+      "", 
+      "layouts",
+      "tasks", 
+      "templates", 
+      "templates/blog"
+    ]
+    h["layouts"].should == %w[layouts/default.txt]
+    h["tasks"].should == %w[tasks/blog.rake]
+    h["templates"].should == %w[templates/atom_feed.erb]
+    h["templates/blog"].should == [
+      "templates/blog/year.erb", 
+      "templates/blog/post.erb", 
+      "templates/blog/month.erb"
+    ]
+  end
+
   describe "when parsing command line arguments" do
 
     before :each do
