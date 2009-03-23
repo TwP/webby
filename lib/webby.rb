@@ -42,9 +42,12 @@ module Webby
       :blog_dir      => 'blog',
       :tumblog_dir   => 'tumblog',
 
+      # The editor to spawn for new pages
+      :editor        => ENV['WEBBY_EDITOR'] || ENV['EDITOR'],
+
       # Items for running the embedded webserver
       :use_web_server => true,
-      :web_port      => 4331,
+      :web_port       => 4331,
 
       # Items used to deploy the website
       :user       => ENV['USER'] || ENV['USERNAME'],
@@ -126,12 +129,21 @@ module Webby
   end
 
   # call-seq:
-  #    Webby.spawn_editor_if_specified => nil or string
+  #    Webby.exec_editor( *args )
   #
-  # Calls the editor set by the WEBBY_EDITOR environment variable, if present
-  def self.spawn_editor_if_specified(params)
-    ed = ENV['WEBBY_EDITOR']
-    (ed.nil? || ed.empty?) ? nil : `#{ed} #{params}`
+  # Calls the editor set in the Sitefile or in the environment variables
+  # WEBBY_EDITOR or EDITOR (in that order). This method will do nothing if
+  # the editor has not been set.
+  #
+  def self.exec_editor( *args )
+    unless defined? @editor
+      @editor = (site.editor.nil? or site.editor.empty?) ? nil : site.editor
+      @editor = @editor.split if @editor
+    end
+    return if @editor.nil?
+
+    args = [@editor, args].flatten
+    exec(*args)
   end
 
   # call-seq:

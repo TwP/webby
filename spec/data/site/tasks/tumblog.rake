@@ -21,7 +21,7 @@ namespace :tumblog do
       page = File.join(dir, File.basename(page))
       page = Webby::Builder.create(page, :from => template,
                  :locals => {:title => title, :directory => dir})
-      Webby.spawn_editor_if_specified(page)
+      Webby.exec_editor(page)
     end
   end  # each
 
