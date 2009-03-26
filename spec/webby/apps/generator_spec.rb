@@ -57,7 +57,18 @@ describe Webby::Apps::Generator do
 
     h = @generator.site_files
     h.keys.sort.should == [
-      "", 
+      "",
+      "content",
+      "content/css",
+      "content/css/blueprint",
+      "content/css/blueprint/plugins",
+      "content/css/blueprint/plugins/buttons",
+      "content/css/blueprint/plugins/buttons/icons",
+      "content/css/blueprint/plugins/fancy-type",
+      "content/css/blueprint/plugins/link-icons",
+      "content/css/blueprint/plugins/link-icons/icons",
+      "content/css/blueprint/plugins/rtl",
+      "content/css/blueprint/src",
       "layouts",
       "tasks", 
       "templates", 
