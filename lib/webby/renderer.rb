@@ -238,10 +238,9 @@ class Renderer
     logger.error "while rendering page '#{@page.path}'"
     logger.error err.message
     return nil
-  rescue => err
+  rescue Exception => err
     logger.error "while rendering page '#{@page.path}'"
     logger.fatal err
-    exit 1
   ensure
     @content = nil
     @@stack.clear

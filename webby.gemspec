@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tim Pease"]
-  s.date = %q{2009-03-23}
+  s.date = %q{2009-04-04}
   s.description = %q{*Webby* is a fantastic little website management system. It would be called a *content management system* if it were a bigger kid. But, it's just a runt with a special knack for transforming text. And that's really all it does - manages the legwork of turning text into something else, an *ASCII Alchemist* if you will.  Webby works by combining the contents of a *page* with a *layout* to produce HTML. The layout contains everything common to all the pages - HTML headers, navigation menu, footer, etc. - and the page contains just the information for that page. You can use your favorite markup language to write your pages; Webby supports quite a few.  Install Webby and try it out!}
   s.email = %q{tim.pease@gmail.com}
   s.executables = ["webby", "webby-gen"]
