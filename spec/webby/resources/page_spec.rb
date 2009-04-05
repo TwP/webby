@@ -55,7 +55,13 @@ describe Webby::Resources::Page do
     it "uses only the directory name for 'index' files" do
       filename = File.join %w[content tumblog index.txt]
       resource = Webby::Resources::Page.new(filename)
-      resource.url.should == '/tumblog'
+      resource.url.should == '/tumblog/'
+    end
+
+    it "avoids adding a double trailing slash on the end" do
+      filename = File.join %w[content index.txt]
+      resource = Webby::Resources::Page.new(filename)
+      resource.url.should == '/'
     end
   end
 

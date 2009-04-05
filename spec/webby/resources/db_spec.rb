@@ -53,13 +53,13 @@ describe Webby::Resources::DB do
     ary = []
     @db.each {|page| ary << page.url}
     ary.should == %w[
-      /tumblog
+      /tumblog/
       /tumblog/rss.xml
-      /tumblog/200806/the-noble-chicken
-      /tumblog/200807/historical-perspectives-on-the-classic-chicken-joke
-      /tumblog/200807/mad-city-chickens
-      /tumblog/200807/the-wisdom-of-the-dutch
-      /tumblog/200807/up-a-tree
+      /tumblog/200806/the-noble-chicken/
+      /tumblog/200807/historical-perspectives-on-the-classic-chicken-joke/
+      /tumblog/200807/mad-city-chickens/
+      /tumblog/200807/the-wisdom-of-the-dutch/
+      /tumblog/200807/up-a-tree/
     ]
   end
 
@@ -70,11 +70,11 @@ describe Webby::Resources::DB do
 
     page = Webby::Resources::Page.new('content/tumblog/rss.txt')
     parent = @db.parent_of(page)
-    parent.url.should == '/tumblog'
+    parent.url.should == '/tumblog/'
 
     page = Webby::Resources::Page.new('content/tumblog/200807/up-a-tree/index.txt')
     parent = @db.parent_of(page)
-    parent.url.should == '/tumblog'
+    parent.url.should == '/tumblog/'
   end
 
   it 'returns the siblings of a resource' do
@@ -97,11 +97,11 @@ describe Webby::Resources::DB do
 
       children.length.should == 5
       children.map {|page| page.url}.sort.should == %w[
-        /tumblog/200806/the-noble-chicken
-        /tumblog/200807/historical-perspectives-on-the-classic-chicken-joke
-        /tumblog/200807/mad-city-chickens
-        /tumblog/200807/the-wisdom-of-the-dutch
-        /tumblog/200807/up-a-tree
+        /tumblog/200806/the-noble-chicken/
+        /tumblog/200807/historical-perspectives-on-the-classic-chicken-joke/
+        /tumblog/200807/mad-city-chickens/
+        /tumblog/200807/the-wisdom-of-the-dutch/
+        /tumblog/200807/up-a-tree/
       ]
     end
 
@@ -111,11 +111,11 @@ describe Webby::Resources::DB do
 
       children.length.should == 5
       children.map {|page| page.url}.should == %w[
-        /tumblog/200806/the-noble-chicken
-        /tumblog/200807/historical-perspectives-on-the-classic-chicken-joke
-        /tumblog/200807/mad-city-chickens
-        /tumblog/200807/the-wisdom-of-the-dutch
-        /tumblog/200807/up-a-tree
+        /tumblog/200806/the-noble-chicken/
+        /tumblog/200807/historical-perspectives-on-the-classic-chicken-joke/
+        /tumblog/200807/mad-city-chickens/
+        /tumblog/200807/the-wisdom-of-the-dutch/
+        /tumblog/200807/up-a-tree/
       ]
     end
 
@@ -125,11 +125,11 @@ describe Webby::Resources::DB do
 
       children.length.should == 5
       children.map {|page| page.url}.should == %w[
-        /tumblog/200806/the-noble-chicken
-        /tumblog/200807/historical-perspectives-on-the-classic-chicken-joke
-        /tumblog/200807/mad-city-chickens
-        /tumblog/200807/the-wisdom-of-the-dutch
-        /tumblog/200807/up-a-tree
+        /tumblog/200806/the-noble-chicken/
+        /tumblog/200807/historical-perspectives-on-the-classic-chicken-joke/
+        /tumblog/200807/mad-city-chickens/
+        /tumblog/200807/the-wisdom-of-the-dutch/
+        /tumblog/200807/up-a-tree/
       ].reverse
     end
   end

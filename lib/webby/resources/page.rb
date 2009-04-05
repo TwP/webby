@@ -49,7 +49,10 @@ class Page < Resource
     return @url unless @url.nil?
 
     @url = super
-    @url = File.dirname(@url) if filename == 'index'
+    if filename == 'index'
+      @url = File.dirname(@url)
+      @url << '/' unless %r/\/$/ =~ @url
+    end
     @url
   end
 

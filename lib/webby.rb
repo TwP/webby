@@ -2,8 +2,12 @@
 # Used to prevent the spec helper from being loaded more than once
 unless defined? ::Webby
 
-require 'rubygems'
-require 'logging'
+begin
+  require 'logging'
+rescue LoadError
+  retry if require 'rubygems'
+  raise
+end
 require 'ostruct'
 require 'date'
 
