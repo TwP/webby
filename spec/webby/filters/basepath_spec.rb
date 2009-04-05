@@ -108,13 +108,13 @@ describe Webby::Filters::BasePath do
 
   it 'is restrictive to the configured xpaths' do
     Webby.site.base = 'not a real site'
-    input = @input % ['<img src="/foo/picture.jpg" />', '<a href="/page.html">Page Title</a>']
+    input = @input % ['<foo src="/foo/picture.jpg" />', '<a href="/page.html">Page Title</a>']
 
     bp = Webby::Filters::BasePath.new(input, 'html')
     bp.filter.should == <<-HTML
 <html>
 <head>
-<img src="/foo/picture.jpg" />
+<foo src="/foo/picture.jpg" />
 </head>
 <body>
 <a href="not a real site/page.html">Page Title</a>

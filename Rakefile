@@ -52,9 +52,10 @@ TwP
 ANN
 
 depend_on 'directory_watcher'
-depend_on 'hpricot', '= 0.6.0'
+depend_on 'hpricot', '>= 0.6.0'
 depend_on 'launchy'
 depend_on 'logging'
+depend_on 'loquacious'
 depend_on 'rake'
 depend_on 'rspec'
 
