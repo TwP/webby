@@ -70,16 +70,16 @@ describe Webby::Apps::Generator do
       "content/css/blueprint/plugins/rtl",
       "content/css/blueprint/src",
       "layouts",
-      "tasks", 
-      "templates", 
+      "tasks",
+      "templates",
       "templates/blog"
     ]
     h["layouts"].should == %w[layouts/default.txt]
     h["tasks"].should == %w[tasks/blog.rake]
     h["templates"].should == %w[templates/atom_feed.erb]
     h["templates/blog"].should == [
-      "templates/blog/year.erb", 
-      "templates/blog/post.erb", 
+      "templates/blog/year.erb",
+      "templates/blog/post.erb",
       "templates/blog/month.erb"
     ]
   end

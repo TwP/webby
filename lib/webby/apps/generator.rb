@@ -190,7 +190,7 @@ class Generator
     src = template / file
     dst = site / file
 
-    if test(?e, dst) 
+    if test(?e, dst)
       if identical?(src, dst)
         identical(dst)
         return
