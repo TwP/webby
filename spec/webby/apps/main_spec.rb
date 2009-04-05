@@ -78,7 +78,8 @@ describe Webby::Apps::Main do
 
   describe ".parse" do
     it "should pass environment variables to the rake application" do
-      ARGV = ary = []
+      ary = ARGV
+      ARGV.replace []
       args = %w[rebuild foo BASE=http://www.example.com bar]
       @main.parse args
       ary.should == %w[rebuild BASE=http://www.example.com]
