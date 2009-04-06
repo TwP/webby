@@ -1,6 +1,11 @@
 require 'fileutils'
 require 'tempfile'
 
+Loquacious.configuration_for(:webby) {
+  desc "Options passed to the 'tidy' program when the tidy filter is used"
+  tidy_options '-indent -wrap 80'
+}
+
 module Webby
 module Filters
 

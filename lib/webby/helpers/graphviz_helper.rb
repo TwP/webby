@@ -1,6 +1,23 @@
 require 'fileutils'
 require 'tempfile'
 
+Loquacious.configuration_for(:webby) {
+  desc 'Options for graphviz processing.'
+  graphviz {
+    desc 'The path in the output folder where images are stored.'
+    path nil
+
+    desc <<-__
+      The graphviz command used to render the images.
+      (dot, neato, twopi, circo, fdp)
+    __
+    cmd 'dot'
+
+    desc 'The type of output image to generate (png, jpg, gif).'
+    type 'png'
+  }
+}
+
 module Webby::Helpers
 module GraphvizHelper
 
@@ -71,9 +88,9 @@ module GraphvizHelper
     err.close
 
     defaults = ::Webby.site.graphviz
-    path = opts.getopt(:path, defaults[:path])
-    cmd  = opts.getopt(:cmd, defaults[:cmd])
-    type = opts.getopt(:type, defaults[:type])
+    path = opts.getopt(:path, defaults.path)
+    cmd  = opts.getopt(:cmd, defaults.cmd)
+    type = opts.getopt(:type, defaults.type)
 
     # pull the name of the graph|digraph out of the DOT script
     name = text.match(%r/\A\s*(?:strict\s+)?(?:di)?graph\s+([A-Za-z_][A-Za-z0-9_]*)\s+\{/o)[1]

@@ -1,3 +1,7 @@
+Loquacious.configuration_for(:webby) {
+  desc "The default directory where new blog posts will be created."
+  blog_dir 'blog'
+}
 
 namespace :blog do
 

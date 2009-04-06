@@ -19,6 +19,7 @@ class Main
   def initialize
     @stdout = $stdout
     @cmd_line_options = {}
+    @command = %w[rake]
   end
 
   # Runs the main webby application. The command line arguments are passed
@@ -30,7 +31,7 @@ class Main
 
     parse args
     init args
-    rake
+    self.__send__(*@command)
   end
 
   # Parse the command line _args_ for options and commands to invoke.
@@ -46,6 +47,10 @@ class Main
       next unless desired_opts.include?(options.first)
       opts.on(*options)
     end
+    opts.on('-o', '--options [PATTERN]',
+            'Show configuration options (matching optional pattern), then exit.') { |value|
+      @command = [:show_options, value]
+    }
 
     opts.separator ''
     opts.separator 'autobuild options:'
@@ -113,6 +118,30 @@ class Main
     app.load_rakefile
     load_command_line_options
     app.top_level
+  end
+
+  # Print the available configuration options.
+  #
+  def show_options( attribute = nil )
+    app.init 'webby'
+    app.load_rakefile
+
+    desc = <<-__
+      The following options can be used to control Webby functionality.
+      Options are configured in the 'Sitefile'. A few examples are shown below:
+      |
+      |   SITE.create_mode = 'directory'
+      |   SITE.base        = 'http://www.example.com'
+      |   SITE.uv.theme    = 'twilight'
+      |
+      =======< OPTIONS >=======
+      |
+    __
+    
+    @stdout.puts desc.gutter!
+    help = Loquacious.help_for(:webby, :io => @stdout)
+    help.show attribute, :values => true
+    @stdout.puts
   end
 
   # Return the Rake application object.

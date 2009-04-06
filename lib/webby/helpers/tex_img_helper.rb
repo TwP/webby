@@ -1,6 +1,26 @@
 require Webby.libpath(*%w[webby stelan mktemp])
 require 'fileutils'
 
+Loquacious.configuration_for(:webby) {
+  desc "Options for processing TeX math formula into images."
+  tex2img {
+    desc 'Where generated images will be stored.'
+    path nil
+
+    desc 'The type of image to generate (png, jpeg, gif).'
+    type 'png'
+
+    desc 'The background color of the image (color name, TeX color spec, or #aabbcc)'
+    bg 'white'
+
+    desc 'The foreground color of the image (color name, TeX color spec, or #aabbcc)'
+    fg 'black'
+
+    desc 'The desired resolution in dpi (HxV)'
+    resolution '150x150'
+  }
+}
+
 module Webby::Helpers
 module TexImgHelper
 
@@ -45,11 +65,11 @@ module TexImgHelper
     return if text.empty?
 
     defaults = ::Webby.site.tex2img
-    path = opts.getopt(:path, defaults[:path])
-    type = opts.getopt(:type, defaults[:type])
-    bg   = opts.getopt(:bg, defaults[:bg])
-    fg   = opts.getopt(:fg, defaults[:fg])
-    res  = opts.getopt(:resolution, defaults[:resolution])
+    path = opts.getopt(:path, defaults.path)
+    type = opts.getopt(:type, defaults.type)
+    bg   = opts.getopt(:bg, defaults.bg)
+    fg   = opts.getopt(:fg, defaults.fg)
+    res  = opts.getopt(:resolution, defaults.resolution)
 
     # fix color escaping
     fg = fg =~ %r/^[a-zA-Z]+$/ ? fg : "\"#{fg}\""

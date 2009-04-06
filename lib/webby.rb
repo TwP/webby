@@ -4,11 +4,11 @@ unless defined? ::Webby
 
 begin
   require 'logging'
+  require 'loquacious'
 rescue LoadError
   retry if require 'rubygems'
   raise
 end
-require 'ostruct'
 require 'date'
 
 module Webby
@@ -23,102 +23,13 @@ module Webby
   class Error < StandardError; end  # :nodoc:
 
   # call-seq:
-  #    Webby.site    => struct
+  #    Webby.site    => configuration
   #
-  # Returns a struct containing the configuration parameters for the 
-  # Webby site. These defaults should be overridden as needed in the
-  # site specific Rakefile.
+  # Returns the configuration parameters for the Webby site. These defaults
+  # should be overridden as needed in the site specific Rakefile.
   #
   def self.site
-    return @site if defined? @site
-    @site = OpenStruct.new(
-      :output_dir    => 'output',
-      :content_dir   => 'content',
-      :layout_dir    => 'layouts',
-      :template_dir  => 'templates',
-      :exclude       => %w(tmp$ bak$ ~$ CVS \.svn),
-      :page_defaults => {
-        'layout'     => 'default'
-      },
-      :find_by       => 'title',
-      :base          => nil,
-      :create_mode   => 'page',
-      :blog_dir      => 'blog',
-      :tumblog_dir   => 'tumblog',
-
-      # The editor to spawn for new pages
-      :editor        => ENV['WEBBY_EDITOR'] || ENV['EDITOR'],
-
-      # Items for running the embedded webserver
-      :use_web_server => true,
-      :web_port       => 4331,
-
-      # Items used to deploy the website
-      :user       => ENV['USER'] || ENV['USERNAME'],
-      :host       => 'example.com',
-      :remote_dir => '/not/a/valid/dir',
-      :rsync_args => %w(-av),
-
-      # Global options for HAML and SASS
-      :haml_options => {},
-      :sass_options => {},
-
-      # Options passed to the 'tidy' program when the tidy filter is used
-      :tidy_options => '-indent -wrap 80',
-
-      # List of valid URIs (these automatically pass validation)
-      :valid_uris => [],
-
-      # Options for coderay processing
-      :coderay => {
-        :lang => :ruby,
-        :line_numbers => nil,
-        :line_number_start => 1,
-        :bold_every => 10,
-        :tab_width => 8
-      },
-
-      # Options for graphviz processing
-      :graphviz => {
-        :path => nil,
-        :cmd => 'dot',
-        :type => 'png'
-      },
-
-      # Options for tex2img processing
-      :tex2img => {
-        :path => nil,
-        :type => 'png',
-        :bg => 'white',
-        :fg => 'black',
-        :resolution => '150x150'
-      },
-
-      # Options for ultraviolet syntax highlighting
-      :uv => {
-        :lang => 'ruby',
-        :line_numbers => false,
-        :theme => 'mac_classic'
-      },
-
-      # XPath identifiers used by the basepath filter
-      :xpaths => %w(
-          /html/head//base[@href]
-          /html/head//link[@href]
-          //script[@src]
-          /html/body[@background]
-          /html/body//a[@href]
-          /html/body//object[@data]
-          /html/body//img[@src]
-          /html/body//area[@href]
-          /html/body//form[@action]
-          /html/body//input[@src]
-      )
-      # other possible XPaths to include for base path substitution
-      #   /html/body//object[@usemap]
-      #   /html/body//img[@usemap]
-      #   /html/body//input[@usemap]
-    )
+    Loquacious.configuration_for :webby
   end
 
   # call-seq

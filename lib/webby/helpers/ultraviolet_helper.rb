@@ -3,6 +3,20 @@
 
 if try_require 'uv'
 
+Loquacious.configuration_for(:webby) {
+  desc "Options for UltraViolet syntax highlighting."
+  uv {
+    desc 'The language to highlight (ruby, c, html, ...).'
+    lang 'ruby'
+
+    desc 'Display line numbers (true, false).'
+    line_numbers false
+
+    desc 'See the UltraViolet documentation for a list of available themes.'
+    theme 'mac_classic'
+  }
+}
+
 module Webby::Helpers
 module UltraVioletHelper
 
@@ -39,9 +53,9 @@ module UltraVioletHelper
     return if text.empty?
     
     defaults = ::Webby.site.uv
-    lang = opts.getopt(:lang, defaults[:lang])
-    line_numbers = opts.getopt(:line_numbers, defaults[:line_numbers])
-    theme = opts.getopt(:theme, defaults[:theme])
+    lang = opts.getopt(:lang, defaults.lang)
+    line_numbers = opts.getopt(:line_numbers, defaults.line_numbers)
+    theme = opts.getopt(:theme, defaults.theme)
     
     out = %Q{<div class="UltraViolet">\n}
     out << Uv.parse(text, "xhtml", lang, line_numbers, theme)
