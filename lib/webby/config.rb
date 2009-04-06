@@ -167,6 +167,12 @@ Loquacious.configuration_for(:webby) {
   #   /html/body//object[@usemap]
   #   /html/body//img[@usemap]
   #   /html/body//input[@usemap]
+
+  desc "The default directory where new blog posts will be created."
+  blog_dir 'blog'
+
+  desc "The default directory where new tumblog posts will be created."
+  tumblog_dir 'blog'
 }
 
 # EOF

@@ -1,8 +1,3 @@
-Loquacious.configuration_for(:webby) {
-  desc "The default directory where new tumblog posts will be created."
-  tumblog_dir 'blog'
-}
-
 namespace :tumblog do
 
   # iterate over all the files in the "templates/tumblog" folder and create a
