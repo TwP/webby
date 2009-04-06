@@ -16,13 +16,13 @@ require 'webby'
 task :default => 'spec:specdoc'
 
 PROJ.name = 'webby'
-PROJ.summary = 'static website creation and management'
+PROJ.summary = 'Awesome static website creation and management!'
 PROJ.authors = 'Tim Pease'
 PROJ.email = 'tim.pease@gmail.com'
 PROJ.url = 'http://webby.rubyforge.org/'
 PROJ.rubyforge.name = 'webby'
 PROJ.version = Webby::VERSION
-PROJ.release_name = 'Bill Gates Alien Love Child'
+PROJ.release_name = 'Supertaculous'
 PROJ.readme_file = 'README.rdoc'
 PROJ.ignore_file = '.gitignore'
 
