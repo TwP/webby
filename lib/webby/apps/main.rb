@@ -139,7 +139,9 @@ class Main
     __
     
     @stdout.puts desc.gutter!
-    help = Loquacious.help_for(:webby, :io => @stdout)
+    help = Loquacious.help_for(
+      :webby, :io => @stdout, :colorize => ENV.key?('TERM')
+    )
     help.show attribute, :values => true
     @stdout.puts
   end

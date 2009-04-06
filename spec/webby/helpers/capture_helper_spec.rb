@@ -30,9 +30,9 @@ describe Webby::Helpers::CaptureHelper do
     ::FileUtils.rm_f(CFN)
   end
 
-  it 'should always insert content into containing page' do
+  it 'should not "leak" any content to the containing page' do
     @page_content.should_not be_nil
-    @page_content.should eql("Hello world!\n\nI'm sidebar content.\n")
+    @page_content.should eql("Hello world!\n")
   end
 
   it "should return the stored content for the given key" do

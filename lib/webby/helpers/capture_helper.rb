@@ -32,7 +32,6 @@ module CaptureHelper
     cur = @_content_for[obj].to_s
     new = string.to_s + (block_given? ? capture_erb(&block) : "")
     @_content_for[obj] = cur + new
-    concat_erb(@_content_for[obj], block.binding)
   end
 
   # Returns true if there is content for the given key. Otherwise returns

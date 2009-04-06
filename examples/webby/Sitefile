@@ -9,8 +9,8 @@ SITE.host = 'rubyforge.org'
 SITE.remote_dir = '/var/www/gforge-projects/webby/'
 SITE.create_mode = 'directory'
 
-SITE.uv[:theme] = 'twilight'
-SITE.uv[:line_numbers] = true
+SITE.uv.theme = 'twilight'
+SITE.uv.line_numbers = true
 
 task :autobuild => :growl
 
