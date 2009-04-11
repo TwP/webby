@@ -3,9 +3,6 @@
 unless defined? WEBBY_SPEC_HELPER
 WEBBY_SPEC_HELPER = true
 
-require 'fileutils'
-require 'stringio'
-
 begin
   require 'fake_web'
   $test_externals = true
@@ -14,21 +11,17 @@ rescue LoadError
   $test_externals = false
 end
 
-require File.expand_path(
-    File.join(File.dirname(__FILE__), %w[.. lib webby]))
+require 'fileutils'
+require 'spec'
+require 'spec/logging_helper'
+
+dir = File.expand_path(File.dirname(__FILE__))
+require File.join(dir, %w[.. lib webby])
+Dir.glob(File.join(dir, %w[helpers *_helper.rb])).each {|fn| require fn}
 
 Spec::Runner.configure do |config|
-  config.before :all do
-    @pwd = Dir.pwd
-    Dir.chdir Webby.datapath('site')
-    FileUtils.mkdir_p Webby.datapath('site', ::Webby.site.output_dir)
-  end
-
-  config.after :all do
-    FileUtils.rm_rf(Webby.datapath('site', ::Webby.cairn))
-    FileUtils.rm_rf(Dir.glob(Webby.datapath(%w[site output *])))
-    Dir.chdir @pwd
-  end
+  include Spec::LoggingHelper
+  include WebbyHelper
 
   # == Mock Framework
   #
@@ -38,20 +31,10 @@ Spec::Runner.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
+
+  config.capture_log_messages :from => 'Webby'
+  config.webby_site_setup
 end
-
-module Webby
-  DATAPATH = ::Webby.path(%w[spec data])
-  def self.datapath( *args )
-    args.empty? ? DATAPATH : ::File.join(DATAPATH, args.flatten)
-  end
-end
-
-$webby_log_output = StringIO.new
-
-logger = Logging::Logger['Webby']
-logger.clear_appenders
-logger.add_appenders(Logging::Appenders::IO.new('stringio', $webby_log_output))
 
 end  # unless defined?
 

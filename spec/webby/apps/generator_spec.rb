@@ -87,19 +87,8 @@ describe Webby::Apps::Generator do
   describe "when parsing command line arguments" do
 
     before :each do
-      @strio = StringIO.new
-      ::Logging::Logger['Webby::Journal'].appenders =
-          ::Logging::Appenders::IO.new('test', @strio)
+      @strio = @log_output.sio
       @generator = Webby::Apps::Generator.new(@strio)
-
-      class << @strio
-        def to_s
-          seek 0
-          str = read
-          truncate 0
-          return str
-        end
-      end
     end
 
     it "should force the overwriting of files on collision" do
