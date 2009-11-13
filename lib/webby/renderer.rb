@@ -49,7 +49,7 @@ class Renderer
     }
   end
 
-  attr_reader :logger
+  attr_reader :page, :pages, :partials, :content, :config
 
   # call-seq:
   #    Renderer.new( page )
@@ -235,12 +235,12 @@ class Renderer
 
     @content
   rescue ::Webby::Error => err
-    logger.error "while rendering page '#{@page.path}'"
-    logger.error err.message
+    @logger.error "while rendering page '#{@page.path}'"
+    @logger.error err.message
     return nil
   rescue Exception => err
-    logger.error "while rendering page '#{@page.path}'"
-    logger.fatal err
+    @logger.error "while rendering page '#{@page.path}'"
+    @logger.fatal err
   ensure
     @content = nil
     @@stack.clear

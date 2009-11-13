@@ -1,13 +1,8 @@
 
 begin
   require 'bones'
-  Bones.setup
 rescue LoadError
-  begin
-    load 'tasks/setup.rb'
-  rescue LoadError
-    raise RuntimeError, '### please install the "bones" gem ###'
-  end
+  abort '### please install the "bones" gem ###'
 end
 
 ensure_in_path 'lib'
@@ -15,33 +10,30 @@ require 'webby'
 
 task :default => 'spec:specdoc'
 
-PROJ.name = 'webby'
-PROJ.summary = 'Awesome static website creation and management!'
-PROJ.authors = 'Tim Pease'
-PROJ.email = 'tim.pease@gmail.com'
-PROJ.url = 'http://webby.rubyforge.org/'
-PROJ.rubyforge.name = 'webby'
-PROJ.version = Webby::VERSION
-PROJ.release_name = 'Supertaculous'
-PROJ.readme_file = 'README.rdoc'
-PROJ.ignore_file = '.gitignore'
+Bones {
+  name 'webby'
+  summary 'Awesome static website creation and management!'
+  authors 'Tim Pease'
+  email 'tim.pease@gmail.com'
+  url 'http://webby.rubyforge.org/'
+  version Webby::VERSION
+  readme_file 'README.rdoc'
+  ignore_file '.gitignore'
+  rubyforge.name 'webby'
 
-PROJ.ruby_opts = %w[-W0]
-PROJ.exclude << %w(^webby.gemspec$)
+  ruby_opts %w[-W0]
+  exclude << %w(^webby.gemspec$)
 
-PROJ.rdoc.dir = 'doc/rdoc'
-PROJ.rdoc.remote_dir = 'rdoc'
-PROJ.rdoc.exclude << %w(^examples)
-PROJ.rdoc.include << PROJ.readme_file
+  rdoc.dir 'doc/rdoc'
+  rdoc.remote_dir 'rdoc'
+  rdoc.exclude << %w(^examples)
+  rdoc.include << readme_file
 
-PROJ.spec.opts << '--color'
+  spec.opts << '--color'
 
-PROJ.ann.email[:to] << 'webby-forum@googlegroups.com'
-PROJ.ann.email[:server] = 'smtp.gmail.com'
-PROJ.ann.email[:port] = 587
-PROJ.ann.email[:from] = 'Tim Pease'
-
-PROJ.ann.text = <<-ANN
+  use_gmail
+  ann.email.to << 'webby-forum@googlegroups.com'
+  ann.text = <<-ANN
 == POST SCRIPT
 
 Visit the Webby forum to chat with other Webby-Heads:
@@ -51,12 +43,15 @@ Blessings,
 TwP
 ANN
 
-depend_on 'directory_watcher'
-depend_on 'hpricot', '>= 0.6.0'
-depend_on 'launchy'
-depend_on 'logging'
-depend_on 'loquacious'
-depend_on 'rake'
-depend_on 'rspec'
+  depend_on 'directory_watcher'
+  depend_on 'hpricot', '>= 0.6.0'
+  depend_on 'launchy'
+  depend_on 'logging'
+  depend_on 'loquacious'
+  depend_on 'rake'
 
-# EOF
+  depend_on 'rspec', :development => true
+  depend_on 'bones-git', :development => true
+  depend_on 'bones-extras', :development => true
+}
+

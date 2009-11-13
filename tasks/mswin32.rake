@@ -3,9 +3,9 @@ require 'find'
 
 namespace 'gem:mswin32' do
 
-  win32_spec = PROJ.gem._spec.dup
+  win32_spec = Bones.config.gem._spec.dup
   win32_spec.platform = 'x86-mswin32'
-  win32_spec.files = PROJ.gem.files
+  win32_spec.files = Bones.config.gem.files
 
   pkg = Bones::GemPackageTask.new(win32_spec)
   class << pkg
@@ -29,10 +29,10 @@ end  # namespace 'gem:mswin32'
 task :gem => 'gem:mswin32:package'
 task :clobber => 'gem:mswin32:clobber_package'
 
-remove_desc_for_task(%w[
-  gem:mswin32:clobber_package
-  gem:mswin32:package
-  gem:mswin32:repackage
-])
+# remove_desc_for_task(%w[
+#   gem:mswin32:clobber_package
+#   gem:mswin32:package
+#   gem:mswin32:repackage
+# ])
 
 # EOF

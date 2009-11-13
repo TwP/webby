@@ -25,7 +25,7 @@ namespace :website do
     )
 
     host = "#{config['username']}@rubyforge.org"
-    remote_dir = "/var/www/gforge-projects/#{PROJ.rubyforge.name}/"
+    remote_dir = "/var/www/gforge-projects/#{Bones.config.rubyforge.name}/"
 
     sh "rsync --delete -rulptzCF doc/ #{host}:#{remote_dir}"
   end
