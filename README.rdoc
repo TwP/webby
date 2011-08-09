@@ -1,3 +1,10 @@
+== NO LONGER UNDER ACTIVE DEVELOPMENT
+
+Webby is no longer under active development. If you would like to take over
+the project, please contact me via the GitHub message and notification system.
+
+For similar functionality, please look into the {nanoc}[http://nanoc.stoneship.org/] project of Denis Defreyne.
+
 = Webby
 
 * {Homepage}[http://webby.rubyforge.org/]
