@@ -10,7 +10,8 @@ class Resource
 
   instance_methods.each do |m|
       undef_method(m) unless m =~ %r/\A__|\?$/ ||
-                             m == 'class'
+                             m == :class ||
+                             m == :object_id
   end
 
   # The full path to the resource file
