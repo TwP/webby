@@ -135,7 +135,14 @@ class MetaFile
         buffer << line
       end
 
-      h = YAML.load(buffer)
+      begin
+        h = YAML.load(buffer)
+      rescue Psych::SyntaxError => err
+        msg = ERR_MSG.dup << "\n\t-- " << err.message
+        msg << "\n Buffer:\n#{buffer}"
+        raise Error, msg
+      end
+
       raise Error, ERR_MSG unless h.instance_of?(Hash)
 
       if first then h = first.merge(h)
