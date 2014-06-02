@@ -174,15 +174,15 @@ class Main
   end
 
   def import_default_tasks
-    Dir.glob(::Webby.libpath(%w[webby tasks *.rake])).sort.each {|fn| import fn}
+    Dir.glob(::Webby.libpath(%w[webby tasks *.rake])).sort.each {|fn| app.add_import fn}
   end
 
   def import_website_tasks
-    Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| import fn}
+    Dir.glob(::File.join(%w[tasks *.rake])).sort.each {|fn| app.add_import fn}
   end
 
   def require_lib_files
-    Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require fn}
+    Dir.glob(::File.join(%w[lib ** *.rb])).sort.each {|fn| require File.expand_path fn}
   end
 
   def capture_command_line_args(args)

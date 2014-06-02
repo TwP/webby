@@ -12,7 +12,6 @@ rescue LoadError
 end
 
 require 'fileutils'
-require 'spec'
 require 'spec/logging_helper'
 
 dir = File.expand_path(File.dirname(__FILE__))
